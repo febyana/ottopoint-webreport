@@ -1,0 +1,35 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<div class="body-login">
+    <mat-card class="card mat-elevation-z8">
+        <form [formGroup]="loginForm" (ngSubmit) = "submitLogin()" >
+            <mat-card-header>
+                <div mat-card-avatar class="header-image"></div>
+                <mat-card-title>Ottopoint</mat-card-title>
+                <mat-card-subtitle>
+                    role: auto detect
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="container">
+                <mat-form-field>
+                    <input matInput placeholder="Username" formControlName="_username">
+                    <mat-error *ngIf="f._username.errors">
+                        Username is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <input matInput placeholder="Enter your password" formControlName="_password" [type]="hide ? 'password' : 'text'" autocomplete="off">
+                    <mat-error *ngIf="f._password.errors">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </mat-card-content>
+            <button mat-raised-button color="primary" type="submit">Login</button>
+        </form>
+    </mat-card>
+</div>

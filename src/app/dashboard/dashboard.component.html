@@ -1,0 +1,22 @@
+<mat-sidenav-container class="container">
+    <mat-sidenav mode="{{mode}}" #sidenav opened class="mat-elevation-z5">
+        <app-sidebar></app-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content style="background-color: #f2f2f2;">
+        <mat-toolbar class="header mat-elevation-z5">
+            <mat-toolbar-row>
+                <b *ngIf="!sidenav.opened" style="font-size: 20px;">Ottopoint</b>
+                <button mat-button (click)="sidenav.toggle()" class="btn-sidenav-toggle">
+                    <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">menu</mat-icon>
+                </button>
+                <button mat-button routerLink="/login" (click)="logout()" class="logout">
+                    <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">exit_to_app</mat-icon>
+                    <b style="font-size: 20px;">Logout</b>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

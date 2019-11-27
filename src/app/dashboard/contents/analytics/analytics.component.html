@@ -1,0 +1,54 @@
+<div class="container-users">
+    <mat-card class="mat-elevation-z3">
+        <mat-card-header>
+            <mat-card-title>Users</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span style="font-size: 25px;">{{total}}</span>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="t mat-elevation-z3">
+        <mat-card-header>
+            <mat-card-title>Eligible Registered</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span style="font-size: 25px;">{{eligibleRegistered}}</span>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="eu mat-elevation-z3">
+        <mat-card-header>
+            <mat-card-title>Eligible Unregistered</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+           <span style="font-size: 25px;">{{eligibleUnregistered}}</span>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="registered  mat-elevation-z3">
+        <mat-card-header>
+            <mat-card-title>Uneligible Registered</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span style="font-size: 25px;">{{uneligibleRegistered}}</span>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="registered  mat-elevation-z3">
+        <mat-card-header>
+            <mat-card-title>Uneligible Unregistered</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span style="font-size: 25px;">{{uneligibleUnregistered}}</span>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<mat-accordion>
+    <mat-expansion-panel expanded style="position: relative;" class="mat-elevation-z3">
+        <mat-expansion-panel-header style="padding-left: 0 !important; background-color: white;">
+            <h3 style="width: 100%; text-align: center;">Tansactions</h3>
+        </mat-expansion-panel-header>
+        <div style="border: 1px solid #a5a5a5; margin: 0 2% 2% 2%; padding: 1%;">
+            <div id="chartTransactions" style="width: 100%; min-height: 300px;" [style.height.px]="chartTransactionsHeight"></div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
+

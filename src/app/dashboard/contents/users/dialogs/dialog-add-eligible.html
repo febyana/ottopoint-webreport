@@ -1,0 +1,45 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<h1 mat-dialog-title>Add New Eligible User</h1>
+<form [formGroup]="dataForm" (ngSubmit) = "submit()">
+    <div mat-dialog-content>
+        <mat-form-field>
+            <input matInput placeholder="Name" formControlName="nama">
+            <mat-error *ngIf="f.nama.errors">
+                Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Merchant ID" formControlName="merchant_id">
+            <mat-error *ngIf="f.merchant_id.errors">
+                Merchant ID is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Phone" formControlName="phone">
+            <mat-error *ngIf="f.phone.errors">
+                Phone is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Select Institution</mat-label>
+            <mat-select formControlName="institution">
+                <mat-option value="Ottopay">
+                    Ottopay
+                </mat-option>
+                <mat-option value="PD">
+                    PD
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="f.institution.errors">
+                Institution is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="cancel()" color="warn">Cancel</button>
+        <button mat-raised-button type="submit" color="primary">Submit</button>
+    </div>
+</form>

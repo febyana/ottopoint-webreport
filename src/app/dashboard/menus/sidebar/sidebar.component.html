@@ -1,0 +1,42 @@
+<h1 class="logo">
+    Ottopoint
+</h1>
+<mat-accordion>
+    <mat-nav-list>
+        <a mat-list-item routerLink="./">Analytics</a>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="./users">Users</a>
+        
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+    
+    <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+            Transactions
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./transactions/redeem-vouchers">Redeemed Voucher</a>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="./transactions/payment/qrs">Payment Qr</a>
+                <mat-divider></mat-divider>
+                <mat-expansion-panel class="mat-elevation-z0">
+                    <mat-expansion-panel-header class="sub-header">
+                        Earnings
+                    </mat-expansion-panel-header>
+                    <mat-divider></mat-divider>
+                    <mat-nav-list style="margin: 0;">
+                        <a mat-list-item routerLink="./transactions/earnings" class="sub-content">PPOB</a>
+                        <mat-divider></mat-divider>
+                        <a mat-list-item routerLink="./transactions/qrs" class="sub-content">QR</a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
+    
+    <mat-divider></mat-divider>
+</mat-accordion>
+

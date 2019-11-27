@@ -1,0 +1,82 @@
+mat-card {
+    margin: 1%;
+}
+.filter-field {
+    margin-right: 2%;
+    width: 23%;
+}
+
+button{
+    margin-right: 1%;
+}
+
+.parent-table-container {
+    position: relative;
+}
+.table-container {
+    margin-top: 1%;
+    border: 1px solid #a5a5a5;
+    position: relative;
+    overflow: auto;
+    min-height: 200px;
+}
+table {
+    width: 100%;
+}
+th{
+    background-color: #f0f0f0;
+}
+
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.no-data {
+    color: #980000;
+    max-width: 360px;
+    text-align: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+::ng-deep snack-bar-container.snack-bar-ekstra-css{
+    margin-top: 50%;
+}
+
+/* 
+sebenarnya bisa dipakaikan class agar tidak dilist satu-satu,
+tapi di sini dilist satu-satu supaya tau dan gampang edit style tiap kolom 
+*/
+.mat-column-nama,
+.mat-column-phone,
+.mat-column-cust_id,
+.mat-column-email,
+.mat-column-merchant_id,
+.mat-column-status,
+.mat-column-action {
+    white-space: nowrap;
+    padding: 0 8px;
+    border-right: 1px solid #e0e0e0;
+}
+.mat-column-nama {
+    border-right: none;
+}
+.mat-column-phone {
+    border-left: 1px solid #e0e0e0;
+}
+.mat-column-status {
+    border-right: none;
+}
+.mat-column-action {
+    border-left: 1px solid #e0e0e0;
+}
+
