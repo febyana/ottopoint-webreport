@@ -8,7 +8,7 @@ import { UsersComponent } from './contents/users/users.component';
 import { EarningTransactionsComponent } from './contents/transactions/earning-transactions/earning-transactions.component';
 import { QrTransactionsComponent } from './contents/transactions/qr-transactions/qr-transactions.component';
 import { RedeemVouchersComponent } from './contents/transactions/redeem-vouchers/redeem-vouchers.component';
-import { PaymentQrsComponent } from './contents/payment-qrs/payment-qrs.component';
+import { PaymentQrsComponent } from './contents/transactions/payment-qrs/payment-qrs.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 
 export const routes: Routes = [

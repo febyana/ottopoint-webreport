@@ -23,7 +23,7 @@ import {
   DialogExportTransactionQrsToCSVComponent
 } from './contents/transactions/qr-transactions/qr-transactions.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PaymentQrsComponent, DialogExportPaymentQrsToCSVComponent } from './contents/payment-qrs/payment-qrs.component';
+import { PaymentQrsComponent, DialogExportPaymentQrsToCSVComponent } from './contents/transactions/payment-qrs/payment-qrs.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   RedeemVouchersComponent,
