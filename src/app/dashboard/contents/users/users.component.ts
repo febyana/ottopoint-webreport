@@ -80,6 +80,7 @@ export class UsersComponent implements AfterViewInit {
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [
+        // 'id',
         'nama',
         'phone',
         'cust_id',
