@@ -1,11 +1,3 @@
-export interface PublicRequest {
-    token: string;
-    offset: number;
-    limit: number;
-    sortby: string;
-    order: string;
-    query: string;
-}
 export interface MetaResponse {
     status: boolean;
     code: number;
@@ -39,8 +31,8 @@ export interface ExportUsersToCSVRequest {
     total: number;
 }
 
-// Transactions
-export interface Transaction {
+// PPOB
+export interface TransactionsEarningsPPOB {
     id: number;
     merchant_id: string;
     phone: string;
@@ -59,13 +51,13 @@ export interface Transaction {
     product_code: string;
     point: number;
 }
-export interface GetTransactionsResponse {
-    transactions: Transaction[];
+export interface GetTransactionsEarningsPPOBResponse {
+    data: TransactionsEarningsPPOB[];
     total: number;
     code: number;
     message: string;
 }
-export interface ExportTransactionsToCSVRequest {
+export interface ExportTransactionsEarningsPPOBToCSVRequest {
     start_date: string;
     end_date: string;
     phone: string;

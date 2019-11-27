@@ -1,52 +1,50 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Inject, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../api/api.service';
+import { ApiService } from '../../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetPaymentQrsResponse,
-  ExportPaymentQrsToCSVRequest
-} from '../../../../model/models';
+  GetTransactionQrsResponse,
+  ExportTransactionQrsToCSVRequest
+} from '../../../../../model/models';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 
+
 @Component({
-  selector: 'app-payment-qrs',
-  templateUrl: './payment-qrs.component.html',
-  styleUrls: ['./payment-qrs.component.css']
+  selector: 'app-transactions-earnings-qr',
+  templateUrl: './transactions-earnings-qr.component.html',
+  styleUrls: ['./transactions-earnings-qr.component.css']
 })
-export class PaymentQrsComponent implements AfterViewInit {
-  dataResponse: GetPaymentQrsResponse[] = [];
-  exportToCSVReq: ExportPaymentQrsToCSVRequest;
+export class TransactionsEarningsQRComponent implements AfterViewInit {
+  dataResponse: GetTransactionQrsResponse[] = [];
+  exportToCSVReq: ExportTransactionQrsToCSVRequest;
 
   query = '';
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    merchant_id: '',
-    phone: '',
-    amount: '',
-    account_number: '',
-    rrn: ''
+    sender_phone: '',
+    recipient_phone: ''
   };
-  buffTotalData = 0;
 
   displayedColumns: string[] = [
     'merchant_id',
-    'phone',
     'amount',
-    'account_number',
-    'rrn',
+    'date_time',
     'created_at',
     'updated_at',
+    'point',
+    'cust_id',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
@@ -73,7 +71,7 @@ export class PaymentQrsComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetPaymentQrs(
+          return this.apiService.APIGetTransactionQrs(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -84,9 +82,6 @@ export class PaymentQrsComponent implements AfterViewInit {
         }),
         map(dataResponse => {
           this.dataTableLength = dataResponse.total;
-          if (this.buffTotalData === 0) {
-            this.buffTotalData = dataResponse.total;
-          }
           this.isLoadingResults = false;
           if ( dataResponse.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
@@ -98,7 +93,7 @@ export class PaymentQrsComponent implements AfterViewInit {
             return;
           }
           this.isNoData = false;
-          return dataResponse.payment_qrs;
+          return dataResponse.transaction_qrs;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -109,11 +104,8 @@ export class PaymentQrsComponent implements AfterViewInit {
   }
 
   openFormExportToCSV() {
-    this.dialog.open(DialogExportPaymentQrsToCSVComponent, {
+    this.dialog.open(DialogExportTransactionEarningsQRToCSVComponent, {
       width: '50%',
-      data: this.exportToCSVReq = {
-        total: this.buffTotalData
-      }
     });
   }
 
@@ -136,39 +128,30 @@ export class PaymentQrsComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
-    if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+    if (this.fq.sender_phone !== '') {
+      this.query = this.query + 'cust_id.icontains:' + this.fq.sender_phone + ',';
     }
-    if (this.fq.phone !== '') {
-      this.query = this.query + 'phone.icontains:' + this.fq.phone + ',';
-    }
-    if (this.fq.amount !== '') {
-      this.query = this.query + 'amount.icontains:' + this.fq.amount + ',';
-    }
-    if (this.fq.account_number !== '') {
-      this.query = this.query + 'account_number.icontains:' + this.fq.account_number + ',';
-    }
-    if (this.fq.rrn !== '') {
-      this.query = this.query + 'rrn.icontains:' + this.fq.rrn + ',';
+    if (this.fq.recipient_phone !== '') {
+      this.query = this.query + 'cust_id.icontains:' + this.fq.recipient_phone + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetPaymentQrs(
+    this.apiService.APIGetTransactionQrs(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetPaymentQrsResponse) => {
+    ).subscribe((res: GetTransactionQrsResponse) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.payment_qrs;
+      this.dataTable.data = res.transaction_qrs;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -183,25 +166,22 @@ export class PaymentQrsComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.merchant_id = '';
-    this.fq.phone = '';
-    this.fq.amount = '';
-    this.fq.account_number = '';
-    this.fq.rrn = '';
-    this.apiService.APIGetPaymentQrs(
+    this.fq.sender_phone = '';
+    this.fq.recipient_phone = '';
+    this.apiService.APIGetTransactionQrs(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetPaymentQrsResponse) => {
+    ).subscribe((res: GetTransactionQrsResponse) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.payment_qrs;
+      this.dataTable.data = res.transaction_qrs;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -212,13 +192,15 @@ export class PaymentQrsComponent implements AfterViewInit {
   }
 }
 
-
 @Component({
-  selector: 'app-dialog-export-payment-qrs-to-csv',
-  templateUrl: './dialogs/dialog-export-payment-qrs-to-csv.html',
-  styleUrls: ['./payment-qrs.component.css']
+  selector: 'app-dialog-export-to-csv',
+  templateUrl: './dialogs/dialog-export-to-csv.html',
+  styleUrls: ['./transactions-earnings-qr.component.css']
 })
-export class DialogExportPaymentQrsToCSVComponent implements OnInit {
+export class DialogExportTransactionEarningsQRToCSVComponent implements OnInit {
+  filterExportForm: FormGroup;
+  get f() { return this.filterExportForm.controls; }
+
   isLoadingResults = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -229,57 +211,96 @@ export class DialogExportPaymentQrsToCSVComponent implements OnInit {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<DialogExportPaymentQrsToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportPaymentQrsToCSVRequest,
+    public dialogRef: MatDialogRef<DialogExportTransactionEarningsQRToCSVComponent>,
+    private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    public datePipe: DatePipe
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.filterExportForm = this.formBuilder.group({
+      from_date: null,
+      through_date: null,
+      sender_phone: '',
+      recipient_phone: ''
+    });
+  }
 
   cancel(): void {
+    event.preventDefault();
     this.dialogRef.close();
   }
 
-  ok() {
+  submit() {
     this.isLoadingResults = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'payment_qr_data_' + Date().toLocaleString(),
+      filename: 'transactions_qr' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Payment Qr Data',
+      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetPaymentQrs(
+    let query = '';
+    if (this.filterExportForm.value.from_date !== null) {
+      query = query + `created_at.gte:${
+        this.datePipe.transform(this.filterExportForm.value.from_date, 'yyyy-MM-dd 07:00:00')
+      },`;
+    }
+    if (this.filterExportForm.value.through_date !== null) {
+      query = query + `created_at.lte:${
+        this.datePipe.transform(
+          this.filterExportForm.value.through_date.setDate(
+            this.filterExportForm.value.through_date.getDate() + 1
+          ), 'yyyy-MM-dd 06:59:59')
+      },`;
+      this.filterExportForm.value.through_date.setDate(
+        this.filterExportForm.value.through_date.getDate() - 1
+      );
+    }
+    if (this.filterExportForm.value.sender_phone !== '' || this.filterExportForm.value.recipient_phone !== '') {
+      query = query + 'cust_id:';
+      if (this.filterExportForm.value.sender_phone !== '') {
+        query = query + this.filterExportForm.value.sender_phone;
+      }
+      query = query + ' || ';
+      if (this.filterExportForm.value.recipient_phone !== '') {
+        query = query + this.filterExportForm.value.recipient_phone;
+      }
+      query = query + ',';
+    }
+    query = query.replace(/.$/g, '');
+    query = query + '&';
+    this.apiService.APIGetTransactionQrs(
       window.localStorage.getItem('token'),
       0,
-      this.data.total,
-      'id',
+      null,
+      'created_at',
       'asc',
-      ''
-    ).subscribe((res: GetPaymentQrsResponse) => {
+      query
+    ).subscribe((res: GetTransactionQrsResponse) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.payment_qrs === undefined || res.payment_qrs.length === 0) {
-        this.snackBar.open('Failed to export data, data not found', 'close', this.matSnackBarConfig);
+      if (res.transaction_qrs === undefined || res.transaction_qrs.length === 0) {
+        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
+      this.snackBar.open(`Downloading ${res.transaction_qrs.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.transaction_qrs);
       this.dialogRef.close();
-      csvExporter.generateCsv(res.payment_qrs);
-      this.snackBar.open(`Downloading ${res.payment_qrs.length} row data`, 'close', this.matSnackBarConfig);
     });
   }
 }

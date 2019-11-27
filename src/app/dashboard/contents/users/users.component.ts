@@ -404,8 +404,8 @@ export class DialogRegisterComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-dialog-export-users-to-csv',
-  templateUrl: './dialogs/dialog-export-users-to-csv.html',
+  selector: 'app-dialog-export-to-csv',
+  templateUrl: './dialogs/dialog-export-to-csv.html',
   styleUrls: ['./users.component.css']
 })
 export class DialogExportUsersToCSVComponent implements OnInit {

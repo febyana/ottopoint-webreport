@@ -1,15 +1,15 @@
-import { Component, ViewChild, AfterViewInit, Inject, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../api/api.service';
+import { ApiService } from '../../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionQrsResponse,
-  ExportTransactionQrsToCSVRequest
-} from '../../../../model/models';
+  GetTransactionsEarningsPPOBResponse,
+  ExportTransactionsEarningsPPOBToCSVRequest
+} from '../../../../../model/models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -21,36 +21,61 @@ import { DatePipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-qr-transactions',
-  templateUrl: './qr-transactions.component.html',
-  styleUrls: ['./qr-transactions.component.css']
+  selector: 'app-transactions-earnings-ppob',
+  templateUrl: './transactions-earnings-ppob.component.html',
+  styleUrls: ['./transactions-earnings-ppob.component.css']
 })
-export class QrTransactionsComponent implements AfterViewInit {
-  dataResponse: GetTransactionQrsResponse[] = [];
-  exportToCSVReq: ExportTransactionQrsToCSVRequest;
+export class TransactionsEarningsPPOBComponent implements AfterViewInit {
+  dataResponse: GetTransactionsEarningsPPOBResponse[] = [];
+  exportToCSVReq: ExportTransactionsEarningsPPOBToCSVRequest;
 
   query = '';
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    sender_phone: '',
-    recipient_phone: ''
+    phone: '',
+    cust_id: '',
+    type_trans: undefined,
+    product_code: '',
+    product_type: undefined
   };
+  buffTotalData = 0;
 
   displayedColumns: string[] = [
     'merchant_id',
-    'amount',
-    'date_time',
-    'created_at',
-    'updated_at',
-    'point',
     'cust_id',
+    'phone',
+    'fee_amount',
+    'product_code',
+    'product_name',
+    'product_type',
+    'reff_number',
+    'type_trans',
+    'type_trx',
+    'data',
+    // 'updated_at',
+    'date_time',
+    'date',
+    'point',
+    'created_at',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
 
   isLoadingResults = true;
   isNoData = false;
+
+  productTypes = [
+    {k: 'NU CARE-LAZISNU (Infaq)', v: 'NU CARE-LAZISNU (Infaq)'},
+    {k: 'NU CARE-LAZISNU (Zakat)', v: 'NU CARE-LAZISNU (Zakat)'},
+    {k: 'game', v: 'game'},
+    {k: 'isidompet', v: 'isidompet'},
+    {k: 'pulsa', v: 'pulsa'},
+    {k: 'plntoken', v: 'plntoken'},
+    {k: 'paketdata', v: 'paketdata'},
+    {k: 'lazis-NU', v: 'lazis-NU'},
+    {k: 'plnpost', v: 'plnpost'},
+  ];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -71,7 +96,7 @@ export class QrTransactionsComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetTransactionQrs(
+          return this.apiService.APIGetTransactions(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -93,7 +118,7 @@ export class QrTransactionsComponent implements AfterViewInit {
             return;
           }
           this.isNoData = false;
-          return dataResponse.transaction_qrs;
+          return dataResponse.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -104,7 +129,7 @@ export class QrTransactionsComponent implements AfterViewInit {
   }
 
   openFormExportToCSV() {
-    this.dialog.open(DialogExportTransactionQrsToCSVComponent, {
+    this.dialog.open(DialogExportTransactionsEarningsPPOBToCSVComponent, {
       width: '50%',
     });
   }
@@ -128,30 +153,39 @@ export class QrTransactionsComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
-    if (this.fq.sender_phone !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.sender_phone + ',';
+    if (this.fq.phone !== '') {
+      this.query = this.query + 'phone.icontains:' + this.fq.phone + ',';
     }
-    if (this.fq.recipient_phone !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.recipient_phone + ',';
+    if (this.fq.cust_id !== '') {
+      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+    }
+    if (this.fq.type_trans !== undefined) {
+      this.query = this.query + 'type_trans.icontains:' + this.fq.type_trans + ',';
+    }
+    if (this.fq.product_code !== '') {
+      this.query = this.query + 'product_code.icontains:' + this.fq.product_code + ',';
+    }
+    if (this.fq.product_type !== undefined) {
+      this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionQrs(
+    this.apiService.APIGetTransactions(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transaction_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -166,22 +200,25 @@ export class QrTransactionsComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.sender_phone = '';
-    this.fq.recipient_phone = '';
-    this.apiService.APIGetTransactionQrs(
+    this.fq.phone = '';
+    this.fq.cust_id = '';
+    this.fq.type_trans = undefined;
+    this.fq.product_code = '';
+    this.fq.product_type = undefined;
+    this.apiService.APIGetTransactions(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transaction_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -192,12 +229,13 @@ export class QrTransactionsComponent implements AfterViewInit {
   }
 }
 
+
 @Component({
-  selector: 'app-dialog-export-transaction-qrs-to-csv',
-  templateUrl: './dialogs/dialog-export-transaction-qrs-to-csv.html',
-  styleUrls: ['./qr-transactions.component.css']
+  selector: 'app-dialog-export-to-csv',
+  templateUrl: './dialogs/dialog-export-to-csv.html',
+  styleUrls: ['./transactions-earnings-ppob.component.css']
 })
-export class DialogExportTransactionQrsToCSVComponent implements OnInit {
+export class DialogExportTransactionsEarningsPPOBToCSVComponent implements OnInit {
   filterExportForm: FormGroup;
   get f() { return this.filterExportForm.controls; }
 
@@ -210,8 +248,20 @@ export class DialogExportTransactionQrsToCSVComponent implements OnInit {
     panelClass: ['snack-bar-ekstra-css']
   };
 
+  productTypes = [
+    {k: 'NU CARE-LAZISNU (Infaq)', v: 'NU CARE-LAZISNU (Infaq)'},
+    {k: 'NU CARE-LAZISNU (Zakat)', v: 'NU CARE-LAZISNU (Zakat)'},
+    {k: 'game', v: 'game'},
+    {k: 'isidompet', v: 'isidompet'},
+    {k: 'pulsa', v: 'pulsa'},
+    {k: 'plntoken', v: 'plntoken'},
+    {k: 'paketdata', v: 'paketdata'},
+    {k: 'lazis-NU', v: 'lazis-NU'},
+    {k: 'plnpost', v: 'plnpost'},
+  ];
+
   constructor(
-    public dialogRef: MatDialogRef<DialogExportTransactionQrsToCSVComponent>,
+    public dialogRef: MatDialogRef<DialogExportTransactionsEarningsPPOBToCSVComponent>,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
@@ -223,8 +273,11 @@ export class DialogExportTransactionQrsToCSVComponent implements OnInit {
     this.filterExportForm = this.formBuilder.group({
       from_date: null,
       through_date: null,
-      sender_phone: '',
-      recipient_phone: ''
+      phone: '',
+      cust_id: '',
+      type_trans: undefined,
+      product_code: '',
+      product_type: undefined
     });
   }
 
@@ -237,13 +290,13 @@ export class DialogExportTransactionQrsToCSVComponent implements OnInit {
     this.isLoadingResults = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'transactions_qr' + Date().toLocaleString(),
+      filename: 'user_data_' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
+      title: 'Users Data \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
@@ -267,39 +320,42 @@ export class DialogExportTransactionQrsToCSVComponent implements OnInit {
         this.filterExportForm.value.through_date.getDate() - 1
       );
     }
-    if (this.filterExportForm.value.sender_phone !== '' || this.filterExportForm.value.recipient_phone !== '') {
-      query = query + 'cust_id:';
-      if (this.filterExportForm.value.sender_phone !== '') {
-        query = query + this.filterExportForm.value.sender_phone;
-      }
-      query = query + ' || ';
-      if (this.filterExportForm.value.recipient_phone !== '') {
-        query = query + this.filterExportForm.value.recipient_phone;
-      }
-      query = query + ',';
+    if (this.filterExportForm.value.phone !== '') {
+      query = query + `phone:${this.filterExportForm.value.phone},`;
+    }
+    if (this.filterExportForm.value.cust_id !== '') {
+      query = query + `cust_id:${this.filterExportForm.value.cust_id},`;
+    }
+    if (this.filterExportForm.value.type_trans !== undefined) {
+      query = query + `type_trans:${this.filterExportForm.value.type_trans},`;
+    }
+    if (this.filterExportForm.value.product_code !== '') {
+      query = query + `product_code:${this.filterExportForm.value.product_code},`;
+    }
+    if (this.filterExportForm.value.product_type !== undefined) {
+      query = query + `product_type:${this.filterExportForm.value.product_type},`;
     }
     query = query.replace(/.$/g, '');
-    query = query + '&';
-    this.apiService.APIGetTransactionQrs(
+    this.apiService.APIGetTransactions(
       window.localStorage.getItem('token'),
       0,
       null,
       'created_at',
       'asc',
       query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.transaction_qrs === undefined || res.transaction_qrs.length === 0) {
+      if (res.data === undefined || res.data.length === 0) {
         this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
-      this.snackBar.open(`Downloading ${res.transaction_qrs.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.transaction_qrs);
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
       this.dialogRef.close();
     });
   }

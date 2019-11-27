@@ -5,10 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
 import { UsersComponent } from './contents/users/users.component';
-import { EarningTransactionsComponent } from './contents/transactions/earning-transactions/earning-transactions.component';
-import { QrTransactionsComponent } from './contents/transactions/qr-transactions/qr-transactions.component';
-import { RedeemVouchersComponent } from './contents/transactions/redeem-vouchers/redeem-vouchers.component';
-import { PaymentQrsComponent } from './contents/transactions/payment-qrs/payment-qrs.component';
+import { TransactionsEarningsPPOBComponent } from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
+import { TransactionsEarningsQRComponent } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
+import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
+import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 
 export const routes: Routes = [
@@ -25,20 +25,20 @@ export const routes: Routes = [
         component: UsersComponent,
       },
       {
-        path: 'transactions/earnings',
-        component: EarningTransactionsComponent,
+        path: 'transactions/earnings/ppob',
+        component: TransactionsEarningsPPOBComponent,
       },
       {
-        path: 'transactions/qrs',
-        component: QrTransactionsComponent,
+        path: 'transactions/earnings/qr',
+        component: TransactionsEarningsQRComponent,
       },
       {
-        path: 'transactions/payment/qrs',
-        component: PaymentQrsComponent,
+        path: 'transactions/payments/qr',
+        component: PaymentsQRComponent,
       },
       {
-        path: 'transactions/redeem-vouchers',
-        component: RedeemVouchersComponent,
+        path: 'transactions/vouchers/redeem',
+        component: VouchersRedeemComponent,
       }
     ]
   }

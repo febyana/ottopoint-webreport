@@ -4,10 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
-  PublicRequest,
   LoginResponse,
   GetUsersResponse,
-  GetTransactionsResponse,
+  GetTransactionsEarningsPPOBResponse,
   GetTransactionQrsResponse,
   AddEligibleUserRequest,
   AddEligibleUserResponse,
@@ -35,7 +34,7 @@ export class ApiService {
   ) { }
 
   queryParams: string;
-  hostBackEndDashboard              = 'http://13.228.25.85:8819';
+  hostBackEndDashboard              = 'http://localhost:8819';
   URLGetToken                       = `${this.hostBackEndDashboard}/api/login`;
   URLGetUsers                       = `${this.hostBackEndDashboard}/api/users?`;
   URLGetTransactions                = `${this.hostBackEndDashboard}/api/transactions?`;
@@ -54,6 +53,16 @@ export class ApiService {
   ): Observable<LoginResponse> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
     return this.httpClient.get<LoginResponse>(this.URLGetToken, httpOptions);
+  }
+
+  public APIGetAnalyticTransactions(token: string): Observable<GetAnalyticTransactionsResponse> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetAnalyticTransactionsResponse>(this.URLGetAnalyticTransactions, httpOptions);
+  }
+
+  public APIGetAnalyticUsers(token: string): Observable<GetAnalyticUsersResponse> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetAnalyticUsersResponse>(this.URLGetAnalyticUsers, httpOptions);
   }
 
   public APIGetUsers(
@@ -89,10 +98,10 @@ export class ApiService {
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetTransactionsResponse> {
+  ): Observable<GetTransactionsEarningsPPOBResponse> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionsResponse>(this.URLGetTransactions + this.queryParams, httpOptions);
+    return this.httpClient.get<GetTransactionsEarningsPPOBResponse>(this.URLGetTransactions + this.queryParams, httpOptions);
   }
 
   public APIGetTransactionQrs(
@@ -140,15 +149,5 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<RegisterUserResponse>(this.URLRegisterUser, req, httpOptions);
-  }
-
-  public APIGetAnalyticTransactions(token: string): Observable<GetAnalyticTransactionsResponse> {
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetAnalyticTransactionsResponse>(this.URLGetAnalyticTransactions, httpOptions);
-  }
-
-  public APIGetAnalyticUsers(token: string): Observable<GetAnalyticUsersResponse> {
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetAnalyticUsersResponse>(this.URLGetAnalyticUsers, httpOptions);
   }
 }

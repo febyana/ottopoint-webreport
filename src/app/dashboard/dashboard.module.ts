@@ -4,58 +4,61 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MaterialModule } from '../shared/material.module';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { DashboardComponent } from './dashboard.component';
 import { SidebarComponent } from './menus/sidebar/sidebar.component';
 
+import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   UsersComponent,
   DialogAddEligibleComponent,
   DialogRegisterComponent,
   DialogExportUsersToCSVComponent
 } from './contents/users/users.component';
-
 import {
-  EarningTransactionsComponent,
-  DialogExportTransactionsToCSVComponent,
-} from './contents/transactions/earning-transactions/earning-transactions.component';
+  TransactionsEarningsPPOBComponent,
+  DialogExportTransactionsEarningsPPOBToCSVComponent,
+} from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
 import {
-  QrTransactionsComponent,
-  DialogExportTransactionQrsToCSVComponent
-} from './contents/transactions/qr-transactions/qr-transactions.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PaymentQrsComponent, DialogExportPaymentQrsToCSVComponent } from './contents/transactions/payment-qrs/payment-qrs.component';
-import { AnalyticsComponent } from './contents/analytics/analytics.component';
+  TransactionsEarningsQRComponent,
+  DialogExportTransactionEarningsQRToCSVComponent
+} from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
 import {
-  RedeemVouchersComponent,
-  DialogExportTransactionRedeemVouchersToCSVComponent
-} from './contents/transactions/redeem-vouchers/redeem-vouchers.component';
+  PaymentsQRComponent,
+  DialogExportPaymentsQRToCSVComponent
+} from './contents/transactions/payments-qr/payments-qr.component';
+import {
+  VouchersRedeemComponent,
+  DialogExportTransactionsVouchersRedeemToCSVComponent
+} from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     SidebarComponent,
     UsersComponent,
-    EarningTransactionsComponent,
-    QrTransactionsComponent,
+    AnalyticsComponent,
+    TransactionsEarningsPPOBComponent,
+    TransactionsEarningsQRComponent,
     DialogAddEligibleComponent,
     DialogRegisterComponent,
     DialogExportUsersToCSVComponent,
-    DialogExportTransactionsToCSVComponent,
-    DialogExportTransactionQrsToCSVComponent,
-    PaymentQrsComponent,
-    DialogExportPaymentQrsToCSVComponent,
-    AnalyticsComponent,
-    RedeemVouchersComponent,
-    DialogExportTransactionRedeemVouchersToCSVComponent
+    DialogExportTransactionsEarningsPPOBToCSVComponent,
+    DialogExportTransactionEarningsQRToCSVComponent,
+    PaymentsQRComponent,
+    DialogExportPaymentsQRToCSVComponent,
+    VouchersRedeemComponent,
+    DialogExportTransactionsVouchersRedeemToCSVComponent
   ],
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
     DialogExportUsersToCSVComponent,
-    DialogExportTransactionsToCSVComponent,
-    DialogExportTransactionQrsToCSVComponent,
-    DialogExportPaymentQrsToCSVComponent,
-    DialogExportTransactionRedeemVouchersToCSVComponent
+    DialogExportTransactionsEarningsPPOBToCSVComponent,
+    DialogExportTransactionEarningsQRToCSVComponent,
+    DialogExportPaymentsQRToCSVComponent,
+    DialogExportTransactionsVouchersRedeemToCSVComponent
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

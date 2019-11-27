@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Inject, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -7,8 +7,7 @@ import { ApiService } from '../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionsResponse,
-  ExportTransactionsToCSVRequest
+  GetTransactionsRedeemVouchersResqpose,
 } from '../../../../model/models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
@@ -20,61 +19,41 @@ import {
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-earning-transactions',
-  templateUrl: './earning-transactions.component.html',
-  styleUrls: ['./earning-transactions.component.css']
+  selector: 'app-vouchers-redeem',
+  templateUrl: './vouchers-redeem.component.html',
+  styleUrls: ['./vouchers-redeem.component.css']
 })
-export class EarningTransactionsComponent implements AfterViewInit {
-  dataResponse: GetTransactionsResponse[] = [];
-  exportToCSVReq: ExportTransactionsToCSVRequest;
-
+export class VouchersRedeemComponent implements AfterViewInit {
   query = '';
   fq = { // filter Query
     from_date: null,
     through_date: null,
+    nama: '',
     phone: '',
-    cust_id: '',
-    type_trans: undefined,
+    rc: '',
+    voucher: '',
+    campaign_id: '',
+    coupon_id: '',
     product_code: '',
-    product_type: undefined
   };
-  buffTotalData = 0;
 
   displayedColumns: string[] = [
-    'merchant_id',
-    'cust_id',
+    // 'id',
+    'nama',
     'phone',
-    'fee_amount',
+    'rc',
+    'voucher',
+    'campaign_id',
+    'coupon_id',
     'product_code',
-    'product_name',
-    'product_type',
-    'reff_number',
-    'type_trans',
-    'type_trx',
-    'data',
     // 'updated_at',
-    'date_time',
-    'date',
-    'point',
-    'created_at',
+    'created_at'
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
 
   isLoadingResults = true;
   isNoData = false;
-
-  productTypes = [
-    {k: 'NU CARE-LAZISNU (Infaq)', v: 'NU CARE-LAZISNU (Infaq)'},
-    {k: 'NU CARE-LAZISNU (Zakat)', v: 'NU CARE-LAZISNU (Zakat)'},
-    {k: 'game', v: 'game'},
-    {k: 'isidompet', v: 'isidompet'},
-    {k: 'pulsa', v: 'pulsa'},
-    {k: 'plntoken', v: 'plntoken'},
-    {k: 'paketdata', v: 'paketdata'},
-    {k: 'lazis-NU', v: 'lazis-NU'},
-    {k: 'plnpost', v: 'plnpost'},
-  ];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -95,7 +74,7 @@ export class EarningTransactionsComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetTransactions(
+          return this.apiService.APIGetTransactionsRedeemVouchers(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -104,31 +83,31 @@ export class EarningTransactionsComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
+        map(res => {
+          this.dataTableLength = res.total;
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === 0 ) {
             this.isNoData = true;
             return;
           }
           this.isNoData = false;
-          return dataResponse.transactions;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormExportToCSV() {
-    this.dialog.open(DialogExportTransactionsToCSVComponent, {
+    this.dialog.open(DialogExportTransactionsVouchersRedeemToCSVComponent, {
       width: '50%',
     });
   }
@@ -152,39 +131,47 @@ export class EarningTransactionsComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
+    if (this.fq.nama !== '') {
+      this.query = this.query + 'nama.icontains:' + this.fq.nama + ',';
+    }
     if (this.fq.phone !== '') {
-      this.query = this.query + 'phone.icontains:' + this.fq.phone + ',';
+      this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
-    if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+    if (this.fq.rc !== '') {
+      this.query = this.query + 'rc.icontains:' + this.fq.rc + ',';
     }
-    if (this.fq.type_trans !== undefined) {
-      this.query = this.query + 'type_trans.icontains:' + this.fq.type_trans + ',';
+    if (this.fq.voucher !== '') {
+      this.query = this.query + 'voucher.icontains:' + this.fq.voucher + ',';
+    }
+    if (this.fq.campaign_id !== '') {
+      this.query = this.query + 'campaign_id.icontains:' + this.fq.campaign_id + ',';
+    }
+    if (this.fq.coupon_id !== '') {
+      this.query = this.query + 'coupon_id.icontains:' + this.fq.coupon_id + ',';
     }
     if (this.fq.product_code !== '') {
       this.query = this.query + 'product_code.icontains:' + this.fq.product_code + ',';
     }
-    if (this.fq.product_type !== undefined) {
-      this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
-    }
-    this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
+    // replace tanda (,) terakhir
+    this.query = this.query.replace(/.$/g, '');
+    // balik ke page pertama jika filter tidak kosong
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactions(
+    this.apiService.APIGetTransactionsRedeemVouchers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsResponse) => {
+    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transactions;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -199,25 +186,27 @@ export class EarningTransactionsComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
+    this.fq.nama = '';
     this.fq.phone = '';
-    this.fq.cust_id = '';
-    this.fq.type_trans = undefined;
+    this.fq.rc = '';
+    this.fq.voucher = '';
+    this.fq.campaign_id = '';
+    this.fq.coupon_id = '';
     this.fq.product_code = '';
-    this.fq.product_type = undefined;
-    this.apiService.APIGetTransactions(
+    this.apiService.APIGetTransactionsRedeemVouchers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsResponse) => {
+    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transactions;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -228,13 +217,12 @@ export class EarningTransactionsComponent implements AfterViewInit {
   }
 }
 
-
 @Component({
-  selector: 'app-dialog-export-transactions-to-csv',
-  templateUrl: './dialogs/dialog-export-transactions-to-csv.html',
-  styleUrls: ['./earning-transactions.component.css']
+  selector: 'app-dialog-export-to-csv',
+  templateUrl: './dialogs/dialog-export-to-csv.html',
+  styleUrls: ['./vouchers-redeem.component.css']
 })
-export class DialogExportTransactionsToCSVComponent implements OnInit {
+export class DialogExportTransactionsVouchersRedeemToCSVComponent implements OnInit {
   filterExportForm: FormGroup;
   get f() { return this.filterExportForm.controls; }
 
@@ -247,20 +235,8 @@ export class DialogExportTransactionsToCSVComponent implements OnInit {
     panelClass: ['snack-bar-ekstra-css']
   };
 
-  productTypes = [
-    {k: 'NU CARE-LAZISNU (Infaq)', v: 'NU CARE-LAZISNU (Infaq)'},
-    {k: 'NU CARE-LAZISNU (Zakat)', v: 'NU CARE-LAZISNU (Zakat)'},
-    {k: 'game', v: 'game'},
-    {k: 'isidompet', v: 'isidompet'},
-    {k: 'pulsa', v: 'pulsa'},
-    {k: 'plntoken', v: 'plntoken'},
-    {k: 'paketdata', v: 'paketdata'},
-    {k: 'lazis-NU', v: 'lazis-NU'},
-    {k: 'plnpost', v: 'plnpost'},
-  ];
-
   constructor(
-    public dialogRef: MatDialogRef<DialogExportTransactionsToCSVComponent>,
+    public dialogRef: MatDialogRef<DialogExportTransactionsVouchersRedeemToCSVComponent>,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
@@ -272,11 +248,13 @@ export class DialogExportTransactionsToCSVComponent implements OnInit {
     this.filterExportForm = this.formBuilder.group({
       from_date: null,
       through_date: null,
+      nama: '',
       phone: '',
-      cust_id: '',
-      type_trans: undefined,
+      rc: '',
+      voucher: '',
+      campaign_id: '',
+      coupon_id: '',
       product_code: '',
-      product_type: undefined
     });
   }
 
@@ -289,13 +267,13 @@ export class DialogExportTransactionsToCSVComponent implements OnInit {
     this.isLoadingResults = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'user_data_' + Date().toLocaleString(),
+      filename: 'transactions_qr' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Users Data \nDownloaded At : ' + Date().toLocaleString(),
+      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
@@ -319,42 +297,49 @@ export class DialogExportTransactionsToCSVComponent implements OnInit {
         this.filterExportForm.value.through_date.getDate() - 1
       );
     }
+    if (this.filterExportForm.value.nama !== '') {
+      query = query + 'nama.icontains:' + this.filterExportForm.value.nama + ',';
+    }
     if (this.filterExportForm.value.phone !== '') {
-      query = query + `phone:${this.filterExportForm.value.phone},`;
+      query = query + 'phone:' + this.filterExportForm.value.phone + ',';
     }
-    if (this.filterExportForm.value.cust_id !== '') {
-      query = query + `cust_id:${this.filterExportForm.value.cust_id},`;
+    if (this.filterExportForm.value.rc !== '') {
+      query = query + 'rc.icontains:' + this.filterExportForm.value.rc + ',';
     }
-    if (this.filterExportForm.value.type_trans !== undefined) {
-      query = query + `type_trans:${this.filterExportForm.value.type_trans},`;
+    if (this.filterExportForm.value.voucher !== '') {
+      query = query + 'voucher.icontains:' + this.filterExportForm.value.voucher + ',';
+    }
+    if (this.filterExportForm.value.campaign_id !== '') {
+      query = query + 'campaign_id.icontains:' + this.filterExportForm.value.campaign_id + ',';
+    }
+    if (this.filterExportForm.value.coupon_id !== '') {
+      query = query + 'coupon_id.icontains:' + this.filterExportForm.value.coupon_id + ',';
     }
     if (this.filterExportForm.value.product_code !== '') {
-      query = query + `product_code:${this.filterExportForm.value.product_code},`;
-    }
-    if (this.filterExportForm.value.product_type !== undefined) {
-      query = query + `product_type:${this.filterExportForm.value.product_type},`;
+      query = query + 'product_code.icontains:' + this.filterExportForm.value.product_code + ',';
     }
     query = query.replace(/.$/g, '');
-    this.apiService.APIGetTransactions(
+    query = query + '&';
+    this.apiService.APIGetTransactionsRedeemVouchers(
       window.localStorage.getItem('token'),
       0,
       null,
       'created_at',
       'asc',
       query
-    ).subscribe((res: GetTransactionsResponse) => {
+    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.transactions === undefined || res.transactions.length === 0) {
+      if (res.data === undefined || res.data.length === 0) {
         this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
-      this.snackBar.open(`Downloading ${res.transactions.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.transactions);
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
       this.dialogRef.close();
     });
   }
