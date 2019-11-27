@@ -7,8 +7,8 @@ import { ApiService } from '../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetPaymentQrsResponse,
-  ExportPaymentQrsToCSVRequest
+  GetTransactionsPaymentsQRRes,
+  ExportTransactionsPaymentsQRToCSVRequest
 } from '../../../../model/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -25,8 +25,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./payments-qr.component.css']
 })
 export class PaymentsQRComponent implements AfterViewInit {
-  dataResponse: GetPaymentQrsResponse[] = [];
-  exportToCSVReq: ExportPaymentQrsToCSVRequest;
+  exportToCSVReq: ExportTransactionsPaymentsQRToCSVRequest;
 
   query = '';
   fq = { // filter Query
@@ -41,6 +40,7 @@ export class PaymentsQRComponent implements AfterViewInit {
   buffTotalData = 0;
 
   displayedColumns: string[] = [
+    // 'id',
     'merchant_id',
     'phone',
     'amount',
@@ -74,7 +74,7 @@ export class PaymentsQRComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetPaymentQrs(
+          return this.apiService.APIGetTransactionsPaymentsQR(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -83,30 +83,30 @@ export class PaymentsQRComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
+        map(res => {
+          this.dataTableLength = res.total;
           if (this.buffTotalData === 0) {
-            this.buffTotalData = dataResponse.total;
+            this.buffTotalData = res.total;
           }
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === 0 ) {
             this.isNoData = true;
             return;
           }
           this.isNoData = false;
-          return dataResponse.payment_qrs;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormExportToCSV() {
@@ -156,20 +156,20 @@ export class PaymentsQRComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetPaymentQrs(
+    this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetPaymentQrsResponse) => {
+    ).subscribe((res: GetTransactionsPaymentsQRRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.payment_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -189,20 +189,20 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.fq.amount = '';
     this.fq.account_number = '';
     this.fq.rrn = '';
-    this.apiService.APIGetPaymentQrs(
+    this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetPaymentQrsResponse) => {
+    ).subscribe((res: GetTransactionsPaymentsQRRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.payment_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -230,7 +230,7 @@ export class DialogExportPaymentsQRToCSVComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogExportPaymentsQRToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportPaymentQrsToCSVRequest,
+    @Inject(MAT_DIALOG_DATA) public data: ExportTransactionsPaymentsQRToCSVRequest,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
     private router: Router
@@ -259,27 +259,27 @@ export class DialogExportPaymentsQRToCSVComponent implements OnInit {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetPaymentQrs(
+    this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       0,
       this.data.total,
       'id',
       'asc',
       ''
-    ).subscribe((res: GetPaymentQrsResponse) => {
+    ).subscribe((res: GetTransactionsPaymentsQRRes) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.payment_qrs === undefined || res.payment_qrs.length === 0) {
+      if (res.data === undefined || res.data.length === 0) {
         this.snackBar.open('Failed to export data, data not found', 'close', this.matSnackBarConfig);
         return;
       }
       this.dialogRef.close();
-      csvExporter.generateCsv(res.payment_qrs);
-      this.snackBar.open(`Downloading ${res.payment_qrs.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
     });
   }
 }

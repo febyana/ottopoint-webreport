@@ -7,7 +7,7 @@ import { ApiService } from '../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionsRedeemVouchersResqpose,
+  GetTransactionsVouchersRedeemRes,
 } from '../../../../model/models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
@@ -74,7 +74,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetTransactionsRedeemVouchers(
+          return this.apiService.APIGetTransactionsVouchersRedeem(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -158,14 +158,14 @@ export class VouchersRedeemComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionsRedeemVouchers(
+    this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
+    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -193,14 +193,14 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.fq.campaign_id = '';
     this.fq.coupon_id = '';
     this.fq.product_code = '';
-    this.apiService.APIGetTransactionsRedeemVouchers(
+    this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
+    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -320,14 +320,14 @@ export class DialogExportTransactionsVouchersRedeemToCSVComponent implements OnI
     }
     query = query.replace(/.$/g, '');
     query = query + '&';
-    this.apiService.APIGetTransactionsRedeemVouchers(
+    this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       0,
       null,
       'created_at',
       'asc',
       query
-    ).subscribe((res: GetTransactionsRedeemVouchersResqpose) => {
+    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');

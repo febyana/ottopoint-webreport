@@ -4,8 +4,8 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import { ApiService } from '../../../api/api.service';
 import {
-  GetAnalyticTransactionsResponse,
-  GetAnalyticUsersResponse
+  GetAnalyticsTransactionsRes,
+  GetAnalyticsUsersRes
 } from '../../../model/models';
 import { Router } from '@angular/router';
 import {
@@ -48,9 +48,9 @@ export class AnalyticsComponent {
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngAfterViewInit() {
-    this.apiService.APIGetAnalyticUsers(
+    this.apiService.APIGetAnalyticsUsers(
       window.localStorage.getItem('token')
-    ).subscribe((res: GetAnalyticUsersResponse) => {
+    ).subscribe((res: GetAnalyticsUsersRes) => {
       this.total = res.total;
       this.eligibleRegistered = res.eligible_registered;
       this.eligibleUnregistered = res.eligible_unregistered;
@@ -59,9 +59,9 @@ export class AnalyticsComponent {
     });
     // chart transactions
     this.chartTransactions = am4core.create('chartTransactions', am4charts.XYChart);
-    this.apiService.APIGetAnalyticTransactions(
+    this.apiService.APIGetAnalyticsTransactions(
       window.localStorage.getItem('token')
-    ).subscribe((res: GetAnalyticTransactionsResponse) => {
+    ).subscribe((res: GetAnalyticsTransactionsRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -76,17 +76,17 @@ export class AnalyticsComponent {
       const data = [];
       for (let i = 0; i < res.total; i++) {
         data.push({ date1: new Date(
-          +res.analytic_transactions[i].tahun,
-          +res.analytic_transactions[i].bulan - 1,
-          +res.analytic_transactions[i].hari,
-        ), amount: res.analytic_transactions[i].amount });
+          +res.data[i].tahun,
+          +res.data[i].bulan - 1,
+          +res.data[i].hari,
+        ), amount: res.data[i].amount });
       }
       for (let i = 0; i < res.total; i++) {
         data.push({ date2: new Date(
-          +res.analytic_transactions[i].tahun,
-          +res.analytic_transactions[i].bulan - 1,
-          +res.analytic_transactions[i].hari,
-        ), point: res.analytic_transactions[i].point });
+          +res.data[i].tahun,
+          +res.data[i].bulan - 1,
+          +res.data[i].hari,
+        ), point: res.data[i].point });
       }
 
       this.chartTransactions.data = data;

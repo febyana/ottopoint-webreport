@@ -7,8 +7,8 @@ import { ApiService } from '../../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionsEarningsPPOBResponse,
-  ExportTransactionsEarningsPPOBToCSVRequest
+  GetTransactionsEarningsPPOBRes,
+  ExportTransactionsEarningsPPOBToCSVReq
 } from '../../../../../model/models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
@@ -26,8 +26,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./transactions-earnings-ppob.component.css']
 })
 export class TransactionsEarningsPPOBComponent implements AfterViewInit {
-  dataResponse: GetTransactionsEarningsPPOBResponse[] = [];
-  exportToCSVReq: ExportTransactionsEarningsPPOBToCSVRequest;
+  exportToCSVReq: ExportTransactionsEarningsPPOBToCSVReq;
 
   query = '';
   fq = { // filter Query
@@ -42,6 +41,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   buffTotalData = 0;
 
   displayedColumns: string[] = [
+    // 'id',
     'merchant_id',
     'cust_id',
     'phone',
@@ -96,7 +96,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetTransactions(
+          return this.apiService.APIGetTransactionsEarningsPPOB(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -105,27 +105,27 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
+        map(res => {
+          this.dataTableLength = res.total;
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === 0 ) {
             this.isNoData = true;
             return;
           }
           this.isNoData = false;
-          return dataResponse.data;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormExportToCSV() {
@@ -172,14 +172,14 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactions(
+    this.apiService.APIGetTransactionsEarningsPPOB(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -205,14 +205,14 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     this.fq.type_trans = undefined;
     this.fq.product_code = '';
     this.fq.product_type = undefined;
-    this.apiService.APIGetTransactions(
+    this.apiService.APIGetTransactionsEarningsPPOB(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -336,14 +336,14 @@ export class DialogExportTransactionsEarningsPPOBToCSVComponent implements OnIni
       query = query + `product_type:${this.filterExportForm.value.product_type},`;
     }
     query = query.replace(/.$/g, '');
-    this.apiService.APIGetTransactions(
+    this.apiService.APIGetTransactionsEarningsPPOB(
       window.localStorage.getItem('token'),
       0,
       null,
       'created_at',
       'asc',
       query
-    ).subscribe((res: GetTransactionsEarningsPPOBResponse) => {
+    ).subscribe((res: GetTransactionsEarningsPPOBRes) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');

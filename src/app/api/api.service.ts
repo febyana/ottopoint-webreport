@@ -4,18 +4,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
-  LoginResponse,
-  GetUsersResponse,
-  GetTransactionsEarningsPPOBResponse,
-  GetTransactionQrsResponse,
-  AddEligibleUserRequest,
-  AddEligibleUserResponse,
-  RegisterUserRequest,
-  RegisterUserResponse,
-  GetPaymentQrsResponse,
-  GetAnalyticTransactionsResponse,
-  GetAnalyticUsersResponse,
-  GetTransactionsRedeemVouchersResqpose
+  LoginRes,
+  GetUsersRes,
+  AddEligibleUserReq,
+  AddEligibleUserRes,
+  GetTransactionsEarningsPPOBRes,
+  GetTransactionsEarningsQRRes,
+  RegisterUserReq,
+  RegisterUserRes,
+  GetTransactionsPaymentsQRRes,
+  GetAnalyticsTransactionsRes,
+  GetAnalyticsUsersRes,
+  GetTransactionsVouchersRedeemRes
 } from '../model/models';
 
 const httpOptions = {
@@ -37,12 +37,12 @@ export class ApiService {
   hostBackEndDashboard              = 'http://localhost:8819';
   URLGetToken                       = `${this.hostBackEndDashboard}/api/login`;
   URLGetUsers                       = `${this.hostBackEndDashboard}/api/users?`;
-  URLGetTransactions                = `${this.hostBackEndDashboard}/api/transactions?`;
-  URLGetTransactionQrs              = `${this.hostBackEndDashboard}/api/transactions/qrs?`;
-  URLGetTransactionsRedeemVouchers  = `${this.hostBackEndDashboard}/api/transactions/redeem-vouchers?`;
-  URLGetPaymentQrs                  = `${this.hostBackEndDashboard}/api/transactions/payment/qrs?`;
-  URLGetAnalyticTransactions        = `${this.hostBackEndDashboard}/api/analytics/transactions`;
-  URLGetAnalyticUsers               = `${this.hostBackEndDashboard}/api/analytics/users`;
+  URLGetTransactionsPaymentsQR      = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;
+  URLGetTransactionsEarningsPPOB    = `${this.hostBackEndDashboard}/api/transactions/earnings/ppob?`;
+  URLGetTransactionsEarningsQR      = `${this.hostBackEndDashboard}/api/transactions/earnings/qr?`;
+  URLGetTransactionsVouchersRedeem  = `${this.hostBackEndDashboard}/api/transactions/vouchers/redeem?`;
+  URLGetAnalyticsTransactions       = `${this.hostBackEndDashboard}/api/analytics/transactions`;
+  URLGetAnalyticsUsers              = `${this.hostBackEndDashboard}/api/analytics/users`;
   hostOttopay                       = 'http://13.228.25.85:8009';
   URLEligibleUser                   = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                   = `${this.hostOttopay}/api/register_user`;
@@ -50,19 +50,9 @@ export class ApiService {
   public APIGetToken(
     username: string,
     password: string,
-  ): Observable<LoginResponse> {
+  ): Observable<LoginRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
-    return this.httpClient.get<LoginResponse>(this.URLGetToken, httpOptions);
-  }
-
-  public APIGetAnalyticTransactions(token: string): Observable<GetAnalyticTransactionsResponse> {
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetAnalyticTransactionsResponse>(this.URLGetAnalyticTransactions, httpOptions);
-  }
-
-  public APIGetAnalyticUsers(token: string): Observable<GetAnalyticUsersResponse> {
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetAnalyticUsersResponse>(this.URLGetAnalyticUsers, httpOptions);
+    return this.httpClient.get<LoginRes>(this.URLGetToken, httpOptions);
   }
 
   public APIGetUsers(
@@ -72,82 +62,92 @@ export class ApiService {
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetUsersResponse> {
+  ): Observable<GetUsersRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetUsersResponse>(this.URLGetUsers + this.queryParams, httpOptions);
+    return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
   }
 
-  public APIGetPaymentQrs(
+  public APIGetTransactionsPaymentsQR(
     token: string,
     offset: number,
     limit: number,
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetPaymentQrsResponse> {
+  ): Observable<GetTransactionsPaymentsQRRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetPaymentQrsResponse>(this.URLGetPaymentQrs + this.queryParams, httpOptions);
+    return this.httpClient.get<GetTransactionsPaymentsQRRes>(this.URLGetTransactionsPaymentsQR + this.queryParams, httpOptions);
   }
 
-  public APIGetTransactions(
+  public APIGetTransactionsEarningsPPOB(
     token: string,
     offset: number,
     limit: number,
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetTransactionsEarningsPPOBResponse> {
+  ): Observable<GetTransactionsEarningsPPOBRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionsEarningsPPOBResponse>(this.URLGetTransactions + this.queryParams, httpOptions);
+    return this.httpClient.get<GetTransactionsEarningsPPOBRes>(this.URLGetTransactionsEarningsPPOB + this.queryParams, httpOptions);
   }
 
-  public APIGetTransactionQrs(
+  public APIGetTransactionsEarningsQR(
     token: string,
     offset: number,
     limit: number,
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetTransactionQrsResponse> {
+  ): Observable<GetTransactionsEarningsQRRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionQrsResponse>(this.URLGetTransactionQrs + this.queryParams, httpOptions);
+    return this.httpClient.get<GetTransactionsEarningsQRRes>(this.URLGetTransactionsEarningsQR + this.queryParams, httpOptions);
   }
 
-  public APIGetTransactionsRedeemVouchers(
+  public APIGetTransactionsVouchersRedeem(
     token: string,
     offset: number,
     limit: number,
     sortby: string,
     order: string,
     query: string
-  ): Observable<GetTransactionsRedeemVouchersResqpose> {
+  ): Observable<GetTransactionsVouchersRedeemRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionsRedeemVouchersResqpose>(
-      this.URLGetTransactionsRedeemVouchers + this.queryParams,
+    return this.httpClient.get<GetTransactionsVouchersRedeemRes>(
+      this.URLGetTransactionsVouchersRedeem + this.queryParams,
       httpOptions
     );
   }
 
-  public APIEligibleUser(req: AddEligibleUserRequest, token: string): Observable<AddEligibleUserResponse> {
+  public APIGetAnalyticsTransactions(token: string): Observable<GetAnalyticsTransactionsRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
-      alert('you not have privilage to this action');
-      return;
-    }
-    return this.httpClient.post<AddEligibleUserResponse>(this.URLEligibleUser, req, httpOptions);
+    return this.httpClient.get<GetAnalyticsTransactionsRes>(this.URLGetAnalyticsTransactions, httpOptions);
   }
 
-  public APIRegisterUser(req: RegisterUserRequest, token: string): Observable<RegisterUserResponse> {
+  public APIGetAnalyticsUsers(token: string): Observable<GetAnalyticsUsersRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetAnalyticsUsersRes>(this.URLGetAnalyticsUsers, httpOptions);
+  }
+
+  public APIEligibleUser(req: AddEligibleUserReq, token: string): Observable<AddEligibleUserRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
       alert('you not have privilage to this action');
       return;
     }
-    return this.httpClient.post<RegisterUserResponse>(this.URLRegisterUser, req, httpOptions);
+    return this.httpClient.post<AddEligibleUserRes>(this.URLEligibleUser, req, httpOptions);
+  }
+
+  public APIRegisterUser(req: RegisterUserReq, token: string): Observable<RegisterUserRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<RegisterUserRes>(this.URLRegisterUser, req, httpOptions);
   }
 }

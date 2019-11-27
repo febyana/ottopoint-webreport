@@ -7,8 +7,8 @@ import { ApiService } from '../../../../../api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionQrsResponse,
-  ExportTransactionQrsToCSVRequest
+  GetTransactionsEarningsQRRes,
+  ExportTransactionsEarningsQRToCSVRequest
 } from '../../../../../model/models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
@@ -26,8 +26,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./transactions-earnings-qr.component.css']
 })
 export class TransactionsEarningsQRComponent implements AfterViewInit {
-  dataResponse: GetTransactionQrsResponse[] = [];
-  exportToCSVReq: ExportTransactionQrsToCSVRequest;
+  dataResponse: GetTransactionsEarningsQRRes[] = [];
+  exportToCSVReq: ExportTransactionsEarningsQRToCSVRequest;
 
   query = '';
   fq = { // filter Query
@@ -38,6 +38,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   };
 
   displayedColumns: string[] = [
+    // 'id',
     'merchant_id',
     'amount',
     'date_time',
@@ -71,7 +72,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.apiService.APIGetTransactionQrs(
+          return this.apiService.APIGetTransactionsEarningsQR(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -80,27 +81,27 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
+        map(res => {
+          this.dataTableLength = res.total;
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === 0 ) {
             this.isNoData = true;
             return;
           }
           this.isNoData = false;
-          return dataResponse.transaction_qrs;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormExportToCSV() {
@@ -138,20 +139,20 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionQrs(
+    this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsQRRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transaction_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -168,20 +169,20 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     this.fq.through_date =  null;
     this.fq.sender_phone = '';
     this.fq.recipient_phone = '';
-    this.apiService.APIGetTransactionQrs(
+    this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsQRRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.transaction_qrs;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -280,26 +281,26 @@ export class DialogExportTransactionEarningsQRToCSVComponent implements OnInit {
     }
     query = query.replace(/.$/g, '');
     query = query + '&';
-    this.apiService.APIGetTransactionQrs(
+    this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       0,
       null,
       'created_at',
       'asc',
       query
-    ).subscribe((res: GetTransactionQrsResponse) => {
+    ).subscribe((res: GetTransactionsEarningsQRRes) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.transaction_qrs === undefined || res.transaction_qrs.length === 0) {
+      if (res.data === undefined || res.data.length === 0) {
         this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
-      this.snackBar.open(`Downloading ${res.transaction_qrs.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.transaction_qrs);
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
       this.dialogRef.close();
     });
   }

@@ -1,6 +1,6 @@
 <mat-card>
     <!-- judul -->
-    <h1>List Payments Qr</h1>
+    <h1>Transactions Payments QR</h1>
     <!-- filters -->
     <br>
     <mat-form-field class="filter-field">
@@ -46,6 +46,13 @@
         <div class="table-container">
             <table mat-table [dataSource]="dataTable" matSort matSortActive="id" matSortDirection="desc" matSortDisableClear >
                 
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        ID
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="merchant_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Merchant

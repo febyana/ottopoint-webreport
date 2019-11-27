@@ -10,13 +10,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
 import {
-  GetUsersResponse,
+  GetUsersRes,
   User,
-  AddEligibleUserRequest,
-  AddEligibleUserResponse,
-  RegisterUserRequest,
-  RegisterUserResponse,
-  ExportUsersToCSVRequest
+  AddEligibleUserReq,
+  AddEligibleUserRes,
+  RegisterUserReq,
+  RegisterUserRes,
+  ExportUsersToCSVReq
 } from '../../../model/models';
 import {
   MatSnackBar,
@@ -29,8 +29,8 @@ import {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements AfterViewInit {
-  registerUserRequest: RegisterUserRequest;
-  exportUsersToCSVRequest: ExportUsersToCSVRequest;
+  RegisterUserReq: RegisterUserReq;
+  exportUsersToCSVRequest: ExportUsersToCSVReq;
 
   query = '';
   fq = { // filter Query
@@ -44,6 +44,7 @@ export class UsersComponent implements AfterViewInit {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   displayedColumns: string[] = [
+    // 'id',
     'nama',
     'phone',
     'cust_id',
@@ -103,30 +104,30 @@ export class UsersComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
+        map(res => {
+          this.dataTableLength = res.total;
           if (this.buffTotalData === 0) {
-            this.buffTotalData = dataResponse.total;
+            this.buffTotalData = res.total;
           }
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === 0 ) {
             this.isNoData = true;
-            return dataResponse.users;
+            return res.data;
           }
           this.isNoData = false;
-          return dataResponse.users;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormAddEligibleUser() {
@@ -135,8 +136,8 @@ export class UsersComponent implements AfterViewInit {
     });
 
     // after closed dialog
-    dialogRef.afterClosed().subscribe(res => {
-      if (res === true) {
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
         this.isLoadingResults = true;
         this.paginator.pageIndex = 0;
         this.sort.active = 'id';
@@ -148,8 +149,8 @@ export class UsersComponent implements AfterViewInit {
           this.sort.active,
           this.sort.direction,
           this.query
-        ).subscribe((data: GetUsersResponse) => {
-          this.dataTable.data = data.users;
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
           this.isLoadingResults = false;
         });
       }
@@ -162,7 +163,7 @@ export class UsersComponent implements AfterViewInit {
 
     const dialogRef = this.dialog.open(DialogRegisterComponent, {
       width: '50%',
-      data: this.registerUserRequest = {
+      data: this.RegisterUserReq = {
         firstName: arrNama[0],
         lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
         phone: row.phone,
@@ -170,8 +171,8 @@ export class UsersComponent implements AfterViewInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
         this.isLoadingResults = true;
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
@@ -180,8 +181,8 @@ export class UsersComponent implements AfterViewInit {
           this.sort.active,
           this.sort.direction,
           this.query
-        ).subscribe((res: GetUsersResponse) => {
-          this.dataTable.data = res.users;
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
           this.isLoadingResults = false;
         });
       }
@@ -223,13 +224,13 @@ export class UsersComponent implements AfterViewInit {
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetUsersResponse) => {
+    ).subscribe((res: GetUsersRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.users;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -253,13 +254,13 @@ export class UsersComponent implements AfterViewInit {
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetUsersResponse) => {
+    ).subscribe((res: GetUsersRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.users;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -276,7 +277,7 @@ export class UsersComponent implements AfterViewInit {
   styleUrls: ['./users.component.css']
 })
 export class DialogAddEligibleComponent implements OnInit {
-  req: AddEligibleUserRequest;
+  req: AddEligibleUserReq;
 
   dataForm: FormGroup;
   get f() { return this.dataForm.controls; }
@@ -326,7 +327,7 @@ export class DialogAddEligibleComponent implements OnInit {
     this.apiService.APIEligibleUser(
       this.req,
       window.localStorage.getItem('token')
-    ).subscribe((res: AddEligibleUserResponse) => {
+    ).subscribe((res: AddEligibleUserRes) => {
       if (res.data !== null) {// #
         this.dialogRef.close(true);
       }
@@ -356,7 +357,7 @@ export class DialogRegisterComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterUserRequest,
+    @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar
@@ -392,7 +393,7 @@ export class DialogRegisterComponent implements OnInit {
     this.apiService.APIRegisterUser(
       this.data,
       window.localStorage.getItem('token')
-    ).subscribe((res: RegisterUserResponse) => {
+    ).subscribe((res: RegisterUserRes) => {
       if (res.data !== null) {
         this.dialogRef.close(true);
       }
@@ -420,7 +421,7 @@ export class DialogExportUsersToCSVComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogExportUsersToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportUsersToCSVRequest,
+    @Inject(MAT_DIALOG_DATA) public data: ExportUsersToCSVReq,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
     private router: Router
@@ -456,20 +457,20 @@ export class DialogExportUsersToCSVComponent implements OnInit {
       'id',
       'asc',
       ''
-    ).subscribe((res: GetUsersResponse) => {
+    ).subscribe((res: GetUsersRes) => {
       this.isLoadingResults = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.users === undefined) {
+      if (res.data === undefined) {
         this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
         return;
       }
       this.dialogRef.close();
       this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.users);
+      csvExporter.generateCsv(res.data);
     });
   }
 }

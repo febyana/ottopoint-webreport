@@ -1,17 +1,17 @@
-export interface MetaResponse {
+export interface MetaRes {
     status: boolean;
     code: number;
     message: string;
 }
 
-// Login
-export interface LoginResponse {
+// [get] http://localhost:4200/#/login
+export interface LoginRes {
     token: string;
     code: string;
     message: string;
 }
 
-// Users
+// [get] http://localhost:4200/#/dashboard/users
 export interface User {
     id: number;
     nama: string;
@@ -21,18 +21,39 @@ export interface User {
     merchant_id: string;
     status: boolean;
 }
-export interface GetUsersResponse {
-    users: User[];
+export interface GetUsersRes {
+    data: User[];
     total: number;
     code: number;
     message: string;
 }
-export interface ExportUsersToCSVRequest {
+export interface ExportUsersToCSVReq {
     total: number;
 }
 
-// PPOB
-export interface TransactionsEarningsPPOB {
+// [get] http://localhost:4200/#/dashboard/transactions/payments/qr
+export interface TransactionPaymentsQR {
+    id: number;
+    merchant_id: string;
+    phone: string;
+    amount: number;
+    account_number: string;
+    rrn: string;
+    created_at: string;
+    updated_at: string;
+}
+export interface GetTransactionsPaymentsQRRes {
+    data: TransactionPaymentsQR[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface ExportTransactionsPaymentsQRToCSVRequest {
+    total: number;
+}
+
+// [get] http://localhost:4200/#/dashboard/transactions/earnings/ppob
+export interface TransactionEarningPPOB {
     id: number;
     merchant_id: string;
     phone: string;
@@ -51,13 +72,13 @@ export interface TransactionsEarningsPPOB {
     product_code: string;
     point: number;
 }
-export interface GetTransactionsEarningsPPOBResponse {
-    data: TransactionsEarningsPPOB[];
+export interface GetTransactionsEarningsPPOBRes {
+    data: TransactionEarningPPOB[];
     total: number;
     code: number;
     message: string;
 }
-export interface ExportTransactionsEarningsPPOBToCSVRequest {
+export interface ExportTransactionsEarningsPPOBToCSVReq {
     start_date: string;
     end_date: string;
     phone: string;
@@ -66,8 +87,8 @@ export interface ExportTransactionsEarningsPPOBToCSVRequest {
     product_code: string;
 }
 
-// Transaction Qrs
-export interface TransactionQr {
+// [get] http://localhost:4200/#/dashboard/transactions/earnings/qr
+export interface TransactionEarningQR {
     id: number;
     merchant_id: string;
     cust_id: string;
@@ -77,20 +98,20 @@ export interface TransactionQr {
     updated_at: string;
     point: number;
 }
-export interface GetTransactionQrsResponse {
-    transaction_qrs: TransactionQr[];
+export interface GetTransactionsEarningsQRRes {
+    data: TransactionEarningQR[];
     total: number;
     code: number;
     message: string;
 }
-export interface ExportTransactionQrsToCSVRequest {
+export interface ExportTransactionsEarningsQRToCSVRequest {
     start_date: string;
     end_date: string;
     cust_id: string;
 }
 
-// Transactions Redeem Vouchers
-export interface TransactionsRedeemVoucher {
+// [get] http://localhost:4200/#/dashboard/transactions/vouchers/redeem
+export interface TransactionVoucherRedeem {
     id: number;
     nama: string;
     phone: string;
@@ -102,59 +123,38 @@ export interface TransactionsRedeemVoucher {
     created_at: string;
     updated_at: string;
 }
-export interface GetTransactionsRedeemVouchersResqpose {
-    data: TransactionsRedeemVoucher[];
+export interface GetTransactionsVouchersRedeemRes {
+    data: TransactionVoucherRedeem[];
     total: number;
     code: number;
     message: string;
-}
-
-// Payment Qrs
-export interface PaymentQr {
-    id: number;
-    merchant_id: string;
-    phone: string;
-    amount: number;
-    account_number: string;
-    rrn: string;
-    created_at: string;
-    updated_at: string;
-}
-export interface GetPaymentQrsResponse {
-    payment_qrs: PaymentQr[];
-    total: number;
-    code: number;
-    message: string;
-}
-export interface ExportPaymentQrsToCSVRequest {
-    total: number;
 }
 
 // Eligible
-export interface AddEligibleUserRequest {
+export interface AddEligibleUserReq {
     nama: string;
     merchant_id: string;
     phone: string;
     institution: string;
 }
-export interface AddEligibleUserResponse {
+export interface AddEligibleUserRes {
     data: string;
-    meta: MetaResponse;
+    meta: MetaRes;
 }
 
 // Register
-export interface RegisterUserRequest {
+export interface RegisterUserReq {
     firstName: string;
     lastName: string;
     phone: string;
     institution: string;
 }
-export interface RegisterUserResponse {
+export interface RegisterUserRes {
     data: string;
-    meta: MetaResponse;
+    meta: MetaRes;
 }
 
-
+// [get] http://localhost:4200/#/dashboard/analytics/transactions
 export interface AnalyticTransaction {
     amount: number;
     point: number;
@@ -162,14 +162,15 @@ export interface AnalyticTransaction {
     bulan: string;
     hari: string;
 }
-export interface GetAnalyticTransactionsResponse {
-    analytic_transactions: AnalyticTransaction[];
+export interface GetAnalyticsTransactionsRes {
+    data: AnalyticTransaction[];
     total: number;
     code: number;
     message: string;
 }
 
-export interface GetAnalyticUsersResponse {
+// [get] http://localhost:4200/#/dashboard/analytics/users
+export interface GetAnalyticsUsersRes {
     eligible_registered: number;
     eligible_unregistered: number;
     uneligible_registered: number;
