@@ -212,7 +212,7 @@ export class UsersComponent implements AfterViewInit {
       this.query = this.query + 'email.icontains:' + this.fq.email + ',';
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda "," terakhir
     if (this.query !== '') {

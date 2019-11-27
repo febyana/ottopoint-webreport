@@ -138,19 +138,19 @@ export class PaymentsQRComponent implements AfterViewInit {
       );
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     if (this.fq.phone !== '') {
-      this.query = this.query + 'phone.icontains:' + this.fq.phone + ',';
+      this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
     if (this.fq.amount !== '') {
-      this.query = this.query + 'amount.icontains:' + this.fq.amount + ',';
+      this.query = this.query + 'amount:' + this.fq.amount + ',';
     }
     if (this.fq.account_number !== '') {
-      this.query = this.query + 'account_number.icontains:' + this.fq.account_number + ',';
+      this.query = this.query + 'account_number:' + this.fq.account_number + ',';
     }
     if (this.fq.rrn !== '') {
-      this.query = this.query + 'rrn.icontains:' + this.fq.rrn + ',';
+      this.query = this.query + 'rrn:' + this.fq.rrn + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     if (this.query !== '') {
