@@ -29,6 +29,8 @@ import {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements AfterViewInit {
+  isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
+
   RegisterUserReq: RegisterUserReq;
   exportUsersToCSVRequest: ExportUsersToCSVReq;
 
@@ -40,8 +42,6 @@ export class UsersComponent implements AfterViewInit {
     merchant_id: ''
   };
   buffTotalData = 0;
-
-  isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   displayedColumns: string[] = [
     // 'id',

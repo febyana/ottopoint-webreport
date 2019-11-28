@@ -179,3 +179,21 @@ export interface GetAnalyticsUsersRes {
     code: number;
     message: string;
 }
+
+// [get] http://localhost:4200/#/dashboard/settings/variables/transactions
+export interface SettingVariableTransaction {
+    id: number;
+    transaksi_ppob: number;
+    transaksi_pay_qr: number;
+    transaksi_merchant: number;
+    limit_transaksi: number;
+    minimal_transaksi: number;
+    created_at: string;
+    updated_at: string;
+}
+export interface GetSettingsVariablesTransactionsRes {
+    data: SettingVariableTransaction[];
+    total: number;
+    code: number;
+    message: string;
+}

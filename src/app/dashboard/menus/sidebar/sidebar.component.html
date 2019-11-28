@@ -38,5 +38,17 @@
     </mat-expansion-panel>
     
     <mat-divider></mat-divider>
+
+    <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+            Settings
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./settings/variables/transactions">Transaction Variables</a>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
 </mat-accordion>
 

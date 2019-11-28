@@ -32,6 +32,9 @@ import {
   VouchersRedeemComponent,
   DialogExportTransactionsVouchersRedeemToCSVComponent
 } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
+import {
+  SettingsVariablesTransactionsComponent
+} from './contents/settings/variables/transactions/settings-variables-transactions.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import {
     PaymentsQRComponent,
     DialogExportPaymentsQRToCSVComponent,
     VouchersRedeemComponent,
-    DialogExportTransactionsVouchersRedeemToCSVComponent
+    DialogExportTransactionsVouchersRedeemToCSVComponent,
+    SettingsVariablesTransactionsComponent
   ],
   entryComponents: [
     DialogAddEligibleComponent,

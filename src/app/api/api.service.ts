@@ -15,7 +15,8 @@ import {
   GetTransactionsPaymentsQRRes,
   GetAnalyticsTransactionsRes,
   GetAnalyticsUsersRes,
-  GetTransactionsVouchersRedeemRes
+  GetTransactionsVouchersRedeemRes,
+  GetSettingsVariablesTransactionsRes
 } from '../model/models';
 
 const httpOptions = {
@@ -34,18 +35,19 @@ export class ApiService {
   ) { }
 
   queryParams: string;
-  hostBackEndDashboard              = 'http://localhost:8819';
-  URLGetToken                       = `${this.hostBackEndDashboard}/api/login`;
-  URLGetUsers                       = `${this.hostBackEndDashboard}/api/users?`;
-  URLGetTransactionsPaymentsQR      = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;
-  URLGetTransactionsEarningsPPOB    = `${this.hostBackEndDashboard}/api/transactions/earnings/ppob?`;
-  URLGetTransactionsEarningsQR      = `${this.hostBackEndDashboard}/api/transactions/earnings/qr?`;
-  URLGetTransactionsVouchersRedeem  = `${this.hostBackEndDashboard}/api/transactions/vouchers/redeem?`;
-  URLGetAnalyticsTransactions       = `${this.hostBackEndDashboard}/api/analytics/transactions`;
-  URLGetAnalyticsUsers              = `${this.hostBackEndDashboard}/api/analytics/users`;
-  hostOttopay                       = 'http://13.228.25.85:8009';
-  URLEligibleUser                   = `${this.hostOttopay}/api/add_eligible`;
-  URLRegisterUser                   = `${this.hostOttopay}/api/register_user`;
+  hostBackEndDashboard                = 'http://localhost:8819';
+  URLGetToken                         = `${this.hostBackEndDashboard}/api/login`;
+  URLGetUsers                         = `${this.hostBackEndDashboard}/api/users?`;
+  URLGetTransactionsPaymentsQR        = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;
+  URLGetTransactionsEarningsPPOB      = `${this.hostBackEndDashboard}/api/transactions/earnings/ppob?`;
+  URLGetTransactionsEarningsQR        = `${this.hostBackEndDashboard}/api/transactions/earnings/qr?`;
+  URLGetTransactionsVouchersRedeem    = `${this.hostBackEndDashboard}/api/transactions/vouchers/redeem?`;
+  URLGetAnalyticsTransactions         = `${this.hostBackEndDashboard}/api/analytics/transactions`;
+  URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/analytics/users`;
+  URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions?`;
+  hostOttopay                         = 'http://13.228.25.85:8009';
+  URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
+  URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
 
   public APIGetToken(
     username: string,
@@ -149,5 +151,21 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<RegisterUserRes>(this.URLRegisterUser, req, httpOptions);
+  }
+
+  public APIGetSettingsVariablesTransactions(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetSettingsVariablesTransactionsRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetSettingsVariablesTransactionsRes>(
+      this.URLGetSettingsVariablesTransactions + this.queryParams,
+      httpOptions
+    );
   }
 }

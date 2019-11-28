@@ -10,6 +10,10 @@ import { TransactionsEarningsQRComponent } from './contents/transactions/earning
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
+import {
+  SettingsVariablesTransactionsComponent
+} from './contents/settings/variables/transactions/settings-variables-transactions.component';
+
 
 export const routes: Routes = [
   {
@@ -39,7 +43,11 @@ export const routes: Routes = [
       {
         path: 'transactions/vouchers/redeem',
         component: VouchersRedeemComponent,
-      }
+      },
+      {
+        path: 'settings/variables/transactions',
+        component: SettingsVariablesTransactionsComponent,
+      },
     ]
   }
 ];
