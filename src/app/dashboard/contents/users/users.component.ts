@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -28,7 +28,7 @@ import {
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements AfterViewInit {
+export class UsersComponent {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   RegisterUserReq: RegisterUserReq;
@@ -76,7 +76,8 @@ export class UsersComponent implements AfterViewInit {
     public dialog: MatDialog,
   ) {}
 
-  ngAfterViewInit() {
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngOnInit() {
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [
@@ -89,6 +90,9 @@ export class UsersComponent implements AfterViewInit {
         'status',
       ];
     }
+  }
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page)

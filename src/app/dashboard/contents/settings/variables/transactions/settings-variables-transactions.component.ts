@@ -1,21 +1,13 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { merge, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../../../../api/api.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import {
   GetSettingsVariablesTransactionsRes,
 } from '../../../../../model/models';
-import { ExportToCsv } from 'export-to-csv';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-variables-transactions',
@@ -24,17 +16,100 @@ import { DatePipe } from '@angular/common';
 })
 export class SettingsVariablesTransactionsComponent implements AfterViewInit {
   transaksiPPOB: number;
+  transaksiPayQr: number;
+  transaksiMerchant: number;
+  limitTransaksi: number;
+  minimalTransaksi: number;
   isDisabled = true;
+  isSaveDisabled = true;
+  isCancelDisabled = true;
+  isEditDisabled = false;
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 5000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
   constructor(
     private apiService: ApiService,
     private router: Router,
-    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngAfterViewInit() {
     this.apiService.APIGetSettingsVariablesTransactions(window.localStorage.getItem('token'), 0, 1, '', '', '')
     .subscribe((res: GetSettingsVariablesTransactionsRes) => {
+      if ( res.message === 'Invalid Token' ) {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
       this.transaksiPPOB = res.data[0].transaksi_ppob;
+      this.transaksiPayQr = res.data[0].transaksi_pay_qr;
+      this.transaksiMerchant = res.data[0].transaksi_merchant;
+      this.limitTransaksi = res.data[0].limit_transaksi;
+      this.minimalTransaksi = res.data[0].minimal_transaksi;
     });
+  }
+
+  edit() {
+    this.isDisabled = false;
+    this.isSaveDisabled = false;
+    this.isCancelDisabled = false;
+    this.isEditDisabled = true;
+  }
+
+  cancel() {
+    // select
+    this.apiService.APIGetSettingsVariablesTransactions(window.localStorage.getItem('token'), 0, 1, '', '', '')
+    .subscribe((res: GetSettingsVariablesTransactionsRes) => {
+      if ( res.message === 'Invalid Token' ) {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      this.transaksiPPOB = res.data[0].transaksi_ppob;
+      this.transaksiPayQr = res.data[0].transaksi_pay_qr;
+      this.transaksiMerchant = res.data[0].transaksi_merchant;
+      this.limitTransaksi = res.data[0].limit_transaksi;
+      this.minimalTransaksi = res.data[0].minimal_transaksi;
+    });
+    this.isDisabled = true;
+    this.isSaveDisabled = true;
+    this.isCancelDisabled = true;
+    this.isEditDisabled = false;
+  }
+
+  save() {
+    if ( // validator only number and dot
+      !(Number(this.transaksiPPOB) &&
+      Number(this.transaksiPayQr) &&
+      Number(this.transaksiMerchant) &&
+      Number(this.limitTransaksi) &&
+      Number(this.minimalTransaksi))
+    ) {
+      return;
+    }
+    this.snackBar.open('success', 'close', this.matSnackBarConfig);
+
+    // select
+    this.apiService.APIGetSettingsVariablesTransactions(window.localStorage.getItem('token'), 0, 1, '', '', '')
+    .subscribe((res: GetSettingsVariablesTransactionsRes) => {
+      if ( res.message === 'Invalid Token' ) {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      this.transaksiPPOB = res.data[0].transaksi_ppob;
+      this.transaksiPayQr = res.data[0].transaksi_pay_qr;
+      this.transaksiMerchant = res.data[0].transaksi_merchant;
+      this.limitTransaksi = res.data[0].limit_transaksi;
+      this.minimalTransaksi = res.data[0].minimal_transaksi;
+    });
+    this.isDisabled = true;
+    this.isSaveDisabled = true;
+    this.isCancelDisabled = true;
+    this.isEditDisabled = false;
   }
 }

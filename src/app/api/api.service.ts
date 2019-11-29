@@ -45,6 +45,7 @@ export class ApiService {
   URLGetAnalyticsTransactions         = `${this.hostBackEndDashboard}/api/analytics/transactions`;
   URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/analytics/users`;
   URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions?`;
+  URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions/?`;
   hostOttopay                         = 'http://13.228.25.85:8009';
   URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
@@ -165,6 +166,16 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetSettingsVariablesTransactionsRes>(
       this.URLGetSettingsVariablesTransactions + this.queryParams,
+      httpOptions
+    );
+  }
+  public APIPutSettingsVariablesTransactions(
+    token: string,
+    id: string,
+  ): Observable<GetSettingsVariablesTransactionsRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetSettingsVariablesTransactionsRes>(
+      this.URLGetSettingsVariablesTransactions + id,
       httpOptions
     );
   }
