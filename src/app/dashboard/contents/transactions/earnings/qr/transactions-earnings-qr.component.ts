@@ -53,6 +53,13 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   isLoadingResults = true;
   isNoData = false;
 
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -60,7 +67,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngAfterViewInit() {
@@ -104,9 +112,42 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  openFormExportToCSV() {
-    this.dialog.open(DialogExportTransactionEarningsQRToCSVComponent, {
-      width: '50%',
+  exportToCSV() {
+    // https://www.npmjs.com/package/export-to-csv
+    const options = {
+      filename: 'transactions_qr' + Date().toLocaleString(),
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+    const csvExporter = new ExportToCsv(options);
+    this.apiService.APIGetTransactionsEarningsQR(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'created_at',
+      'asc',
+      this.query
+    ).subscribe((res: GetTransactionsEarningsQRRes) => {
+      this.isLoadingResults = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined || res.data.length === 0) {
+        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
+        return;
+      }
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
     });
   }
 
@@ -193,115 +234,3 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'app-dialog-export-to-csv',
-  templateUrl: './dialogs/dialog-export-to-csv.html',
-  styleUrls: ['./transactions-earnings-qr.component.css']
-})
-export class DialogExportTransactionEarningsQRToCSVComponent implements OnInit {
-  filterExportForm: FormGroup;
-  get f() { return this.filterExportForm.controls; }
-
-  isLoadingResults = false;
-
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogExportTransactionEarningsQRToCSVComponent>,
-    private formBuilder: FormBuilder,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    public datePipe: DatePipe
-  ) {}
-
-  ngOnInit() {
-    this.filterExportForm = this.formBuilder.group({
-      from_date: null,
-      through_date: null,
-      sender_phone: '',
-      recipient_phone: ''
-    });
-  }
-
-  cancel(): void {
-    event.preventDefault();
-    this.dialogRef.close();
-  }
-
-  submit() {
-    this.isLoadingResults = true;
-    // https://www.npmjs.com/package/export-to-csv
-    const options = {
-      filename: 'transactions_qr' + Date().toLocaleString(),
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    };
-    const csvExporter = new ExportToCsv(options);
-    let query = '';
-    if (this.filterExportForm.value.from_date !== null) {
-      query = query + `created_at.gte:${
-        this.datePipe.transform(this.filterExportForm.value.from_date, 'yyyy-MM-dd 07:00:00')
-      },`;
-    }
-    if (this.filterExportForm.value.through_date !== null) {
-      query = query + `created_at.lte:${
-        this.datePipe.transform(
-          this.filterExportForm.value.through_date.setDate(
-            this.filterExportForm.value.through_date.getDate() + 1
-          ), 'yyyy-MM-dd 06:59:59')
-      },`;
-      this.filterExportForm.value.through_date.setDate(
-        this.filterExportForm.value.through_date.getDate() - 1
-      );
-    }
-    if (this.filterExportForm.value.sender_phone !== '' || this.filterExportForm.value.recipient_phone !== '') {
-      query = query + 'cust_id:';
-      if (this.filterExportForm.value.sender_phone !== '') {
-        query = query + this.filterExportForm.value.sender_phone;
-      }
-      query = query + ' || ';
-      if (this.filterExportForm.value.recipient_phone !== '') {
-        query = query + this.filterExportForm.value.recipient_phone;
-      }
-      query = query + ',';
-    }
-    query = query.replace(/.$/g, '');
-    query = query + '&';
-    this.apiService.APIGetTransactionsEarningsQR(
-      window.localStorage.getItem('token'),
-      0,
-      null,
-      'created_at',
-      'asc',
-      query
-    ).subscribe((res: GetTransactionsEarningsQRRes) => {
-      this.isLoadingResults = false;
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
-        return;
-      }
-      if (res.data === undefined || res.data.length === 0) {
-        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.data);
-      this.dialogRef.close();
-    });
-  }
-}

@@ -2,19 +2,19 @@
     <!-- judul -->
     <h1>Setting Variables Transaction</h1>
     <mat-form-field>
-        <input matInput placeholder="Transaction PPOB" [(ngModel)]="transaksiPPOB" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Transaction PPOB" [(ngModel)]="transaksiPPOB" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Transaction Payment QR" [(ngModel)]="transaksiPayQr" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Transaction Payment QR" [(ngModel)]="transaksiPayQr" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Transaction Merchant" [(ngModel)]="transaksiMerchant" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Transaction Merchant" [(ngModel)]="transaksiMerchant" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Limit Transaction" [(ngModel)]="limitTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Limit Transaction" [(ngModel)]="limitTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Minimal Transaction" [(ngModel)]="minimalTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Minimal Transaction" [(ngModel)]="minimalTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-card-actions>
         <button mat-raised-button color="warn" (click)="edit()" disabled="{{isEditDisabled}}">Edit</button>

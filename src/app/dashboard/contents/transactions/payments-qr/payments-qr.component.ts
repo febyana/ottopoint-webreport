@@ -55,6 +55,13 @@ export class PaymentsQRComponent implements AfterViewInit {
   isLoadingResults = true;
   isNoData = false;
 
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -62,7 +69,8 @@ export class PaymentsQRComponent implements AfterViewInit {
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngAfterViewInit() {
@@ -109,12 +117,41 @@ export class PaymentsQRComponent implements AfterViewInit {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  openFormExportToCSV() {
-    this.dialog.open(DialogExportPaymentsQRToCSVComponent, {
-      width: '50%',
-      data: this.exportToCSVReq = {
-        total: this.buffTotalData
+  exportToCSV() {
+    // https://www.npmjs.com/package/export-to-csv
+    const options = {
+      filename: 'payment_qr_data_' + Date().toLocaleString(),
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Payment Qr Data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+    const csvExporter = new ExportToCsv(options);
+    this.apiService.APIGetTransactionsPaymentsQR(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'id',
+      'asc',
+      this.query
+    ).subscribe((res: GetTransactionsPaymentsQRRes) => {
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
       }
+      if (res.data === undefined || res.data.length === 0) {
+        this.snackBar.open('Failed to export data', 'close', this.matSnackBarConfig);
+        return;
+      }
+      csvExporter.generateCsv(res.data);
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
     });
   }
 
@@ -213,73 +250,3 @@ export class PaymentsQRComponent implements AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'app-dialog-export-to-csv',
-  templateUrl: './dialogs/dialog-export-to-csv.html',
-  styleUrls: ['./payments-qr.component.css']
-})
-export class DialogExportPaymentsQRToCSVComponent implements OnInit {
-  isLoadingResults = false;
-
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogExportPaymentsQRToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportTransactionsPaymentsQRToCSVRequest,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar,
-    private router: Router
-  ) {}
-
-  ngOnInit() {}
-
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  ok() {
-    this.isLoadingResults = true;
-    // https://www.npmjs.com/package/export-to-csv
-    const options = {
-      filename: 'payment_qr_data_' + Date().toLocaleString(),
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Payment Qr Data',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    };
-    const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetTransactionsPaymentsQR(
-      window.localStorage.getItem('token'),
-      0,
-      this.data.total,
-      'id',
-      'asc',
-      ''
-    ).subscribe((res: GetTransactionsPaymentsQRRes) => {
-      this.isLoadingResults = false;
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
-        return;
-      }
-      if (res.data === undefined || res.data.length === 0) {
-        this.snackBar.open('Failed to export data, data not found', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.dialogRef.close();
-      csvExporter.generateCsv(res.data);
-      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-    });
-  }
-}

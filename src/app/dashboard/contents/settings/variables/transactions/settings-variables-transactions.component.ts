@@ -2,6 +2,8 @@ import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../../../../api/api.service';
 import {
   GetSettingsVariablesTransactionsRes,
+  PutSettingsVariablesTransactionsReq,
+  PutSettingsVariablesTransactionsRes
 } from '../../../../../model/models';
 import {
   MatSnackBar,
@@ -15,6 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings-variables-transactions.component.css']
 })
 export class SettingsVariablesTransactionsComponent implements AfterViewInit {
+  putSettingsVariablesTransactionsReq: PutSettingsVariablesTransactionsReq;
+  id: number;
   transaksiPPOB: number;
   transaksiPayQr: number;
   transaksiMerchant: number;
@@ -45,6 +49,7 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
         this.router.navigateByUrl('/login');
         return;
       }
+      this.id = res.data[0].id;
       this.transaksiPPOB = res.data[0].transaksi_ppob;
       this.transaksiPayQr = res.data[0].transaksi_pay_qr;
       this.transaksiMerchant = res.data[0].transaksi_merchant;
@@ -82,7 +87,7 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
   }
 
   save() {
-    if ( // validator only number and dot
+    if ( // validator only number
       !(Number(this.transaksiPPOB) &&
       Number(this.transaksiPayQr) &&
       Number(this.transaksiMerchant) &&
@@ -91,21 +96,32 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
     ) {
       return;
     }
-    this.snackBar.open('success', 'close', this.matSnackBarConfig);
 
-    // select
-    this.apiService.APIGetSettingsVariablesTransactions(window.localStorage.getItem('token'), 0, 1, '', '', '')
-    .subscribe((res: GetSettingsVariablesTransactionsRes) => {
+    this.putSettingsVariablesTransactionsReq = {
+      transaksi_ppob: this.transaksiPPOB,
+      transaksi_pay_qr: this.transaksiPayQr,
+      transaksi_merchant: this.transaksiMerchant,
+      limit_transaksi: this.limitTransaksi,
+      minimal_transaksi: this.minimalTransaksi,
+    };
+
+    this.apiService.APIPutSettingsVariablesTransactions(
+      window.localStorage.getItem('token'),
+      this.id,
+      this.putSettingsVariablesTransactionsReq,
+    )
+    .subscribe((res: PutSettingsVariablesTransactionsRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.transaksiPPOB = res.data[0].transaksi_ppob;
-      this.transaksiPayQr = res.data[0].transaksi_pay_qr;
-      this.transaksiMerchant = res.data[0].transaksi_merchant;
-      this.limitTransaksi = res.data[0].limit_transaksi;
-      this.minimalTransaksi = res.data[0].minimal_transaksi;
+      this.transaksiPPOB = res.data.after.transaksi_ppob;
+      this.transaksiPayQr = res.data.after.transaksi_pay_qr;
+      this.transaksiMerchant = res.data.after.transaksi_merchant;
+      this.limitTransaksi = res.data.after.limit_transaksi;
+      this.minimalTransaksi = res.data.after.minimal_transaksi;
+      this.snackBar.open('success', 'close', this.matSnackBarConfig);
     });
     this.isDisabled = true;
     this.isSaveDisabled = true;

@@ -16,7 +16,9 @@ import {
   GetAnalyticsTransactionsRes,
   GetAnalyticsUsersRes,
   GetTransactionsVouchersRedeemRes,
-  GetSettingsVariablesTransactionsRes
+  GetSettingsVariablesTransactionsRes,
+  PutSettingsVariablesTransactionsReq,
+  PutSettingsVariablesTransactionsRes,
 } from '../model/models';
 
 const httpOptions = {
@@ -45,7 +47,7 @@ export class ApiService {
   URLGetAnalyticsTransactions         = `${this.hostBackEndDashboard}/api/analytics/transactions`;
   URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/analytics/users`;
   URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions?`;
-  URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions/?`;
+  URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions/`;
   hostOttopay                         = 'http://13.228.25.85:8009';
   URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
@@ -169,13 +171,16 @@ export class ApiService {
       httpOptions
     );
   }
+
   public APIPutSettingsVariablesTransactions(
     token: string,
-    id: string,
-  ): Observable<GetSettingsVariablesTransactionsRes> {
+    id: number,
+    bodyReq: PutSettingsVariablesTransactionsReq
+  ): Observable<PutSettingsVariablesTransactionsRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetSettingsVariablesTransactionsRes>(
-      this.URLGetSettingsVariablesTransactions + id,
+    return this.httpClient.put<PutSettingsVariablesTransactionsRes>(
+      this.URLPutSettingsVariablesTransactions + id,
+      bodyReq,
       httpOptions
     );
   }

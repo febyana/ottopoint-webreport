@@ -197,3 +197,23 @@ export interface GetSettingsVariablesTransactionsRes {
     code: number;
     message: string;
 }
+
+
+// [put] http://localhost:4200/#/dashboard/settings/variables/transactions/:id
+export interface PutSettingsVariablesTransactionsReq {
+    transaksi_ppob: number;
+    transaksi_pay_qr: number;
+    transaksi_merchant: number;
+    limit_transaksi: number;
+    minimal_transaksi: number;
+}
+export interface BeforeAfterPutSettingsVariablesTransactions {
+    before: SettingVariableTransaction;
+    after: SettingVariableTransaction;
+}
+export interface PutSettingsVariablesTransactionsRes {
+    data: BeforeAfterPutSettingsVariablesTransactions;
+    total: number;
+    code: number;
+    message: string;
+}

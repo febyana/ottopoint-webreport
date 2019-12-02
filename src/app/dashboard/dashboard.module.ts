@@ -14,23 +14,18 @@ import {
   UsersComponent,
   DialogAddEligibleComponent,
   DialogRegisterComponent,
-  DialogExportUsersToCSVComponent
 } from './contents/users/users.component';
 import {
   TransactionsEarningsPPOBComponent,
-  DialogExportTransactionsEarningsPPOBToCSVComponent,
 } from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
 import {
   TransactionsEarningsQRComponent,
-  DialogExportTransactionEarningsQRToCSVComponent
 } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
 import {
   PaymentsQRComponent,
-  DialogExportPaymentsQRToCSVComponent
 } from './contents/transactions/payments-qr/payments-qr.component';
 import {
   VouchersRedeemComponent,
-  DialogExportTransactionsVouchersRedeemToCSVComponent
 } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 import {
   SettingsVariablesTransactionsComponent
@@ -46,23 +41,13 @@ import {
     TransactionsEarningsQRComponent,
     DialogAddEligibleComponent,
     DialogRegisterComponent,
-    DialogExportUsersToCSVComponent,
-    DialogExportTransactionsEarningsPPOBToCSVComponent,
-    DialogExportTransactionEarningsQRToCSVComponent,
     PaymentsQRComponent,
-    DialogExportPaymentsQRToCSVComponent,
     VouchersRedeemComponent,
-    DialogExportTransactionsVouchersRedeemToCSVComponent,
     SettingsVariablesTransactionsComponent
   ],
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
-    DialogExportUsersToCSVComponent,
-    DialogExportTransactionsEarningsPPOBToCSVComponent,
-    DialogExportTransactionEarningsQRToCSVComponent,
-    DialogExportPaymentsQRToCSVComponent,
-    DialogExportTransactionsVouchersRedeemToCSVComponent
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

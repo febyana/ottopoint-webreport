@@ -55,6 +55,13 @@ export class VouchersRedeemComponent implements AfterViewInit {
   isLoadingResults = true;
   isNoData = false;
 
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -62,7 +69,8 @@ export class VouchersRedeemComponent implements AfterViewInit {
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngAfterViewInit() {
@@ -106,9 +114,41 @@ export class VouchersRedeemComponent implements AfterViewInit {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  openFormExportToCSV() {
-    this.dialog.open(DialogExportTransactionsVouchersRedeemToCSVComponent, {
-      width: '50%',
+  exportToCSV() {
+    // https://www.npmjs.com/package/export-to-csv
+    const options = {
+      filename: 'transactions_qr' + Date().toLocaleString(),
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+    const csvExporter = new ExportToCsv(options);
+    this.apiService.APIGetTransactionsVouchersRedeem(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'created_at',
+      'asc',
+      this.query
+    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined || res.data.length === 0) {
+        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
+        return;
+      }
+      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
     });
   }
 
@@ -213,134 +253,6 @@ export class VouchersRedeemComponent implements AfterViewInit {
         this.isNoData = true;
       }
       this.isLoadingResults = false;
-    });
-  }
-}
-
-@Component({
-  selector: 'app-dialog-export-to-csv',
-  templateUrl: './dialogs/dialog-export-to-csv.html',
-  styleUrls: ['./vouchers-redeem.component.css']
-})
-export class DialogExportTransactionsVouchersRedeemToCSVComponent implements OnInit {
-  filterExportForm: FormGroup;
-  get f() { return this.filterExportForm.controls; }
-
-  isLoadingResults = false;
-
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogExportTransactionsVouchersRedeemToCSVComponent>,
-    private formBuilder: FormBuilder,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    public datePipe: DatePipe
-  ) {}
-
-  ngOnInit() {
-    this.filterExportForm = this.formBuilder.group({
-      from_date: null,
-      through_date: null,
-      nama: '',
-      phone: '',
-      rc: '',
-      voucher: '',
-      campaign_id: '',
-      coupon_id: '',
-      product_code: '',
-    });
-  }
-
-  cancel(): void {
-    event.preventDefault();
-    this.dialogRef.close();
-  }
-
-  submit() {
-    this.isLoadingResults = true;
-    // https://www.npmjs.com/package/export-to-csv
-    const options = {
-      filename: 'transactions_qr' + Date().toLocaleString(),
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    };
-    const csvExporter = new ExportToCsv(options);
-    let query = '';
-    if (this.filterExportForm.value.from_date !== null) {
-      query = query + `created_at.gte:${
-        this.datePipe.transform(this.filterExportForm.value.from_date, 'yyyy-MM-dd 07:00:00')
-      },`;
-    }
-    if (this.filterExportForm.value.through_date !== null) {
-      query = query + `created_at.lte:${
-        this.datePipe.transform(
-          this.filterExportForm.value.through_date.setDate(
-            this.filterExportForm.value.through_date.getDate() + 1
-          ), 'yyyy-MM-dd 06:59:59')
-      },`;
-      this.filterExportForm.value.through_date.setDate(
-        this.filterExportForm.value.through_date.getDate() - 1
-      );
-    }
-    if (this.filterExportForm.value.nama !== '') {
-      query = query + 'nama.icontains:' + this.filterExportForm.value.nama + ',';
-    }
-    if (this.filterExportForm.value.phone !== '') {
-      query = query + 'phone:' + this.filterExportForm.value.phone + ',';
-    }
-    if (this.filterExportForm.value.rc !== '') {
-      query = query + 'rc.icontains:' + this.filterExportForm.value.rc + ',';
-    }
-    if (this.filterExportForm.value.voucher !== '') {
-      query = query + 'voucher.icontains:' + this.filterExportForm.value.voucher + ',';
-    }
-    if (this.filterExportForm.value.campaign_id !== '') {
-      query = query + 'campaign_id.icontains:' + this.filterExportForm.value.campaign_id + ',';
-    }
-    if (this.filterExportForm.value.coupon_id !== '') {
-      query = query + 'coupon_id.icontains:' + this.filterExportForm.value.coupon_id + ',';
-    }
-    if (this.filterExportForm.value.product_code !== '') {
-      query = query + 'product_code.icontains:' + this.filterExportForm.value.product_code + ',';
-    }
-    query = query.replace(/.$/g, '');
-    query = query + '&';
-    this.apiService.APIGetTransactionsVouchersRedeem(
-      window.localStorage.getItem('token'),
-      0,
-      null,
-      'created_at',
-      'asc',
-      query
-    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
-      this.isLoadingResults = false;
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
-        return;
-      }
-      if (res.data === undefined || res.data.length === 0) {
-        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.data);
-      this.dialogRef.close();
     });
   }
 }

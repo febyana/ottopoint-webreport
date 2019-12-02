@@ -74,6 +74,7 @@ export class UsersComponent {
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
 
   // tslint:disable-next-line:use-lifecycle-interface
@@ -194,12 +195,42 @@ export class UsersComponent {
     });
   }
 
-  openFormExportToCSV() {
-    this.dialog.open(DialogExportUsersToCSVComponent, {
-      width: '50%',
-      data: this.exportUsersToCSVRequest = {
-        total: this.buffTotalData,
-      },
+  exportToCSV() {
+    // https://www.npmjs.com/package/export-to-csv
+    const options = {
+      filename: 'user_data_' + Date().toLocaleString(),
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Users Data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+    const csvExporter = new ExportToCsv(options);
+    this.apiService.APIGetUsers(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'id',
+      'asc',
+      this.query
+    ).subscribe((res: GetUsersRes) => {
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined) {
+        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.dialogRef.close();
+      this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      csvExporter.generateCsv(res.data);
     });
   }
 
@@ -405,77 +436,6 @@ export class DialogRegisterComponent implements OnInit {
       this.isLoadingResults = false;
       this.dialogRef.close(false);
       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-    });
-  }
-}
-
-@Component({
-  selector: 'app-dialog-export-to-csv',
-  templateUrl: './dialogs/dialog-export-to-csv.html',
-  styleUrls: ['./users.component.css']
-})
-export class DialogExportUsersToCSVComponent implements OnInit {
-  isLoadingResults = false;
-
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogExportUsersToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportUsersToCSVReq,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar,
-    private router: Router
-  ) {}
-
-  ngOnInit() {}
-
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  ok() {
-    this.isLoadingResults = true;
-    // https://www.npmjs.com/package/export-to-csv
-    const options = {
-      filename: 'user_data_' + Date().toLocaleString(),
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Users Data',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    };
-    const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetUsers(
-      window.localStorage.getItem('token'),
-      0,
-      this.data.total,
-      'id',
-      'asc',
-      ''
-    ).subscribe((res: GetUsersRes) => {
-      this.isLoadingResults = false;
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
-        return;
-      }
-      if (res.data === undefined) {
-        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.dialogRef.close();
-      this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.data);
     });
   }
 }
