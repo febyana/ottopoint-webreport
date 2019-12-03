@@ -40,12 +40,12 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   displayedColumns: string[] = [
     // 'id',
     'merchant_id',
+    'cust_id',
     'amount',
+    'point',
     'date_time',
     'created_at',
-    'updated_at',
-    'point',
-    'cust_id',
+    // 'updated_at',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;

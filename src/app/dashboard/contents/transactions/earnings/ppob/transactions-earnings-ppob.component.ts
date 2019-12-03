@@ -208,6 +208,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
+    console.log(this.query);
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }

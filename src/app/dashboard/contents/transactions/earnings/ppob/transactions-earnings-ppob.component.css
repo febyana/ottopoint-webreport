@@ -84,7 +84,8 @@ tapi di sini dilist satu-satu (class dari material angular) supaya tau dan gampa
 .mat-column-point {
     border-right: none;
 }
-.mat-column-created_at {
+.mat-column-created_at,
+.mat-column-date_time {
     border-left: 1px solid #e0e0e0;
 }
 .mat-column-data {

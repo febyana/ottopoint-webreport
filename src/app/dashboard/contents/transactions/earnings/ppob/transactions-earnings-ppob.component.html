@@ -75,7 +75,7 @@
 
                 <ng-container matColumnDef="merchant_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Merchant
+                        Merchant ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.merchant_id}}</td>
                 </ng-container>
@@ -105,7 +105,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date Time
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.date_time | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.date_time | date : "medium"}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="reff_number">
@@ -147,21 +147,21 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.date | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.date | date : "medium"}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="created_at" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Transaction Date
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.created_at | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.created_at | date : "medium"}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="updated_at">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Updated At
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.updated_at | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.updated_at | date : "medium"}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="product_code">
@@ -180,7 +180,7 @@
 
                 <ng-container matColumnDef="cust_id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Customer
+                        Customer ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.cust_id}}</td>
                 </ng-container>

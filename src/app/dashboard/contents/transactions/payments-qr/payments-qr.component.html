@@ -92,14 +92,14 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Created At
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.created_at | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.created_at | date : "medium"}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="updated_at">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Updated At
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.updated_at | date}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.updated_at | date : "medium"}}</td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

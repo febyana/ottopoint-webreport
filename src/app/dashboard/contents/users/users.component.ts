@@ -338,7 +338,12 @@ export class DialogAddEligibleComponent implements OnInit {
     this.dataForm = this.formBuilder.group({
       nama: ['', Validators.required],
       merchant_id: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [
+        Validators.pattern,
+        Validators.required,
+        Validators.minLength(12),
+        Validators.maxLength(12)
+      ]],
       institution: [undefined, Validators.required],
     });
   }
@@ -400,6 +405,9 @@ export class DialogRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.data.lastName === '') {
+      this.data.lastName = '-';
+    }
     this.dataForm = this.formBuilder.group({
       firstName: [this.data.firstName, Validators.required],
       lastName: [this.data.lastName, Validators.required],
@@ -408,12 +416,12 @@ export class DialogRegisterComponent implements OnInit {
     });
   }
 
-  cancel(): void {
+  no(): void {
     event.preventDefault();
     this.dialogRef.close();
   }
 
-  submit() {
+  yes() {
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
@@ -430,12 +438,15 @@ export class DialogRegisterComponent implements OnInit {
       this.data,
       window.localStorage.getItem('token')
     ).subscribe((res: RegisterUserRes) => {
+      console.log(res.data);
       if (res.data !== null) {
         this.dialogRef.close(true);
+        return;
       }
       this.isLoadingResults = false;
       this.dialogRef.close(false);
       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+      return;
     });
   }
 }
