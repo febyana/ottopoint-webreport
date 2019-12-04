@@ -101,6 +101,7 @@ export class UsersComponent {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetUsers(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -148,6 +149,7 @@ export class UsersComponent {
         this.paginator.pageIndex = 0;
         this.sort.active = 'id';
         this.sort.direction = 'desc';
+        console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
@@ -180,6 +182,7 @@ export class UsersComponent {
     dialogRef.afterClosed().subscribe(valid => {
       if (valid === true) {
         this.isLoadingResults = true;
+        console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
@@ -211,6 +214,7 @@ export class UsersComponent {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
+    console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       0,
@@ -253,6 +257,7 @@ export class UsersComponent {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+    console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -283,6 +288,7 @@ export class UsersComponent {
     this.fq.phone = '';
     this.fq.email = '';
     this.fq.merchant_id = '';
+    console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -365,6 +371,7 @@ export class DialogAddEligibleComponent implements OnInit {
       phone: this.dataForm.value.phone,
       institution: this.dataForm.value.institution
     };
+    console.log('query :\n', this.req);
     this.apiService.APIEligibleUser(
       this.req,
       window.localStorage.getItem('token')
@@ -433,12 +440,11 @@ export class DialogRegisterComponent implements OnInit {
       phone: this.dataForm.value.phone,
       institution: this.dataForm.value.institution
     };
-
+    console.log('query :\n', this.data);
     this.apiService.APIRegisterUser(
       this.data,
       window.localStorage.getItem('token')
     ).subscribe((res: RegisterUserRes) => {
-      console.log(res.data);
       if (res.data !== null) {
         this.dialogRef.close(true);
         return;

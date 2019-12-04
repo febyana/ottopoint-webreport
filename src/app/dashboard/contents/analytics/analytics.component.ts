@@ -40,7 +40,6 @@ export class AnalyticsComponent {
   private chartTransactions: am4charts.XYChart;
 
   constructor(
-    private zone: NgZone,
     private apiService: ApiService,
     private router: Router,
     private snackBar: MatSnackBar

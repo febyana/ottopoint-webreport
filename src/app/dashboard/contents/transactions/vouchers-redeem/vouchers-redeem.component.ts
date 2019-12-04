@@ -82,6 +82,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetTransactionsVouchersRedeem(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -130,6 +131,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       0,
@@ -198,6 +200,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -233,6 +236,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.fq.campaign_id = '';
     this.fq.coupon_id = '';
     this.fq.product_code = '';
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

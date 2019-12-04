@@ -80,6 +80,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetTransactionsEarningsQR(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -128,6 +129,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       0,
@@ -180,6 +182,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -210,6 +213,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     this.fq.through_date =  null;
     this.fq.sender_phone = '';
     this.fq.recipient_phone = '';
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

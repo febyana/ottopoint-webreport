@@ -103,6 +103,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetTransactionsEarningsPPOB(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -113,13 +114,13 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
           );
         }),
         map(res => {
-          this.dataTableLength = res.total;
           this.isLoadingResults = false;
           if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
+          this.dataTableLength = res.total;
           if ( res.total === 0 ) {
             this.isNoData = true;
             return;
@@ -151,6 +152,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsPPOB(
       window.localStorage.getItem('token'),
       0,
@@ -208,7 +210,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
-    console.log(this.query);
+    console.log('query :\n', this.query);
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
@@ -245,6 +247,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     this.fq.type_trans = undefined;
     this.fq.product_code = '';
     this.fq.product_type = undefined;
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsPPOB(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

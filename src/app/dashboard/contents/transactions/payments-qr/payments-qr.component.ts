@@ -82,6 +82,7 @@ export class PaymentsQRComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetTransactionsPaymentsQR(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -133,6 +134,7 @@ export class PaymentsQRComponent implements AfterViewInit {
       // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
     };
     const csvExporter = new ExportToCsv(options);
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       0,
@@ -193,6 +195,7 @@ export class PaymentsQRComponent implements AfterViewInit {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -226,6 +229,7 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.fq.amount = '';
     this.fq.account_number = '';
     this.fq.rrn = '';
+    console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
