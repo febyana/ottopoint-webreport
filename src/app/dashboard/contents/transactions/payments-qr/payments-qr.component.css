@@ -50,19 +50,9 @@ mat-form-field{
 ::ng-deep snack-bar-container.snack-bar-ekstra-css{
     margin-top: 50%;
 }
-/* 
-sebenarnya bisa dipakaikan class agar tidak dilist satu-satu,
-tapi di sini dilist satu-satu supaya tau dan gampang edit style tiap kolom 
-*/
-.mat-column-phone,
-.mat-column-merchant_id,
-.mat-column-amount,
-.mat-column-account_number,
-.mat-column-rrn,
-.mat-column-created_at,
-.mat-column-updated_at {
+
+[class*=mat-column] {
     white-space: nowrap;
-    padding: 0 8px;
+    padding: 8px;
     border-right: 1px solid #e0e0e0;
 }
-

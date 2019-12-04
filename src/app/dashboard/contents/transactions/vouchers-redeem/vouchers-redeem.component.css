@@ -51,21 +51,7 @@ mat-form-field{
     margin-top: 50%;
 }
 
-/* 
-sebenarnya bisa dipakaikan class agar tidak dilist satu-satu,
-tapi di sini dilist satu-satu supaya tau dan gampang edit style tiap kolom 
-*/
-.mat-column-id,
-.mat-column-nama,
-.mat-column-phone,
-.mat-column-rc,
-.mat-column-voucher,
-.mat-column-campaign_id,
-.mat-column-coupon_id,
-.mat-column-product_code,
-.mat-column-created_at,
-.mat-column-updated_at,
-.mat-column-nama {
+[class*=mat-column] {
     white-space: nowrap;
     padding: 8px;
     border-right: 1px solid #e0e0e0;

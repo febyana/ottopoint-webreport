@@ -41,13 +41,16 @@ export class PaymentsQRComponent implements AfterViewInit {
 
   displayedColumns: string[] = [
     // 'id',
-    'merchant_id',
-    'phone',
-    'amount',
-    'account_number',
+    'mid_merchant',
+    'mid_customer',
+    'phone_merchant',
+    'phone_customer',
     'rrn',
+    'amount',
+    'point',
+    'date_time',
     'created_at',
-    'updated_at',
+    // 'updated_at',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;

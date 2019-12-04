@@ -39,8 +39,11 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
 
   displayedColumns: string[] = [
     // 'id',
-    'merchant_id',
-    'cust_id',
+    'mid_merchant',
+    'mid_customer',
+    'phone_merchant',
+    'phone_customer',
+    'rrn',
     'amount',
     'point',
     'date_time',

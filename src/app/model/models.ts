@@ -34,11 +34,13 @@ export interface ExportUsersToCSVReq {
 // [get] http://localhost:4200/#/dashboard/transactions/payments/qr
 export interface TransactionPaymentsQR {
     id: number;
-    merchant_id: string;
-    phone: string;
-    amount: number;
-    account_number: string;
+    mid_merchant: string;
+    mid_customer: string;
+    phone_merchant: string;
+    phone_customer: string;
     rrn: string;
+    amount: number;
+    point: number;
     created_at: string;
     updated_at: string;
 }
@@ -90,13 +92,15 @@ export interface ExportTransactionsEarningsPPOBToCSVReq {
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/qr
 export interface TransactionEarningQR {
     id: number;
-    merchant_id: string;
-    cust_id: string;
+    mid_merchant: string;
+    mid_customer: string;
+    phone_merchant: string;
+    phone_customer: string;
+    rrn: string;
     amount: number;
-    date_time: string;
+    point: number;
     created_at: string;
     updated_at: string;
-    point: number;
 }
 export interface GetTransactionsEarningsQRRes {
     data: TransactionEarningQR[];

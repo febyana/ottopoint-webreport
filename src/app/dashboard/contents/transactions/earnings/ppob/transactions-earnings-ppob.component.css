@@ -51,26 +51,7 @@ mat-form-field{
     margin-top: 50%;
 }
 
-/* 
-sebenarnya bisa dipakaikan class buatan sendiri agar tidak dilist satu-satu,
-tapi di sini dilist satu-satu (class dari material angular) supaya tau dan gampang edit style tiap kolom 
-*/
-.mat-column-merchant_id,
-.mat-column-phone,
-.mat-column-fee_amount,
-.mat-column-product_name,
-.mat-column-date_time,
-.mat-column-reff_number,
-.mat-column-type_trans,
-.mat-column-type_trx,
-.mat-column-data,
-.mat-column-date,
-.mat-column-product_type,
-.mat-column-product_code,
-.mat-column-created_at,
-.mat-column-updated_at,
-.mat-column-point,
-.mat-column-cust_id {
+[class*=mat-column] {
     white-space: nowrap;
     padding: 8px;
     border-right: 1px solid #e0e0e0;

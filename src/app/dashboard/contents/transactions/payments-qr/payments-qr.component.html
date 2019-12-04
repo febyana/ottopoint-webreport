@@ -44,7 +44,8 @@
             </div>
         </div>
         <div class="table-container">
-            <table mat-table [dataSource]="dataTable" matSort matSortActive="id" matSortDirection="desc" matSortDisableClear >
+                <table mat-table [dataSource]="dataTable"
+                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
                 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
@@ -53,32 +54,32 @@
                     <td mat-cell *matCellDef="let row">{{row.id}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="merchant_id">
+                <ng-container matColumnDef="mid_merchant">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Merchant
+                        ID Merchant
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.merchant_id}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.mid_merchant}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="phone">
+                <ng-container matColumnDef="mid_customer">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Phone
+                        ID Customer
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.mid_customer}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="amount">
+                <ng-container matColumnDef="phone_merchant">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Amount
+                        Phone Customer
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.amount}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.phone_merchant}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="account_number">
+                <ng-container matColumnDef="phone_customer">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Account Number
+                        Phone Customer
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.account_number}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.phone_customer}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="rrn">
@@ -88,9 +89,30 @@
                     <td mat-cell *matCellDef="let row">{{row.rrn}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="created_at">
+                <ng-container matColumnDef="amount">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Created At
+                        Amount
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.amount}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="point">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.point}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_time">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Date Time
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.date_time | date : "medium"}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="created_at" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Transaction Date
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.created_at | date : "medium"}}</td>
                 </ng-container>

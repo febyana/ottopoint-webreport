@@ -90,8 +90,8 @@
                         Action
                     </th>
                     <td mat-cell *matCellDef="let row">
-                        <button *ngIf="!row.cust_id" mat-stroked-button color="warn" (click)="openFormRegisterUser(row)">Register</button>
-                        <button *ngIf="row.cust_id" mat-stroked-button disabled>Registered</button>
+                        <button *ngIf="!row.cust_id" mat-stroked-button color="warn" (click)="openFormRegisterUser(row)" style="width: 100px;">Register</button>
+                        <button *ngIf="row.cust_id" mat-stroked-button disabled style="width: 100px;">Registered</button>
                     </td>
                 </ng-container>
     

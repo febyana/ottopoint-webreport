@@ -52,29 +52,10 @@ mat-form-field {
     margin-top: 50%;
 }
 
-/* 
-sebenarnya bisa dipakaikan class agar tidak dilist satu-satu,
-tapi di sini dilist satu-satu supaya tau dan gampang edit style tiap kolom 
-*/
-.mat-column-nama,
-.mat-column-phone,
-.mat-column-cust_id,
-.mat-column-email,
-.mat-column-merchant_id,
-.mat-column-status,
-.mat-column-action {
+[class*=mat-column] {
     white-space: nowrap;
-    padding: 0 8px;
+    padding: 8px;
     border-right: 1px solid #e0e0e0;
-}
-.mat-column-nama {
-    border-right: none;
-}
-.mat-column-phone {
-    border-left: 1px solid #e0e0e0;
-}
-.mat-column-status {
-    border-right: none;
 }
 .mat-column-action {
     border-left: 1px solid #e0e0e0;
