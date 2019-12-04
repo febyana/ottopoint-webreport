@@ -41,6 +41,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
 
   displayedColumns: string[] = [
     // 'id',
+    'no',
     'merchant_id',
     'cust_id',
     'phone',

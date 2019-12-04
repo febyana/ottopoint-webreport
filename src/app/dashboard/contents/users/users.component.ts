@@ -45,6 +45,7 @@ export class UsersComponent {
 
   displayedColumns: string[] = [
     // 'id',
+    'no',
     'nama',
     'phone',
     'cust_id',
@@ -102,6 +103,7 @@ export class UsersComponent {
         switchMap(() => {
           this.isLoadingResults = true;
           console.log('query :\n', this.query);
+          console.log('page index :\n', this.paginator.pageIndex);
           return this.apiService.APIGetUsers(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,

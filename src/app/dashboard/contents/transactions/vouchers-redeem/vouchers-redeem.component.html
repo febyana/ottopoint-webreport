@@ -60,6 +60,13 @@
                         <td mat-cell *matCellDef="let row">{{row.id}}</td>
                     </ng-container>
 
+                    <ng-container matColumnDef="no" sticky>
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            No
+                        </th>
+                        <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
+                    </ng-container>
+
                     <ng-container matColumnDef="nama">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                             Name

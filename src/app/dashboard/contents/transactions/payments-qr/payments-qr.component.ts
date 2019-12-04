@@ -41,6 +41,7 @@ export class PaymentsQRComponent implements AfterViewInit {
 
   displayedColumns: string[] = [
     // 'id',
+    'no',
     'mid_merchant',
     'mid_customer',
     'phone_merchant',

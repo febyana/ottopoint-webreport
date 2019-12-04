@@ -39,6 +39,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
 
   displayedColumns: string[] = [
     // 'id',
+    'no',
     'nama',
     'phone',
     'rc',

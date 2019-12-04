@@ -5,20 +5,21 @@
 <h1 mat-dialog-title>Add New Eligible User</h1>
 <form [formGroup]="dataForm" (ngSubmit) = "submit()">
     <div mat-dialog-content>
-        <mat-form-field>
+        <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="Name" formControlName="nama">
             <mat-error *ngIf="f.nama.errors">
                 Name is <strong>required</strong>
             </mat-error>
         </mat-form-field>
-        <br>
-        <mat-form-field>
+        
+        <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="Merchant ID" formControlName="merchant_id">
             <mat-error *ngIf="f.merchant_id.errors">
                 Merchant ID is <strong>required</strong>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
+
+        <mat-form-field style="margin-bottom: 2%;">
             <input matInput pattern="[0-9]*" placeholder="Phone" formControlName="phone">
             <mat-error *ngIf="f.phone.errors">
                 Phone
