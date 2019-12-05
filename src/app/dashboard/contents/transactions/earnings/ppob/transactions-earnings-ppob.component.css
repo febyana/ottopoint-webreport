@@ -56,19 +56,6 @@ mat-form-field{
     padding: 8px;
     border-right: 1px solid #e0e0e0;
 }
-.mat-column-cust_id {
-    white-space: normal;
-}
-.mat-column-merchant_id {
-    white-space: normal;
-}
-.mat-column-point {
-    border-right: none;
-}
-.mat-column-created_at,
-.mat-column-date_time {
+.mat-column-created_at {
     border-left: 1px solid #e0e0e0;
-}
-.mat-column-data {
-    border-right: none;
 }

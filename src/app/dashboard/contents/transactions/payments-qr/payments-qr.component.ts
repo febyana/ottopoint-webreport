@@ -32,9 +32,9 @@ export class PaymentsQRComponent implements AfterViewInit {
     from_date: null,
     through_date: null,
     merchant_id: '',
-    phone: '',
-    amount: '',
-    account_number: '',
+    customer_id: '',
+    merchant_phone: '',
+    customer_phone: '',
     rrn: ''
   };
   buffTotalData = 0;
@@ -49,7 +49,7 @@ export class PaymentsQRComponent implements AfterViewInit {
     'rrn',
     'amount',
     'point',
-    'date_time',
+    // 'date_time',
     'created_at',
     // 'updated_at',
   ];
@@ -156,8 +156,15 @@ export class PaymentsQRComponent implements AfterViewInit {
         this.snackBar.open('Failed to export data', 'close', this.matSnackBarConfig);
         return;
       }
-      csvExporter.generateCsv(res.data);
       this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
+      let no = 1;
+      buff.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
+      csvExporter.generateCsv(buff);
     });
   }
 
@@ -183,14 +190,14 @@ export class PaymentsQRComponent implements AfterViewInit {
     if (this.fq.merchant_id !== '') {
       this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
-    if (this.fq.phone !== '') {
-      this.query = this.query + 'phone:' + this.fq.phone + ',';
+    if (this.fq.customer_id !== '') {
+      this.query = this.query + 'customer_id:' + this.fq.customer_id + ',';
     }
-    if (this.fq.amount !== '') {
-      this.query = this.query + 'amount:' + this.fq.amount + ',';
+    if (this.fq.merchant_phone !== '') {
+      this.query = this.query + 'merchant_phone:' + this.fq.merchant_phone + ',';
     }
-    if (this.fq.account_number !== '') {
-      this.query = this.query + 'account_number:' + this.fq.account_number + ',';
+    if (this.fq.customer_phone !== '') {
+      this.query = this.query + 'customer_phone:' + this.fq.customer_phone + ',';
     }
     if (this.fq.rrn !== '') {
       this.query = this.query + 'rrn:' + this.fq.rrn + ',';
@@ -229,9 +236,9 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.fq.from_date = null;
     this.fq.through_date =  null;
     this.fq.merchant_id = '';
-    this.fq.phone = '';
-    this.fq.amount = '';
-    this.fq.account_number = '';
+    this.fq.customer_id = '';
+    this.fq.merchant_phone = '';
+    this.fq.customer_phone = '';
     this.fq.rrn = '';
     console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsPaymentsQR(

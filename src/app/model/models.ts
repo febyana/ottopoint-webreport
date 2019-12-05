@@ -1,3 +1,5 @@
+import { string } from '@amcharts/amcharts4/core';
+
 export interface MetaRes {
     status: boolean;
     code: number;
@@ -16,8 +18,8 @@ export interface User {
     id: number;
     nama: string;
     phone: string;
-    cust_id: string;
     email: string;
+    cust_id: string;
     merchant_id: string;
     status: boolean;
 }
@@ -41,6 +43,7 @@ export interface TransactionPaymentsQR {
     rrn: string;
     amount: number;
     point: number;
+    date_time: string;
     created_at: string;
     updated_at: string;
 }
@@ -99,6 +102,7 @@ export interface TransactionEarningQR {
     rrn: string;
     amount: number;
     point: number;
+    date_time: string;
     created_at: string;
     updated_at: string;
 }
@@ -117,15 +121,14 @@ export interface ExportTransactionsEarningsQRToCSVRequest {
 // [get] http://localhost:4200/#/dashboard/transactions/vouchers/redeem
 export interface TransactionVoucherRedeem {
     id: number;
-    nama: string;
-    phone: string;
-    rc: string;
-    voucher: string;
-    campaign_id: string;
-    coupon_id: string;
-    product_code: string;
+    cust_id: string;
+    trans_type: string;
+    status: string;
+    date_time: string;
     created_at: string;
     updated_at: string;
+    product_code: string;
+    rrn: string;
 }
 export interface GetTransactionsVouchersRedeemRes {
     data: TransactionVoucherRedeem[];

@@ -22,6 +22,7 @@ import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
+import { number } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-users',
@@ -48,8 +49,8 @@ export class UsersComponent {
     'no',
     'nama',
     'phone',
-    'cust_id',
     'email',
+    'cust_id',
     'merchant_id',
     'status',
     'action',
@@ -103,7 +104,6 @@ export class UsersComponent {
         switchMap(() => {
           this.isLoadingResults = true;
           console.log('query :\n', this.query);
-          console.log('page index :\n', this.paginator.pageIndex);
           return this.apiService.APIGetUsers(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -212,8 +212,8 @@ export class UsersComponent {
       title: 'Users Data',
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+      // useKeysAsHeaders: true,
+      headers: ['No', 'Name', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -236,6 +236,12 @@ export class UsersComponent {
       }
       // this.dialogRef.close();
       this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
       csvExporter.generateCsv(res.data);
     });
   }

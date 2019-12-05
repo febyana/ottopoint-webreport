@@ -33,8 +33,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    sender_phone: '',
-    recipient_phone: ''
+    merchant_phone: '',
+    customer_phone: ''
   };
 
   displayedColumns: string[] = [
@@ -47,7 +47,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     'rrn',
     'amount',
     'point',
-    'date_time',
+    // 'date_time',
     'created_at',
     // 'updated_at',
   ];
@@ -129,8 +129,9 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
       title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+      // useKeysAsHeaders: true,
+      headers: ['No', 'Merchant ID', 'Customer ID', 'Merchant Phone',
+      'Customer Phone', 'RRN', 'Amount', 'Point', 'Transaction Date']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -153,7 +154,14 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         return;
       }
       this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.data);
+      const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
+      let no = 1;
+      buff.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
+      csvExporter.generateCsv(buff);
     });
   }
 
@@ -176,11 +184,11 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
-    if (this.fq.sender_phone !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.sender_phone + ',';
+    if (this.fq.merchant_phone !== '') {
+      this.query = this.query + 'phone_merchant:' + this.fq.merchant_phone + ',';
     }
-    if (this.fq.recipient_phone !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.recipient_phone + ',';
+    if (this.fq.customer_phone !== '') {
+      this.query = this.query + 'phone_customer:' + this.fq.customer_phone + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     if (this.query !== '') {
@@ -215,8 +223,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.sender_phone = '';
-    this.fq.recipient_phone = '';
+    this.fq.merchant_phone = '';
+    this.fq.customer_phone = '';
     console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),

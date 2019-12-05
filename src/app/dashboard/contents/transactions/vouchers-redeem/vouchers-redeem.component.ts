@@ -28,27 +28,24 @@ export class VouchersRedeemComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    nama: '',
-    phone: '',
-    rc: '',
-    voucher: '',
-    campaign_id: '',
-    coupon_id: '',
+    cust_id: '',
     product_code: '',
+    trans_type: '',
+    rrn: '',
+    status: '',
   };
 
   displayedColumns: string[] = [
     // 'id',
     'no',
-    'nama',
-    'phone',
-    'rc',
-    'voucher',
-    'campaign_id',
-    'coupon_id',
+    'cust_id',
     'product_code',
-    // 'updated_at',
+    'trans_type',
+    'rrn',
+    'status',
+    // 'date_time',
     'created_at'
+    // 'updated_at',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
@@ -128,8 +125,8 @@ export class VouchersRedeemComponent implements AfterViewInit {
       title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+      // useKeysAsHeaders: true,
+      headers: ['No', 'Customer ID', 'Transaction Type', 'Status', 'Transaction Date', 'Product Code', 'RRN']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -151,6 +148,13 @@ export class VouchersRedeemComponent implements AfterViewInit {
         return;
       }
       this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
+      let no = 1;
+      buff.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
       csvExporter.generateCsv(res.data);
     });
   }
@@ -174,26 +178,20 @@ export class VouchersRedeemComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
-    if (this.fq.nama !== '') {
-      this.query = this.query + 'nama.icontains:' + this.fq.nama + ',';
-    }
-    if (this.fq.phone !== '') {
-      this.query = this.query + 'phone:' + this.fq.phone + ',';
-    }
-    if (this.fq.rc !== '') {
-      this.query = this.query + 'rc.icontains:' + this.fq.rc + ',';
-    }
-    if (this.fq.voucher !== '') {
-      this.query = this.query + 'voucher.icontains:' + this.fq.voucher + ',';
-    }
-    if (this.fq.campaign_id !== '') {
-      this.query = this.query + 'campaign_id.icontains:' + this.fq.campaign_id + ',';
-    }
-    if (this.fq.coupon_id !== '') {
-      this.query = this.query + 'coupon_id.icontains:' + this.fq.coupon_id + ',';
+    if (this.fq.cust_id !== '') {
+      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
     }
     if (this.fq.product_code !== '') {
       this.query = this.query + 'product_code.icontains:' + this.fq.product_code + ',';
+    }
+    if (this.fq.trans_type !== '') {
+      this.query = this.query + 'trans_type.icontains:' + this.fq.trans_type + ',';
+    }
+    if (this.fq.rrn !== '') {
+      this.query = this.query + 'rrn.icontains:' + this.fq.rrn + ',';
+    }
+    if (this.fq.status !== '') {
+      this.query = this.query + 'status.icontains:' + this.fq.status + ',';
     }
     // replace tanda (,) terakhir
     this.query = this.query.replace(/.$/g, '');
@@ -230,13 +228,11 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.nama = '';
-    this.fq.phone = '';
-    this.fq.rc = '';
-    this.fq.voucher = '';
-    this.fq.campaign_id = '';
-    this.fq.coupon_id = '';
+    this.fq.cust_id = '';
     this.fq.product_code = '';
+    this.fq.trans_type = '';
+    this.fq.rrn = '';
+    this.fq.status = '';
     console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),

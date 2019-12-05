@@ -31,8 +31,8 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    phone: '',
     cust_id: '',
+    phone: '',
     type_trans: undefined,
     product_code: '',
     product_type: undefined
@@ -45,18 +45,18 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     'merchant_id',
     'cust_id',
     'phone',
-    'fee_amount',
-    'product_code',
     'product_name',
+    'product_code',
     'product_type',
-    'reff_number',
+    'fee_amount',
+    'point',
     'type_trans',
-    'type_trx',
+    'reff_number',
+    // 'type_trx',
     'data',
     // 'updated_at',
-    'date_time',
-    'date',
-    'point',
+    // 'date_time',
+    // 'date',
     'created_at',
   ];
   dataTable = new MatTableDataSource();
@@ -149,8 +149,10 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       title: 'Users Data \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+      // useKeysAsHeaders: true,
+      headers: ['No', 'Merchant ID', 'Phone', 'Customer ID', 'Fee Amount',
+      'Product Name', 'Refferance Number', 'Transactions Type', 'Product Type', 'Data',
+      'Transaction Date', 'Product Code', 'Point']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -172,7 +174,24 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
         return;
       }
       this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.data);
+      const buff = res.data.map(({ type_trx, updated_at, date_time, date, ...item}) => item );
+      let no = 1;
+      buff.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+          switch (e.type_trans) {
+            case '2001':
+              e.type_trans = 'Inqury';
+              break;
+            case '2002':
+              e.type_trans = 'Payment';
+              break;
+            default:
+              break;
+          }
+        }
+      });
+      csvExporter.generateCsv(buff);
     });
   }
 
