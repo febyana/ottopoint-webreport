@@ -234,8 +234,7 @@ export class UsersComponent {
         this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
         return;
       }
-      // this.dialogRef.close();
-      this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      // this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
       let no = 1;
       res.data.forEach((e) => {
         if (typeof e === 'object' ) {

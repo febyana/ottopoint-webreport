@@ -28,9 +28,11 @@ export class VouchersRedeemComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    cust_id: '',
+    voucher: '',
     product_code: '',
-    trans_type: '',
+    trans_type: undefined,
+    cust_id: '',
+    institution: undefined,
     rrn: '',
     status: '',
   };
@@ -38,9 +40,13 @@ export class VouchersRedeemComponent implements AfterViewInit {
   displayedColumns: string[] = [
     // 'id',
     'no',
-    'cust_id',
+    'voucher',
     'product_code',
     'trans_type',
+    'amount',
+    'account_number',
+    'cust_id',
+    'institution',
     'rrn',
     'status',
     // 'date_time',
@@ -126,7 +132,8 @@ export class VouchersRedeemComponent implements AfterViewInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Customer ID', 'Transaction Type', 'Status', 'Transaction Date', 'Product Code', 'RRN']
+      headers: ['No', 'Account Number', 'Voucher', 'Customer ID', 'RRN',
+      'Product Code', 'Amount', 'Transactions Type', 'status', 'Institution', 'Transaction Date']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -147,7 +154,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
         this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
-      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
       const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
       let no = 1;
       buff.forEach((e) => {
@@ -155,7 +162,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
           e.id = no++;
         }
       });
-      csvExporter.generateCsv(res.data);
+      csvExporter.generateCsv(buff);
     });
   }
 
@@ -178,17 +185,23 @@ export class VouchersRedeemComponent implements AfterViewInit {
         this.fq.through_date.getDate() - 1
       );
     }
-    if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+    if (this.fq.voucher !== '') {
+      this.query = this.query + 'voucher.icontains:' + this.fq.voucher + ',';
     }
     if (this.fq.product_code !== '') {
-      this.query = this.query + 'product_code.icontains:' + this.fq.product_code + ',';
+      this.query = this.query + 'product_code:' + this.fq.product_code + ',';
     }
-    if (this.fq.trans_type !== '') {
-      this.query = this.query + 'trans_type.icontains:' + this.fq.trans_type + ',';
+    if (this.fq.trans_type !== undefined) {
+      this.query = this.query + 'trans_type:' + this.fq.trans_type + ',';
+    }
+    if (this.fq.cust_id !== '') {
+      this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
     }
     if (this.fq.rrn !== '') {
       this.query = this.query + 'rrn.icontains:' + this.fq.rrn + ',';
+    }
+    if (this.fq.institution !== '') {
+      this.query = this.query + 'institution:' + this.fq.institution + ',';
     }
     if (this.fq.status !== '') {
       this.query = this.query + 'status.icontains:' + this.fq.status + ',';

@@ -156,7 +156,7 @@ export class PaymentsQRComponent implements AfterViewInit {
         this.snackBar.open('Failed to export data', 'close', this.matSnackBarConfig);
         return;
       }
-      this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
       const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
       let no = 1;
       buff.forEach((e) => {

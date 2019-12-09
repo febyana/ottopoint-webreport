@@ -121,14 +121,18 @@ export interface ExportTransactionsEarningsQRToCSVRequest {
 // [get] http://localhost:4200/#/dashboard/transactions/vouchers/redeem
 export interface TransactionVoucherRedeem {
     id: number;
+    account_number: string;
+    voucher: string;
     cust_id: string;
+    rrn: string;
+    product_code: string;
+    amount: number;
     trans_type: string;
     status: string;
+    institution: string;
     date_time: string;
     created_at: string;
     updated_at: string;
-    product_code: string;
-    rrn: string;
 }
 export interface GetTransactionsVouchersRedeemRes {
     data: TransactionVoucherRedeem[];
