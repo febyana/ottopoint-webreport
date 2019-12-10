@@ -163,6 +163,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
       buff.forEach((e) => {
         if (typeof e === 'object' ) {
           e.id = no++;
+          e.status = e.status.replace(/0|1|2|9| |\(|\)/g, '');
         }
       });
       csvExporter.generateCsv(buff);
