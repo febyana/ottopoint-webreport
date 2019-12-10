@@ -342,6 +342,15 @@ export class DialogShowDataComponent implements OnInit {
     const arrData = this.data.split(' || ');
     for (const splitData of arrData) {
       const arrSplitData = splitData.split(' : ');
+      const keys = arrSplitData[0].split('_');
+      arrSplitData[0] = '';
+      for (let key of keys) {
+        key = key.replace(/^./g, key[0].toUpperCase());
+        if (key.length <= 3) {
+          key = key.toUpperCase();
+        }
+        arrSplitData[0] = arrSplitData[0] + key + ' ';
+      }
       this.obj = {
         key: arrSplitData[0],
         value: arrSplitData[1],

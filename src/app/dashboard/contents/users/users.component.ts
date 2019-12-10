@@ -55,7 +55,7 @@ export class UsersComponent {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -80,6 +80,10 @@ export class UsersComponent {
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
+    this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
+    console.log(
+      'screen height :\n', window.screen.height,
+      '\nheightFilterAndActions :\n', document.getElementById('heightFilterAndActions').offsetHeight);
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [

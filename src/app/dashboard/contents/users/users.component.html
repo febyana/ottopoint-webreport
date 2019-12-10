@@ -4,30 +4,33 @@
     </div>
     <!-- judul -->
     <h1>User</h1>
-    <!-- filters -->
-    <br>
-    <mat-form-field class="filter-field">
-        <input matInput placeholder="Nama" [(ngModel)]="fq.nama">
-    </mat-form-field>
-    <mat-form-field class="filter-field">
-        <input matInput placeholder="Phone" [(ngModel)]="fq.phone">
-    </mat-form-field>
-    <mat-form-field class="filter-field">
-        <input matInput placeholder="Email" [(ngModel)]="fq.email">
-    </mat-form-field>
-    <mat-form-field class="filter-field">
-        <input matInput placeholder="Merchant ID" [(ngModel)]="fq.merchant_id">
-    </mat-form-field>
-    <!-- actions -->
-    <br>
-    <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
-    <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
-    <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
-        Export to CSV
-    </button>
-    <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormAddEligibleUser()" *ngIf='isCanCreate'>
-        Add Eligible
-    </button>
+    <div id="heightFilterAndActions">
+        <!-- filters -->
+        <br>
+        <mat-form-field class="filter-field">
+            <input matInput placeholder="Nama" [(ngModel)]="fq.nama">
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+            <input matInput placeholder="Phone" [(ngModel)]="fq.phone">
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+            <input matInput placeholder="Email" [(ngModel)]="fq.email">
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+            <input matInput placeholder="Merchant ID" [(ngModel)]="fq.merchant_id">
+        </mat-form-field>
+        <!-- actions -->
+        <br>
+        <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
+        <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
+        <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
+            Export to CSV
+        </button>
+        <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormAddEligibleUser()" *ngIf='isCanCreate'>
+            Add Eligible
+        </button>
+    </div>
+    
     <!-- table -->
     <div class="parent-table-container">
         <div class="loading-shade" *ngIf="isLoadingResults || isNoData">

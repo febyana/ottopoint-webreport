@@ -23,7 +23,7 @@
         <input matInput placeholder="Customer phone" [(ngModel)]="fq.customer_phone">
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <input matInput placeholder="RRN" [(ngModel)]="fq.rrn">
+        <input matInput placeholder="Reff number" [(ngModel)]="fq.rrn">
     </mat-form-field>
     <!-- actions -->
     <br>
@@ -88,7 +88,7 @@
 
                 <ng-container matColumnDef="rrn">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        RRN
+                        Reff Number
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.rrn}}</td>
                 </ng-container>
