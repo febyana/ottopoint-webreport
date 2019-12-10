@@ -124,13 +124,13 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'transactions_qr' + Date().toLocaleString(),
+      filename: 'transactions_earnings_qr' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Trasnsactions Qr \nDownloaded At : ' + Date().toLocaleString(),
+      title: 'Trasnsactions Earnings QR \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,

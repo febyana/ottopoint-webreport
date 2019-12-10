@@ -153,13 +153,13 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'user_data_' + Date().toLocaleString(),
+      filename: 'transactions_earnings_ppob_' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Users Data \nDownloaded At : ' + Date().toLocaleString(),
+      title: 'Transactions Earnings PPOB \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,

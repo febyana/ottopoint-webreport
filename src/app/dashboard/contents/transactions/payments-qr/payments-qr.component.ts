@@ -128,13 +128,13 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'payment_qr_data_' + Date().toLocaleString(),
+      filename: 'transactions_payments_qr_' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Payment Qr Data',
+      title: 'Trasnsactions Payments QR \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
