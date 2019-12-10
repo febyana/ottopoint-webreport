@@ -9,9 +9,8 @@ import { Router } from '@angular/router';
 import {
   GetTransactionsVouchersRedeemRes,
 } from '../../../../model/models';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
@@ -55,6 +54,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
+  tableHeight = window.screen.height * 0.35;
 
   isLoadingResults = true;
   isNoData = false;
@@ -150,7 +150,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
         this.router.navigateByUrl('/login');
         return;
       }
-      if (res.data === undefined || res.data.length === 0) {
+      if (res.total === 0) {
         this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
         return;
       }
@@ -198,9 +198,9 @@ export class VouchersRedeemComponent implements AfterViewInit {
       this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
     }
     if (this.fq.rrn !== '') {
-      this.query = this.query + 'rrn.icontains:' + this.fq.rrn + ',';
+      this.query = this.query + 'rrn:' + this.fq.rrn + ',';
     }
-    if (this.fq.institution !== '') {
+    if (this.fq.institution !== undefined) {
       this.query = this.query + 'institution:' + this.fq.institution + ',';
     }
     if (this.fq.status !== '') {

@@ -16,7 +16,6 @@ button{
     border: 1px solid #a5a5a5;
     position: relative;
     min-height: 200px;
-    max-height: 430px;
     overflow: auto;
 }
 table {
@@ -58,4 +57,7 @@ mat-form-field{
 }
 .mat-column-created_at {
     border-left: 1px solid #e0e0e0;
+}
+.mat-column-status {
+    border-right: none;
 }

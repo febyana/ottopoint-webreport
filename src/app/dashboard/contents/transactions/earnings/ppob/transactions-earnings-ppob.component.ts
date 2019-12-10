@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Inject, AfterViewChecked } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -11,12 +11,13 @@ import {
   ExportTransactionsEarningsPPOBToCSVReq
 } from '../../../../../model/models';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { string } from '@amcharts/amcharts4/core';
 
 
 @Component({
@@ -31,11 +32,13 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
+    merchant_id: '',
     cust_id: '',
     phone: '',
     type_trans: undefined,
     product_code: '',
-    product_type: undefined
+    product_type: undefined,
+    reff_number: '',
   };
   buffTotalData = 0;
 
@@ -137,6 +140,14 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
+  // row is get from users.component.html
+  showDialogData(rowData: string) {
+    this.dialog.open(DialogShowDataComponent, {
+      width: '50%',
+      data: rowData,
+    });
+  }
+
   exportToCSV() {
     // https://www.npmjs.com/package/export-to-csv
     const options = {
@@ -229,6 +240,9 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     if (this.fq.product_type !== undefined) {
       this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
     }
+    if (this.fq.reff_number !== '') {
+      this.query = this.query + 'reff_number:' + this.fq.reff_number + ',';
+    }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     console.log('query :\n', this.query);
     if (this.query !== '') {
@@ -289,5 +303,46 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       }
       this.isLoadingResults = false;
     });
+  }
+}
+
+@Component({
+  selector: 'app-dialog-show-data',
+  templateUrl: './dialogs/dialog-show-data.html',
+  styleUrls: ['./transactions-earnings-ppob.component.css']
+})
+export class DialogShowDataComponent implements OnInit {
+  displayedColumns: string[] = [
+    'key',
+    'value',
+  ];
+  dataTable = new MatTableDataSource();
+
+  elementDataTable: object[] = [];
+  obj = {
+    key: '',
+    value: ''
+  };
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogShowDataComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+  ) {}
+
+  ngOnInit() {
+    const arrData = this.data.split(' || ');
+    for (const splitData of arrData) {
+      const arrSplitData = splitData.split(' : ');
+      this.obj = {
+        key: arrSplitData[0],
+        value: arrSplitData[1],
+      };
+      this.elementDataTable.push(this.obj);
+    }
+    this.dataTable.data = this.elementDataTable;
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
 }

@@ -34,7 +34,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     from_date: null,
     through_date: null,
     merchant_phone: '',
-    customer_phone: ''
+    customer_phone: '',
+    rrn: '',
   };
 
   displayedColumns: string[] = [
@@ -189,6 +190,9 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     }
     if (this.fq.customer_phone !== '') {
       this.query = this.query + 'phone_customer:' + this.fq.customer_phone + ',';
+    }
+    if (this.fq.rrn !== '') {
+      this.query = this.query + 'rrn:' + this.fq.rrn + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda (,) terakhir
     if (this.query !== '') {

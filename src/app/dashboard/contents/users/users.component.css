@@ -58,6 +58,10 @@ mat-form-field {
     border-right: 1px solid #e0e0e0;
 }
 .mat-column-action {
+    border-right: none;
     border-left: 1px solid #e0e0e0;
+}
+.mat-column-status {
+    border-right: none;
 }
 

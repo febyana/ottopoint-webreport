@@ -37,9 +37,6 @@
             <input matInput placeholder="Customer ID" [(ngModel)]="fq.cust_id">
         </mat-form-field>
         <mat-form-field class="filter-field">
-            <input matInput placeholder="RRN" [(ngModel)]="fq.rrn">
-        </mat-form-field>
-        <mat-form-field class="filter-field">
             <mat-label>Institution</mat-label>
             <mat-select [(ngModel)]="fq.institution">
                 <mat-option [value]="">
@@ -52,6 +49,9 @@
                     Pede
                 </mat-option>
             </mat-select>
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+            <input matInput placeholder="RRN" [(ngModel)]="fq.rrn">
         </mat-form-field>
         <mat-form-field class="filter-field">
             <input matInput placeholder="Status" [(ngModel)]="fq.status">
@@ -71,7 +71,7 @@
                     No Data
                 </div>
             </div>
-            <div class="table-container">
+            <div class="table-container" [style.height.px]="tableHeight">
                 <table mat-table [dataSource]="dataTable"
                     matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
                     

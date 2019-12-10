@@ -19,6 +19,9 @@
     <mat-form-field class="filter-field">
         <input matInput placeholder="Customer phone" [(ngModel)]="fq.customer_phone">
     </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput placeholder="RRN" [(ngModel)]="fq.rrn">
+    </mat-form-field>
     <!-- actions -->
     <br>
     <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>

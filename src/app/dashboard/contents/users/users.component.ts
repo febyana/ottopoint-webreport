@@ -22,7 +22,6 @@ import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
-import { number } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-users',
@@ -42,7 +41,6 @@ export class UsersComponent {
     email: '',
     merchant_id: ''
   };
-  buffTotalData = 0;
 
   displayedColumns: string[] = [
     // 'id',
@@ -115,13 +113,14 @@ export class UsersComponent {
         }),
         map(res => {
           this.dataTableLength = res.total;
-          if (this.buffTotalData === 0) {
-            this.buffTotalData = res.total;
-          }
           this.isLoadingResults = false;
           if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
+            return;
+          }
+          if ( res.total === undefined) {
+            this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
             return;
           }
           if ( res.total === 0 ) {
@@ -216,6 +215,7 @@ export class UsersComponent {
       headers: ['No', 'Name', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
     };
     const csvExporter = new ExportToCsv(options);
+
     console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
@@ -255,7 +255,7 @@ export class UsersComponent {
       this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
     if (this.fq.email !== '') {
-      this.query = this.query + 'email.icontains:' + this.fq.email + ',';
+      this.query = this.query + 'email:' + this.fq.email + ',';
     }
     if (this.fq.merchant_id !== '') {
       this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
@@ -264,6 +264,7 @@ export class UsersComponent {
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+
     console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
@@ -276,6 +277,10 @@ export class UsersComponent {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
+        return;
+      }
+      if ( res.total === undefined) {
+        this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
         return;
       }
       this.dataTable.data = res.data;

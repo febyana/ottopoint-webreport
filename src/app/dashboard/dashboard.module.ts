@@ -17,6 +17,7 @@ import {
 } from './contents/users/users.component';
 import {
   TransactionsEarningsPPOBComponent,
+  DialogShowDataComponent
 } from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
 import {
   TransactionsEarningsQRComponent,
@@ -38,6 +39,7 @@ import {
     UsersComponent,
     AnalyticsComponent,
     TransactionsEarningsPPOBComponent,
+    DialogShowDataComponent,
     TransactionsEarningsQRComponent,
     DialogAddEligibleComponent,
     DialogRegisterComponent,
@@ -48,6 +50,7 @@ import {
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
+    DialogShowDataComponent
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],
