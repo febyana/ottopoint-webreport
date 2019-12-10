@@ -76,6 +76,7 @@ export interface TransactionEarningPPOB {
     updated_at: string;
     product_code: string;
     point: number;
+    status: string;
 }
 export interface GetTransactionsEarningsPPOBRes {
     data: TransactionEarningPPOB[];

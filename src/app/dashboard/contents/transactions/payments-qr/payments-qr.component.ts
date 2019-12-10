@@ -177,19 +177,22 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.query = '';
     if (this.fq.from_date !== null) {
       this.query = this.query + `created_at.gte:${
-        this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 07:00:00')
+        this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
       this.query = this.query + `created_at.lte:${
-        this.datePipe.transform(
-          this.fq.through_date.setDate(
-            this.fq.through_date.getDate() + 1
-          ), 'yyyy-MM-dd 06:59:59')
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
-      this.fq.through_date.setDate(
-        this.fq.through_date.getDate() - 1
-      );
+      // this.query = this.query + `created_at.lte:${
+      //   this.datePipe.transform(
+      //     this.fq.through_date.setDate(
+      //       this.fq.through_date.getDate() + 1
+      //     ), 'yyyy-MM-dd 06:59:59')
+      // },`;
+      // this.fq.through_date.setDate(
+      //   this.fq.through_date.getDate() - 1
+      // );
     }
     if (this.fq.merchant_id !== '') {
       this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';

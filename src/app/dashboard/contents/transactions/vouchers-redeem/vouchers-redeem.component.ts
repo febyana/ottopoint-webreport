@@ -174,19 +174,22 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.query = '';
     if (this.fq.from_date !== null) {
       this.query = this.query + `created_at.gte:${
-        this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 07:00:00')
+        this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
       this.query = this.query + `created_at.lte:${
-        this.datePipe.transform(
-          this.fq.through_date.setDate(
-            this.fq.through_date.getDate() + 1
-          ), 'yyyy-MM-dd 06:59:59')
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 23:59:59')
       },`;
-      this.fq.through_date.setDate(
-        this.fq.through_date.getDate() - 1
-      );
+      // this.query = this.query + `created_at.lte:${
+      //   this.datePipe.transform(
+      //     this.fq.through_date.setDate(
+      //       this.fq.through_date.getDate() + 1
+      //     ), 'yyyy-MM-dd 06:59:59')
+      // },`;
+      // this.fq.through_date.setDate(
+      //   this.fq.through_date.getDate() - 1
+      // );
     }
     if (this.fq.voucher !== '') {
       this.query = this.query + 'voucher.icontains:' + this.fq.voucher + ',';
@@ -244,9 +247,11 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.cust_id = '';
+    this.fq.voucher = '';
     this.fq.product_code = '';
-    this.fq.trans_type = '';
+    this.fq.trans_type = undefined;
+    this.fq.cust_id = '';
+    this.fq.institution = undefined;
     this.fq.rrn = '';
     this.fq.status = '';
     console.log('query :\n', this.query);

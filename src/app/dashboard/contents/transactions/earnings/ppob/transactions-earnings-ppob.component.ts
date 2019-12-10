@@ -60,6 +60,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     // 'updated_at',
     // 'date_time',
     // 'date',
+    'status',
     'created_at',
   ];
   dataTable = new MatTableDataSource();
@@ -220,7 +221,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     }
     if (this.fq.through_date !== null) {
       this.query = this.query + `created_at.lte:${
-        this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 24:00:00')
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
       // this.query = this.query + `created_at.lte:${
       //   this.datePipe.transform(
@@ -339,6 +340,7 @@ export class DialogShowDataComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.data);
     const arrData = this.data.split(' || ');
     for (const splitData of arrData) {
       const arrSplitData = splitData.split(' : ');
