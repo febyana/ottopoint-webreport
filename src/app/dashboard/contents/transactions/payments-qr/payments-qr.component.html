@@ -1,4 +1,7 @@
 <mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
     <!-- judul -->
     <h1>Transactions Payments QR</h1>
     <!-- filters -->

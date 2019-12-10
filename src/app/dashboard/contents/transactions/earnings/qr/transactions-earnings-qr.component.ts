@@ -56,6 +56,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   dataTableLength = 0;
 
   isLoadingResults = true;
+  isWaitingDownload = false;
   isNoData = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -119,6 +120,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   }
 
   exportToCSV() {
+    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'transactions_qr' + Date().toLocaleString(),
@@ -144,7 +146,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
       'asc',
       this.query
     ).subscribe((res: GetTransactionsEarningsQRRes) => {
-      this.isLoadingResults = false;
+      this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');

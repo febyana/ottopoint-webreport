@@ -57,6 +57,7 @@ export class PaymentsQRComponent implements AfterViewInit {
   dataTableLength = 0;
 
   isLoadingResults = true;
+  isWaitingDownload = false;
   isNoData = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -123,6 +124,7 @@ export class PaymentsQRComponent implements AfterViewInit {
   }
 
   exportToCSV() {
+    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'payment_qr_data_' + Date().toLocaleString(),
@@ -147,6 +149,7 @@ export class PaymentsQRComponent implements AfterViewInit {
       'asc',
       this.query
     ).subscribe((res: GetTransactionsPaymentsQRRes) => {
+      this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');

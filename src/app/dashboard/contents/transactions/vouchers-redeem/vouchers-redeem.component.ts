@@ -57,6 +57,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
   tableHeight = window.screen.height * 0.35;
 
   isLoadingResults = true;
+  isWaitingDownload = false;
   isNoData = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -120,6 +121,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
   }
 
   exportToCSV() {
+    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'transactions_qr' + Date().toLocaleString(),
@@ -145,6 +147,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
       'asc',
       this.query
     ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
+      this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');

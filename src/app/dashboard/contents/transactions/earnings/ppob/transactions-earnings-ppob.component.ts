@@ -66,6 +66,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   dataTableLength = 0;
 
   isLoadingResults = true;
+  isWaitingDownload = false;
   isNoData = false;
 
   productTypes = [
@@ -149,6 +150,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   }
 
   exportToCSV() {
+    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'user_data_' + Date().toLocaleString(),
@@ -175,6 +177,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       'asc',
       this.query
     ).subscribe((res: GetTransactionsEarningsPPOBRes) => {
+      this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
