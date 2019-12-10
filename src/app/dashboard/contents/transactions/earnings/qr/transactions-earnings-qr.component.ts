@@ -54,6 +54,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
+  tableHeight = window.screen.height * 0.35;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -232,6 +233,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     this.fq.merchant_phone = '';
     this.fq.customer_phone = '';
     console.log('query :\n', this.query);
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.apiService.APIGetTransactionsEarningsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

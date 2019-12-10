@@ -16,7 +16,6 @@ button{
     border: 1px solid #a5a5a5;
     position: relative;
     min-height: 200px;
-    max-height: 430px;
     overflow: auto;
 }
 table {

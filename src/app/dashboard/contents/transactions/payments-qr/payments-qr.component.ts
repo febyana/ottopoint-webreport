@@ -55,6 +55,7 @@ export class PaymentsQRComponent implements AfterViewInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
+  tableHeight = window.screen.height * 0.35;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -244,6 +245,8 @@ export class PaymentsQRComponent implements AfterViewInit {
     this.fq.customer_phone = '';
     this.fq.rrn = '';
     console.log('query :\n', this.query);
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.apiService.APIGetTransactionsPaymentsQR(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

@@ -304,6 +304,8 @@ export class UsersComponent {
     this.fq.email = '';
     this.fq.merchant_id = '';
     console.log('query :\n', this.query);
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

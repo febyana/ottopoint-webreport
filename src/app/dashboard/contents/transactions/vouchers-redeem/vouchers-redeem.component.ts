@@ -250,6 +250,8 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.fq.rrn = '';
     this.fq.status = '';
     console.log('query :\n', this.query);
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.apiService.APIGetTransactionsVouchersRedeem(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

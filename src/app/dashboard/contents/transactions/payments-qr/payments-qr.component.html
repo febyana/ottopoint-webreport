@@ -46,7 +46,7 @@
                 No Data
             </div>
         </div>
-        <div class="table-container">
+        <div class="table-container" [style.height.px]="tableHeight">
                 <table mat-table [dataSource]="dataTable"
                 matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
                 
