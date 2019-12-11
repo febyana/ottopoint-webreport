@@ -134,6 +134,7 @@ export interface TransactionVoucherRedeem {
     date_time: string;
     created_at: string;
     updated_at: string;
+    product_type: string;
 }
 export interface GetTransactionsVouchersRedeemRes {
     data: TransactionVoucherRedeem[];

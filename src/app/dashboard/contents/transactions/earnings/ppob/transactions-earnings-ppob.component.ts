@@ -60,6 +60,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     // 'date',
     'status',
     'created_at',
+    'created_at_time',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
@@ -162,10 +163,10 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       title: 'Transactions Earnings PPOB \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
-      // useKeysAsHeaders: true,
-      headers: ['No', 'Merchant ID', 'Phone', 'Customer ID', 'Fee Amount',
-      'Product Name', 'Refferance Number', 'Transactions Type', 'Product Type', 'Data',
-      'Transaction Date', 'Product Code', 'Point']
+      useKeysAsHeaders: true,
+      // headers: ['No', 'Merchant ID', 'Phone', 'Customer ID', 'Fee Amount',
+      // 'Product Name', 'Refferance Number', 'Transactions Type', 'Product Type', 'Data',
+      // 'Transaction Date', 'Product Code', 'Point']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -188,12 +189,10 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
         return;
       }
       // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      const buff = res.data.map(({ type_trx, updated_at, date_time, date, ...item}) => item );
+      const arrData = [];
       let no = 1;
-      buff.forEach((e) => {
+      res.data.forEach((e) => {
         if (typeof e === 'object' ) {
-          e.id = no++;
-          e.status = e.status.replace(/0|1|2|9| |\(|\)/g, '');
           switch (e.type_trans) {
             case '2001':
               e.type_trans = 'Inqury';
@@ -204,9 +203,27 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
             default:
               break;
           }
+          const objData = {
+            No: no++,
+            Merchant_ID: e.merchant_id,
+            Customer_ID: e.cust_id,
+            Phone: e.phone,
+            Product_Name: e.product_name,
+            Product_Code: e.product_code,
+            Product_Type: e.product_type,
+            Fee_Amount: e.fee_amount,
+            Point: e.point,
+            Type_Transaction: e.type_trans,
+            Reff_Number: e.reff_number,
+            Data: e.data,
+            Status: e.status.replace(/0|1|2|9| |\(|\)/g, ''),
+            Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
+            Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
+          };
+          arrData.push(objData);
         }
       });
-      csvExporter.generateCsv(buff);
+      csvExporter.generateCsv(arrData);
     });
   }
 

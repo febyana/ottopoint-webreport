@@ -51,6 +51,7 @@ export class PaymentsQRComponent implements AfterViewInit {
     'point',
     // 'date_time',
     'created_at',
+    'created_at_time',
     // 'updated_at',
   ];
   dataTable = new MatTableDataSource();
@@ -161,14 +162,26 @@ export class PaymentsQRComponent implements AfterViewInit {
         return;
       }
       // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
+      const arrData = [];
       let no = 1;
-      buff.forEach((e) => {
+      res.data.forEach((e) => {
         if (typeof e === 'object' ) {
-          e.id = no++;
+          const objData = {
+            No: no++,
+            Merchant_ID: e.mid_merchant,
+            Customer_ID: e.mid_customer,
+            Merchant_Phone: e.phone_merchant,
+            Customer_Phone: e.phone_customer,
+            Reff_Number: e.rrn,
+            Amount: e.amount,
+            Point: e.point,
+            Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
+            Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
+          };
+          arrData.push(objData);
         }
       });
-      csvExporter.generateCsv(buff);
+      csvExporter.generateCsv(arrData);
     });
   }
 

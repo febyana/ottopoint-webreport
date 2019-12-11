@@ -37,7 +37,7 @@ export class ApiService {
   ) { }
 
   queryParams: string;
-  hostBackEndDashboard                = 'http://13.228.25.85:8819';
+  hostBackEndDashboard                = 'http://localhost:8819';
   URLGetToken                         = `${this.hostBackEndDashboard}/api/login`;
   URLGetUsers                         = `${this.hostBackEndDashboard}/api/users?`;
   URLGetTransactionsPaymentsQR        = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;

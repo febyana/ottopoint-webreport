@@ -29,6 +29,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     through_date: null,
     voucher: '',
     product_code: '',
+    product_type: undefined,
     trans_type: undefined,
     cust_id: '',
     institution: undefined,
@@ -41,15 +42,17 @@ export class VouchersRedeemComponent implements AfterViewInit {
     'no',
     'voucher',
     'product_code',
+    'product_type',
     'trans_type',
-    'amount',
     'account_number',
     'cust_id',
     'institution',
     'rrn',
+    'amount',
     'status',
     // 'date_time',
-    'created_at'
+    'created_at',
+    'created_at_time',
     // 'updated_at',
   ];
   dataTable = new MatTableDataSource();
@@ -66,6 +69,12 @@ export class VouchersRedeemComponent implements AfterViewInit {
     horizontalPosition: 'center',
     panelClass: ['snack-bar-ekstra-css']
   };
+
+  productTypes = [
+    {k: 'Pulsa', v: 'Pulsa'},
+    {k: 'Game', v: 'Game'},
+    {k: 'PLN', v: 'PLN'},
+  ];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -133,9 +142,9 @@ export class VouchersRedeemComponent implements AfterViewInit {
       title: 'Trasnsactions Vouchers Redeem \nDownloaded At : ' + Date().toLocaleString(),
       useTextFile: false,
       useBom: true,
-      // useKeysAsHeaders: true,
-      headers: ['No', 'Account Number', 'Voucher', 'Customer ID', 'RRN',
-      'Product Code', 'Amount', 'Transactions Type', 'status', 'Institution', 'Transaction Date']
+      useKeysAsHeaders: true,
+      // headers: ['No', 'Account Number', 'Voucher', 'Customer ID', 'RRN',
+      // 'Product Code', 'Amount', 'Transactions Type', 'status', 'Institution', 'Transaction Date']
     };
     const csvExporter = new ExportToCsv(options);
     console.log('query :\n', this.query);
@@ -158,15 +167,28 @@ export class VouchersRedeemComponent implements AfterViewInit {
         return;
       }
       // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
-      const buff = res.data.map(({ updated_at, date_time, ...item}) => item );
+      const arrData = [];
       let no = 1;
-      buff.forEach((e) => {
+      res.data.forEach((e) => {
         if (typeof e === 'object' ) {
-          e.id = no++;
-          e.status = e.status.replace(/0|1|2|9| |\(|\)/g, '');
+          const objData = {
+            No: no++,
+            Voucher_Name: e.voucher,
+            Product_Code: e.product_code,
+            Product_Type: e.product_type,
+            Trasnsaction_Type: e.trans_type,
+            Customer_ID: e.cust_id,
+            Institution: e.institution,
+            Reff_Number: e.rrn,
+            Amount: e.account_number,
+            Status: e.status.replace(/0|1|2|9| |\(|\)/g, ''),
+            Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
+            Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
+          };
+          arrData.push(objData);
         }
       });
-      csvExporter.generateCsv(buff);
+      csvExporter.generateCsv(arrData);
     });
   }
 
@@ -197,6 +219,9 @@ export class VouchersRedeemComponent implements AfterViewInit {
     }
     if (this.fq.product_code !== '') {
       this.query = this.query + 'product_code:' + this.fq.product_code + ',';
+    }
+    if (this.fq.product_type !== '') {
+      this.query = this.query + 'product_type:' + this.fq.product_type + ',';
     }
     if (this.fq.trans_type !== undefined) {
       this.query = this.query + 'trans_type:' + this.fq.trans_type + ',';
