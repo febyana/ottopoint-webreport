@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../api/api.service';
+import { ApiService } from '../../../../services/api/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {

@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { ApiService } from '../../../../../api/api.service';
+import { ApiService } from '../../../../../services/api/api.service';
 import {
   GetSettingsVariablesTransactionsRes,
   PutSettingsVariablesTransactionsReq,
