@@ -3,22 +3,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../../services/api/api.service';
+import { ApiService } from '../../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
   GetTransactionsEarningsQRRes,
   ExportTransactionsEarningsQRToCSVRequest
 } from '../../../../../model/models';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-
+import { ExcelServicesService } from '../../../../../services/xlsx.service';
 
 @Component({
   selector: 'app-transactions-earnings-qr',
@@ -77,6 +76,7 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
     public dialog: MatDialog,
     public datePipe: DatePipe,
     private snackBar: MatSnackBar,
+    private excelService: ExcelServicesService,
   ) {}
 
   ngAfterViewInit() {
@@ -179,6 +179,51 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         }
       });
       csvExporter.generateCsv(arrData);
+    });
+  }
+
+  exportToXLSX() {
+    this.isWaitingDownload = true;
+    console.log('query :\n', this.query);
+    this.apiService.APIGetTransactionsEarningsQR(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'created_at',
+      'asc',
+      this.query
+    ).subscribe((res: GetTransactionsEarningsQRRes) => {
+      this.isWaitingDownload = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined || res.data.length === 0) {
+        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      const arrData = [];
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          const objData = {
+            No: no++,
+            Merchant_ID: e.mid_merchant,
+            Customer_ID: e.mid_customer,
+            Merchant_Phone: e.phone_merchant,
+            Customer_Phone: e.phone_customer,
+            Reff_Number: e.rrn,
+            Amount: e.amount,
+            Point: e.point,
+            Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
+            Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
+          };
+          arrData.push(objData);
+        }
+      });
+      this.excelService.exportAsExcelFile(arrData, 'sample');
     });
   }
 

@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../services/api/api.service';
+import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
@@ -17,6 +17,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { ExcelServicesService } from '../../../../services/xlsx.service';
 
 @Component({
   selector: 'app-vouchers-redeem',
@@ -88,6 +89,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     public dialog: MatDialog,
     public datePipe: DatePipe,
     private snackBar: MatSnackBar,
+    private excelService: ExcelServicesService,
   ) {}
 
   // tslint:disable-next-line:use-lifecycle-interface
@@ -207,6 +209,54 @@ export class VouchersRedeemComponent implements AfterViewInit {
         }
       });
       csvExporter.generateCsv(arrData);
+    });
+  }
+
+  exportToXLSX() {
+    this.isWaitingDownload = true;
+    console.log('query :\n', this.query);
+    this.apiService.APIGetTransactionsVouchersRedeem(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'created_at',
+      'asc',
+      this.query
+    ).subscribe((res: GetTransactionsVouchersRedeemRes) => {
+      this.isWaitingDownload = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.total === 0) {
+        this.snackBar.open('Failed to export data, filtered data not found', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.snackBar.open(`Downloading ${res.data.length} row data`, 'close', this.matSnackBarConfig);
+      const arrData = [];
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          const objData = {
+            No: no++,
+            Voucher_Name: e.voucher,
+            Product_Code: e.product_code,
+            Product_Type: e.product_type,
+            Trasnsaction_Type: e.trans_type,
+            Customer_ID: e.cust_id,
+            Institution: e.institution,
+            Reff_Number: e.rrn,
+            Amount: e.account_number,
+            Status: e.status.replace(/0|1|2|9| |\(|\)/g, ''),
+            Expired_Date: e.exp_date,
+            Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
+            Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
+          };
+          arrData.push(objData);
+        }
+      });
+      this.excelService.exportAsExcelFile(arrData, 'sample');
     });
   }
 

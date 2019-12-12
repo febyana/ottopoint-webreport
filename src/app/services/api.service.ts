@@ -20,7 +20,7 @@ import {
   PutSettingsVariablesTransactionsReq,
   PutSettingsVariablesTransactionsRes,
   GetVouchersNameRes
-} from '../../model/models';
+} from '../model/models';
 
 const httpOptions = {
   headers: new HttpHeaders({

@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../services/api/api.service';
+import { ApiService } from '../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,6 +22,7 @@ import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
+import { ExcelServicesService } from '../../../services/xlsx.service';
 
 @Component({
   selector: 'app-users',
@@ -76,6 +77,7 @@ export class UsersComponent {
     private router: Router,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private excelService: ExcelServicesService,
   ) {}
 
   // tslint:disable-next-line:use-lifecycle-interface
@@ -249,6 +251,38 @@ export class UsersComponent {
         }
       });
       csvExporter.generateCsv(res.data);
+    });
+  }
+
+  exportToXLSX() {
+    this.isWaitingDownload = true;
+    console.log('query :\n', this.query);
+    this.apiService.APIGetUsers(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'id',
+      'asc',
+      this.query
+    ).subscribe((res: GetUsersRes) => {
+      this.isWaitingDownload = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined) {
+        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
+      this.excelService.exportAsExcelFile(res.data, 'sample');
     });
   }
 

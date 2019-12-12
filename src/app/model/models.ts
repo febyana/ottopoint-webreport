@@ -1,5 +1,3 @@
-import { string } from '@amcharts/amcharts4/core';
-
 export interface MetaRes {
     status: boolean;
     code: number;

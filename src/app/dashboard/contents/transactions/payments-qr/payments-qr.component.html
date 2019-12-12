@@ -38,6 +38,9 @@
     <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
         Export to CSV
     </button>
+    <button mat-raised-button color="primary" (click)="exportToXLSX()">
+        Export to XLSX
+    </button>
     <!-- table -->
     <div class="parent-table-container">
         <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
