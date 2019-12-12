@@ -18,7 +18,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.subject.subscribe();
     this.subject.next('ada kaga ya');
-    this.subject.complete();
+    this.subject.subscribe(
+      msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
+      err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
+      () => console.log('complete') // Called when connection is closed (for whatever reason).
+    );
+    // this.subject.complete();
     if (window.localStorage.getItem('token') == null) {
       this.router.navigateByUrl('/login');
     }
