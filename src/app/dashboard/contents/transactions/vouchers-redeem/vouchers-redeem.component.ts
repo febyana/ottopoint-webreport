@@ -343,6 +343,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.fq.through_date =  null;
     this.fq.voucher = undefined;
     this.fq.product_code = '';
+    this.fq.product_type = undefined;
     this.fq.trans_type = undefined;
     this.fq.cust_id = '';
     this.fq.institution = undefined;
