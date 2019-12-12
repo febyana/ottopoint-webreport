@@ -19,6 +19,7 @@ import {
   GetSettingsVariablesTransactionsRes,
   PutSettingsVariablesTransactionsReq,
   PutSettingsVariablesTransactionsRes,
+  GetVouchersNameRes
 } from '../model/models';
 
 const httpOptions = {
@@ -37,7 +38,7 @@ export class ApiService {
   ) { }
 
   queryParams: string;
-  hostBackEndDashboard                = 'http://13.228.25.85:8819';
+  hostBackEndDashboard                = 'http://localhost:8819';
   URLGetToken                         = `${this.hostBackEndDashboard}/api/login`;
   URLGetUsers                         = `${this.hostBackEndDashboard}/api/users?`;
   URLGetTransactionsPaymentsQR        = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;
@@ -48,6 +49,7 @@ export class ApiService {
   URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/analytics/users`;
   URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions?`;
   URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions/`;
+  URLGetVouchersName                  = `${this.hostBackEndDashboard}/api/vouchers/name`;
   hostOttopay                         = 'http://13.228.25.85:8009';
   URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
@@ -187,5 +189,10 @@ export class ApiService {
       bodyReq,
       httpOptions
     );
+  }
+
+  public APIGetVouchersName(token: string): Observable<GetVouchersNameRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVouchersNameRes>(this.URLGetVouchersName, httpOptions);
   }
 }

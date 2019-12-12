@@ -135,6 +135,7 @@ export interface TransactionVoucherRedeem {
     created_at: string;
     updated_at: string;
     product_type: string;
+    exp_date: string;
 }
 export interface GetTransactionsVouchersRedeemRes {
     data: TransactionVoucherRedeem[];
@@ -226,6 +227,13 @@ export interface BeforeAfterPutSettingsVariablesTransactions {
 }
 export interface PutSettingsVariablesTransactionsRes {
     data: BeforeAfterPutSettingsVariablesTransactions;
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface GetVouchersNameRes {
+    data: string[];
     total: number;
     code: number;
     message: string;

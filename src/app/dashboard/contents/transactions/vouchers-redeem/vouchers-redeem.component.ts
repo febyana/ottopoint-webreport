@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, Inject, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
   GetTransactionsVouchersRedeemRes,
+  GetVouchersNameRes
 } from '../../../../model/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +28,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    voucher: '',
+    voucher: undefined,
     product_code: '',
     product_type: undefined,
     trans_type: undefined,
@@ -51,6 +52,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     'amount',
     'status',
     // 'date_time',
+    'exp_date',
     'created_at',
     'created_at_time',
     // 'updated_at',
@@ -75,6 +77,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     {k: 'Game', v: 'Game'},
     {k: 'PLN', v: 'PLN'},
   ];
+  vouchersName = [];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -86,6 +89,20 @@ export class VouchersRedeemComponent implements AfterViewInit {
     public datePipe: DatePipe,
     private snackBar: MatSnackBar,
   ) {}
+
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngOnInit() {
+    this.apiService.APIGetVouchersName(
+      window.localStorage.getItem('token')
+    ).subscribe((res: GetVouchersNameRes) => {
+      res.data.forEach(e => {
+        this.vouchersName.push({
+          k: e,
+          v: e,
+        });
+      });
+    });
+  }
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
@@ -182,6 +199,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
             Reff_Number: e.rrn,
             Amount: e.account_number,
             Status: e.status.replace(/0|1|2|9| |\(|\)/g, ''),
+            Expired_Date: e.exp_date,
             Transaction_Date: this.datePipe.transform(e.created_at, 'yyyy-MM-dd'),
             Transaction_Time: this.datePipe.transform(e.created_at, 'HH:mm:ss'),
           };
@@ -214,13 +232,13 @@ export class VouchersRedeemComponent implements AfterViewInit {
       //   this.fq.through_date.getDate() - 1
       // );
     }
-    if (this.fq.voucher !== '') {
+    if (this.fq.voucher !== undefined) {
       this.query = this.query + 'voucher.icontains:' + this.fq.voucher + ',';
     }
     if (this.fq.product_code !== '') {
       this.query = this.query + 'product_code:' + this.fq.product_code + ',';
     }
-    if (this.fq.product_type !== '') {
+    if (this.fq.product_type !== undefined) {
       this.query = this.query + 'product_type:' + this.fq.product_type + ',';
     }
     if (this.fq.trans_type !== undefined) {
@@ -273,7 +291,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.voucher = '';
+    this.fq.voucher = undefined;
     this.fq.product_code = '';
     this.fq.trans_type = undefined;
     this.fq.cust_id = '';

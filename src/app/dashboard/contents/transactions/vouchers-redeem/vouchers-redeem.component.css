@@ -58,6 +58,6 @@ mat-form-field{
 .mat-column-created_at {
     border-left: 1px solid #e0e0e0;
 }
-.mat-column-status {
+.mat-column-exp_date {
     border-right: none;
 }
