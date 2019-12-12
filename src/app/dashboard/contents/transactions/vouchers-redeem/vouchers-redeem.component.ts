@@ -256,7 +256,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
           arrData.push(objData);
         }
       });
-      this.excelService.exportAsExcelFile(arrData, 'sample');
+      this.excelService.exportAsExcelFile(arrData, 'vouchers_redeem_');
     });
   }
 

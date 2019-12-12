@@ -227,7 +227,7 @@ export class PaymentsQRComponent implements AfterViewInit {
           arrData.push(objData);
         }
       });
-      this.excelService.exportAsExcelFile(arrData, 'sample');
+      this.excelService.exportAsExcelFile(arrData, 'transactions_payments_qr_');
     });
   }
 

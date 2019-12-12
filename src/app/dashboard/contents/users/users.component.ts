@@ -210,13 +210,13 @@ export class UsersComponent {
     this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'user_data_' + Date().toLocaleString(),
+      filename: 'user' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Users Data',
+      title: 'Users',
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
@@ -276,13 +276,22 @@ export class UsersComponent {
         return;
       }
       // this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      const arrData = [];
       let no = 1;
       res.data.forEach((e) => {
         if (typeof e === 'object' ) {
-          e.id = no++;
+          const objData = {
+            No: no++,
+            Name: e.nama,
+            Phone: e.phone,
+            Email: e.email,
+            Customer_ID: e.cust_id,
+            Merchant_ID: e.merchant_id,
+          };
+          arrData.push(objData);
         }
       });
-      this.excelService.exportAsExcelFile(res.data, 'sample');
+      this.excelService.exportAsExcelFile(arrData, 'users_');
     });
   }
 
