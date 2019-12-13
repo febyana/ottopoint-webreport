@@ -16,7 +16,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.subject.subscribe();
     this.subject.next('ada kaga ya');
     this.subject.subscribe(
       msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
