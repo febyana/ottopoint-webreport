@@ -38,18 +38,19 @@ export class ApiService {
   ) { }
 
   queryParams: string;
-  hostBackEndDashboard                = 'http://localhost:8819';
-  URLGetToken                         = `${this.hostBackEndDashboard}/api/login`;
-  URLGetUsers                         = `${this.hostBackEndDashboard}/api/users?`;
-  URLGetTransactionsPaymentsQR        = `${this.hostBackEndDashboard}/api/transactions/payments/qr?`;
-  URLGetTransactionsEarningsPPOB      = `${this.hostBackEndDashboard}/api/transactions/earnings/ppob?`;
-  URLGetTransactionsEarningsQR        = `${this.hostBackEndDashboard}/api/transactions/earnings/qr?`;
-  URLGetTransactionsVouchersRedeem    = `${this.hostBackEndDashboard}/api/transactions/vouchers/redeem?`;
-  URLGetAnalyticsTransactions         = `${this.hostBackEndDashboard}/api/analytics/transactions`;
-  URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/analytics/users`;
-  URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions?`;
-  URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/settings/variables/transactions/`;
-  URLGetVouchersName                  = `${this.hostBackEndDashboard}/api/vouchers/name`;
+  hostBackEndDashboard                = 'http://13.228.25.85:8819';
+  version                             = 'v1.0';
+  URLGetToken                         = `${this.hostBackEndDashboard}/api/${this.version}/login`;
+  URLGetUsers                         = `${this.hostBackEndDashboard}/api/${this.version}/users?`;
+  URLGetTransactionsPaymentsQR        = `${this.hostBackEndDashboard}/api/${this.version}/transactions/payments/qr?`;
+  URLGetTransactionsEarningsPPOB      = `${this.hostBackEndDashboard}/api/${this.version}/transactions/earnings/ppob?`;
+  URLGetTransactionsEarningsQR        = `${this.hostBackEndDashboard}/api/${this.version}/transactions/earnings/qr?`;
+  URLGetTransactionsVouchersRedeem    = `${this.hostBackEndDashboard}/api/${this.version}/transactions/vouchers/redeem?`;
+  URLGetAnalyticsTransactions         = `${this.hostBackEndDashboard}/api/${this.version}/analytics/transactions`;
+  URLGetAnalyticsUsers                = `${this.hostBackEndDashboard}/api/${this.version}/analytics/users`;
+  URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/${this.version}/settings/variables/transactions?`;
+  URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/${this.version}/settings/variables/transactions/`;
+  URLGetVouchersName                  = `${this.hostBackEndDashboard}/api/${this.version}/vouchers/name`;
   hostOttopay                         = 'http://13.228.25.85:8009';
   URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
