@@ -315,16 +315,16 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
     if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
+      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
     }
     if (this.fq.type_trans !== undefined) {
-      this.query = this.query + 'type_trans.icontains:' + this.fq.type_trans + ',';
+      this.query = this.query + 'type_trans:' + this.fq.type_trans + ',';
     }
     if (this.fq.product_code !== '') {
       this.query = this.query + 'product_code:' + this.fq.product_code + ',';
     }
     if (this.fq.product_type !== undefined) {
-      this.query = this.query + 'product_type.icontains:' + this.fq.product_type + ',';
+      this.query = this.query + 'product_type:' + this.fq.product_type + ',';
     }
     if (this.fq.reff_number !== '') {
       this.query = this.query + 'reff_number:' + this.fq.reff_number + ',';

@@ -43,8 +43,8 @@ export class PaymentsQRComponent implements AfterViewInit {
     // 'id',
     'no',
     'mid_merchant',
-    'mid_customer',
     'phone_merchant',
+    'mid_customer',
     'phone_customer',
     'rrn',
     'amount',
@@ -169,8 +169,8 @@ export class PaymentsQRComponent implements AfterViewInit {
         if (typeof e === 'object' ) {
           const objData = {
             No: no++,
-            Merchant_ID: e.mid_merchant,
-            Customer_ID: e.mid_customer,
+            MID_Merchant: e.mid_merchant,
+            MID_Customer: e.mid_customer,
             Merchant_Phone: e.phone_merchant,
             Customer_Phone: e.phone_customer,
             Reff_Number: e.rrn,
@@ -254,10 +254,10 @@ export class PaymentsQRComponent implements AfterViewInit {
       // );
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
     }
     if (this.fq.customer_id !== '') {
-      this.query = this.query + 'customer_id:' + this.fq.customer_id + ',';
+      this.query = this.query + 'customer_id.icontains:' + this.fq.customer_id + ',';
     }
     if (this.fq.merchant_phone !== '') {
       this.query = this.query + 'merchant_phone:' + this.fq.merchant_phone + ',';

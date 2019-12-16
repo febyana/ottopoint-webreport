@@ -134,6 +134,7 @@ export interface TransactionVoucherRedeem {
     updated_at: string;
     product_type: string;
     exp_date: string;
+    merchant_id: string;
 }
 export interface GetTransactionsVouchersRedeemRes {
     data: TransactionVoucherRedeem[];

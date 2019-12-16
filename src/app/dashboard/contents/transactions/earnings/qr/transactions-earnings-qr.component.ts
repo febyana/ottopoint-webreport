@@ -210,8 +210,8 @@ export class TransactionsEarningsQRComponent implements AfterViewInit {
         if (typeof e === 'object' ) {
           const objData = {
             No: no++,
-            Merchant_ID: e.mid_merchant,
-            Customer_ID: e.mid_customer,
+            MID_Merchant: e.mid_merchant,
+            MID_Customer: e.mid_customer,
             Merchant_Phone: e.phone_merchant,
             Customer_Phone: e.phone_customer,
             Reff_Number: e.rrn,

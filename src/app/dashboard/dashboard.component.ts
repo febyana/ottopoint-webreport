@@ -9,7 +9,7 @@ import { webSocket } from 'rxjs/webSocket';
 })
 export class DashboardComponent implements OnInit {
   mode = 'side';
-  subject = webSocket('ws://echo.websocket.org/');
+  subject = webSocket('wss://echo.websocket.org/');
 
   constructor(
     private router: Router,

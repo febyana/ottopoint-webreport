@@ -308,7 +308,7 @@ export class UsersComponent {
       this.query = this.query + 'email:' + this.fq.email + ',';
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda "," terakhir
     if (this.query !== '') {

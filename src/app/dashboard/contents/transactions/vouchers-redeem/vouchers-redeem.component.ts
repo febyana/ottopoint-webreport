@@ -34,6 +34,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     product_type: undefined,
     trans_type: undefined,
     cust_id: '',
+    merchant_id: '',
     institution: undefined,
     rrn: '',
     status: '',
@@ -48,6 +49,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     'trans_type',
     'account_number',
     'cust_id',
+    'merchant_id',
     'institution',
     'rrn',
     'amount',
@@ -197,6 +199,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
             Product_Type: e.product_type,
             Trasnsaction_Type: e.trans_type,
             Customer_ID: e.cust_id,
+            Merchant_ID: e.merchant_id,
             Institution: e.institution,
             Reff_Number: e.rrn,
             Amount: e.account_number,
@@ -245,6 +248,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
             Product_Type: e.product_type,
             Trasnsaction_Type: e.trans_type,
             Customer_ID: e.cust_id,
+            Merchant_ID: e.merchant_id,
             Institution: e.institution,
             Reff_Number: e.rrn,
             Amount: e.account_number,
@@ -295,7 +299,10 @@ export class VouchersRedeemComponent implements AfterViewInit {
       this.query = this.query + 'trans_type:' + this.fq.trans_type + ',';
     }
     if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
+      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+    }
+    if (this.fq.merchant_id !== '') {
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     if (this.fq.rrn !== '') {
       this.query = this.query + 'rrn:' + this.fq.rrn + ',';
@@ -346,6 +353,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     this.fq.product_type = undefined;
     this.fq.trans_type = undefined;
     this.fq.cust_id = '';
+    this.fq.merchant_id = '';
     this.fq.institution = undefined;
     this.fq.rrn = '';
     this.fq.status = '';
