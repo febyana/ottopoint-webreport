@@ -274,7 +274,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
     }
     if (this.fq.through_date !== null) {
       this.query = this.query + `created_at.lte:${
-        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 23:59:59')
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
       // this.query = this.query + `created_at.lte:${
       //   this.datePipe.transform(

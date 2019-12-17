@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { webSocket } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-admin',
@@ -9,20 +8,11 @@ import { webSocket } from 'rxjs/webSocket';
 })
 export class DashboardComponent implements OnInit {
   mode = 'side';
-  subject = webSocket('wss://echo.websocket.org/');
-
   constructor(
     private router: Router,
   ) { }
 
   ngOnInit() {
-    this.subject.next('ada kaga ya');
-    this.subject.subscribe(
-      msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
-      err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-      () => console.log('complete') // Called when connection is closed (for whatever reason).
-    );
-    // this.subject.complete();
     if (window.localStorage.getItem('token') == null) {
       this.router.navigateByUrl('/login');
     }
