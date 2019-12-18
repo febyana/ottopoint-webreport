@@ -254,10 +254,10 @@ export class PaymentsQRComponent implements AfterViewInit {
       // );
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     if (this.fq.customer_id !== '') {
-      this.query = this.query + 'customer_id.icontains:' + this.fq.customer_id + ',';
+      this.query = this.query + 'customer_id:' + this.fq.customer_id + ',';
     }
     if (this.fq.merchant_phone !== '') {
       this.query = this.query + 'merchant_phone:' + this.fq.merchant_phone + ',';

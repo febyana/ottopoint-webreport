@@ -209,7 +209,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
             No: no++,
             Merchant_ID: e.merchant_id,
             Customer_ID: e.cust_id,
-            Phone: e.phone,
+            Account_Number: e.phone,
             Product_Name: e.product_name,
             Product_Code: e.product_code,
             Product_Type: e.product_type,
@@ -269,7 +269,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
             No: no++,
             Merchant_ID: e.merchant_id,
             Customer_ID: e.cust_id,
-            Phone: e.phone,
+            Account_Number: e.phone,
             Product_Name: e.product_name,
             Product_Code: e.product_code,
             Product_Type: e.product_type,
@@ -315,7 +315,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
       this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
     if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+      this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
     }
     if (this.fq.type_trans !== undefined) {
       this.query = this.query + 'type_trans:' + this.fq.type_trans + ',';

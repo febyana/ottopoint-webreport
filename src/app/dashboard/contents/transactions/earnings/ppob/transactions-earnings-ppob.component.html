@@ -20,7 +20,7 @@
         <input matInput placeholder="Customer ID" [(ngModel)]="fq.cust_id">
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <input matInput placeholder="Phone" [(ngModel)]="fq.phone">
+        <input matInput placeholder="Account number" [(ngModel)]="fq.phone">
     </mat-form-field>
     <mat-form-field class="filter-field">
         <mat-label>Transactions type</mat-label>
@@ -98,7 +98,7 @@
 
                 <ng-container matColumnDef="phone">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Phone
+                        Account Number
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.phone}}</td>
                 </ng-container>

@@ -305,10 +305,10 @@ export class UsersComponent {
       this.query = this.query + 'phone:' + this.fq.phone + ',';
     }
     if (this.fq.email !== '') {
-      this.query = this.query + 'email:' + this.fq.email + ',';
+      this.query = this.query + 'email.icontains:' + this.fq.email + ',';
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda "," terakhir
     if (this.query !== '') {

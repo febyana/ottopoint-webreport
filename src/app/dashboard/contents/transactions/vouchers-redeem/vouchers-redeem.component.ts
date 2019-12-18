@@ -299,7 +299,7 @@ export class VouchersRedeemComponent implements AfterViewInit {
       this.query = this.query + 'trans_type:' + this.fq.trans_type + ',';
     }
     if (this.fq.cust_id !== '') {
-      this.query = this.query + 'cust_id.icontains:' + this.fq.cust_id + ',';
+      this.query = this.query + 'cust_id:' + this.fq.cust_id + ',';
     }
     if (this.fq.merchant_id !== '') {
       this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
