@@ -237,3 +237,10 @@ export interface GetVouchersNameRes {
     code: number;
     message: string;
 }
+
+export interface GetPPOBProductTypesRes {
+    data: string[];
+    total: number;
+    code: number;
+    message: string;
+}

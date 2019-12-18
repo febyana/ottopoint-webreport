@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -8,7 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
   GetTransactionsEarningsPPOBRes,
-  ExportTransactionsEarningsPPOBToCSVReq
+  ExportTransactionsEarningsPPOBToCSVReq,
+  GetPPOBProductTypesRes,
 } from '../../../../../model/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -24,7 +25,7 @@ import { ExcelServicesService } from '../../../../../services/xlsx.service';
   templateUrl: './transactions-earnings-ppob.component.html',
   styleUrls: ['./transactions-earnings-ppob.component.css']
 })
-export class TransactionsEarningsPPOBComponent implements AfterViewInit {
+export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit {
   exportToCSVReq: ExportTransactionsEarningsPPOBToCSVReq;
 
   query = '';
@@ -71,17 +72,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
   isWaitingDownload = false;
   isNoData = false;
 
-  productTypes = [
-    {k: 'NU CARE-LAZISNU (Infaq)', v: 'NU CARE-LAZISNU (Infaq)'},
-    {k: 'NU CARE-LAZISNU (Zakat)', v: 'NU CARE-LAZISNU (Zakat)'},
-    {k: 'game', v: 'game'},
-    {k: 'isidompet', v: 'isidompet'},
-    {k: 'pulsa', v: 'pulsa'},
-    {k: 'plntoken', v: 'plntoken'},
-    {k: 'paketdata', v: 'paketdata'},
-    {k: 'lazis-NU', v: 'lazis-NU'},
-    {k: 'plnpost', v: 'plnpost'},
-  ];
+  productTypes = [];
 
   matSnackBarConfig: MatSnackBarConfig = {
     duration: 2000,
@@ -101,6 +92,19 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit {
     private snackBar: MatSnackBar,
     private excelService: ExcelServicesService,
   ) {}
+
+  ngOnInit() {
+    this.apiService.APIGetPPOBProductTypes(
+      window.localStorage.getItem('token')
+    ).subscribe((res: GetPPOBProductTypesRes) => {
+      res.data.forEach(e => {
+        this.productTypes.push({
+          k: e,
+          v: e,
+        });
+      });
+    });
+  }
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.

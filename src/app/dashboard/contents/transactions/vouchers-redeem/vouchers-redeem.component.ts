@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -24,7 +24,7 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
   templateUrl: './vouchers-redeem.component.html',
   styleUrls: ['./vouchers-redeem.component.css']
 })
-export class VouchersRedeemComponent implements AfterViewInit {
+export class VouchersRedeemComponent implements AfterViewInit, OnInit {
   query = '';
   fq = { // filter Query
     from_date: null,
@@ -94,7 +94,6 @@ export class VouchersRedeemComponent implements AfterViewInit {
     private excelService: ExcelServicesService,
   ) {}
 
-  // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
     this.apiService.APIGetVouchersName(
       window.localStorage.getItem('token')

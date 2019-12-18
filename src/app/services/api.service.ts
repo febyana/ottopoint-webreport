@@ -19,7 +19,8 @@ import {
   GetSettingsVariablesTransactionsRes,
   PutSettingsVariablesTransactionsReq,
   PutSettingsVariablesTransactionsRes,
-  GetVouchersNameRes
+  GetVouchersNameRes,
+  GetPPOBProductTypesRes,
 } from '../model/models';
 
 const httpOptions = {
@@ -51,6 +52,7 @@ export class ApiService {
   URLGetSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/${this.version}/settings/variables/transactions?`;
   URLPutSettingsVariablesTransactions = `${this.hostBackEndDashboard}/api/${this.version}/settings/variables/transactions/`;
   URLGetVouchersName                  = `${this.hostBackEndDashboard}/api/${this.version}/vouchers/name`;
+  URLGetPPOBProductTypes              = `${this.hostBackEndDashboard}/api/${this.version}/ppob/product-types`;
   hostOttopay                         = 'http://13.228.25.85:8009';
   URLEligibleUser                     = `${this.hostOttopay}/api/add_eligible`;
   URLRegisterUser                     = `${this.hostOttopay}/api/register_user`;
@@ -195,5 +197,10 @@ export class ApiService {
   public APIGetVouchersName(token: string): Observable<GetVouchersNameRes> {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetVouchersNameRes>(this.URLGetVouchersName, httpOptions);
+  }
+
+  public APIGetPPOBProductTypes(token: string): Observable<GetPPOBProductTypesRes> {
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetPPOBProductTypesRes>(this.URLGetPPOBProductTypes, httpOptions);
   }
 }
