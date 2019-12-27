@@ -38,21 +38,21 @@ const httpOptions = {
 export class ApiService {
   queryParams: string;
   // baseURLBackendDashboard: string;
-  URLGetToken                         = `/login`;
-  URLGetUsers                         = `/users?`;
-  URLGetTransactionsPaymentsQR        = `/transactions/payments/qr?`;
-  URLGetTransactionsEarningsPPOB      = `/transactions/earnings/ppob?`;
-  URLGetTransactionsEarningsQR        = `/transactions/earnings/qr?`;
-  URLGetTransactionsVouchersRedeem    = `/transactions/vouchers/redeem?`;
-  URLGetAnalyticsTransactions         = `/analytics/transactions`;
-  URLGetAnalyticsUsers                = `/analytics/users`;
-  URLGetSettingsVariablesTransactions = `/settings/variables/transactions?`;
-  URLPutSettingsVariablesTransactions = `/settings/variables/transactions/`;
-  URLGetVouchersName                  = `/vouchers/name`;
-  URLGetPPOBProductTypes              = `/ppob/product-types`;
+  URLGetToken: string;
+  URLGetUsers: string;
+  URLGetTransactionsPaymentsQR: string;
+  URLGetTransactionsEarningsPPOB: string;
+  URLGetTransactionsEarningsQR: string;
+  URLGetTransactionsVouchersRedeem: string;
+  URLGetAnalyticsTransactions: string;
+  URLGetAnalyticsUsers: string;
+  URLGetSettingsVariablesTransactions: string;
+  URLPutSettingsVariablesTransactions: string;
+  URLGetVouchersName: string;
+  URLGetPPOBProductTypes: string;
   // baseURLOttopay: string;
-  URLEligibleUser                     = `/add_eligible`;
-  URLRegisterUser                     = `/register_user`;
+  URLEligibleUser: string;
+  URLRegisterUser: string;
 
   constructor(
     private httpClient: HttpClient,
@@ -63,21 +63,21 @@ export class ApiService {
     baseURLOttopay: string
   ) {
     // backend dashboard
-    this.URLGetToken                         = baseURLBackendDashboard + this.URLGetToken;
-    this.URLGetUsers                         = baseURLBackendDashboard + this.URLGetUsers;
-    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + this.URLGetTransactionsPaymentsQR;
-    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + this.URLGetTransactionsEarningsPPOB;
-    this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + this.URLGetTransactionsEarningsQR;
-    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + this.URLGetTransactionsVouchersRedeem;
-    this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + this.URLGetAnalyticsTransactions;
-    this.URLGetAnalyticsUsers                = baseURLBackendDashboard + this.URLGetAnalyticsUsers;
-    this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + this.URLGetSettingsVariablesTransactions;
-    this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + this.URLPutSettingsVariablesTransactions;
-    this.URLGetVouchersName                  = baseURLBackendDashboard + this.URLGetVouchersName;
-    this.URLGetPPOBProductTypes              = baseURLBackendDashboard + this.URLGetPPOBProductTypes;
+    this.URLGetToken                         = baseURLBackendDashboard + `/login`;
+    this.URLGetUsers                         = baseURLBackendDashboard + `/users?`;
+    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`;
+    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings/ppob?`;
+    this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`;
+    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers/redeem?`;
+    this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
+    this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
+    this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/variables/transactions?`;
+    this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/variables/transactions/`;
+    this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
+    this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     // ottopay
-    this.URLEligibleUser                     = baseURLOttopay + this.URLEligibleUser;
-    this.URLRegisterUser                     = baseURLOttopay + this.URLRegisterUser;
+    this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
+    this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
   }
 
   whichEnvironment() {
