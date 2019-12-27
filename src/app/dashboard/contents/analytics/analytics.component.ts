@@ -6,7 +6,7 @@ import { ApiService } from '../../../services/api.service';
 import {
   GetAnalyticsTransactionsRes,
   GetAnalyticsUsersRes
-} from '../../../model/models';
+} from '../../../models/models';
 import { Router } from '@angular/router';
 import {
   MatSnackBar,

@@ -4,7 +4,7 @@ import {
   GetSettingsVariablesTransactionsRes,
   PutSettingsVariablesTransactionsReq,
   PutSettingsVariablesTransactionsRes
-} from '../../../../../model/models';
+} from '../../../../../models/models';
 import {
   MatSnackBar,
   MatSnackBarConfig

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import {
   GetTransactionsEarningsQRRes,
   ExportTransactionsEarningsQRToCSVRequest
-} from '../../../../../model/models';
+} from '../../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog } from '@angular/material/dialog';
 import {

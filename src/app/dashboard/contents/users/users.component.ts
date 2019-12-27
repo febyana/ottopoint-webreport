@@ -17,7 +17,7 @@ import {
   RegisterUserReq,
   RegisterUserRes,
   ExportUsersToCSVReq
-} from '../../../model/models';
+} from '../../../models/models';
 import {
   MatSnackBar,
   MatSnackBarConfig

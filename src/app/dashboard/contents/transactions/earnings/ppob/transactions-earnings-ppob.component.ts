@@ -10,7 +10,7 @@ import {
   GetTransactionsEarningsPPOBRes,
   ExportTransactionsEarningsPPOBToCSVReq,
   GetPPOBProductTypesRes,
-} from '../../../../../model/models';
+} from '../../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
