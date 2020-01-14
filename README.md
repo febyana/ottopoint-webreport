@@ -1,3 +1,29 @@
+# DOCUMENTATION
+source of learning site :
+angular : [angular.io/docs](https://angular.io/docs)
+angular material (design) : [material.angular.io/components/categories](https://material.angular.io/components/categories)
+
+**TABLE OF CONTENTS**
+---
+- [LEARN](#preperations) 
+    
+- [DEPLOYMENT](#preperations)
+    - Di dalam *root directory project*, eksekusi *command* berikut untuk build *project* :
+    ```shell
+    $ ng build
+    ```
+    - Setelah berhasil build ***tanpa ada tulisan merah-merah atau error*** maka stuktur folder *project* menjadi seperti ini :
+    ***SESUDAH BUILD***
+    ```shell
+    ottopint-webreport (*root directory project*)
+    ├── ***dist***
+    ├── e2e
+    ├── node_modules
+    ├── src
+    └── ...
+    ```
+    ***SEBELUM BUILD***
+---
 // lakukan SEBELUM ./deploy.sh dieksekusi
 cd /home/abidin
 rm v1.0.zip
