@@ -65,9 +65,9 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```sh
     scp -i <fullpath/filesertifikat.pem> -P 22 <file_project.zip> ubuntu@13.228.25.85:<path_server>
     ```
-    >`<fullpath/filesertifikat.pem>`    : path file sertifikat di local
-    >`<file_project.zip>`               : project yangg ingin di-*copy*
-    >`<path_server>`                    : path yang ada di server sebagai tempat tampung hasil *copy*
+    >`<fullpath/filesertifikat.pem>` : path file sertifikat di local<br>
+    >`<file_project.zip>` : project yangg ingin di-*copy*<br>
+    >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 
 
 // lakukan SEBELUM ./deploy.sh dieksekusi
