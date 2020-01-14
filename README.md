@@ -1,5 +1,5 @@
 # DOCUMENTATION
-![#f03c15]root directory : ottopoint-webreport `#f03c15`<br>
+- ![#f03c15]root directory : ottopoint-webreport `#f03c15`<br>
 source of learning site :<br>
 angular : [angular.io/docs](https://angular.io/docs)<br>
 angular material (design) : [material.angular.io/components/categories](https://material.angular.io/components/categories)
