@@ -7,8 +7,12 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 - [LEARN](#preperations) 
     
-- [DEPLOYMENT](#preperations)
-    - Di dalam *root directory project*, eksekusi *command* berikut untuk build *project* :
+- [DEPLOYMENT](#deployment)
+    - [Build Project](#build-project)
+---
+# DEPLOYMENT
+## Build Project
+- Di dalam *root directory project*, eksekusi *command* berikut untuk build *project* :
     ```shell
     $ ng build
     ```
@@ -23,7 +27,6 @@ angular material (design) : [material.angular.io/components/categories](https://
     └── ...
     ```
     ***SEBELUM BUILD***
----
 // lakukan SEBELUM ./deploy.sh dieksekusi
 cd /home/abidin
 rm v1.0.zip
