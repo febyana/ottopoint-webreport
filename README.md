@@ -11,11 +11,11 @@ angular material (design) : [material.angular.io/components/categories](https://
     - [Build *Project*](#build-project)
     - [Copy Hasil Build ke Server](#copy-hasil-build-ke-server)
     - [Auto Build dan Copy](#auto-build-dan-copy)
-    - [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-tomcat)
+    - [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-(tomcat))
 ---
 # LEARN CODE
 # DEPLOYMENT
-## Build Project [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-tomcat)
+## Build Project [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-(tomcat))
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
