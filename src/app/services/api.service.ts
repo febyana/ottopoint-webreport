@@ -89,7 +89,7 @@ export class ApiService {
           environments.prod.backend_dashboard.version,
 
           environments.prod.ottopay.host +
-          environments.prod.ottopay.host
+          environments.prod.ottopay.base_url
         );
         break;
       }
@@ -100,7 +100,7 @@ export class ApiService {
           environments.dev.backend_dashboard.version,
 
           environments.dev.ottopay.host +
-          environments.dev.ottopay.host
+          environments.dev.ottopay.base_url
         );
         break;
       }
