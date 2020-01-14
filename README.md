@@ -15,7 +15,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 # LEARN CODE
 # DEPLOYMENT
-## Build Project [:house:](#table-of-content)
+## Build Project [:house:](#auto-build-dan-copy)
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
