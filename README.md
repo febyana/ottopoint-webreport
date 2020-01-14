@@ -10,7 +10,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 - [DEPLOYMENT](#deployment)
     - [Build *Project*](#build-project)
     - [Copy Hasil Build ke Server](#copy-hasil-build-ke-server)
-    - [Auto Build dan Copy](#auto-build-dan-copy)
+    - [Auto Build dan Copy](#auto-build-dan-copy-:top:)
     - [Eksekusi *Project* di Web Server (Tomcat)](#eksekusi-project-di-web-server-tomcat)
 ---
 # LEARN CODE 
