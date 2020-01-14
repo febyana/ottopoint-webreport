@@ -74,6 +74,17 @@ angular material (design) : [material.angular.io/components/categories](https://
     >`<file_project.zip>` : project yangg ingin di-*copy*<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 ## Auto Build dan Copy
+- Untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** sudah disatukan dalam file :
+    - untuk dev : [deploy_dev.sh](https://andromeda.ottopay.id/ottopoint/ottopoint-webreport/blob/ottopointweb-v1.0/deploy_dev.sh)
+        Sehingga untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** hanya eksekusi *command* berikut :
+        ```sh
+        $ ./deploy_dev.sh
+        ```
+    - untuk prod : [deploy_prod.sh](https://andromeda.ottopay.id/ottopoint/ottopoint-webreport/blob/ottopointweb-v1.0/deploy_prod.sh)
+        Sehingga untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** hanya eksekusi *command* berikut :
+        ```sh
+        $ ./deploy_prod.sh
+        ```
 
 // lakukan SEBELUM ./deploy.sh dieksekusi
 cd /home/abidin
