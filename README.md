@@ -17,16 +17,23 @@ angular material (design) : [material.angular.io/components/categories](https://
     $ ng build
     ```
     - Setelah berhasil build ***tanpa ada tulisan merah-merah atau error*** maka stuktur folder *project* menjadi seperti ini :<br>
-    ***SESUDAH BUILD***
-    ```shell
-    ottopint-webreport (*root directory project*)
-    ├── ***dist***
-    ├── e2e
-    ├── node_modules
-    ├── src
-    └── ...
-    ```
-    ***SEBELUM BUILD***
+        ***SESUDAH BUILD :***
+        ```shell
+        ottopint-webreport (*root directory project*)
+        ├── dist
+        ├── e2e
+        ├── node_modules
+        ├── src
+        └── ...
+        ```
+        ***SEBELUM BUILD :***
+        ```shell
+        ottopint-webreport (*root directory project*)
+        ├── e2e
+        ├── node_modules
+        ├── src
+        └── ...
+        ```
 // lakukan SEBELUM ./deploy.sh dieksekusi
 cd /home/abidin
 rm v1.0.zip
