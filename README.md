@@ -4,7 +4,7 @@ source of learning site :<br>
 angular : [angular.io/docs](https://angular.io/docs)<br>
 angular material (design) : [material.angular.io/components/categories](https://material.angular.io/components/categories)
 
-**TABLE OF CONTENTS**
+# TABLE OF CONTENTS
 ---
 - [LEARN CODE](#learn-code) 
 - [DEPLOYMENT](#deployment)
@@ -15,7 +15,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 # LEARN CODE
 # DEPLOYMENT
-## Build Project [:house:](#auto-build-dan-copy)
+## Build Project [:top:](#table-of-contents)
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
@@ -86,5 +86,5 @@ angular material (design) : [material.angular.io/components/categories](https://
         ```sh
         $ ./deploy_prod.sh
         ```
-## Eksekusi *Project* di Web Server (Tomcat)
+## Eksekusi *Project* di Web Server (Tomcat) [:top:](#table-of-contents)
 - 
