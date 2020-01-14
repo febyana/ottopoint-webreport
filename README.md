@@ -15,7 +15,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 # LEARN CODE
 # DEPLOYMENT
-## Build Project [Eksekusi *Project* di Web Server (Tomcat)](#eksekusi-project-di-web-server-tomcat)
+## Build Project [:house:](#table-of-content)
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
