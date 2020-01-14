@@ -15,12 +15,12 @@ angular material (design) : [material.angular.io/components/categories](https://
 # DEPLOYMENT
 ## Build Project
 - Didalam *root directory project*, eksekusi *command* berikut untuk build *project* :
-    ```shell
+    ```sh
     $ ng build
     ```
 - Setelah berhasil build ***tanpa ada tulisan merah-merah atau error*** maka stuktur folder *project* menjadi seperti ini :<br>
     ***SESUDAH BUILD :***
-    ```shell
+    ```sh
     ottopint-webreport (root directory project)
     ├── dist
     ├── e2e
@@ -29,7 +29,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     └── ...
     ```
     ***SEBELUM BUILD :***
-    ```shell
+    ```sh
     ottopint-webreport (root directory project)
     ├── e2e
     ├── node_modules
@@ -38,29 +38,35 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```
 ## Copy Hasil Build ke Server
 - Masuk ke folder `dist` :
-    ```shell
+    ```sh
     $ cd dist
     ```
 - Di dalam folder `dist` ada folder `ottopoint-webreport` yang merupakan hasil build, *rename* folder tersebut menjadi `dev` atau `v1.0`(versi saat ini).<br>
     Jika ingin ***deploy ke Development***, *rename* folder `ottopoint-webreport` menjadi `dev` :
-    ```shell
+    ```sh
     $ mkdir dev
     $ mv ottopoint-webreport/* dev
     ```
     Jika ingin ***deploy ke Production***, *rename* folder `ottopoint-webreport` menjadi `v1.0`(versi saat ini) :
-    ```shell
+    ```sh
     $ mkdir v1.0
     $ mv ottopoint-webreport/* v1.0
     ```
-- *Compress* folder yang telah di-*rename* tersebut menjadi file berekstensi `.zip`.
+- *Compress* folder yang telah di-*rename* tersebut menjadi file berekstensi `.zip`.<br>
     Jika ingin ***deploy ke Development***, *rename* folder `ottopoint-webreport` menjadi `dev` :
-    ```shell
+    ```sh
     $ zip -r dev.zip ottopoint-webreport
     ```
     Jika ingin ***deploy ke Production***, *rename* folder `ottopoint-webreport` menjadi `v1.0`(versi saat ini) :
-    ```shell
+    ```sh
     $ zip -r v1.0.zip ottopoint-webreport
     ```
+- Copy file `.zip` tersebut ke server, untuk melakukan hal ini diperlukan ***sertifikat agar dapat mengakses server***, biasanya sertifikat ini berupa file dan biasanya berekstensi `.pem`. Setelah mendapatkan sertifikat, eksekusi *command* berikut:
+    ```sh
+    scp -i <fullpath/filesertifikat.pem> -P 22 <file_project.zip> ubuntu@13.228.25.85:<path_server>
+    ```
+    `<fullpath/filesertifikat.pem>`
+
 
 // lakukan SEBELUM ./deploy.sh dieksekusi
 cd /home/abidin
