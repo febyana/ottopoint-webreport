@@ -13,9 +13,9 @@ angular material (design) : [material.angular.io/components/categories](https://
     - [Auto Build dan Copy](#auto-build-dan-copy)
     - [Eksekusi *Project* di Web Server (Tomcat)](#eksekusi-project-di-web-server-tomcat)
 ---
-# LEARN CODE
-# DEPLOYMENT
-## Build Project [:top:](#table-of-contents)
+# LEARN CODE 
+# DEPLOYMENT [:top:](#table-of-contents)
+## Build Project [:top:](#deployment)
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
@@ -44,7 +44,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     ├── src
     └── ...
     ```
-## Copy Hasil Build ke Server
+## Copy Hasil Build ke Server [:top:](#deployment)
 - Masuk ke folder `dist` :
     ```sh
     $ cd dist
@@ -74,7 +74,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     >`<fullpath/filesertifikat.pem>` : path file sertifikat di local<br>
     >`<file_project.zip>` : project yang ingin di-*copy*<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
-## Auto Build dan Copy
+## Auto Build dan Copy [:top:](#deployment)
 - Untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** sudah disatukan dalam file :
     - untuk dev : [deploy_dev.sh](https://andromeda.ottopay.id/ottopoint/ottopoint-webreport/blob/ottopointweb-v1.0/deploy_dev.sh)
         Sehingga untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** hanya eksekusi *command* berikut :
@@ -86,5 +86,5 @@ angular material (design) : [material.angular.io/components/categories](https://
         ```sh
         $ ./deploy_prod.sh
         ```
-## Eksekusi *Project* di Web Server (Tomcat) [:top:](#table-of-contents)
+## Eksekusi *Project* di Web Server (Tomcat) [:top:](#deployment)
 - 
