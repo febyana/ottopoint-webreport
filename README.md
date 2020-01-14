@@ -16,7 +16,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```shell
     $ ng build
     ```
-    - Setelah berhasil build ***tanpa ada tulisan merah-merah atau error*** maka stuktur folder *project* menjadi seperti ini :
+    - Setelah berhasil build ***tanpa ada tulisan merah-merah atau error*** maka stuktur folder *project* menjadi seperti ini :<br>
     ***SESUDAH BUILD***
     ```shell
     ottopint-webreport (*root directory project*)
