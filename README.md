@@ -13,9 +13,10 @@ angular material (design) : [material.angular.io/components/categories](https://
     - [Auto Build dan Copy](#auto-build-dan-copy)
     - [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-tomcat)
 ---
+# LEARN CODE
 # DEPLOYMENT
-## Build Project
-- Sebelum *Build Project* pastikan struktur folder seperti ini :
+## Build Project [Eksekusi *Project* di Web Server (Tomcat)](#masukan-hasil-copy-ke-web-server-tomcat)
+- Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
     ```sh
     ottopint-webreport (root directory project)
@@ -65,13 +66,13 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```
     keterangan :
     >`<name_of_renemed_folder>` : nama folder hasil *build project* yg telah di-*rename*<br>
-- Copy file `.zip` tersebut ke server, untuk melakukan hal ini diperlukan ***sertifikat agar dapat mengakses server***(didapat dari yang pernah akses server), sertifikat ini berupa file dan biasanya berekstensi `.pem`. Setelah mendapatkan sertifikat, eksekusi *command* berikut:
+- Copy file `.zip` tersebut ke server, untuk melakukan hal ini diperlukan ***sertifikat agar dapat mengakses server***(didapat dari orang yang pernah akses server), sertifikat ini berupa file dan biasanya berekstensi `.pem`. Setelah mendapatkan sertifikat, eksekusi *command* berikut:
     ```sh
     $ scp -i <fullpath/filesertifikat.pem> -P 22 <file_project.zip> ubuntu@13.228.25.85:<path_server>
     ```
     keterangan :
     >`<fullpath/filesertifikat.pem>` : path file sertifikat di local<br>
-    >`<file_project.zip>` : project yangg ingin di-*copy*<br>
+    >`<file_project.zip>` : project yang ingin di-*copy*<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 ## Auto Build dan Copy
 - Untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** sudah disatukan dalam file :
@@ -85,15 +86,5 @@ angular material (design) : [material.angular.io/components/categories](https://
         ```sh
         $ ./deploy_prod.sh
         ```
-
-// lakukan SEBELUM ./deploy.sh dieksekusi
-cd /home/abidin
-rm ottopoint-webreport.zip
-
-// lakukan SETELAH ./deploy.sh dieksekusi
-cd /opt/tomcat/webapps/ottopointweb
-rm ottopoint-webreport.zip
-rm -rf ottopoint-webreport
-
-cp /home/abidin/ottopoint-webreport.zip .
-unzip ottopoint-webreport.zip
+## Eksekusi *Project* di Web Server (Tomcat)
+- 
