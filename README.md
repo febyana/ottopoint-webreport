@@ -1,5 +1,5 @@
 # DOCUMENTATION
-`*root directory* : ottopoint-webreport`
+`*root directory* : ottopoint-webreport`<br>
 source of learning site :<br>
 angular : [angular.io/docs](https://angular.io/docs)<br>
 angular material (design) : [material.angular.io/components/categories](https://material.angular.io/components/categories)
@@ -61,11 +61,13 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```sh
     $ zip -r v1.0.zip ottopoint-webreport
     ```
-- Copy file `.zip` tersebut ke server, untuk melakukan hal ini diperlukan ***sertifikat agar dapat mengakses server***, biasanya sertifikat ini berupa file dan biasanya berekstensi `.pem`. Setelah mendapatkan sertifikat, eksekusi *command* berikut:
+- Copy file `.zip` tersebut ke server, untuk melakukan hal ini diperlukan ***sertifikat agar dapat mengakses server***(didapat dari yang pernah akses server), sertifikat ini berupa file dan biasanya berekstensi `.pem`. Setelah mendapatkan sertifikat, eksekusi *command* berikut:
     ```sh
     scp -i <fullpath/filesertifikat.pem> -P 22 <file_project.zip> ubuntu@13.228.25.85:<path_server>
     ```
-    `<fullpath/filesertifikat.pem>`
+    >`<fullpath/filesertifikat.pem>`    : path file sertifikat di local
+    >`<file_project.zip>`               : project yangg ingin di-*copy*
+    >`<path_server>`                    : path yang ada di server sebagai tempat tampung hasil *copy*
 
 
 // lakukan SEBELUM ./deploy.sh dieksekusi
