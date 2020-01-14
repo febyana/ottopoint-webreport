@@ -15,7 +15,6 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 # LEARN CODE 
 # DEPLOYMENT
-[:top:](#table-of-contents)
 ## Build Project
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     ***SEBELUM BUILD :***
