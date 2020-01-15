@@ -94,11 +94,14 @@ angular material (design) : [material.angular.io/components/categories](https://
 
 [:top:](#table-of-contents)
 ## Push *Project* ke Web Server (Tomcat)
-- Untuk push *project* ke web server (tomcat), dibutuhkan login dan akses root ke server dan juga sertifikat yang telah didapat pada tahap sebelumnya.
+- Untuk push *project* ke web server (tomcat), dibutuhkan login dan akses root ke server dan juga sertifikat yang telah didapat pada tahap sebelumnya.<br>
     Login ke server :
     ```sh
-    $ ssh -i ~/.ssh/LightsailDefaultKey-ap-southeast-1-new.pem ubuntu@13.228.25.85
+    $ ssh -i <full_path_sertifikat>/<file_sertifikat> ubuntu@13.228.25.85
     ```
+    keterangan :
+    >`<full_path_sertifikat>` : path local dimana file sertifikat tersimpan, biasanya ada di `~/.ssh/`<br>
+    >`<file_sertifikat>` : file sertifikat, biasanya berekstensi `.pem`<br>
     Setelah berhasil login ke server, selanjutnya akses root di server :
     ```sh
     $ sudo su
@@ -108,6 +111,8 @@ angular material (design) : [material.angular.io/components/categories](https://
     $ cd <path_server>
     $ ls
     ```
+    keterangan :
+    >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 - Karena di sini memakai ***Tomcat*** sebagai *Web Server*, maka untuk menjalankan *project* hanya dibutuhkan *copy file project*`.zip` ke *folder* `/opt/tomcat/webapps/ottopointweb`. Namun sebelum di-*copy* ke *folder* tersebut pastikan tidak ada nama *file* atau *folder* yang sama dengan nama *file project*`.zip` yang akan di-*copy*, berikut *command*-nya:
     ```sh
     $ cd /opt/tomcat/webapps/ottopointweb
@@ -118,7 +123,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     $ unzip <file_project>.zip
     ```
     keterangan :
-    >`<file_project>` : nama *file project* yang sudah di-*copy* ke *server<br>
+    >`<file_project>` : nama *file project* yang sudah di-*copy* ke *server*<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 - Deploy Selesai, try to hit [http://13.228.25.85:8080/ottopointweb/<file_project>](http://13.228.25.85:8080/ottopointweb/<file_project>)<br>
 
