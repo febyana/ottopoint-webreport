@@ -129,7 +129,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     keterangan :
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*
 
-- Karena di sini memakai ***Tomcat*** sebagai *Web Server*, maka untuk menjalankan *project* hanya dibutuhkan *copy file project*`.zip` ke *folder* `/opt/tomcat/webapps/ottopointweb`. Namun sebelum di-*copy* ke *folder* tersebut pastikan tidak ada nama *file* atau *folder* yang sama dengan nama *file project*`.zip` yang akan di-*copy*, berikut *command*-nya:
+- Karena di sini memakai ***Tomcat*** sebagai *Web Server*, maka untuk menjalankan *project* hanya dibutuhkan *copy file project*`.zip` ke *folder* `/opt/tomcat/webapps/ottopointweb` lalu di unzip. ***Namun sebelum di-*copy*, pastikan didalam folder tersebut tidak ada nama *file* atau *folder* yang sama dengan nama *file project*`.zip` yang akan di-*copy* *** , berikut *command*-nya:
     ```sh
     $ cd /opt/tomcat/webapps/ottopointweb
     $ rm <file_project>.zip
