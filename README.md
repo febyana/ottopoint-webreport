@@ -117,5 +117,5 @@ angular material (design) : [material.angular.io/components/categories](https://
     keterangan :
     >`<file_project>` : nama *file project* yang sudah di-*copy* ke *server<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
-- Deploy Selesai, try to hit [http://13.228.25.85:8080/ottopointweb/<file_project>](http://13.228.25.85:8080/ottopointweb/<file_project>)
+- Deploy Selesai, try to hit [http://13.228.25.85:8080/ottopointweb/<file_project>](http://13.228.25.85:8080/ottopointweb/<file_project>)<br>
 [:top:](#table-of-contents)
