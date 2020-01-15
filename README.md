@@ -101,17 +101,17 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```
 - ***(Optional bisa di skip)*** Masuk ke `<path_server>` *folder* dimana *file project*`.zip` disimpan, pastikan bahwa *file project*`.zip` sudah ada di server.
     ```sh
-    \# cd <path_server>
-    \# ls
+    # cd <path_server>
+    # ls
     ```
 - Karena di sini memakai ***Tomcat*** sebagai *Web Server*, maka untuk menjalankan *project* hanya dibutuhkan *copy file project*`.zip` ke *folder* `/opt/tomcat/webapps/ottopointweb`. Namun sebelum di-*copy* ke *folder* tersebut pastikan tidak ada nama *file* atau *folder* yang sama dengan nama *file project*`.zip` yang akan di-*copy*, berikut *command*-nya:
     ```sh
-    \# cd /opt/tomcat/webapps/ottopointweb
-    \# rm <file_project>.zip
-    \# rm -rf <file_project>
+    # cd /opt/tomcat/webapps/ottopointweb
+    # rm <file_project>.zip
+    # rm -rf <file_project>
 
-    \# cp <path_server>/<file_project>.zip .
-    \# unzip <file_project>.zip
+    # cp <path_server>/<file_project>.zip .
+    # unzip <file_project>.zip
     ```
     keterangan :
     >`<file_project>` : nama *file project* yang sudah di-*copy* ke *server<br>
