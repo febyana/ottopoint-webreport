@@ -45,6 +45,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     ├── src
     └── ...
     ```
+
 [:top:](#table-of-contents)
 ## Copy Hasil Build ke Server
 - Masuk ke folder `dist` :
@@ -76,6 +77,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     >`<fullpath/filesertifikat.pem>` : path file sertifikat di local<br>
     >`<file_project.zip>` : project yang ingin di-*copy*<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
+
 [:top:](#table-of-contents)
 ## Auto Build dan Copy
 - Untuk step ***Build Project*** dan ***Copy Hasil Build ke Server*** sudah disatukan dalam file :
@@ -89,6 +91,7 @@ angular material (design) : [material.angular.io/components/categories](https://
         ```sh
         $ ./deploy_prod.sh
         ```
+
 [:top:](#table-of-contents)
 ## Push *Project* ke Web Server (Tomcat)
 - Untuk push *project* ke web server (tomcat), dibutuhkan login dan akses root ke server dan juga sertifikat yang telah didapat pada tahap sebelumnya.
@@ -118,4 +121,5 @@ angular material (design) : [material.angular.io/components/categories](https://
     >`<file_project>` : nama *file project* yang sudah di-*copy* ke *server<br>
     >`<path_server>` : path yang ada di server sebagai tempat tampung hasil *copy*<br>
 - Deploy Selesai, try to hit [http://13.228.25.85:8080/ottopointweb/<file_project>](http://13.228.25.85:8080/ottopointweb/<file_project>)<br>
+
 [:top:](#table-of-contents)
