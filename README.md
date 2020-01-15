@@ -29,7 +29,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     ├── src
     └── ...
     ```
-    `tidak ada folder dist, ***jika ada delete saja*** untuk memastikan proses selanjutnya berjalan baik`
+    `jika ada folder dist delete saja, untuk memastikan proses selanjutnya berjalan baik`
     *Command* untuk delete folder dist :
     ```sh
     $ rm -rf dist
