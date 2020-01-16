@@ -6,7 +6,13 @@ angular material (design) : [material.angular.io/components/categories](https://
 
 # TABLE OF CONTENTS
 ---
-- [LEARN CODE](#learn-code) 
+- [LEARN CODE](#learn-code)
+    - [Installation](#installation)
+        - [Node](#node)
+        - [NPM](#npm)
+        - [Angular CLI](#angular-cli)
+    - [Get Started Angular](#get-started-angular)
+        - [Angular CLI Usage](#angular-cli-usage)
 - [DEPLOYMENT](#deployment)
     - [Build *Project*](#build-project)
     - [Copy Hasil Build ke Server](#copy-hasil-build-ke-server)
@@ -15,15 +21,79 @@ angular material (design) : [material.angular.io/components/categories](https://
 ---
 
 # LEARN CODE
-- -
+## Installation
+### Node
+- *Install* Node dengan *command* berikut :
+    ```sh
+    $ brew install node
+    ```
+- Cek jika Node sudah ter-*install* :
+    ```sh
+    $ node -v
+    ```
+
+[:top:](#table-of-contents)
+### NPM
+- *Install* NPM dengan *command* berikut :
+    ```sh
+    $ brew install npm
+    ```
+- Cek jika NPM sudah ter-*install* :
+    ```sh
+    $ npm -v
+    ```
+
+[:top:](#table-of-contents)
+### Angular CLI
+- *Install* Angular CLI dengan *command* berikut :
+    ```sh
+    $ npm install @angular/cli
+    ```
+- Cek jika Angular CLI sudah ter-*install* :
+    ```sh
+    $ ng version
+    ```
+
+[:top:](#table-of-contents)
+## Get Started Angular
+### Angular CLI Usage
+- Buat *project* baru :
+    ```sh
+    $ ng new <nama_aplikasi>
+    ```
+    keterangan :
+    >`<nama_aplikasi>` : nama aplikasi disini adalah **ottopoint-webreport**
+
+    Maka akan terbuat *folder project* dengan struktur *folder* sebagai berikut :
+    ```sh
+    ottopoint-webreport (root directory project)
+    ├── e2e
+    ├── node_modules
+    ├── src
+    │   ├── app
+    │   ├── assets
+    │   ├── environments
+    │   └── ...
+    └── ...
+    ```
+    **Di Folder `/ottopoint-webreport/src/app` ini lah tempat kita berkarya :)**
+- Buat *Component* baru, menurut penulis *Component* merupakan bagian-bagian kecil dari keseluruhan aplikasi. Misal disini aplikasi yang dibuat adalah *dashboard* untuk *ottopoint webreport* yang didalamnya terdapat bagian-bagian atau *component-component* seperti page login dan didalam page login sendiri terdapat bagian-bagian lagi seperti *form login* dan *tombol login* yang juga termasuk kedalam *component*, berikut *command* untuk generate *component* :
+    ```sh
+    $ ng generate component <nama_component>
+    ```
+    atau
+    ```sh
+    $ ng g c <nama_component>
+    ```
+
+---
 
 # DEPLOYMENT
-
 ## Build Project
 - Sebelum *Build Project* pastikan struktur folder seperti ini :<br>
     **SEBELUM BUILD :**
     ```sh
-    ottopint-webreport (root directory project)
+    ottopoint-webreport (root directory project)
     ├── e2e
     ├── node_modules
     ├── src
@@ -41,7 +111,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 - Setelah berhasil build **tanpa ada tulisan merah-merah atau error** maka stuktur folder *project* menjadi seperti ini :<br>
     **SESUDAH BUILD :**
     ```sh
-    ottopint-webreport (root directory project)
+    ottopoint-webreport (root directory project)
     ├── dist
     ├── e2e
     ├── node_modules
