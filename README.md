@@ -57,7 +57,7 @@ angular material (design) : [material.angular.io/components/categories](https://
 [:top:](#table-of-contents)
 ## Get Started Angular
 ### Angular CLI Usage
-- Buat *project* baru :
+- **Buat *project* baru** :
     ```sh
     $ ng new <nama_aplikasi>
     ```
@@ -77,15 +77,40 @@ angular material (design) : [material.angular.io/components/categories](https://
     └── ...
     ```
     **Di Folder `/ottopoint-webreport/src/app` ini lah tempat kita berkarya :)**
-- Buat *Component* baru, menurut penulis *Component* merupakan bagian-bagian kecil dari keseluruhan aplikasi. Misal disini aplikasi yang dibuat adalah *dashboard* untuk *ottopoint webreport* yang didalamnya terdapat bagian-bagian atau *component-component* seperti page login dan didalam page login sendiri terdapat bagian-bagian lagi seperti *form login* dan *tombol login* yang juga termasuk kedalam *component*, berikut *command* untuk generate *component* :
+- **Buat *Component* baru**, menurut penulis *Component* merupakan bagian-bagian kecil dari keseluruhan aplikasi. Misal disini aplikasi yang dibuat adalah *dashboard* untuk *ottopoint webreport* yang didalamnya terdapat bagian-bagian atau *component-component* seperti page login dan didalam page login sendiri terdapat bagian-bagian lagi seperti *form login* dan *tombol login* yang juga termasuk kedalam *component*, berikut *command* untuk generate *component* :<br>
+    **note** : `Command untuk Generate Component ini hanya dapat dilakukan di dalam <root_directory_project>`
     ```sh
+    $ cd <root_directory_project>
     $ ng generate component <nama_component>
     ```
     atau
     ```sh
+    $ cd <root_directory_project>
     $ ng g c <nama_component>
     ```
+    keterangan :
+    >`<root_directory_project>` : folder awal yang namanya dihasilkan dari *generate project*<br>
+    `<nama_component` : nama component
 
+    Dengan menjalankan *command* diatas akan secara otomatis membuat folder dan file-file didalamnya. Misal nama *component*-nya adalah **login**, sehingga struktur folder yang akan terbuat akan menjadi seperti ini :
+    ```sh
+    src
+    ├── app
+    │   ├── login
+    │   │   ├── login.component.css
+    │   │   ├── login.component.html
+    │   │   ├── login.component.spec.ts
+    │   │   └── login.component.ts
+    │   └── ...
+    ├── assets
+    ├── environments
+    └── ...
+    ```
+    Dapat dilihat terdapat beberapa *file* didalam *folder `login`*, berikut masing-masing fungsi dari *files* tersebut :
+    >`login.component.css` : file untuk menulis syntax [css](https://www.devaradise.com/id/2013/08/mengenal-apa-itu-css-dan-bagaimana-menggunakannya.html)<br>
+    `login.component.html` : file untuk menulis syntax [html](http://www.pindexain.com/apa-itu-html/)<br>
+    `login.component.spec.ts` : file yang digunakan angular untuk mengenal bahwa folder ini adalah sebuah **Component**<br>
+    `login.component.ts` : file untuk menulis semua proses yang terjadi dibalik tampilan yang begitu indah :D, misalnya ketika kita menekan tombol login, maka yang terjadi adalah "file ini" bertugas mengirim input yang diketik pada *form login* (atau disebut *request*) ke-*backend* untuk melakukan pengecekan apakah input yg dilakukan benar atau salah, setelah menerima response dari backend "file ini" juga akan memberi perintah untuk menampilkan notif agar user dapat mengetahui bahwa tombol login bekerja.<br>
 ---
 
 # DEPLOYMENT
