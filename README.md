@@ -11,7 +11,7 @@ angular material (design) : [material.angular.io/components/categories](https://
         - [Node](#node)
         - [NPM](#npm)
         - [Angular CLI](#angular-cli)
-    - [Get Started Angular](#get-started-angular)
+    - [Get Started With Angular](#get-started-with-angular)
         - [Angular CLI Usage](#angular-cli-usage)
 - [DEPLOYMENT](#deployment)
     - [Build *Project*](#build-project)
@@ -55,7 +55,7 @@ angular material (design) : [material.angular.io/components/categories](https://
     ```
 
 [:top:](#table-of-contents)
-## Get Started Angular
+## Get Started With Angular
 ### Angular CLI Usage
 - **Buat *project* baru** :
     ```sh
@@ -110,7 +110,9 @@ angular material (design) : [material.angular.io/components/categories](https://
     >`login.component.css` : file untuk menulis syntax [css](https://www.devaradise.com/id/2013/08/mengenal-apa-itu-css-dan-bagaimana-menggunakannya.html)<br>
     `login.component.html` : file untuk menulis syntax [html](http://www.pindexain.com/apa-itu-html/)<br>
     `login.component.spec.ts` : file yang digunakan angular untuk mengenal bahwa folder ini adalah sebuah **Component**<br>
-    `login.component.ts` : file untuk menulis semua proses yang terjadi dibalik tampilan yang begitu indah :D, misalnya ketika kita menekan tombol login, maka yang terjadi adalah "file ini" bertugas mengirim input yang diketik pada *form login* (atau disebut *request*) ke-*backend* untuk melakukan pengecekan apakah input yg dilakukan benar atau salah, setelah menerima response dari backend "file ini" juga akan memberi perintah untuk menampilkan notif agar user dapat mengetahui bahwa tombol login bekerja.<br>
+    `login.component.ts` : file untuk menulis semua proses yang terjadi dibalik tampilan yang begitu indah :D, misalnya ketika kita menekan tombol login, maka yang terjadi adalah "file ini" akan mengirim input yang diketik pada *form login* (atau disebut *request*) ke-*backend* untuk melakukan pengecekan apakah input yg dilakukan benar atau salah, setelah menerima response dari backend "file ini" juga akan memberi perintah untuk menampilkan notif agar user dapat mengetahui bahwa tombol login bekerja.<br>
+
+[:top:](#table-of-contents)
 ---
 
 # DEPLOYMENT
