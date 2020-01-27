@@ -2,19 +2,19 @@
     <!-- judul -->
     <h1>Setting Variables Transaction</h1>
     <mat-form-field>
-        <input matInput type="number" placeholder="Persantage earned point from PPOB transaction" [(ngModel)]="transaksiPPOB" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Points earned from PPOB transactions in percentage (%)" [(ngModel)]="transaksiPPOB" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput type="number" placeholder="Persantage earned point from payment QR transaction" [(ngModel)]="transaksiPayQr" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Points earned from QR transactions in percentage (%)" [(ngModel)]="transaksiPayQr" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput type="number" placeholder="Persantage earned point from merchant transaction" [(ngModel)]="transaksiMerchant" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Points earned from Merchant Transactions in percentage (%)" [(ngModel)]="transaksiMerchant" pattern="[0-9].[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput type="number" placeholder="Maksimal point get from transaction" [(ngModel)]="limitTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Maximum points earned on each transaction" [(ngModel)]="limitTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-form-field>
-        <input matInput type="number" placeholder="Minimal amount per transaction" [(ngModel)]="minimalTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
+        <input matInput type="number" placeholder="Minimum transaction amount (IDR) to earn point" [(ngModel)]="minimalTransaksi" pattern="[0-9]*" disabled="{{isDisabled}}">
     </mat-form-field>
     <mat-card-actions>
         <button mat-raised-button color="warn" (click)="edit()" disabled="{{isEditDisabled}}">Edit</button>
