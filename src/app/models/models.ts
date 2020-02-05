@@ -1,3 +1,5 @@
+import { StringifyOptions } from 'querystring';
+
 export interface MetaRes {
     status: boolean;
     code: number;
@@ -241,6 +243,17 @@ export interface GetVouchersNameRes {
 export interface GetPPOBProductTypesRes {
     data: string[];
     total: number;
+    code: number;
+    message: string;
+}
+
+export interface ChangePasswordRequest {
+    old_password: string;
+    new_password: string;
+    confirm_password: string;
+}
+
+export interface ChangePasswordResponse {
     code: number;
     message: string;
 }

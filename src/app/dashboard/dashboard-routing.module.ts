@@ -13,6 +13,8 @@ import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
+import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { path, Component } from '@amcharts/amcharts4/core';
 
 
 export const routes: Routes = [
@@ -47,6 +49,10 @@ export const routes: Routes = [
       {
         path: 'settings/variables/transactions',
         component: SettingsVariablesTransactionsComponent,
+      },
+      {
+      path: 'users_customer',
+      component : UserCustomerComponent,
       },
     ]
   }

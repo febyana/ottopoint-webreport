@@ -9,10 +9,15 @@
                 <button mat-button (click)="sidenav.toggle()" class="btn-sidenav-toggle">
                     <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">menu</mat-icon>
                 </button>
-                <button mat-button routerLink="/login" (click)="logout()" class="logout">
-                    <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">exit_to_app</mat-icon>
-                    <b style="font-size: 20px;">Logout</b>
+
+                <button mat-button [matMenuTriggerFor]="menu" class="setting">Setting
+                    <mat-icon class="icon" aria-hidden="false" aria-label="Example delete icon">more_vert</mat-icon>
                 </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="openFormChangePassword()" >Change Password</button>
+                  <button mat-menu-item routerLink="./users_customer">User</button>
+                  <button mat-menu-item routerLink="/login" (click)="logout()">Logout</button>
+                </mat-menu>
             </mat-toolbar-row>
         </mat-toolbar>
         <div class="content">

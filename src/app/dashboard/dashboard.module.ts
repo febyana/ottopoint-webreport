@@ -6,7 +6,7 @@ import { MaterialModule } from '../shared/material.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DashboardComponent } from './dashboard.component';
+import { DashboardComponent, DialogChangePasswordComponent } from './dashboard.component';
 import { SidebarComponent } from './menus/sidebar/sidebar.component';
 
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
@@ -31,6 +31,7 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
+import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 
 @NgModule({
   declarations: [
@@ -45,12 +46,15 @@ import {
     DialogRegisterComponent,
     PaymentsQRComponent,
     VouchersRedeemComponent,
-    SettingsVariablesTransactionsComponent
+    SettingsVariablesTransactionsComponent,
+    DialogChangePasswordComponent,
+    UserCustomerComponent
   ],
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
-    DialogShowDataComponent
+    DialogShowDataComponent,
+    DialogChangePasswordComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

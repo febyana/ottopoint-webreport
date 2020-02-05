@@ -21,9 +21,12 @@ import {
   PutSettingsVariablesTransactionsRes,
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
+  ChangePasswordRequest,
+  ChangePasswordResponse,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -50,6 +53,7 @@ export class ApiService {
   URLPutSettingsVariablesTransactions: string;
   URLGetVouchersName: string;
   URLGetPPOBProductTypes: string;
+  URLChangePassword: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -75,6 +79,7 @@ export class ApiService {
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/variables/transactions/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
+    this.URLChangePassword = baseURLBackendDashboard + '/change_password';
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -277,5 +282,11 @@ export class ApiService {
     this.whichEnvironment();
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetPPOBProductTypesRes>(this.URLGetPPOBProductTypes, httpOptions);
+  }
+
+  public APIChangePassword(token: string, req: ChangePasswordRequest): Observable<ChangePasswordResponse> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.post<ChangePasswordResponse>(this.URLChangePassword, req, httpOptions);
   }
 }
