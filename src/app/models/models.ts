@@ -257,3 +257,17 @@ export interface ChangePasswordResponse {
     code: number;
     message: string;
 }
+
+// Change Status
+
+// Request
+export interface ChangeStatusRequest {
+    phone: string;
+    status: boolean;
+}
+
+// Response
+export interface ChangeStatusResponse {
+    data: string;
+    meta: MetaRes;
+}

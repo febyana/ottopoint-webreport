@@ -23,6 +23,8 @@ import {
   GetPPOBProductTypesRes,
   ChangePasswordRequest,
   ChangePasswordResponse,
+  ChangeStatusRequest,
+  ChangeStatusResponse,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -54,6 +56,7 @@ export class ApiService {
   URLGetVouchersName: string;
   URLGetPPOBProductTypes: string;
   URLChangePassword: string;
+  URLChangeStatus: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -68,18 +71,19 @@ export class ApiService {
   ) {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
-    this.URLGetUsers                         = baseURLBackendDashboard + `/users?`;
-    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`;
-    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings/ppob?`;
-    this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`;
-    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers/redeem?`;
+    this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
+    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`; // hold
+    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
-    this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/variables/transactions?`;
-    this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/variables/transactions/`;
+    this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
+    this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
-    this.URLChangePassword = baseURLBackendDashboard + '/change_password';
+    this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
+    this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -288,5 +292,11 @@ export class ApiService {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.post<ChangePasswordResponse>(this.URLChangePassword, req, httpOptions);
+  }
+
+  public APIChangeStatus(token: string, req: ChangeStatusRequest): Observable<ChangeStatusResponse> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.post<ChangeStatusResponse>(this.URLChangeStatus, req, httpOptions);
   }
 }

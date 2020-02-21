@@ -16,6 +16,8 @@ import {
   AddEligibleUserRes,
   RegisterUserReq,
   RegisterUserRes,
+  ChangeStatusRequest,
+  ChangeStatusResponse,
   ExportUsersToCSVReq
 } from '../../../models/models';
 import {
@@ -23,6 +25,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { ExcelServicesService } from '../../../services/xlsx.service';
+// import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
 
 @Component({
   selector: 'app-users',
@@ -33,7 +36,9 @@ export class UsersComponent {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   RegisterUserReq: RegisterUserReq;
+  ChangeStatusRequest: ChangeStatusRequest;
   exportUsersToCSVRequest: ExportUsersToCSVReq;
+  // DialogStatusUserComponent: DialogStatusUsersComponent;
 
   query = '';
   fq = { // filter Query
@@ -185,6 +190,37 @@ export class UsersComponent {
         phone: row.phone,
         institution: row.email.split('.', 1)[0],
       },
+    });
+
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
+        this.isLoadingResults = true;
+        console.log('query :\n', this.query);
+        this.apiService.APIGetUsers(
+          window.localStorage.getItem('token'),
+          this.paginator.pageIndex,
+          this.paginator.pageSize,
+          this.sort.active,
+          this.sort.direction,
+          this.query
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
+          this.isLoadingResults = false;
+        });
+      }
+    });
+  }
+
+  // row is get from users.component.html
+  openFormChangeStatus(row: User) {
+
+    const dialogRef = this.dialog.open(DialogStatusUsersComponent, {
+      width: '50%',
+      data: this.ChangeStatusRequest = {
+        phone: row.phone,
+        status: row.status,
+      },
+
     });
 
     dialogRef.afterClosed().subscribe(valid => {
@@ -517,6 +553,80 @@ export class DialogRegisterComponent implements OnInit {
       this.dialogRef.close(false);
       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
       return;
+    });
+  }
+}
+
+//// ChngaeStatus
+
+@Component({
+  selector: 'app-dialog-status-user',
+  templateUrl: './dialogs/dialog-status-user.html',
+  styleUrls: ['./users.component.css']
+})
+
+export class DialogStatusUsersComponent implements OnInit {
+  dataForm: FormGroup;
+  get f() { return this.dataForm.controls; }
+
+  isLoadingResults = false;
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogStatusUsersComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ChangeStatusRequest,
+    private formBuilder: FormBuilder,
+    // private x: boolean,
+    private apiService: ApiService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
+    this.dataForm = this.formBuilder.group({
+      phone: [this.data.phone, Validators.required],
+      // status: [this.data.status, Validators.required]
+  });
+  }
+
+  no(): void {
+    event.preventDefault();
+    this.dialogRef.close();
+  }
+
+  yes() {
+    event.preventDefault();
+    this.isLoadingResults = true;
+
+    // let x = Boolean
+    if (this.data.status === true) {
+      this.data.status = false
+    } else {
+      this.data.status = true
+    }
+
+    this.data = {
+        phone : this.dataForm.value.phone,
+        status: this.dataForm.value.status,
+    }
+    console.log('query :\n', this.data);
+    this.apiService.APIChangeStatus(
+        window.localStorage.getItem('token'),
+        this.data,
+    ).subscribe((res: ChangeStatusResponse) => {
+        if (res.data !== null) {
+            // this.dialogRef.close(true);
+            return;
+        }
+        this.isLoadingResults = false;
+        // this.dialogRef.close(false);
+        this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+        return;
     });
   }
 }

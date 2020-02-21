@@ -14,6 +14,7 @@ import {
   UsersComponent,
   DialogAddEligibleComponent,
   DialogRegisterComponent,
+  DialogStatusUsersComponent,
 } from './contents/users/users.component';
 import {
   TransactionsEarningsPPOBComponent,
@@ -32,6 +33,7 @@ import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+// import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
 @NgModule({
   declarations: [
@@ -48,13 +50,15 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
     VouchersRedeemComponent,
     SettingsVariablesTransactionsComponent,
     DialogChangePasswordComponent,
-    UserCustomerComponent
+    DialogStatusUsersComponent,
+    UserCustomerComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
     DialogShowDataComponent,
     DialogChangePasswordComponent,
+    DialogStatusUsersComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],
