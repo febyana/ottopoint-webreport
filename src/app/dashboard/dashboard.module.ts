@@ -31,6 +31,9 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
+import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
+import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import {
     DialogRegisterComponent,
     PaymentsQRComponent,
     VouchersRedeemComponent,
-    SettingsVariablesTransactionsComponent
+    SettingsVariablesTransactionsComponent,
+    TransactionsEarningsOspComponent,
+    TransactionsEarningsEarningoplComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

@@ -21,6 +21,8 @@ import {
   PutSettingsVariablesTransactionsRes,
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
+  GetTransactionsEarningsOSPRes,
+  GetTransactionsEarningsOPLRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -42,6 +44,8 @@ export class ApiService {
   URLGetUsers: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
+  URLGetTransactionsEarningsOSP: string;
+  URLGetTransactionsEarningsOPL: string;
   URLGetTransactionsEarningsQR: string;
   URLGetTransactionsVouchersRedeem: string;
   URLGetAnalyticsTransactions: string;
@@ -67,6 +71,8 @@ export class ApiService {
     this.URLGetUsers                         = baseURLBackendDashboard + `/users?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`;
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings/ppob?`;
+    this.URLGetTransactionsEarningsOSP      = baseURLBackendDashboard + `/transactions/earnings/outstanding?`;
+    this.URLGetTransactionsEarningsOPL      = baseURLBackendDashboard + `/transactions/earnings/earningopl?`;
     this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`;
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers/redeem?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
@@ -167,6 +173,34 @@ export class ApiService {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsPPOBRes>(this.URLGetTransactionsEarningsPPOB + this.queryParams, httpOptions);
+  }
+
+  public APIGetTransactionsEarningOSP(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<GetTransactionsEarningsOSPRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetTransactionsEarningsOSPRes>(this.URLGetTransactionsEarningsOSP + this.queryParams, httpOptions)
+  }
+
+  public APIGetTransactionsEarningOPL(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<GetTransactionsEarningsOPLRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetTransactionsEarningsOPLRes>(this.URLGetTransactionsEarningsOPL + this.queryParams, httpOptions)
   }
 
   public APIGetTransactionsEarningsQR(
