@@ -70,9 +70,9 @@ export class ApiService {
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
     this.URLGetUsers                         = baseURLBackendDashboard + `/users?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`;
-    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings/ppob?`;
-    this.URLGetTransactionsEarningsOSP      = baseURLBackendDashboard + `/transactions/earnings/outstanding?`;
-    this.URLGetTransactionsEarningsOPL      = baseURLBackendDashboard + `/transactions/earnings/earningopl?`;
+    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsOSP      = baseURLBackendDashboard + `/transactions/outstanding?`;
+    this.URLGetTransactionsEarningsOPL      = baseURLBackendDashboard + `/transactions/earningopl?`;
     this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`;
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers/redeem?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
