@@ -14,6 +14,7 @@ import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 import { path, Component } from '@amcharts/amcharts4/core';
 
 
@@ -53,6 +54,10 @@ export const routes: Routes = [
       {
       path: 'users_customer',
       component : UserCustomerComponent,
+      },
+      {
+        path: 'upload-adjusment',
+        component: BulkUploadAdjusmentComponent,
       },
     ]
   }

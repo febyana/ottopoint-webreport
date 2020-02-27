@@ -1,4 +1,5 @@
 import { StringifyOptions } from 'querystring';
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
 export interface MetaRes {
     status: boolean;
@@ -270,4 +271,15 @@ export interface ChangeStatusRequest {
 export interface ChangeStatusResponse {
     data: string;
     meta: MetaRes;
+}
+
+export interface BulkAdjustmentResponse {
+    data: BulkAdjustmentData;
+    meta: MetaRes;
+}
+
+export interface BulkAdjustmentData {
+    Success: any;
+    Failed : any;
+    Total  : any;
 }
