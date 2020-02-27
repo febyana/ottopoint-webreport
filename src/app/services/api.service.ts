@@ -25,6 +25,7 @@ import {
   ChangePasswordResponse,
   ChangeStatusRequest,
   ChangeStatusResponse,
+  BulkAdjustmentResponse,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -45,6 +46,7 @@ export class ApiService {
   // baseURLBackendDashboard: string;
   URLGetToken: string;
   URLGetUsers: string;
+  URLGetHistoryBulk: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
   URLGetTransactionsEarningsQR: string;
@@ -60,6 +62,7 @@ export class ApiService {
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
+  URLBulkAdjustment: string;
 
   constructor(
     private httpClient: HttpClient,
@@ -72,6 +75,7 @@ export class ApiService {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetHistoryBulk                   = baseURLBackendDashboard + `/history/bulk?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
     this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`; // hold
@@ -84,6 +88,7 @@ export class ApiService {
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
+    this.URLBulkAdjustment = baseURLBackendDashboard + 'bulk/adjustment'
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -148,6 +153,20 @@ export class ApiService {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
+  }
+
+  public APIGetHistoyBulk(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetUsersRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetUsersRes>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
   }
 
   public APIGetTransactionsPaymentsQR(
@@ -299,4 +318,12 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.post<ChangeStatusResponse>(this.URLChangeStatus, req, httpOptions);
   }
+
+  public APIBulkAdjustment(token: string, req): Observable<BulkAdjustmentResponse> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, req, httpOptions);
+  }
+
 }
+

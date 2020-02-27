@@ -33,6 +33,7 @@ import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
 @NgModule({
@@ -52,6 +53,7 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
     UserCustomerComponent,
+    BulkUploadAdjusmentComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,
