@@ -1,3 +1,5 @@
+import { Time } from '@angular/common';
+
 import { StringifyOptions } from 'querystring';
 import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
@@ -79,8 +81,62 @@ export interface TransactionEarningPPOB {
     point: number;
     status: string;
 }
+// [get] http://localhost:4200/#/dashboard/transactions/earnings/outstanding
+export interface TransactionEarningOSP {
+    id: string;
+    phone: string;
+    email: string;
+    partner: string;
+    beginning: string;
+    adding: string;
+    bonus: string;
+    spending: string;
+    p2p_add: string;
+    p2p_spend: string;
+    adjustment_add: string;
+    adjustment_spend: string;
+    expired_point: string;
+    ending_point: string;
+    date: string;
+    time: string;
+    created_at:string;
+    updated_at:string;
+}
+// [get] http://localhost:4200/#/dashboard/transactions/earnings/earningopl
+export interface TransactionEarningOPL {
+    customer_id: string;
+    phone: string;
+    email: string;
+    transactions_type: string;
+    value_point: string;
+    product_code: string;
+    product_type: string;
+    product_name: string;
+    denom: string;
+    selling_price: string;
+    comment: string;
+    transactions_date: string;
+    transactions_time: string;
+    loyaltycardno: string;
+    pos: string;
+    issuer: string;
+    reff_number:string;
+    partner:string;
+}
 export interface GetTransactionsEarningsPPOBRes {
     data: TransactionEarningPPOB[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface GetTransactionsEarningsOSPRes {
+    data: TransactionEarningOSP[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface GetTransactionsEarningsOPLRes {
+    data: TransactionEarningOPL[];
     total: number;
     code: number;
     message: string;
@@ -246,6 +302,25 @@ export interface GetPPOBProductTypesRes {
     total: number;
     code: number;
     message: string;
+}
+
+export interface OutstandingPoint {
+    id: string;
+    phone:string;
+    email:string;
+    partner:string;
+    beginning:number;
+    adding:number;
+    bonus:number;
+    spending:number;
+    p2padd:number;
+    p2pspend:number;
+    adjustmentadd:number;
+    adjustmentspend:number;
+    expiredpoint:number;
+    endingpoint:number;
+    date:Date;
+    time:Time;
 }
 
 export interface ChangePasswordRequest {

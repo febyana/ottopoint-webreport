@@ -35,6 +35,9 @@ import {
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
+import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
+import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +52,9 @@ import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/b
     DialogRegisterComponent,
     PaymentsQRComponent,
     VouchersRedeemComponent,
+    SettingsVariablesTransactionsComponent,
+    TransactionsEarningsOspComponent,
+    TransactionsEarningsEarningoplComponent,
     SettingsVariablesTransactionsComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,

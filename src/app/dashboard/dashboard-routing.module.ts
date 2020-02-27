@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { UsersComponent } from './contents/users/users.component';
 import { TransactionsEarningsPPOBComponent } from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
+import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
+import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { TransactionsEarningsQRComponent } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
@@ -34,6 +36,14 @@ export const routes: Routes = [
       {
         path: 'transactions/earnings/ppob',
         component: TransactionsEarningsPPOBComponent,
+      }, 
+      {
+        path: 'transactions/earnings/osp',
+        component: TransactionsEarningsOspComponent,
+      },
+      {
+        path: 'transactions/earnings/earningopl',
+        component: TransactionsEarningsEarningoplComponent,
       },
       {
         path: 'transactions/earnings/qr',

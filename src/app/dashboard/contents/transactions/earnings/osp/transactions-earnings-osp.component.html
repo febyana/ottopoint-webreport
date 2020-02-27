@@ -1,0 +1,197 @@
+<mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
+    <!-- judul -->
+    <h1>Outstanding Points</h1>
+    <!-- filters -->
+    <br>
+    <mat-form-field class="filter-field">
+        <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" [(ngModel)]="fq.from_date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" [(ngModel)]="fq.through_date">
+        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+        <mat-datepicker #dp2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput placeholder="Email" [(ngModel)]="fq.email">
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput placeholder="Account number" [(ngModel)]="fq.phone">
+    </mat-form-field>
+    <!-- <mat-form-field class="filter-field">
+        <mat-label>Transactions type</mat-label>
+        <mat-select >
+            <mat-option [value]="">
+                None
+            </mat-option>
+            <mat-option [value]="2001">
+                Inquiry
+            </mat-option>
+            <mat-option [value]="2002">
+                Payment
+            </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <!-- <mat-form-field class="filter-field">
+        <input matInput placeholder="Product code" >
+    </mat-form-field> -->
+    <!-- <mat-form-field class="filter-field">
+        <mat-label>Product type</mat-label>
+        <mat-select >
+            <mat-option [value]="">
+                None
+            </mat-option>
+            <mat-option *ngFor="let p of productTypes" [value]="p.v"> -->
+                <!-- {{p.k}} -->
+            <!-- </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <!-- <mat-form-field class="filter-field">
+        <input matInput placeholder="Reff number" >
+    </mat-form-field> -->
+    <!-- actions -->
+    <br>
+    <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
+    <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
+    <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
+        Export to CSV
+    </button>
+    <button mat-raised-button color="primary" (click)="exportToXLSX()">
+        Export to XLSX
+    </button>
+    <!-- table -->
+    <div class="parent-table-container">
+        <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            <div class="no-data" *ngIf="isNoData">
+                No Data
+            </div>
+        </div>
+        <div class="table-container" [style.height.px]="tableHeight">
+            <table mat-table [dataSource]="dataTable"
+                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+                
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        ID
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.date}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="time" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        Time
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.time}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Phone
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Email
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="partner">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Partner
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.partner}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="beginning">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Beginning
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.beginning}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="adding">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Issued
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.adding}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="bonus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Bonus
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.bonus}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="spending">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Spending Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.spending}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="p2p_add">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        P2P Adding
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.p2p_add}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="p2p_spend">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        P2P Spending
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.p2p_spend}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="adjustment_add">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Adjustment Adding Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.adjustment_add}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="adjustment_spend">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Adjustment Spending Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.adjustment_spend}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="expired_point">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Expired Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.expired_point}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ending_point">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Ending Point
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.ending_point}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+        <!-- paginator -->
+        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+</mat-card>
