@@ -35,6 +35,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
   };
   buffTotalData = 0;
   displayedColumns: string[] = [
+    'num',
     'date',
     'time',
     // 'id',
