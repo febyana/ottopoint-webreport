@@ -296,6 +296,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     if (this.fq.product_type !== undefined) {
       this.query = this.query + 'a.product_type.:' + this.fq.product_type + ',';
     }
+    
     this.query = this.query.replace(/.$/g,'');
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
