@@ -6,7 +6,7 @@ import { MaterialModule } from '../shared/material.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DashboardComponent } from './dashboard.component';
+import { DashboardComponent, DialogChangePasswordComponent } from './dashboard.component';
 import { SidebarComponent } from './menus/sidebar/sidebar.component';
 
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
@@ -14,6 +14,7 @@ import {
   UsersComponent,
   DialogAddEligibleComponent,
   DialogRegisterComponent,
+  DialogStatusUsersComponent,
 } from './contents/users/users.component';
 import {
   TransactionsEarningsPPOBComponent,
@@ -31,9 +32,14 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
+<<<<<<< HEAD
 import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 
+=======
+import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+// import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
+>>>>>>> dev
 
 @NgModule({
   declarations: [
@@ -49,13 +55,21 @@ import { TransactionsEarningsEarningoplComponent } from './contents/transactions
     PaymentsQRComponent,
     VouchersRedeemComponent,
     SettingsVariablesTransactionsComponent,
+<<<<<<< HEAD
     TransactionsEarningsOspComponent,
     TransactionsEarningsEarningoplComponent,
+=======
+    DialogChangePasswordComponent,
+    DialogStatusUsersComponent,
+    UserCustomerComponent,
+>>>>>>> dev
   ],
   entryComponents: [
     DialogAddEligibleComponent,
     DialogRegisterComponent,
-    DialogShowDataComponent
+    DialogShowDataComponent,
+    DialogChangePasswordComponent,
+    DialogStatusUsersComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

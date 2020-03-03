@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Time } from '@angular/common';
+=======
+import { StringifyOptions } from 'querystring';
+>>>>>>> dev
 
 export interface MetaRes {
     status: boolean;
@@ -302,6 +306,7 @@ export interface GetPPOBProductTypesRes {
     message: string;
 }
 
+<<<<<<< HEAD
 export interface OutstandingPoint {
     id: string;
     phone:string;
@@ -320,3 +325,29 @@ export interface OutstandingPoint {
     date:Date;
     time:Time;
 }
+=======
+export interface ChangePasswordRequest {
+    old_password: string;
+    new_password: string;
+    confirm_password: string;
+}
+
+export interface ChangePasswordResponse {
+    code: number;
+    message: string;
+}
+
+// Change Status
+
+// Request
+export interface ChangeStatusRequest {
+    phone: string;
+    status: boolean;
+}
+
+// Response
+export interface ChangeStatusResponse {
+    data: string;
+    meta: MetaRes;
+}
+>>>>>>> dev

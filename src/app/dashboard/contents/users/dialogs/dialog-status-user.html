@@ -1,0 +1,16 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+        
+    <h1 mat-dialog-title align="center">
+        Are You sure ?
+        <!-- "{{f.status.value}}<span *ngIf="f.status.value === true"> {{f.status.value = Active}}</span>" this user ? -->
+    </h1>
+    <form [formGroup]="dataForm" (ngSubmit) = "yes()">
+        <div mat-dialog-actions align="center">
+            <button mat-raised-button (click)="no()" color="warn">No</button>
+            <button mat-raised-button type="submit" color="primary">Yes</button>
+        </div>
+    </form>
+
+<!-- <div>Testing</div> -->
