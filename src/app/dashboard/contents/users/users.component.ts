@@ -124,6 +124,7 @@ export class UsersComponent {
           );
         }),
         map(res => {
+          console.log('response users : ', res);
           this.dataTableLength = res.total;
           this.isLoadingResults = false;
           if ( res.message === 'Invalid Token' ) {

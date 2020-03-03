@@ -346,15 +346,48 @@ export interface ChangeStatusRequest {
 export interface ChangeStatusResponse {
     data: string;
     meta: MetaRes;
+    code: number;
+    message: string;
 }
 
 export interface BulkAdjustmentResponse {
     data: BulkAdjustmentData;
-    meta: MetaRes;
+    code: number;
+    message: string;
 }
 
 export interface BulkAdjustmentData {
-    Success: any;
-    Failed : any;
-    Total  : any;
+    success: any;
+    failed : any;
+    total  : any;
+}
+
+// History Bulk List
+export interface HistoryBulk {
+    data_history: Databulk[];
+    total: any;
+    code: number;
+    message: string;
+}
+
+export interface Databulk {
+    id        : number;
+	date      : any;
+	file_name  : any;
+	total_data : any;
+	success   : any;
+    gagal     : any;
+}
+
+// History Bulk Detail List
+export interface HistoryBulkDetail {
+    data_history: DataBulkDetail[];
+    code: number;
+    message: string;
+}
+
+export interface DataBulkDetail {
+    errorCode : any;
+    errorDesc : any; 
+    data : any;
 }
