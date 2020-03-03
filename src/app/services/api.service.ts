@@ -22,18 +22,30 @@ import {
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
 <<<<<<< HEAD
+<<<<<<< HEAD
   GetTransactionsEarningsOSPRes,
   GetTransactionsEarningsOPLRes,
 =======
+=======
+  GetTransactionsEarningsOSPRes,
+  GetTransactionsEarningsOPLRes,
+>>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
   ChangePasswordRequest,
   ChangePasswordResponse,
   ChangeStatusRequest,
   ChangeStatusResponse,
+<<<<<<< HEAD
 >>>>>>> dev
+=======
+  HistoryBulk,
+  HistoryBulkDetail,
+  BulkAdjustmentResponse,
+>>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { tap } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -64,6 +76,9 @@ export class ApiService {
   URLGetPPOBProductTypes: string;
   URLChangePassword: string;
   URLChangeStatus: string;
+  URLHistoyBulkDetail: string;
+  URLGetHistoryBulk: string;
+  URLBulkAdjustment: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -79,6 +94,7 @@ export class ApiService {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.URLGetUsers                         = baseURLBackendDashboard + `/users?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`;
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
@@ -93,6 +109,14 @@ export class ApiService {
     this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`; // hold
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
 >>>>>>> dev
+=======
+    this.URLGetTransactionsEarningsOSP       = baseURLBackendDashboard + `/transactions/outstanding?`;
+    this.URLGetTransactionsEarningsOPL       = baseURLBackendDashboard + `/transactions/earningopl?`;
+    this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
+    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
+>>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
@@ -101,6 +125,9 @@ export class ApiService {
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
+    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
+    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
+    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -344,4 +371,66 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.post<ChangeStatusResponse>(this.URLChangeStatus, req, httpOptions);
   }
+
+  public APIGetHistoyBulk(
+    token: string,
+    offset: any,
+    limit: any,
+  ): Observable<HistoryBulk> {
+    this.whichEnvironment();
+    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}`;
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
+  }
+
+
+  public APIGetHistoyBulkDetail(token: string, id: string): Observable<HistoryBulkDetail> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `id=${String(id)}`;
+    return this.httpClient.get<HistoryBulkDetail>(this.URLHistoyBulkDetail + this.queryParams, httpOptions);
+  }
+
+  // ===========
+
+  // importFile(file): Observable<any> {
+  //   let formData = new FormData();    
+  //   formData.append('file', file, file.filename);
+
+  //   return this.http.post(this.inventoriesUrl + '/import', formData)
+  //   .map((response : any) => {
+  //       return response;
+  //     }).catch((error: any) => {
+  //       return Observable.throw(error);
+  //   });
+  // }
+
+  // ===========
+
+  public APIBulkAdjustment(token: string, file): Observable<BulkAdjustmentResponse> {
+    const formData = new FormData();
+    console.log(typeof file);
+    formData.append('file', file, file.filename);
+    // formData.set('file', file);
+    console.log("BULK : ", formData.get('file'));
+    this.whichEnvironment();
+    const httpOptionsUp = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token
+      })
+    };
+
+    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+
+    const rohmet = { content: formData };
+    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
+      tap(
+        result => console.log('res ==>', result)
+      )
+    );
+  }
+
 }
+

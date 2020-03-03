@@ -124,6 +124,7 @@ export class UsersComponent {
           );
         }),
         map(res => {
+          console.log('response users : ', res);
           this.dataTableLength = res.total;
           this.isLoadingResults = false;
           if ( res.message === 'Invalid Token' ) {
@@ -603,7 +604,6 @@ export class DialogStatusUsersComponent implements OnInit {
     event.preventDefault();
     this.isLoadingResults = true;
 
-    // let x = Boolean
     if (this.data.status === true) {
       this.data.status = false
     } else {
@@ -612,21 +612,26 @@ export class DialogStatusUsersComponent implements OnInit {
 
     this.data = {
         phone : this.dataForm.value.phone,
-        status: this.dataForm.value.status,
+        status: this.data.status,
     }
     console.log('query :\n', this.data);
     this.apiService.APIChangeStatus(
         window.localStorage.getItem('token'),
         this.data,
     ).subscribe((res: ChangeStatusResponse) => {
+        this.isLoadingResults = false;
         if (res.data !== null) {
-            // this.dialogRef.close(true);
+            this.dialogRef.close(true);
             return;
         }
-        this.isLoadingResults = false;
         // this.dialogRef.close(false);
         this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
         return;
     });
+
+
   }
+
+
+  
 }
