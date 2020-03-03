@@ -73,13 +73,20 @@
         </div>
         <div class="table-container" [style.height.px]="tableHeight">
             <table mat-table [dataSource]="dataTable"
-                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+                matSort matSortActive="num" matSortDisableClear matSortDirection="desc">
                 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="num" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        No. 
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.num}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="date" stickyEnd>

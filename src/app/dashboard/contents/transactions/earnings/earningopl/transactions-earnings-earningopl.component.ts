@@ -282,10 +282,10 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       },`;
     }
     if (this.fq.phone !== '') {
-      this.query = this.query + 'b.customer_phone.:' + this.fq.phone + ',';
+      this.query = this.query + 'a.customer_phone.:' + this.fq.phone + ',';
     }
     if (this.fq.cust_id !== '') {
-      this.query = this.query + 'b.customer_id.:' + this.fq.cust_id + ',';
+      this.query = this.query + 'a.customer_id.:' + this.fq.cust_id + ',';
     }
     if (this.fq.reff_number !== '') {
       this.query = this.query + 'a.reff_number.:' + this.fq.reff_number + ',';
@@ -296,6 +296,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     if (this.fq.product_type !== undefined) {
       this.query = this.query + 'a.product_type.:' + this.fq.product_type + ',';
     }
+    
     this.query = this.query.replace(/.$/g,'');
     if (this.query !== '') {
       this.paginator.pageIndex = 0;

@@ -35,6 +35,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
   };
   buffTotalData = 0;
   displayedColumns: string[] = [
+    'num',
     'date',
     'time',
     // 'id',
@@ -103,7 +104,6 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
         );
       }),
       map(res => {
-        console.log(res)
         this.isLoadingResults = false;
         if (res.message == 'Invalid Token') {
           window.alert('Login Session Expired!\nPlease Relogin!');

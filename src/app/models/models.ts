@@ -84,6 +84,7 @@ export interface TransactionEarningPPOB {
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/outstanding
 export interface TransactionEarningOSP {
     id: string;
+    num :string;
     phone: string;
     email: string;
     partner: string;
