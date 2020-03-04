@@ -16,6 +16,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { ExportToCsv } from 'export-to-csv';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -26,6 +27,12 @@ import { ExportToCsv } from 'export-to-csv';
 
 export class BulkUploadAdjusmentComponent implements OnInit {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
+
+  myForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
 
   // query = '';
   // fq = { // filter Query
@@ -189,7 +196,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Error Desc', 'Data']
+      headers: ['Error Code', 'Error Desc', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
 

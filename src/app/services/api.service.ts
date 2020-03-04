@@ -385,22 +385,26 @@ export class ApiService {
     // formData.set('file', file);
     console.log("BULK : ", formData.get('file'));
     this.whichEnvironment();
-    const httpOptionsUp = {
+
+    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
+
+    const httpOptionT = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + token
       })
     };
 
-    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionT);
 
-    const rohmet = { content: formData };
-    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
-      tap(
-        result => console.log('res ==>', result)
-      )
-    );
+    // const rohmet = { content: formData };
+    // return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
+    //   tap(
+    //     result => console.log('res ==>', result)
+    //   )
+    // );
   }
 
 }
