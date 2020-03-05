@@ -343,46 +343,69 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.post<ChangeStatusResponse>(this.URLChangeStatus, req, httpOptions);
   }
-   public APIGetHistoyBulk(
-        token: string,
-        offset: any,
-        limit: any,
-      ): Observable<HistoryBulk> {
-         this.whichEnvironment();
-    
-        this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}`;
-        httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-        return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
-      }
-      public APIGetHistoyBulkDetail(token: string, id: string): Observable<HistoryBulkDetail> {
-        this.whichEnvironment();
-        httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-        this.queryParams = `id=${String(id)}`;
-        return this.httpClient.get<HistoryBulkDetail>(this.URLHistoyBulkDetail + this.queryParams, httpOptions);
-      }
-      public APIBulkAdjustment(token: string, file): Observable<BulkAdjustmentResponse> {
-        const formData = new FormData();
-        console.log(typeof file);
-        formData.append('file', file, file.filename);
-        // formData.set('file', file);
-        console.log("BULK : ", formData.get('file'));
-        this.whichEnvironment();
-        const httpOptionsUp = {
-          headers: new HttpHeaders({
-            'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + token
-          })
-        };
-    
-        // httpOptions.headers.set('Authorization', 'Bearer ' + token);
-        // httpOptions.headers.set('Content-Type', 'multipart/form-data');
-    
-        const rohmet = { content: formData };
-        return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
-          tap(
-            result => console.log('res ==>', result)
-          )
-        );
-          }
-    
+
+  public APIGetHistoyBulk(
+    token: string,
+    offset: any,
+    limit: any,
+  ): Observable<HistoryBulk> {
+    this.whichEnvironment();
+    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}`;
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
+  }
+
+
+  public APIGetHistoyBulkDetail(token: string, id: string): Observable<HistoryBulkDetail> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `id=${String(id)}`;
+    return this.httpClient.get<HistoryBulkDetail>(this.URLHistoyBulkDetail + this.queryParams, httpOptions);
+  }
+
+  // ===========
+
+  // importFile(file): Observable<any> {
+  //   let formData = new FormData();    
+  //   formData.append('file', file, file.filename);
+
+  //   return this.http.post(this.inventoriesUrl + '/import', formData)
+  //   .map((response : any) => {
+  //       return response;
+  //     }).catch((error: any) => {
+  //       return Observable.throw(error);
+  //   });
+  // }
+
+  // ===========
+
+  public APIBulkAdjustment(token: string, file): Observable<BulkAdjustmentResponse> {
+    const formData = new FormData();
+    console.log(typeof file);
+    formData.append('file', file, file.filename);
+    // formData.set('file', file);
+    console.log("BULK : ", formData.get('file'));
+    this.whichEnvironment();
+
+    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
+
+    const httpOptionT = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token
+      })
+    };
+
+    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionT);
+
+    // const rohmet = { content: formData };
+    // return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
+    //   tap(
+    //     result => console.log('res ==>', result)
+    //   )
+    // );
+  }
+
 }
