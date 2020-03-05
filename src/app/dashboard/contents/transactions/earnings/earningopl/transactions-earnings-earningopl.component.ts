@@ -53,7 +53,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   , 'denom'
   , 'selling_price'
   , 'comment'
-  , 'transactions_date'
+  , 'created_At'
   , 'transactions_time'
   , 'loyaltycardno'
   , 'pos'
