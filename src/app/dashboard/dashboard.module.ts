@@ -32,23 +32,12 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
-
-=======
-import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
-// import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
->>>>>>> dev
-=======
-import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
-// import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
-import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
-import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
+import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+// import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
 @NgModule({
   declarations: [
@@ -64,24 +53,12 @@ import { TransactionsEarningsEarningoplComponent } from './contents/transactions
     PaymentsQRComponent,
     VouchersRedeemComponent,
     SettingsVariablesTransactionsComponent,
-<<<<<<< HEAD
-<<<<<<< HEAD
     TransactionsEarningsOspComponent,
     TransactionsEarningsEarningoplComponent,
-=======
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
-    UserCustomerComponent,
->>>>>>> dev
-=======
-    TransactionsEarningsOspComponent,
-    TransactionsEarningsEarningoplComponent,
-    SettingsVariablesTransactionsComponent,
-    DialogChangePasswordComponent,
-    DialogStatusUsersComponent,
-    UserCustomerComponent,
     BulkUploadAdjusmentComponent,
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
+    UserCustomerComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

@@ -1,15 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { Time } from '@angular/common';
-=======
 import { StringifyOptions } from 'querystring';
->>>>>>> dev
-=======
-import { Time } from '@angular/common';
-
-import { StringifyOptions } from 'querystring';
-import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
 
 export interface MetaRes {
     status: boolean;
@@ -313,10 +303,6 @@ export interface GetPPOBProductTypesRes {
     message: string;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
 export interface OutstandingPoint {
     id: string;
     phone:string;
@@ -335,11 +321,6 @@ export interface OutstandingPoint {
     date:Date;
     time:Time;
 }
-<<<<<<< HEAD
-=======
-=======
-
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;
@@ -359,17 +340,6 @@ export interface ChangeStatusRequest {
     status: boolean;
 }
 
-// Response
-export interface ChangeStatusResponse {
-    data: string;
-    meta: MetaRes;
-    code: number;
-    message: string;
-}
-<<<<<<< HEAD
->>>>>>> dev
-=======
-
 export interface BulkAdjustmentResponse {
     data: BulkAdjustmentData;
     code: number;
@@ -382,14 +352,20 @@ export interface BulkAdjustmentData {
     total  : any;
 }
 
-// History Bulk List
+// Response
+export interface ChangeStatusResponse {
+    data: string;
+    meta: MetaRes;
+    code: number;
+    message: string;
+
+}
 export interface HistoryBulk {
     data_history: Databulk[];
     total: any;
     code: number;
     message: string;
 }
-
 export interface Databulk {
     id        : number;
 	date      : any;
@@ -398,7 +374,6 @@ export interface Databulk {
 	success   : any;
     gagal     : any;
 }
-
 // History Bulk Detail List
 export interface HistoryBulkDetail {
     data_history: DataBulkDetail[];
@@ -411,4 +386,3 @@ export interface DataBulkDetail {
     errorDesc : any; 
     data : any;
 }
->>>>>>> 5a9a7c52212f794d65d52bd0e640888f392d7d34
