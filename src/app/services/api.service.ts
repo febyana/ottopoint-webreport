@@ -87,7 +87,8 @@ export class ApiService {
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
-    this.URLGetTransactionsEarningsQR        = baseURLBackendDashboard + `/transactions/earnings/qr?`; // hold
+    this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
+    this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
