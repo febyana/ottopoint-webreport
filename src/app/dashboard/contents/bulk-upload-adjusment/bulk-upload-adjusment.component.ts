@@ -105,6 +105,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
           startWith({}),
           switchMap(() => {
             this.isLoadingResults = true;
+            this.paginator.pageIndex = 0;
             // console.log('query rohmet :\n', this.query);
             return this.apiService.APIGetHistoyBulk(
               window.localStorage.getItem('token'),
