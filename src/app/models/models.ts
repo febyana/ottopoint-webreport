@@ -203,6 +203,39 @@ export interface GetTransactionsVouchersRedeemRes {
     message: string;
 }
 
+export interface GetTransactionsVouchersRedeemOplRes {
+    data: TransactionVoucherRedeemOpl[];
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface TransactionVoucherRedeemOpl {
+    purchaseAt: string;
+    timeRedeem: string;
+    dateUsage: string;
+    timeUsage: string;
+    customerName: string;
+    customerLastname: string;
+    customerPhone: string;
+    customerEmail: string;
+    partner: string;
+    vendor: string;
+    costInPoints: number;
+    campaignName: string;
+    product_code: string;
+    campaignType: string;
+    cust_active_point_am: number;
+    status: string;
+    deliveryStatus: DeliveryStatus;
+    used: string;
+    rrn: string;
+}
+
+export interface DeliveryStatus {
+    status: string;
+}
+
 // Eligible
 export interface AddEligibleUserReq {
     nama: string;
@@ -298,6 +331,13 @@ export interface GetVouchersNameRes {
     message: string;
 }
 
+export interface GetProductNameRes {
+    data: string[];
+    total: number;
+    code: number;
+    message: string;
+}
+
 export interface GetPPOBProductTypesRes {
     data: string[];
     total: number;
@@ -363,6 +403,17 @@ export interface BulkAdjustmentData {
     total  : any;
 }
 
+export interface BulkAddCustomerRes {
+    data: BulkAdjustmentData;
+    code: number;
+    message: string;
+}
+
+export interface BulkAddCustomerData {
+    success: any;
+    failed : any;
+    total  : any;
+}
 // History Bulk List
 export interface HistoryBulk {
     data_history: Databulk[];

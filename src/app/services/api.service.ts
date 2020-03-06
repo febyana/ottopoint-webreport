@@ -30,6 +30,8 @@ import {
   HistoryBulk,
   HistoryBulkDetail,
   BulkAdjustmentResponse,
+  BulkAddCustomerRes,
+  GetTransactionsVouchersRedeemOplRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -57,6 +59,7 @@ export class ApiService {
   URLGetTransactionsEarningsOPL: string;
   URLGetTransactionsEarningsQR: string;
   URLGetTransactionsVouchersRedeem: string;
+  URLGetTransactionsVouchersRedeemOpl: string;
   URLGetAnalyticsTransactions: string;
   URLGetAnalyticsUsers: string;
   URLGetSettingsVariablesTransactions: string;
@@ -68,6 +71,7 @@ export class ApiService {
   URLHistoyBulkDetail: string;
   URLGetHistoryBulk: string;
   URLBulkAdjustment: string;
+  URLBulkAddCustomer: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -88,6 +92,7 @@ export class ApiService {
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
+    this.URLGetTransactionsVouchersRedeemOpl = baseURLBackendDashboard + `/history/redeem?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
@@ -96,9 +101,10 @@ export class ApiService {
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
-    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
-    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
-    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
+    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment';
+    this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/addcustomer';
+    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history';
+    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -252,6 +258,23 @@ export class ApiService {
     );
   }
 
+  public APIGetTransactionsVouchersRedeemOPL(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetTransactionsVouchersRedeemOplRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetTransactionsVouchersRedeemOplRes>(
+      this.URLGetTransactionsVouchersRedeemOpl + this.queryParams,
+      httpOptions
+    );
+  }
+
   public APIGetAnalyticsTransactions(token: string): Observable<GetAnalyticsTransactionsRes> {
     this.whichEnvironment();
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -361,6 +384,36 @@ export class ApiService {
     this.queryParams = `id=${String(id)}`;
     return this.httpClient.get<HistoryBulkDetail>(this.URLHistoyBulkDetail + this.queryParams, httpOptions);
   }
+
+  public APIBulkAddCustomer(token: string, file): Observable<BulkAddCustomerRes> {
+    const formData = new FormData();
+    console.log(typeof file);
+    formData.append('file', file, file.filename);
+    // formData.set('file', file);
+    console.log("BULK : ", formData.get('file'));
+    this.whichEnvironment();
+
+    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
+
+    const httpOptionT = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token
+      })
+    };
+
+    return this.httpClient.post<BulkAddCustomerRes>(this.URLBulkAddCustomer, formData, httpOptionT);
+
+    // const rohmet = { content: formData };
+    // return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
+    //   tap(
+    //     result => console.log('res ==>', result)
+    //   )
+    // );
+  }
+
 
   // ===========
 
