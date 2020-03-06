@@ -36,6 +36,7 @@ import { selected_environment, environments } from '../../configs/app.config.jso
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { tap } from 'rxjs/operators';
 
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -65,12 +66,13 @@ export class ApiService {
   URLGetPPOBProductTypes: string;
   URLChangePassword: string;
   URLChangeStatus: string;
-  URLHistoyBulkDetail: string;
-  URLGetHistoryBulk: string;
-  URLBulkAdjustment: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
+  URLHistoyBulkDetail: string;
+  URLGetHistoryBulk: string;
+  URLBulkAdjustment: string;
+
 
   constructor(
     private httpClient: HttpClient,
@@ -82,23 +84,23 @@ export class ApiService {
   ) {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
-    this.URLGetTransactionsEarningsOSP       = baseURLBackendDashboard + `/transactions/outstanding?`;
-    this.URLGetTransactionsEarningsOPL       = baseURLBackendDashboard + `/transactions/earningopl?`;
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
+    this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
+    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
+    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
+    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
-    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
-    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
-    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -408,4 +410,3 @@ export class ApiService {
   }
 
 }
-

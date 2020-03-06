@@ -6,11 +6,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import {
-  GetTransactionsEarningsOSPRes,
-  ExportTransactionsEarningsPPOBToCSVReq,
-  GetPPOBProductTypesRes,
-} from '../../../../../models/models';
+import { GetTransactionsEarningsOSPRes} from '../../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -175,8 +171,8 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
           No: no++,
           Date : e.date,
           Time : e.time,
-          Phone : '+62'+e.phone,
-          Email :e.email,
+          Phone : e.phone,
+          Email : e.email,
           Partner : e.partner,
           Beginning : e.beginning,
           Adding : e.adding,

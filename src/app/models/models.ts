@@ -1,7 +1,5 @@
 import { Time } from '@angular/common';
-
 import { StringifyOptions } from 'querystring';
-import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
 export interface MetaRes {
     status: boolean;
@@ -323,7 +321,6 @@ export interface OutstandingPoint {
     date:Date;
     time:Time;
 }
-
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;
@@ -343,14 +340,6 @@ export interface ChangeStatusRequest {
     status: boolean;
 }
 
-// Response
-export interface ChangeStatusResponse {
-    data: string;
-    meta: MetaRes;
-    code: number;
-    message: string;
-}
-
 export interface BulkAdjustmentResponse {
     data: BulkAdjustmentData;
     meta: MetaRes;
@@ -362,14 +351,20 @@ export interface BulkAdjustmentData {
     total  : any;
 }
 
-// History Bulk List
+// Response
+export interface ChangeStatusResponse {
+    data: string;
+    meta: MetaRes;
+    code: number;
+    message: string;
+
+}
 export interface HistoryBulk {
     data_history: Databulk[];
     total: any;
     code: number;
     message: string;
 }
-
 export interface Databulk {
     id        : number;
 	date      : any;
@@ -378,7 +373,6 @@ export interface Databulk {
 	success   : any;
     gagal     : any;
 }
-
 // History Bulk Detail List
 export interface HistoryBulkDetail {
     data_history: DataBulkDetail[];
