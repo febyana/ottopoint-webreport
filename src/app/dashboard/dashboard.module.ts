@@ -35,6 +35,8 @@ import {
 import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
+import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
+import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
 
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
@@ -58,6 +60,8 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
     BulkUploadAdjusmentComponent,
+    BulkUploadAddcustomerComponent,
+    RedeemVoucherOplComponent,
     UserCustomerComponent,
   ],
   entryComponents: [
