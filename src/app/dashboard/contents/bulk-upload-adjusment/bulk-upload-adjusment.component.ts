@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   HistoryBulk,
   HistoryBulkDetail,
@@ -34,6 +35,14 @@ export class BulkUploadAdjusmentComponent implements OnInit {
     fileSource: new FormControl('', [Validators.required])
   });
 
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
+
   // query = '';
   // fq = { // filter Query
   //   date: '',
@@ -62,17 +71,11 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   isNoData = false;
   fileImport : any;
 
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 5000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(
+    // private dialogRef: MatDialogRef,
     private apiService: ApiService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -105,7 +108,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
           startWith({}),
           switchMap(() => {
             this.isLoadingResults = true;
-            this.paginator.pageIndex = 0;
+            // this.paginator.pageIndex = 0;
             // console.log('query rohmet :\n', this.query);
             return this.apiService.APIGetHistoyBulk(
               window.localStorage.getItem('token'),
@@ -153,7 +156,9 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   }
 
   submitImport() {
+    event.preventDefault();
       if(this.fileImport) {
+        this.isLoadingResults = true;
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
           this.apiService.APIBulkAdjustment(
@@ -161,23 +166,27 @@ export class BulkUploadAdjusmentComponent implements OnInit {
             this.fileImport)
             .subscribe(res => {
               console.log('response Adjustment : ', res);
-              // if (res.message == 'Internal Server Error') {
-              //   window.alert('Upload File Gagal');
-              //   this.router.navigateByUrl('/upload-adjusment');
-              //   return;
-              // }
-              // this.alertNotification("Import Inventories success !", "success");
-              // // this.blockUI.stop();
-              // this.modalRef.close();
-              // this.refresh();
-          },
-          // error=> {
-          //   this.isLoadingResults = true;
-          //     this.alertNotification(error.error.message, "danger");
-          //     this.blockUI.stop();
-          //     this.modalRef.close();
-          //     this.refresh();
-          // }
+              this.isLoadingResults = false;
+              if (res.meta.message == 'Internal Server Error') {
+                window.alert('Upload File Gagal');
+                this.router.navigateByUrl('/upload-adjusment');
+                return;
+              }
+              // this.isLoadingResults = true;
+              // this.dialogRef.close(false);
+              let msg: any;
+              this.isLoadingResults = false;
+              if (res.meta.message == 'SUCCESS') {
+                msg = 'File Berhasil di Upload'
+                this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                return;
+              }
+            },
+            
+          error=> {
+            this.isLoadingResults = false;
+              window.alert('Internal Server Eror');
+          }
           );
       }
   }

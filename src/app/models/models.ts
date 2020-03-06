@@ -353,8 +353,7 @@ export interface ChangeStatusResponse {
 
 export interface BulkAdjustmentResponse {
     data: BulkAdjustmentData;
-    code: number;
-    message: string;
+    meta: MetaRes;
 }
 
 export interface BulkAdjustmentData {
