@@ -33,6 +33,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     through_date: null,
     product_name: undefined,
     Type: undefined,
+    phone: '',
     customerName:'',
     cust_id: '',
     partner: undefined,
@@ -299,8 +300,8 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     if (this.fq.rrn !== '') {
       this.query = this.query + 'a.rrn.:' + this.fq.rrn + ',';
     }
-    if (this.fq.customerName != '') {
-      this.query = this.query + `a.firstname.:` + this.fq.customerName + ',';
+    if (this.fq.phone != '') {
+      this.query = this.query + `a.phone.:` + this.fq.phone + ',';
     }
     // replace tanda (,) terakhir
     this.query = this.query.replace(/.$/g, '');
@@ -342,6 +343,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     this.fq.partner = undefined;
     this.fq.rrn = '';
     this.fq.vendor = undefined;
+    this.fq.phone = ``;
     console.log('query :\n', this.query);
     this.sort.active = 'id';
     this.sort.direction = 'desc';

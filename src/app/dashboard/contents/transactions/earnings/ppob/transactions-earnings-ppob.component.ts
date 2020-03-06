@@ -55,7 +55,7 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit 
     'point',
     'type_trans',
     'reff_number',
-    // 'type_trx',
+    'partner',
     'data',
     // 'updated_at',
     // 'date_time',
