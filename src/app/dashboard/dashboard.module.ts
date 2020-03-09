@@ -37,6 +37,8 @@ import { TransactionsEarningsEarningoplComponent } from './contents/transactions
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
+
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
 @NgModule({
@@ -59,6 +61,7 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
     DialogStatusUsersComponent,
     BulkUploadAdjusmentComponent,
     UserCustomerComponent,
+    UltravoucherComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

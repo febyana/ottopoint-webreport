@@ -60,23 +60,30 @@
         <div class="table-container" [style.height.px]="tableHeight">
             <table mat-table [dataSource]="dataTable"
                 matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+
+                <ng-container matColumnDef="no" sticky>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        No
+                    </th>
+                    <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
+                </ng-container>
                 
                 <ng-container matColumnDef="customer_id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
                         Customer ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.customer_id}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="phone">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
                         Phone
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.phone}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
                         Email
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.email}}</td>

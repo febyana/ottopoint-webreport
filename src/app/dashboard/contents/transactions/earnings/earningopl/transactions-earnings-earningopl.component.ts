@@ -42,7 +42,8 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   buffTotalData = 0;
 
   displayedColumns: string[] = [
-  'customer_id'
+  'no'
+  , 'customer_id'
   , 'phone'
   , 'email'
   , 'transactions_type'

@@ -30,6 +30,7 @@ import {
   HistoryBulk,
   HistoryBulkDetail,
   BulkAdjustmentResponse,
+  GetListUltraVoucherRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -72,6 +73,7 @@ export class ApiService {
   URLHistoyBulkDetail: string;
   URLGetHistoryBulk: string;
   URLBulkAdjustment: string;
+  URLListUltraVoucher : string;
 
 
   constructor(
@@ -90,6 +92,7 @@ export class ApiService {
     this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
     this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
+    this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
@@ -221,6 +224,19 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsOPLRes>(this.URLGetTransactionsEarningsOPL + this.queryParams, httpOptions)
+  }
+  public APIGetListUltraVoucher(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<GetListUltraVoucherRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetListUltraVoucherRes>(this.URLListUltraVoucher + this.queryParams, httpOptions)
   }
 
   public APIGetTransactionsEarningsQR(
