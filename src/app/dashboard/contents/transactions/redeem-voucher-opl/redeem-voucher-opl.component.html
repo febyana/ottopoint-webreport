@@ -124,28 +124,28 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date Redeem
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.purchaseAt}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.purchaseAt | date:'mediumDate'}}
                 </ng-container>
 
                 <ng-container matColumnDef="timeRedeem">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Time Redeem
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.timeRedeem}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.timeRedeem.substr(11,8)}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="dateUsage">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date Usage
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.dateUsage}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.dateUsage | date:'mediumDate'}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="timeUsage">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Time Usage
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.timeUsage}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.timeUsage.substr(11,8)}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="customerName">

@@ -146,11 +146,11 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       if(this.fileImport) {
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
-          this.apiService.APIBulkAdjustment(
+          this.apiService.APIBulkAddCustomer(
             window.localStorage.getItem('token'),
             this.fileImport)
             .subscribe(res => {
-              console.log('response Adjustment : ', res);
+              console.log('response AddNew Customer : ', res);
               // if (res.message == 'Internal Server Error') {
               //   window.alert('Upload File Gagal');
               //   this.router.navigateByUrl('/upload-adjusment');
