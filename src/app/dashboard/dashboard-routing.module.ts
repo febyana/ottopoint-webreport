@@ -18,6 +18,7 @@ import {
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
+import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
 import { path, Component } from '@amcharts/amcharts4/core';
 
@@ -79,6 +80,10 @@ export const routes: Routes = [
         path: 'transactions/vouchers/redeemopl',
         component: RedeemVoucherOplComponent,
       }
+      {
+        path: 'ultravoucher',
+        component: UltravoucherComponent,
+      },
     ]
   }
 ];

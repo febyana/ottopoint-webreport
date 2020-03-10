@@ -39,6 +39,8 @@ import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustom
 import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
 
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
+
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
 @NgModule({
@@ -63,6 +65,7 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
     UserCustomerComponent,
+    UltravoucherComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

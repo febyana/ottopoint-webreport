@@ -35,14 +35,16 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     cust_id: '',
     phone: '',
     type_trans: undefined,
-    product_code: '',
+    product_name: '',
+    partner: '',
     product_type: undefined,
     reff_number: '',
   };
   buffTotalData = 0;
 
   displayedColumns: string[] = [
-  'customer_id'
+  'no'
+  , 'customer_id'
   , 'phone'
   , 'email'
   , 'transactions_type'
@@ -50,8 +52,8 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   , 'product_code'
   , 'product_type' 
   , 'product_name'
-  , 'denom'
-  , 'selling_price'
+  // , 'denom'
+  // , 'selling_price'
   , 'comment'
   , 'created_At'
   , 'transactions_time'
@@ -290,13 +292,15 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     if (this.fq.reff_number !== '') {
       this.query = this.query + 'a.reff_number.:' + this.fq.reff_number + ',';
     }
-    if (this.fq.product_code !== '') {
-      this.query = this.query + 'a.product_code.:' + this.fq.product_code + ',';
+    if (this.fq.product_name !== '') {
+      this.query = this.query + 'a.product_name.icontains:' + this.fq.product_name + ',';
+    }
+    if (this.fq.partner !== '') {
+      this.query = this.query + 'a.partner.icontains:' + this.fq.partner + ',';
     }
     if (this.fq.product_type !== undefined) {
       this.query = this.query + 'a.product_type.:' + this.fq.product_type + ',';
     }
-    
     this.query = this.query.replace(/.$/g,'');
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
@@ -333,8 +337,9 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     this.fq.phone = '';
     this.fq.cust_id = '';
     this.fq.type_trans = undefined;
-    this.fq.product_code = '';
+    this.fq.product_name = '';
     this.fq.product_type = undefined;
+    this.fq.partner = '';
     this.fq.reff_number = '';
     this.apiService.APIGetTransactionsEarningOPL(
       window.localStorage.getItem('token'),
