@@ -23,7 +23,10 @@
         <input matInput placeholder="Account number" [(ngModel)]="fq.phone">
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <input matInput placeholder="Product code" [(ngModel)]="fq.product_code">
+        <input matInput placeholder="Product name" [(ngModel)]="fq.product_name">
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput placeholder="Partner" [(ngModel)]="fq.partner">
     </mat-form-field>
     <mat-form-field class="filter-field">
         <mat-label>Product type</mat-label>
@@ -59,7 +62,7 @@
         </div>
         <div class="table-container" [style.height.px]="tableHeight">
             <table mat-table [dataSource]="dataTable"
-                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+                matSort matSortActive="created_At" matSortDisableClear matSortDirection="desc">
 
                 <ng-container matColumnDef="no" sticky>
                     <th mat-header-cell *matHeaderCellDef disableClear>
@@ -124,19 +127,19 @@
                     <td mat-cell *matCellDef="let row">{{row.product_type}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="denom">
+                <!-- <ng-container matColumnDef="denom">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Denom 
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.denom}}</td>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-container matColumnDef="selling_price">
+                <!-- <ng-container matColumnDef="selling_price">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Selling Price
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.selling_price}}</td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="comment">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>

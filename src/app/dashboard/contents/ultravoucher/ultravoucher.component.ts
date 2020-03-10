@@ -6,6 +6,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 import {
   GetListUltraVoucherRes
 } from '../../../models/models';
@@ -29,6 +30,11 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
   fq = {
     from_date : null, 
     through_date : null,
+    sku :undefined,
+    acc_id:undefined,
+    voucher_id:'',
+    voucher_code:'',
+    status:undefined,
   }
 
   buffTotalData = 0;
@@ -77,6 +83,7 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
    ) {}
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit() {
@@ -231,8 +238,25 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
         this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
     }
-
-    console.log('query :\n', this.query);
+    if (this.fq.sku !== undefined) {
+      this.query = this.query + 'a.sku.:' + this.fq.sku + ',';
+    }
+    if (this.fq.acc_id !== undefined) {
+      this.query = this.query + 'a.institution_id.:' + this.fq.acc_id + ',';
+    }
+    if (this.fq.voucher_id !== '') {
+      this.query = this.query + 'B.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
+    }
+    if (this.fq.voucher_code !== '') {
+      this.query = this.query + 'B.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
+    }
+    if (this.fq.status !== undefined) {
+      this.query = this.query + 'b.status.:' + this.fq.status + ',';
+    }
+    this.query = this.query.replace(/.$/g,'');
+    if(this.query !== ''){
+      this.paginator.pageIndex = 0;
+    }
     this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -264,6 +288,11 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
+    this.fq.acc_id = undefined;
+    this.fq.voucher_code = '';
+    this.fq.voucher_id = '';
+    this.fq.sku = undefined;
+    this.fq.status = undefined;
     this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
