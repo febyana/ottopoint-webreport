@@ -434,6 +434,18 @@ export interface BulkAddCustomerData {
     failed : any;
     total  : any;
 }
+
+export interface BulkAddCustomerRes {
+    data: BulkAdjustmentData;
+    code: number;
+    message: string;
+}
+
+export interface BulkAddCustomerData {
+    success: any;
+    failed : any;
+    total  : any;
+}
 // History Bulk List
 export interface HistoryBulk {
     data_history: Databulk[];

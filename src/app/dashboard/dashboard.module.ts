@@ -66,6 +66,9 @@ import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.comp
     RedeemVoucherOplComponent,
     UserCustomerComponent,
     UltravoucherComponent,
+    BulkUploadAdjusmentComponent,
+    BulkUploadAddcustomerComponent,
+    RedeemVoucherOplComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

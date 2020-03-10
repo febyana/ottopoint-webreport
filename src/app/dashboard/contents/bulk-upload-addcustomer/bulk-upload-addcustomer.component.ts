@@ -101,7 +101,6 @@ export class BulkUploadAddcustomerComponent implements OnInit {
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
-              "customer",
             );
           }),
           map(res => {
@@ -151,7 +150,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
             window.localStorage.getItem('token'),
             this.fileImport)
             .subscribe(res => {
-              console.log('response Adjustment : ', res);
+              console.log('response AddNew Customer : ', res);
               // if (res.message == 'Internal Server Error') {
               //   window.alert('Upload File Gagal');
               //   this.router.navigateByUrl('/upload-adjusment');
