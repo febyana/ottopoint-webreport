@@ -79,7 +79,7 @@ export const routes: Routes = [
       {
         path: 'transactions/vouchers/redeemopl',
         component: RedeemVoucherOplComponent,
-      }
+      },
       {
         path: 'ultravoucher',
         component: UltravoucherComponent,

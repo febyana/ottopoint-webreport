@@ -425,8 +425,7 @@ export interface ChangeStatusResponse {
 }
 export interface BulkAddCustomerRes {
     data: BulkAdjustmentData;
-    code: number;
-    message: string;
+    meta: MetaRes;
 }
 
 export interface BulkAddCustomerData {
