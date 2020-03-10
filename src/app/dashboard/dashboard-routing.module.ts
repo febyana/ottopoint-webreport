@@ -9,17 +9,13 @@ import { TransactionsEarningsPPOBComponent } from './contents/transactions/earni
 import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { TransactionsEarningsQRComponent } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
-import { RedeemVoucherOplComponent} from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
-import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
-import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
-import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
 import { path, Component } from '@amcharts/amcharts4/core';
 
 
@@ -61,28 +57,12 @@ export const routes: Routes = [
         component: VouchersRedeemComponent,
       },
       {
-        path: 'settings/variables/transactions',
-        component: SettingsVariablesTransactionsComponent,
-      },
-      {
-      path: 'users_customer',
-      component : UserCustomerComponent,
-      },
-      {
         path: 'upload-adjusment',
         component: BulkUploadAdjusmentComponent,
       },
       {
-        path: 'upload-addcustomer',
-        component: BulkUploadAddcustomerComponent,
-      },
-      {
-        path: 'transactions/vouchers/redeemopl',
-        component: RedeemVoucherOplComponent,
-      },
-      {
-        path: 'ultravoucher',
-        component: UltravoucherComponent,
+        path: 'settings/variables/transactions',
+        component: SettingsVariablesTransactionsComponent,
       },
     ]
   }
