@@ -291,7 +291,9 @@ export interface SettingVariableTransaction {
     transaksi_pay_qr: number;
     transaksi_merchant: number;
     limit_transaksi: number;
+    limit_transaksi_merchant: number;
     minimal_transaksi: number;
+    minimal_transaksi_merchant: number;
     created_at: string;
     updated_at: string;
 }
@@ -309,7 +311,9 @@ export interface PutSettingsVariablesTransactionsReq {
     transaksi_pay_qr: number;
     transaksi_merchant: number;
     limit_transaksi: number;
+    limit_transaksi_merchant: number;
     minimal_transaksi: number;
+    minimal_transaksi_merchant: number;
 }
 export interface BeforeAfterPutSettingsVariablesTransactions {
     before: SettingVariableTransaction;

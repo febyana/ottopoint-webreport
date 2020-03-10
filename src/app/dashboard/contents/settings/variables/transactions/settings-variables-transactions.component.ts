@@ -23,7 +23,9 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
   transaksiPayQr: number;
   transaksiMerchant: number;
   limitTransaksi: number;
+  limitTransaksiMerchant: number;
   minimalTransaksi: number;
+  minimalTransaksiMerchant: number;
   isDisabled = true;
   isSaveDisabled = true;
   isCancelDisabled = true;
@@ -54,7 +56,9 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
       this.transaksiPayQr = res.data[0].transaksi_pay_qr;
       this.transaksiMerchant = res.data[0].transaksi_merchant;
       this.limitTransaksi = res.data[0].limit_transaksi;
+      this.limitTransaksiMerchant = res.data[0].limit_transaksi_merchant;
       this.minimalTransaksi = res.data[0].minimal_transaksi;
+      this.minimalTransaksiMerchant = res.data[0].minimal_transaksi_merchant;
     });
   }
 
@@ -78,7 +82,9 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
       this.transaksiPayQr = res.data[0].transaksi_pay_qr;
       this.transaksiMerchant = res.data[0].transaksi_merchant;
       this.limitTransaksi = res.data[0].limit_transaksi;
+      this.limitTransaksiMerchant = res.data[0].limit_transaksi_merchant;
       this.minimalTransaksi = res.data[0].minimal_transaksi;
+      this.minimalTransaksiMerchant = res.data[0].minimal_transaksi_merchant;
     });
     this.isDisabled = true;
     this.isSaveDisabled = true;
@@ -92,7 +98,10 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
       Number(this.transaksiPayQr) &&
       Number(this.transaksiMerchant) &&
       Number(this.limitTransaksi) &&
-      Number(this.minimalTransaksi))
+      Number(this.limitTransaksiMerchant) &&
+      Number(this.minimalTransaksi) &&
+      Number(this.minimalTransaksiMerchant)
+      )
     ) {
       return;
     }
@@ -102,7 +111,9 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
       transaksi_pay_qr: this.transaksiPayQr,
       transaksi_merchant: this.transaksiMerchant,
       limit_transaksi: this.limitTransaksi,
+      limit_transaksi_merchant: this.limitTransaksiMerchant,
       minimal_transaksi: this.minimalTransaksi,
+      minimal_transaksi_merchant: this.minimalTransaksiMerchant,
     };
 
     this.apiService.APIPutSettingsVariablesTransactions(
@@ -118,9 +129,11 @@ export class SettingsVariablesTransactionsComponent implements AfterViewInit {
       }
       this.transaksiPPOB = res.data.after.transaksi_ppob;
       this.transaksiPayQr = res.data.after.transaksi_pay_qr;
-      this.transaksiMerchant = res.data.after.transaksi_merchant;
+      this.transaksiMerchant = res.data.after.transaksi_merchant; 
       this.limitTransaksi = res.data.after.limit_transaksi;
+      this.limitTransaksiMerchant = res.data.after.limit_transaksi_merchant;
       this.minimalTransaksi = res.data.after.minimal_transaksi;
+      this.minimalTransaksiMerchant = res.data.after.minimal_transaksi_merchant;
       this.snackBar.open('success', 'close', this.matSnackBarConfig);
     });
     this.isDisabled = true;

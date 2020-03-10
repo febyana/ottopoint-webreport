@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject, ElementRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -73,6 +73,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
 
   constructor(
     // private dialogRef: MatDialogRef,
@@ -101,6 +102,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
+      this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)
@@ -114,6 +116,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
+              "adjustment",
             );
           }),
           map(res => {
@@ -179,6 +182,8 @@ export class BulkUploadAdjusmentComponent implements OnInit {
               if (res.meta.message == 'SUCCESS') {
                 msg = 'File Berhasil di Upload'
                 this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
                 return;
               }
             },
@@ -192,8 +197,8 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   }
 
   Download(id) {
+    this.isLoadingResults = true;
     console.log('Download ID : ', id);
-    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'AdjustmentPoint' + Date().toLocaleString(),
@@ -206,7 +211,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['Error Code', 'Error Desc', 'Data']
+      headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
 
@@ -233,6 +238,8 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       //   }
       // });
       csvExporter.generateCsv(res.data_history);
+
+      this.isLoadingResults = false;
     });
   }
 

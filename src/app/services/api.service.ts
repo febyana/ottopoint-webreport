@@ -77,8 +77,6 @@ export class ApiService {
   URLBulkAdjustment: string;
   URLBulkAddCustomer: string;
   // baseURLOttopay: string;
-  URLEligibleUser: string;
-  URLRegisterUser: string;
 
 
   constructor(
@@ -338,13 +336,14 @@ export class ApiService {
     bodyReq: PutSettingsVariablesTransactionsReq
   ): Observable<PutSettingsVariablesTransactionsRes> {
     this.whichEnvironment();
+    this.queryParams = `?id=${String(id)}`;
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('update')) {
       alert('you not have privilage to this action');
       return;
     }
     return this.httpClient.put<PutSettingsVariablesTransactionsRes>(
-      this.URLPutSettingsVariablesTransactions + id,
+      this.URLPutSettingsVariablesTransactions + this.queryParams,
       bodyReq,
       httpOptions
     );
@@ -378,9 +377,10 @@ export class ApiService {
     token: string,
     offset: any,
     limit: any,
+    bulkcode:any,
   ): Observable<HistoryBulk> {
     this.whichEnvironment();
-    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}`;
+    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}&bulkcode=${String(bulkcode)}`;
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
   }

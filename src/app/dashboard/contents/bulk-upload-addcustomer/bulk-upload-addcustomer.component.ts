@@ -101,6 +101,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
+              "customer",
             );
           }),
           map(res => {
@@ -146,7 +147,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       if(this.fileImport) {
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
-          this.apiService.APIBulkAdjustment(
+          this.apiService.APIBulkAddCustomer(
             window.localStorage.getItem('token'),
             this.fileImport)
             .subscribe(res => {
