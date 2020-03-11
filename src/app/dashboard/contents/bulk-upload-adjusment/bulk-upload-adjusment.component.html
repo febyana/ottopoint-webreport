@@ -1,6 +1,6 @@
 <mat-card>
     <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
-         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+         <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
          <div class="no-data" *ngIf="isNoData">
              No Data 
          </div>
@@ -18,11 +18,8 @@
 
 <!-- table -->
 <div class="parent-table-container">
-        <div class="loading-shade" *ngIf="isLoadingResults">
-            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-        </div>
         <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
-            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
             <div class="no-data" *ngIf="isNoData">
                 No Data 
             </div>

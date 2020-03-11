@@ -190,7 +190,8 @@ export class BulkUploadAdjusmentComponent implements OnInit {
             
           error=> {
             this.isLoadingResults = false;
-              window.alert('Internal Server Eror');
+              // window.alert('Internal Server Eror');
+              window.alert('Upload File Gagal');
           }
           );
       }
