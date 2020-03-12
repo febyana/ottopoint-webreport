@@ -115,7 +115,7 @@ export interface TransactionEarningOPL {
     denom: string;
     selling_price: string;
     comment: string;
-    transactions_date: string;
+    created_At: string;
     transactions_time: string;
     loyaltycardno: string;
     pos: string;
