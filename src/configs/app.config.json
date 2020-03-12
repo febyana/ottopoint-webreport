@@ -1,5 +1,5 @@
 {
-    "selected_environment": "dev",
+    "selected_environment": "prod",
     "environments": {
         "prod": {
             "backend_dashboard": {
