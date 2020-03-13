@@ -20,7 +20,7 @@
         <input matInput placeholder="Email" [(ngModel)]="fq.email">
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <input matInput placeholder="Account number" [(ngModel)]="fq.phone">
+        <input matInput placeholder="Phone" [(ngModel)]="fq.phone">
     </mat-form-field>
     <!-- <mat-form-field class="filter-field">
         <mat-label>Transactions type</mat-label>
@@ -200,5 +200,5 @@
         </div>
     </div>
         <!-- paginator -->
-        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 50, 100, 1000, 10000]"></mat-paginator>
 </mat-card>
