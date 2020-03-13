@@ -195,7 +195,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['Error Code', 'Error Desc', 'Data']
+      headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
 
