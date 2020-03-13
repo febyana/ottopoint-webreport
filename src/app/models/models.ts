@@ -112,8 +112,8 @@ export interface TransactionEarningOPL {
     product_code: string;
     product_type: string;
     product_name: string;
-    denom: string;
-    selling_price: string;
+    // denom: string;
+    // selling_price: string;
     comment: string;
     created_At: string;
     transactions_time: string;
