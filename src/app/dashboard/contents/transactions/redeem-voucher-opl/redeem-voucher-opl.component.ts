@@ -36,7 +36,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     phone: '',
     customerName:'',
     cust_id: '',
-    partner: undefined,
+    institution: undefined,
     vendor: undefined,
     rrn: '',
     voucher: undefined,
@@ -53,7 +53,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     'customerLastname',
     'customerPhone',
     'customerEmail', 
-    'partner',
+    'institution',
     'vendor',
     'costInPoints',
     'campaignName',
@@ -188,7 +188,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
           lastname : e.customerLastname,
           Phone : e.customerPhone,
           Email : e.customerEmail,
-          partner: e.partner,
+          institution: e.institution,
           vendor: e.vendor,
           costInPoints: e.costInPoints,
           product_name: e.campaignName,
@@ -241,7 +241,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
             lastname : e.customerLastname,
             Phone : e.customerPhone,
             Email : e.customerEmail,
-            partner: e.partner,
+            institution : e.institution,
             vendor: e.vendor,
             costInPoints: e.costInPoints,
             product_name: e.campaignName,
@@ -285,8 +285,8 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     if (this.fq.vendor !== undefined) {
       this.query = this.query + 'a.vendor.:' + this.fq.vendor + ',';
     }
-    if (this.fq.partner !== undefined) {
-      this.query = this.query + 'a.partner.:' + this.fq.partner + ',';
+    if (this.fq.institution !== undefined) {
+      this.query = this.query + 'a.institution.:' + this.fq.institution + ',';
     }
     if (this.fq.voucher !== undefined) {
       this.query = this.query + 'a.product_name.:' + this.fq.voucher + ',';
@@ -340,7 +340,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     this.fq.product_name = undefined;
     this.fq.Type = undefined;
     this.fq.cust_id = '';
-    this.fq.partner = undefined;
+    this.fq.institution = undefined;
     this.fq.rrn = '';
     this.fq.vendor = undefined;
     this.fq.phone = ``;

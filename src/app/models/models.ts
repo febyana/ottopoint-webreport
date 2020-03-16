@@ -237,7 +237,7 @@ export interface TransactionVoucherRedeemOpl {
     customerLastname: string;
     customerPhone: string;
     customerEmail: string;
-    partner: string;
+    institution: string;
     vendor: string;
     costInPoints: number;
     campaignName: string;
