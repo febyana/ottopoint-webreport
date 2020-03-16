@@ -28,6 +28,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     through_date: null,
     email: '',
     phone: '',
+    partner: '',
   };
   buffTotalData = 0;
   displayedColumns: string[] = [
@@ -260,6 +261,9 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     if (this.fq.email != '') {
       this.query = this.query + `a.email.:` + this.fq.email + ',';
     }
+    if (this.fq.partner != '') {
+      this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
+    }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
       this.paginator.pageIndex = 0;
@@ -294,6 +298,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     this.fq.through_date =  null;
     this.fq.phone = '';
     this.fq.email = '';
+    this.fq.partner = '';
     this.apiService.APIGetTransactionsEarningOSP(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
