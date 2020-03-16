@@ -448,7 +448,7 @@ export class DialogAddEligibleComponent implements OnInit {
       phone: ['', [
         Validators.pattern,
         Validators.required,
-        Validators.minLength(12),
+        Validators.minLength(11),
         Validators.maxLength(12)
       ]],
       institution: [undefined, Validators.required],

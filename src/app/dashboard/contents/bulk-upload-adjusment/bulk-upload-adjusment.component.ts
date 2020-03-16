@@ -1,9 +1,10 @@
-import { Component, ViewChild, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject, ElementRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   HistoryBulk,
   HistoryBulkDetail,
@@ -16,6 +17,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { ExportToCsv } from 'export-to-csv';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -26,6 +28,20 @@ import { ExportToCsv } from 'export-to-csv';
 
 export class BulkUploadAdjusmentComponent implements OnInit {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
+
+  myForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
 
   // query = '';
   // fq = { // filter Query
@@ -55,17 +71,12 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   isNoData = false;
   fileImport : any;
 
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 5000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
 
   constructor(
+    // private dialogRef: MatDialogRef,
     private apiService: ApiService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -91,6 +102,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
+      this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)
@@ -98,11 +110,13 @@ export class BulkUploadAdjusmentComponent implements OnInit {
           startWith({}),
           switchMap(() => {
             this.isLoadingResults = true;
+            // this.paginator.pageIndex = 0;
             // console.log('query rohmet :\n', this.query);
             return this.apiService.APIGetHistoyBulk(
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
+              "adjustment",
             );
           }),
           map(res => {
@@ -145,7 +159,9 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   }
 
   submitImport() {
+    event.preventDefault();
       if(this.fileImport) {
+        this.isLoadingResults = true;
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
           this.apiService.APIBulkAdjustment(
@@ -153,30 +169,36 @@ export class BulkUploadAdjusmentComponent implements OnInit {
             this.fileImport)
             .subscribe(res => {
               console.log('response Adjustment : ', res);
-              // if (res.message == 'Internal Server Error') {
-              //   window.alert('Upload File Gagal');
-              //   this.router.navigateByUrl('/upload-adjusment');
-              //   return;
-              // }
-              // this.alertNotification("Import Inventories success !", "success");
-              // // this.blockUI.stop();
-              // this.modalRef.close();
-              // this.refresh();
-          },
-          // error=> {
-          //   this.isLoadingResults = true;
-          //     this.alertNotification(error.error.message, "danger");
-          //     this.blockUI.stop();
-          //     this.modalRef.close();
-          //     this.refresh();
-          // }
+              this.isLoadingResults = false;
+              if (res.meta.message == 'Internal Server Error') {
+                window.alert('Upload File Gagal');
+                this.router.navigateByUrl('/upload-adjusment');
+                return;
+              }
+              // this.isLoadingResults = true;
+              // this.dialogRef.close(false);
+              let msg: any;
+              this.isLoadingResults = false;
+              if (res.meta.message == 'SUCCESS') {
+                msg = 'File Berhasil di Upload'
+                this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
+                return;
+              }
+            },
+            
+          error=> {
+            this.isLoadingResults = false;
+              window.alert('Internal Server Eror');
+          }
           );
       }
   }
 
   Download(id) {
+    this.isLoadingResults = true;
     console.log('Download ID : ', id);
-    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
       filename: 'AdjustmentPoint' + Date().toLocaleString(),
@@ -189,7 +211,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Error Desc', 'Data']
+      headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
 
@@ -216,6 +238,8 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       //   }
       // });
       csvExporter.generateCsv(res.data_history);
+
+      this.isLoadingResults = false;
     });
   }
 

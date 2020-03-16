@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject, ElementRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -16,6 +16,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { ExportToCsv } from 'export-to-csv';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-bulk-upload-addcustomer',
@@ -25,14 +26,18 @@ import { ExportToCsv } from 'export-to-csv';
 export class BulkUploadAddcustomerComponent implements OnInit {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
-  // query = '';
-  // fq = { // filter Query
-  //   date: '',
-  //   file_name: '',
-  //   total_data: '',
-  //   success : '',
-  //   gagal : ','
-  // };
+  myForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
 
   displayedColumns: string[] = [
     // 'id',
@@ -53,16 +58,9 @@ export class BulkUploadAddcustomerComponent implements OnInit {
   isNoData = false;
   fileImport : any;
 
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 5000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
-
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
   constructor(
     private apiService: ApiService,
     private router: Router,
@@ -77,7 +75,6 @@ export class BulkUploadAddcustomerComponent implements OnInit {
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [
-        // 'id',
         'date',
         'file_name',
         'total_data',
@@ -89,6 +86,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
+      this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)
@@ -96,11 +94,13 @@ export class BulkUploadAddcustomerComponent implements OnInit {
           startWith({}),
           switchMap(() => {
             this.isLoadingResults = true;
+            // this.paginator.pageIndex = 0;
             // console.log('query rohmet :\n', this.query);
             return this.apiService.APIGetHistoyBulk(
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
+              "customer",
             );
           }),
           map(res => {
@@ -143,31 +143,39 @@ export class BulkUploadAddcustomerComponent implements OnInit {
   }
 
   submitImport() {
+    event.preventDefault();
       if(this.fileImport) {
+        this.isLoadingResults = true;
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
           this.apiService.APIBulkAddCustomer(
             window.localStorage.getItem('token'),
             this.fileImport)
             .subscribe(res => {
-              console.log('response AddNew Customer : ', res);
-              // if (res.message == 'Internal Server Error') {
-              //   window.alert('Upload File Gagal');
-              //   this.router.navigateByUrl('/upload-adjusment');
-              //   return;
-              // }
-              // this.alertNotification("Import Inventories success !", "success");
-              // // this.blockUI.stop();
-              // this.modalRef.close();
-              // this.refresh();
-          },
-          // error=> {
-          //   this.isLoadingResults = true;
-          //     this.alertNotification(error.error.message, "danger");
-          //     this.blockUI.stop();
-          //     this.modalRef.close();
-          //     this.refresh();
-          // }
+              console.log('response Add Customer: ', res);
+              this.isLoadingResults = false;
+              if (res.meta.message == 'Internal Server Error') {
+                window.alert('Upload File Gagal');
+                this.router.navigateByUrl('/upload-addcustomer');
+                return;
+              }
+              // this.isLoadingResults = true;
+              // this.dialogRef.close(false);
+              let msg: any;
+              this.isLoadingResults = false;
+              if (res.meta.message == 'SUCCESS') {
+                msg = 'File Berhasil di Upload'
+                this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
+                return;
+              }
+            },
+            
+          error=> {
+            this.isLoadingResults = false;
+              window.alert('Internal Server Eror');
+          }
           );
       }
   }
@@ -187,7 +195,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Error Desc', 'Data']
+      headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
 
@@ -214,6 +222,8 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       //   }
       // });
       csvExporter.generateCsv(res.data_history);
+
+      this.isLoadingResults = false;
     });
   }
 

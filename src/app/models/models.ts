@@ -1,7 +1,6 @@
 import { Time } from '@angular/common';
-
 import { StringifyOptions } from 'querystring';
-import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
+import { UltravoucherComponent } from '../dashboard/contents/ultravoucher/ultravoucher.component';
 
 export interface MetaRes {
     status: boolean;
@@ -113,16 +112,29 @@ export interface TransactionEarningOPL {
     product_code: string;
     product_type: string;
     product_name: string;
-    denom: string;
-    selling_price: string;
+    // denom: string;
+    // selling_price: string;
     comment: string;
-    transactions_date: string;
+    created_At: string;
     transactions_time: string;
     loyaltycardno: string;
     pos: string;
     issuer: string;
     reff_number:string;
     partner:string;
+}
+// [get] http://localhost:4200/#/dashboard/transactions/ultravoucher
+export interface ListUltraVoucher {
+    voucher_code : string;
+    voucher_id : string;
+    sku :string;
+    expiry_date_uv : string;
+    expiry_date_op : string;
+    status : string;
+    account_id :string;
+    order_no : string;
+    invoice_no : string;
+    reff_reuse : string;
 }
 export interface GetTransactionsEarningsPPOBRes {
     data: TransactionEarningPPOB[];
@@ -138,6 +150,12 @@ export interface GetTransactionsEarningsOSPRes {
 }
 export interface GetTransactionsEarningsOPLRes {
     data: TransactionEarningOPL[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface GetListUltraVoucherRes {
+    data: ListUltraVoucher[];
     total: number;
     code: number;
     message: string;
@@ -293,7 +311,9 @@ export interface SettingVariableTransaction {
     transaksi_pay_qr: number;
     transaksi_merchant: number;
     limit_transaksi: number;
+    limit_transaksi_merchant: number;
     minimal_transaksi: number;
+    minimal_transaksi_merchant: number;
     created_at: string;
     updated_at: string;
 }
@@ -311,7 +331,9 @@ export interface PutSettingsVariablesTransactionsReq {
     transaksi_pay_qr: number;
     transaksi_merchant: number;
     limit_transaksi: number;
+    limit_transaksi_merchant: number;
     minimal_transaksi: number;
+    minimal_transaksi_merchant: number;
 }
 export interface BeforeAfterPutSettingsVariablesTransactions {
     before: SettingVariableTransaction;
@@ -363,7 +385,6 @@ export interface OutstandingPoint {
     date:Date;
     time:Time;
 }
-
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;
@@ -383,21 +404,31 @@ export interface ChangeStatusRequest {
     status: boolean;
 }
 
+export interface BulkAdjustmentResponse {
+    data: BulkAdjustmentData;
+    meta: MetaRes;
+}
+
+export interface BulkAdjustmentData {
+    success: any;
+    failed : any;
+    total  : any;
+}
+
 // Response
 export interface ChangeStatusResponse {
     data: string;
     meta: MetaRes;
     code: number;
     message: string;
-}
 
-export interface BulkAdjustmentResponse {
+}
+export interface BulkAddCustomerRes {
     data: BulkAdjustmentData;
-    code: number;
-    message: string;
+    meta: MetaRes;
 }
 
-export interface BulkAdjustmentData {
+export interface BulkAddCustomerData {
     success: any;
     failed : any;
     total  : any;
@@ -421,7 +452,6 @@ export interface HistoryBulk {
     code: number;
     message: string;
 }
-
 export interface Databulk {
     id        : number;
 	date      : any;
@@ -430,7 +460,6 @@ export interface Databulk {
 	success   : any;
     gagal     : any;
 }
-
 // History Bulk Detail List
 export interface HistoryBulkDetail {
     data_history: DataBulkDetail[];

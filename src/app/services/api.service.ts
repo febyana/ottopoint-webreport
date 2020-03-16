@@ -32,11 +32,13 @@ import {
   BulkAdjustmentResponse,
   BulkAddCustomerRes,
   GetTransactionsVouchersRedeemOplRes,
+  GetListUltraVoucherRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { tap } from 'rxjs/operators';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -68,13 +70,15 @@ export class ApiService {
   URLGetPPOBProductTypes: string;
   URLChangePassword: string;
   URLChangeStatus: string;
-  URLHistoyBulkDetail: string;
-  URLGetHistoryBulk: string;
-  URLBulkAdjustment: string;
-  URLBulkAddCustomer: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
+  URLHistoyBulkDetail: string;
+  URLGetHistoryBulk: string;
+  URLBulkAdjustment: string;
+  URLListUltraVoucher : string;
+  URLBulkAddCustomer: string;
+
 
   constructor(
     private httpClient: HttpClient,
@@ -86,16 +90,20 @@ export class ApiService {
   ) {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
-    this.URLGetTransactionsEarningsOSP       = baseURLBackendDashboard + `/transactions/outstanding?`;
-    this.URLGetTransactionsEarningsOPL       = baseURLBackendDashboard + `/transactions/earningopl?`;
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
+    this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
+    this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
     this.URLGetTransactionsVouchersRedeemOpl = baseURLBackendDashboard + `/history/redeem?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
+    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
+    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
+    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
@@ -226,6 +234,19 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsOPLRes>(this.URLGetTransactionsEarningsOPL + this.queryParams, httpOptions)
   }
+  public APIGetListUltraVoucher(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<GetListUltraVoucherRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetListUltraVoucherRes>(this.URLListUltraVoucher + this.queryParams, httpOptions)
+  }
 
   public APIGetTransactionsEarningsQR(
     token: string,
@@ -330,13 +351,14 @@ export class ApiService {
     bodyReq: PutSettingsVariablesTransactionsReq
   ): Observable<PutSettingsVariablesTransactionsRes> {
     this.whichEnvironment();
+    this.queryParams = `?id=${String(id)}`;
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('update')) {
       alert('you not have privilage to this action');
       return;
     }
     return this.httpClient.put<PutSettingsVariablesTransactionsRes>(
-      this.URLPutSettingsVariablesTransactions + id,
+      this.URLPutSettingsVariablesTransactions + this.queryParams,
       bodyReq,
       httpOptions
     );
@@ -370,9 +392,10 @@ export class ApiService {
     token: string,
     offset: any,
     limit: any,
+    bulkcode:any,
   ): Observable<HistoryBulk> {
     this.whichEnvironment();
-    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}`;
+    this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}&bulkcode=${String(bulkcode)}`;
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
   }
@@ -438,23 +461,26 @@ export class ApiService {
     // formData.set('file', file);
     console.log("BULK : ", formData.get('file'));
     this.whichEnvironment();
-    const httpOptionsUp = {
+
+    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
+
+    const httpOptionT = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + token
       })
     };
 
-    // httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    // httpOptions.headers.set('Content-Type', 'multipart/form-data');
+    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionT);
 
-    const rohmet = { content: formData };
-    return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
-      tap(
-        result => console.log('res ==>', result)
-      )
-    );
+    // const rohmet = { content: formData };
+    // return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
+    //   tap(
+    //     result => console.log('res ==>', result)
+    //   )
+    // );
   }
 
 }
-

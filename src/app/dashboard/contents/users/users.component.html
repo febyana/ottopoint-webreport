@@ -108,7 +108,7 @@
                     <td mat-cell *matCellDef="let row">
                         <button *ngIf="row.status === false && row.action === Registered && row.cust_id" mat-stroked-button color="primary" (click)="openFormChangeStatus(row)" style="width: 100px;">Active</button>
                         <button *ngIf="row.status === true && row.action === Registered && row.cust_id" mat-stroked-button color="warn" (click)="openFormChangeStatus(row)" style="width: 100px;">Deactive</button>
-                        <button *ngIf="row.action === Register && !row.cust_id" mat-stroked-button disabled style="width: 100px;">NULL</button>
+                        <button *ngIf="row.action === Register && !row.cust_id" mat-stroked-button disabled style="width: 100px;"> - </button>
                     </td>
                 </ng-container>
 

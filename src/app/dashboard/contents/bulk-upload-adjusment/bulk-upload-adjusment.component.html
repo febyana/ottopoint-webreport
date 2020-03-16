@@ -1,20 +1,26 @@
-<!-- <p>bulk-upload-adjusment works!</p> -->
 <mat-card>
+    <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+         <div class="no-data" *ngIf="isNoData">
+             No Data 
+         </div>
+    </div>
+    <h1>Adjustment Point</h1>
 
-    <p>bulk-upload-adjusment works!</p>
-<!-- <button mat-raised-button color="primary">
-        Import to CSV
-</button> -->
-<!-- submitImport -->
 <div class="form-group">
-        <label>Import File</label> 
-        <input type="file" class="form-control" (change)="onImportFileChange($event, i)" #fileInput>
+    <label style="margin-right: 1%"> Import File </label>
+    <!-- <div class="loading-shade" *ngIf="isLoadingResults || isNoData"> -->
+    <input type="file" class="form-control" (change)="onImportFileChange($event, i)" style="margin-right: 1%" #fileInput>
 
-        <button mat-raised-button color="primary" (click)="submitImport()">Submit</button>
-      </div>
+    <button mat-raised-button color="primary" (click)="submitImport()">Submit</button>
+
+</div>
 
 <!-- table -->
 <div class="parent-table-container">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
         <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
             <div class="no-data" *ngIf="isNoData">
@@ -79,8 +85,14 @@
                     </th>
 
                     <td mat-cell *matCellDef="let row">
-                    <button mat-raised-button color="primary" (click)="Download(row.id)">Download</button>
+                    <!-- <button mat-raised-button color="primary" (click)="Download(row.id)">Download</button> -->
+
+                    <button mat-button (click)="Download(row.id)" class="style class">
+                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
+                            Download
+                    </button>
                     </td>
+        
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
@@ -90,5 +102,5 @@
         </div>
     </div>
     <!-- paginator -->
-    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
 </mat-card> 

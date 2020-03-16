@@ -3,10 +3,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { GetTransactionsEarningsOSPRes} from '../../../../../models/models';
+import { MatSelectModule } from '@angular/material/select';
+import {
+  GetListUltraVoucherRes
+} from '../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -14,74 +17,73 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { ExcelServicesService } from '../../../../../services/xlsx.service';
+import { ExcelServicesService } from '../../../services/xlsx.service';
+
 
 @Component({
-  selector: 'app-transactions-earnings-osp',
-  templateUrl: './transactions-earnings-osp.component.html',
-  styleUrls: ['./transactions-earnings-osp.component.css']
+  selector: 'app-ultravoucher',
+  templateUrl: './ultravoucher.component.html',
+  styleUrls: ['./ultravoucher.component.css']
 })
-export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
+export class UltravoucherComponent implements AfterViewInit, OnInit {
   query = '';
-  fq = { // filter Query
-    from_date: null,
-    through_date: null,
-    email: '',
-    phone: '',
-    partner: '',
-  };
+  fq = {
+    from_date : null, 
+    through_date : null,
+    sku :undefined,
+    acc_id:undefined,
+    voucher_id:'',
+    voucher_code:'',
+    status:undefined,
+  }
+
   buffTotalData = 0;
+
   displayedColumns: string[] = [
     'no',
-    'num',
-    'date',
-    'time',
-    // 'id',
-    'phone',
-    'email',
-    'partner',
-    'beginning',
-    'adding',
-    'bonus',
-    'spending',
-    'p2p_add', 
-    'p2p_spend', 
-    'adjustment_add', 
-    'adjustment_spend',
-    'expired_point',
-    'ending_point',
+    'voucher_code',
+    'voucher_id',
+    'sku',
+    'expiry_date_uv',
+    'expiry_date_op',
+    'status',
+    'account_id',
+    'order_no',
+    'invoice_no',
+    'reff_reuse',
   ];
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
   tableHeight = window.screen.height * 0.35;
-
+  
   isLoadingResults = true;
   isWaitingDownload = false;
   isNoData = false;
 
   productTypes = [];
-  
-  matSnackBarConfig: MatSnackBarConfig = {
+
+  matSnackBarConfig : MatSnackBarConfig = {
     duration: 2000,
     verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
+    horizontalPosition : 'center',
+    panelClass : ['snack-bar-exstra-css']
   };
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static:false}) paginator:MatPaginator;
+  @ViewChild(MatSort, {static:false}) sort:MatSort;
 
   constructor(
-    private apiService: ApiService,
-    private router: Router,
-    public dialog: MatDialog,
-    public datePipe: DatePipe,
-    private snackBar: MatSnackBar,
-    private excelService: ExcelServicesService,
-  ) { }
+    private apiService : ApiService,
+    private router : Router,
+    public dialog : MatDialog,
+    public datePipe : DatePipe,
+    private snackBar : MatSnackBar,
+    private excelService : ExcelServicesService
+   ) {}
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit() {
@@ -92,7 +94,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       startWith({}),
       switchMap(() => {
         this.isLoadingResults = true;
-        return this.apiService.APIGetTransactionsEarningOSP(
+        return this.apiService.APIGetListUltraVoucher(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
           this.paginator.pageSize,
@@ -124,37 +126,30 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  showDialogData(rowData: string) {
-    this.dialog.open(DialogShowDataComponent, {
-      width : '50%',
-      data : rowData,
-    });
-  }
-
   exportToCSV() {
     this.isWaitingDownload = true;
 
     const options = {
-      filename: 'transactions_outstanding_point' + Date().toLocaleString(),
+      filename: 'listultravoucher' + Date().toLocaleString(),
       fieldSeparator : ',',
       quoteStrings : '"',
       decimalSeparator:'.',
       showLabels:true,
       showTitle:true,
-      title:'Transactions Outstanding Point \nDownload At : '+ Date().toLocaleString(),
+      title:'List Ultra Voucher \nDownload At : '+ Date().toLocaleString(),
       useTextFile:false,
       useBom:true,
       useKeysAsHeaders:true,
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res:GetTransactionsEarningsOSPRes)=>{
+    ).subscribe((res:GetListUltraVoucherRes)=>{
       this.isWaitingDownload = false;
       if (res.message  === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!')
@@ -171,21 +166,16 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          Date : e.date,
-          Time : e.time,
-          Phone : e.phone,
-          Email : e.email,
-          Partner : e.partner,
-          Beginning : e.beginning,
-          Adding : e.adding,
-          Bonus : e.bonus,
-          Spending : e.spending,
-          P2pAdd : e.p2p_add,
-          P2pSpend : e.p2p_spend,
-          AdjustmentAdd : e.adjustment_add,
-          Adjustmentspend : e.adjustment_spend,
-          ExpiredPoint : e.expired_point,
-          EndingPoint : e.ending_point,
+          VoucherCode : e.voucher_code,
+          VoucherID : e.voucher_id,
+          Sku : e.sku,
+          ExpiryDateUV : e.expiry_date_uv,
+          ExpiryDateOP : e.expiry_date_op,
+          Status : e.status,
+          AccountID : e.account_id,
+          OrderNo : e.order_no,
+          InvoiceNO : e.invoice_no,
+          ReffReuse : e.reff_reuse
         };
         arrData.push(objData);
       });
@@ -195,15 +185,14 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
 
   exportToXLSX() {
     this.isWaitingDownload = true;
-    console.log('query :\n', this.query);
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOSPRes) => {
+    ).subscribe((res: GetListUltraVoucherRes) => {
       this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -220,66 +209,70 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            Date : e.date,
-            Time : e.time,
-            Phone : e.phone,
-            Email :e.email,
-            Partner : e.partner,
-            Beginning : e.beginning,
-            Adding : e.adding,
-            Bonus : e.bonus,
-            Spending : e.spending,
-            P2pAdd : e.p2p_add,
-            P2pSpend : e.p2p_spend,
-            AdjustmentAdd : e.adjustment_add,
-            Adjustmentspend : e.adjustment_spend,
-            ExpiredPoint : e.expired_point,
-            EndingPoint : e.ending_point,
+            VoucherCode : e.voucher_code,
+            VoucherID : e.voucher_id,
+            Sku : e.sku,
+            ExpiryDateUV : e.expiry_date_uv,
+            ExpiryDateOP : e.expiry_date_op,
+            Status : e.status,
+            AccountID : e.account_id,
+            OrderNo : e.order_no,
+            InvoiceNO : e.invoice_no,
+            ReffReuse : e.reff_reuse
           };
           arrData.push(objData);
       });
-      this.excelService.exportAsExcelFile(arrData, 'transactions_outstanding_point_');
+      this.excelService.exportAsExcelFile(arrData, 'list_ultravoucher');
     });
   }
-
   submitFilter() {
     this.isLoadingResults = true;
     this.query = '';
     if (this.fq.from_date !== null) {
-      this.query = this.query + `a.date.gte:${
+      this.query = this.query + `a.created_at.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
-      this.query = this.query + `a.date.lte:${
+      this.query = this.query + `a.created_at.lte:${
         this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
     }
-    if (this.fq.phone != '') {
-      this.query = this.query + `a.phone.:` + this.fq.phone + ',';
+    if (this.fq.sku !== undefined) {
+      this.query = this.query + 'a.sku.:' + this.fq.sku + ',';
     }
-    if (this.fq.email != '') {
-      this.query = this.query + `a.email.:` + this.fq.email + ',';
+    if (this.fq.acc_id !== undefined) {
+      this.query = this.query + 'a.institution_id.:' + this.fq.acc_id + ',';
     }
-    if (this.fq.partner != '') {
-      this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
+    if (this.fq.voucher_id !== '') {
+      this.query = this.query + 'B.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
+    }
+    if (this.fq.voucher_code !== '') {
+      this.query = this.query + 'B.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
+    }
+    if (this.fq.status !== undefined) {
+      this.query = this.query + 'b.status.:' + this.fq.status + ',';
     }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res : GetTransactionsEarningsOSPRes) =>{
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin !');
+    ).subscribe((res: GetListUltraVoucherRes) => {
+      if ( res.message === 'Invalid Token' ) {
+        window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
-        return
+        return;
+      }
+      if ( res.total === undefined) {
+        this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
+        return;
       }
       this.dataTable.data = res.data;
       this.dataTableLength = res.total;
@@ -290,23 +283,24 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       this.isLoadingResults = false;
     });
   }
-
   clearFilter(){
     this.isLoadingResults = true;
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.phone = '';
-    this.fq.email = '';
-    this.fq.partner = '';
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.fq.acc_id = undefined;
+    this.fq.voucher_code = '';
+    this.fq.voucher_id = '';
+    this.fq.sku = undefined;
+    this.fq.status = undefined;
+    this.apiService.APIGetListUltraVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOSPRes) => {
+    ).subscribe((res: GetListUltraVoucherRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -321,56 +315,5 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       this.isLoadingResults = false;
     });
   }
+
 }
-@Component({
-  selector: 'app-dialog-show-data',
-  templateUrl: './dialogs/dialog-show-data.html',
-  styleUrls: ['./transactions-earnings-osp.component.css']
-})
-export class DialogShowDataComponent implements OnInit {
-  displayedColumns: string[] = [
-    'key',
-    'value',
-  ];
-  dataTable = new MatTableDataSource();
-
-  elementDataTable: object[] = [];
-  obj = {
-    key: '',
-    value: ''
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogShowDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) {}
-
-  ngOnInit() {
-    console.log(this.data);
-    const arrData = this.data.split(' || ');
-    for (const splitData of arrData) {
-      const arrSplitData = splitData.split(' : ');
-      const keys = arrSplitData[0].split('_');
-      arrSplitData[0] = '';
-      for (let key of keys) {
-        key = key.replace(/^./g, key[0].toUpperCase());
-        if (key.length <= 3) {
-          key = key.toUpperCase();
-        }
-        arrSplitData[0] = arrSplitData[0] + key + ' ';
-      }
-      this.obj = {
-        key: arrSplitData[0],
-        value: arrSplitData[1],
-      };
-      this.elementDataTable.push(this.obj);
-    }
-    this.dataTable.data = this.elementDataTable;
-  }
-
-  close(): void {
-    this.dialogRef.close();
-  }
-}
-
-

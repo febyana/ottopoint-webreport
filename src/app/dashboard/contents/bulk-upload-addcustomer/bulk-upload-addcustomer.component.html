@@ -1,12 +1,11 @@
 <mat-card>
-
-    <div class="loading-shade" *ngIf="isWaitingDownload">
-        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+         <div class="no-data" *ngIf="isNoData">
+             No Data 
+         </div>
     </div>
-    <!-- judul -->
     <h1>Bulk Upload Add New Customer</h1>
-    <!-- filters -->
-    <br>
 
 <div class="form-group">
     <label>Import File</label> 
@@ -17,6 +16,9 @@
 
 <!-- table -->
 <div class="parent-table-container">
+    <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
     <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
         <div class="no-data" *ngIf="isNoData">
