@@ -33,6 +33,7 @@ import {
   BulkAddCustomerRes,
   GetTransactionsVouchersRedeemOplRes,
   GetListUltraVoucherRes,
+  GetTransactionsRedeemPointOplRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -62,6 +63,7 @@ export class ApiService {
   URLGetTransactionsEarningsQR: string;
   URLGetTransactionsVouchersRedeem: string;
   URLGetTransactionsVouchersRedeemOpl: string;
+  URLGetTransactionsRedeemPointOpl: string;
   URLGetAnalyticsTransactions: string;
   URLGetAnalyticsUsers: string;
   URLGetSettingsVariablesTransactions: string;
@@ -98,6 +100,7 @@ export class ApiService {
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
     this.URLGetTransactionsVouchersRedeemOpl = baseURLBackendDashboard + `/history/redeem?`;
+    this.URLGetTransactionsRedeemPointOpl    = baseURLBackendDashboard + `/history/redeempointopl?`;
     this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
     this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
@@ -292,6 +295,23 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsVouchersRedeemOplRes>(
       this.URLGetTransactionsVouchersRedeemOpl + this.queryParams,
+      httpOptions
+    );
+  }
+
+  public APIGetTransactionsRedeemPointOPL(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetTransactionsRedeemPointOplRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetTransactionsRedeemPointOplRes>(
+      this.URLGetTransactionsRedeemPointOpl + this.queryParams,
       httpOptions
     );
   }

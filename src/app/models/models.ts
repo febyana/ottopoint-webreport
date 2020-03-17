@@ -245,10 +245,37 @@ export interface TransactionVoucherRedeemOpl {
     campaignType: string;
     cust_active_point_am: number;
     status: string;
-    deliveryStatus: DeliveryStatus;
+    dlv_stts: string;
     used: string;
     rrn: string;
 }
+
+export interface GetTransactionsRedeemPointOplRes {
+    data: TransactionRedeemPointOpl[];
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface TransactionRedeemPointOpl {
+    customer_id: string;
+    customerPhone: string;
+    customerEmail: string;
+    type_trx: string;
+    value: number;
+    product_code: string;
+    product_type: string;
+    product_name: string;
+    comment: string;
+    createdAt: string;
+    timeTrx: string;
+    customerLoyaltyCardNumber: string;
+    pos: string;
+    issuer: string;
+    rrn: string;
+    partner: string;
+}
+
 
 export interface DeliveryStatus {
     status: string;

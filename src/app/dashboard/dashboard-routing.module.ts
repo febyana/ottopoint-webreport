@@ -10,6 +10,7 @@ import { TransactionsEarningsOspComponent } from './contents/transactions/earnin
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { TransactionsEarningsQRComponent } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
 import { RedeemVoucherOplComponent} from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
+import { RedeemPointOplComponent} from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
@@ -83,6 +84,10 @@ export const routes: Routes = [
       {
         path: 'ultravoucher',
         component: UltravoucherComponent,
+      },
+      {
+        path: 'transactions/redeempointopl',
+        component: RedeemPointOplComponent,
       },
     ]
   }
