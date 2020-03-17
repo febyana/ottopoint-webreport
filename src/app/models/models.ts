@@ -367,6 +367,13 @@ export interface GetPPOBProductTypesRes {
     message: string;
 }
 
+export interface GetSKURes {
+    data: string[];
+    total: number;
+    code: number;
+    message: string;
+}
+
 export interface OutstandingPoint {
     id: string;
     phone:string;

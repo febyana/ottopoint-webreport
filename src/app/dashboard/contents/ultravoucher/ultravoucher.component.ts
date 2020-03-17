@@ -8,7 +8,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import {
-  GetListUltraVoucherRes
+  GetListUltraVoucherRes, GetSKURes
 } from '../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -60,8 +60,8 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
   isLoadingResults = true;
   isWaitingDownload = false;
   isNoData = false;
-
-  productTypes = [];
+  
+  sku = [];
 
   matSnackBarConfig : MatSnackBarConfig = {
     duration: 2000,
@@ -83,7 +83,16 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
    ) {}
 
   ngOnInit() {
-
+    this.apiService.APIGetSKU(
+      window.localStorage.getItem('token')
+    ).subscribe((res : GetSKURes) => {
+      res.data.forEach(e => {
+        this.sku.push({
+          k:e["name"],
+          v:e["id"],
+        });
+      });
+    });
   }
 
   ngAfterViewInit() {

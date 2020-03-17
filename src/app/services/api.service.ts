@@ -33,6 +33,7 @@ import {
   BulkAddCustomerRes,
   GetTransactionsVouchersRedeemOplRes,
   GetListUltraVoucherRes,
+  GetSKURes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -68,6 +69,7 @@ export class ApiService {
   URLPutSettingsVariablesTransactions: string;
   URLGetVouchersName: string;
   URLGetPPOBProductTypes: string;
+  URLGetSKU: string;
   URLChangePassword: string;
   URLChangeStatus: string;
   // baseURLOttopay: string;
@@ -106,6 +108,7 @@ export class ApiService {
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
+    this.URLGetSKU                           = baseURLBackendDashboard + `/vouchers/sku`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
@@ -374,6 +377,12 @@ export class ApiService {
     this.whichEnvironment();
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetPPOBProductTypesRes>(this.URLGetPPOBProductTypes, httpOptions);
+  }
+
+  public APIGetSKU(token: string): Observable<GetSKURes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
   }
 
   public APIChangePassword(token: string, req: ChangePasswordRequest): Observable<ChangePasswordResponse> {
