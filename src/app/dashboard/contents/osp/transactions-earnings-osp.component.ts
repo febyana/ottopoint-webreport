@@ -3,10 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { GetTransactionsEarningsOSPRes} from '../../../../../models/models';
+import { GetTransactionsEarningsOSPRes} from '../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -14,7 +14,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { ExcelServicesService } from '../../../../../services/xlsx.service';
+import { ExcelServicesService } from '../../../services/xlsx.service';
 
 @Component({
   selector: 'app-transactions-earnings-osp',
