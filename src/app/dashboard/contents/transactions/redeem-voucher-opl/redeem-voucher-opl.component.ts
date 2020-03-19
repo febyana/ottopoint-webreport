@@ -180,10 +180,10 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          date_redeem : e.purchaseAt,
-          Time_Redeem : e.timeRedeem,
-          date_usage : e.dateUsage,
-          timeUsage :e.timeUsage,
+          date_redeem : e.purchaseAt.substr(0,10),
+          Time_Redeem : e.timeRedeem.substr(11,8),
+          date_usage : e.dateUsage.substr(0,10),
+          timeUsage :e.timeUsage.substr(11,8),
           firstname : e.customerName,
           lastname : e.customerLastname,
           Phone : e.customerPhone,
@@ -233,10 +233,10 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            date_redeem : e.purchaseAt,
-            Time_Redeem : e.timeRedeem,
-            date_usage : e.dateUsage,
-            timeUsage :e.timeUsage,
+            date_redeem : e.purchaseAt.substr(0,10),
+            Time_Redeem : e.timeRedeem.substr(11,8),
+            date_usage : e.dateUsage.substr(0,10),
+            timeUsage :e.timeUsage.substr(11,8),
             firstname : e.customerName,
             lastname : e.customerLastname,
             Phone : e.customerPhone,
@@ -339,7 +339,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.product_name = undefined;
+    this.fq.voucher = undefined;
     this.fq.Type = undefined;
     this.fq.cust_id = '';
     this.fq.institution = undefined;
