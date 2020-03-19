@@ -143,7 +143,7 @@ export class RedeemPointOplComponent implements OnInit {
       decimalSeparator:'.',
       showLabels:true,
       showTitle:true,
-      title:'Transactions Redeem Vouchers OPL \nDownload At : '+ Date().toLocaleString(),
+      title:'Transactions Redeem Point OPL \nDownload At : '+ Date().toLocaleString(),
       useTextFile:false,
       useBom:true,
       useKeysAsHeaders:true,
