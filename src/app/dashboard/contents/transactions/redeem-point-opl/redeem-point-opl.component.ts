@@ -41,6 +41,7 @@ export class RedeemPointOplComponent implements OnInit {
 
   displayedColumns: string[] = [
     // 'id',
+    'no',
     'customer_id',
     'customerPhone',
     'customerEmail', 
