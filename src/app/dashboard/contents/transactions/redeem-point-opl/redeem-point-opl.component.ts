@@ -182,8 +182,8 @@ export class RedeemPointOplComponent implements OnInit {
           product_type : e.product_type,
           product_name : e.product_name,
           comment: e.comment,
-          date_trx: e.createdAt,
-          time_trx: e.timeTrx,
+          date_trx: e.createdAt.substr(0,10),
+          time_trx: e.timeTrx.substr(11,8),
           customerLoyaltyCardNumber: e.customerLoyaltyCardNumber,
           pos: e.pos,
           issuer: e.issuer,
@@ -231,8 +231,8 @@ export class RedeemPointOplComponent implements OnInit {
           product_type : e.product_type,
           product_name : e.product_name,
           comment: e.comment,
-          date_trx: e.createdAt,
-          time_trx: e.timeTrx.substr(11,7),
+          date_trx: e.createdAt.substr(0,10),
+          time_trx: e.timeTrx.substr(11,8),
           customerLoyaltyCardNumber: e.customerLoyaltyCardNumber,
           pos: e.pos,
           issuer: e.issuer,
@@ -306,7 +306,7 @@ export class RedeemPointOplComponent implements OnInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.product_name = undefined;
+    this.fq.voucher = undefined;
     this.fq.product_code = undefined;
     this.fq.product_type = undefined;
     this.fq.customer_id = '';
