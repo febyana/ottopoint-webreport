@@ -3,14 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import {
-  ExportTransactionsEarningsPPOBToCSVReq,
-  GetPPOBProductTypesRes,
-  GetTransactionsEarningsOPLRes,
-} from '../../../../../models/models';
+import { OutstandingPointRes} from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -18,68 +14,61 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { ExcelServicesService } from '../../../../../services/xlsx.service';
+import { ExcelServicesService } from '../../../../services/xlsx.service';
 
 @Component({
-  selector: 'app-transactions-earnings-earningopl',
-  templateUrl: './transactions-earnings-earningopl.component.html',
-  styleUrls: ['./transactions-earnings-earningopl.component.css']
+  selector: 'app-transactions-earnings-osp',
+  templateUrl: './outstanding_point.component.html',
+  styleUrls: ['./outstanding_point.component.css']
 })
-export class TransactionsEarningsEarningoplComponent implements AfterViewInit, OnInit {
+export class OutstandingPointComponent implements AfterViewInit, OnInit {
   query = '';
   fq = { // filter Query
     from_date: null,
     through_date: null,
-    merchant_id: '',
-    cust_id: '',
+    email: '',
     phone: '',
-    type_trans: undefined,
-    product_name: '',
     partner: '',
-    product_type: undefined,
-    reff_number: '',
   };
   buffTotalData = 0;
-
   displayedColumns: string[] = [
-  'no'
-  , 'customer_id'
-  , 'phone'
-  , 'email'
-  , 'transactions_type'
-  , 'value_point'
-  , 'product_code'
-  , 'product_type' 
-  , 'product_name'
-  // , 'denom'
-  // , 'selling_price'
-  , 'comment'
-  , 'created_At'
-  , 'transactions_time'
-  , 'loyaltycardno'
-  , 'pos'
-  , 'issuer'
-  , 'reff_number'
-  , 'partner'
+    'no',
+    'num',
+    'date',
+    'time',
+    // 'id',
+    'phone',
+    'email',
+    'partner',
+    'beginning',
+    'adding',
+    'bonus',
+    'spending',
+    'p2p_add', 
+    'p2p_spend', 
+    'adjustment_add', 
+    'adjustment_spend',
+    'expired_point',
+    'ending_point',
   ];
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35
+  tableHeight = window.screen.height * 0.35;
 
   isLoadingResults = true;
   isWaitingDownload = false;
   isNoData = false;
 
   productTypes = [];
-
+  
   matSnackBarConfig: MatSnackBarConfig = {
     duration: 2000,
     verticalPosition: 'top',
     horizontalPosition: 'center',
     panelClass: ['snack-bar-ekstra-css']
   };
-  
+
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -93,16 +82,6 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   ) { }
 
   ngOnInit() {
-    this.apiService.APIGetPPOBProductTypes(
-      window.localStorage.getItem('token')
-    ).subscribe((res : GetPPOBProductTypesRes) => {
-      res.data.forEach(e => {
-        this.productTypes.push({
-          k:e,
-          v:e,
-        });
-      });
-    });
   }
 
   ngAfterViewInit() {
@@ -113,7 +92,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       startWith({}),
       switchMap(() => {
         this.isLoadingResults = true;
-        return this.apiService.APIGetTransactionsEarningOPL(
+        return this.apiService.APIOutstandingPoint(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
           this.paginator.pageSize,
@@ -125,17 +104,17 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       map(res => {
         this.isLoadingResults = false;
         if (res.message == 'Invalid Token') {
-          window.alert('Login Session Expired!\nPlease Relogin');
+          window.alert('Login Session Expired!\nPlease Relogin!');
           this.router.navigateByUrl('/login');
           return;
         }
         this.dataTableLength = res.total;
-        if(res.total === 0) {
+        if (res.total === 0) {
           this.isNoData = true;
           return;
         }
         this.isNoData = false;
-        return res.data
+        return res.data;
       }),
       catchError(() => {
         this.isLoadingResults = false;
@@ -143,39 +122,32 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
         return observableOf([]);
       })
     ).subscribe(res => this.dataTable = new MatTableDataSource(res));
-  
-  }
-  showDialogData(rowData: string) {
-    this.dialog.open(DialogShowDataComponent, {
-      width : '50%',
-      data : rowData,
-    });
   }
 
   exportToCSV() {
     this.isWaitingDownload = true;
 
     const options = {
-      filename: 'transactions_earnings_opl_' + Date().toLocaleString(),
+      filename: 'outstanding_point' + Date().toLocaleString(),
       fieldSeparator : ',',
       quoteStrings : '"',
       decimalSeparator:'.',
       showLabels:true,
       showTitle:true,
-      title:'Transactions Earnings OPL \nDownload At : '+ Date().toLocaleString(),
+      title:'Transactions Outstanding Point \nDownload At : '+ Date().toLocaleString(),
       useTextFile:false,
       useBom:true,
       useKeysAsHeaders:true,
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetTransactionsEarningOPL(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res:GetTransactionsEarningsOPLRes)=>{
+    ).subscribe((res:OutstandingPointRes)=>{
       this.isWaitingDownload = false;
       if (res.message  === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!')
@@ -192,24 +164,21 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          CustomerID : e.customer_id,
+          Date : e.date,
+          Time : e.time,
           Phone : e.phone,
           Email : e.email,
-          TransactionsType : e.transactions_type,
-          ValuePoint : e.value_point,
-          ProductCode : e.product_code,
-          ProductName : e.product_name,
-          ProductType : e.product_type,
-          // Denom : e.denom,
-          // SellingPrice : e.selling_price,
-          Comment : e.comment,
-          TransactionDate : e.created_At,
-          TransactionTime : e.transactions_time,
-          OPLCardNumber : e.loyaltycardno,
-          Pos : e.pos,
-          Issuer: e.issuer,
-          ReffNo : e.reff_number,
           Partner : e.partner,
+          Beginning : e.beginning,
+          Adding : e.adding,
+          Bonus : e.bonus,
+          Spending : e.spending,
+          P2pAdd : e.p2p_add,
+          P2pSpend : e.p2p_spend,
+          AdjustmentAdd : e.adjustment_add,
+          Adjustmentspend : e.adjustment_spend,
+          ExpiredPoint : e.expired_point,
+          EndingPoint : e.ending_point,
         };
         arrData.push(objData);
       });
@@ -220,14 +189,14 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   exportToXLSX() {
     this.isWaitingDownload = true;
     console.log('query :\n', this.query);
-    this.apiService.APIGetTransactionsEarningOPL(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOPLRes) => {
+    ).subscribe((res: OutstandingPointRes) => {
       this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -244,28 +213,25 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            CustomerID : e.customer_id,
+            Date : e.date,
+            Time : e.time,
             Phone : e.phone,
-            Email : e.email,
-            TransactionsType : e.transactions_type,
-            ValuePoint : e.value_point,
-            ProductCode : e.product_code,
-            ProductName : e.product_name,
-            ProductType : e.product_type,
-            // Denom : e.denom,
-            // SellingPrice : e.selling_price,
-            Comment : e.comment,
-            TransactionDate : e.created_At,
-            TransactionTime : e.transactions_time,
-            OPLCardNumber : e.loyaltycardno,
-            Pos : e.pos,
-            Issuer: e.issuer,
-            ReffNo : e.reff_number,
+            Email :e.email,
             Partner : e.partner,
+            Beginning : e.beginning,
+            Adding : e.adding,
+            Bonus : e.bonus,
+            Spending : e.spending,
+            P2pAdd : e.p2p_add,
+            P2pSpend : e.p2p_spend,
+            AdjustmentAdd : e.adjustment_add,
+            Adjustmentspend : e.adjustment_spend,
+            ExpiredPoint : e.expired_point,
+            EndingPoint : e.ending_point,
           };
           arrData.push(objData);
       });
-      this.excelService.exportAsExcelFile(arrData, 'transactions_earnings_opl_');
+      this.excelService.exportAsExcelFile(arrData, 'outstanding_point_');
     });
   }
 
@@ -273,49 +239,40 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     this.isLoadingResults = true;
     this.query = '';
     if (this.fq.from_date !== null) {
-      this.query = this.query + `a.created_at.gte:${
+      this.query = this.query + `a.date.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
-      this.query = this.query + `a.created_at.lte:${
+      this.query = this.query + `a.date.lte:${
         this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
     }
-    if (this.fq.phone !== '') {
-      this.query = this.query + 'a.customer_phone.:' + this.fq.phone + ',';
+    if (this.fq.phone != '') {
+      this.query = this.query + `a.phone.:` + this.fq.phone + ',';
     }
-    if (this.fq.cust_id !== '') {
-      this.query = this.query + 'a.customer_id.:' + this.fq.cust_id + ',';
+    if (this.fq.email != '') {
+      this.query = this.query + `a.email.:` + this.fq.email + ',';
     }
-    if (this.fq.reff_number !== '') {
-      this.query = this.query + 'a.reff_number.:' + this.fq.reff_number + ',';
-    }
-    if (this.fq.product_name !== '') {
-      this.query = this.query + 'a.product_name.icontains:' + this.fq.product_name + ',';
-    }
-    if (this.fq.partner !== '') {
-      this.query = this.query + 'a.partner.icontains:' + this.fq.partner + ',';
-    }
-    if (this.fq.product_type !== undefined) {
-      this.query = this.query + 'a.product_type.:' + this.fq.product_type + ',';
+    if (this.fq.partner != '') {
+      this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
     }
     this.query = this.query.replace(/.$/g,'');
-    if (this.query !== '') {
+    if(this.query !== ''){
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionsEarningOPL(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOPLRes) => {
-      if ( res.message === 'Invalid Token' ) {
-        window.alert('Login Session Expired!\nPlease Relogin!');
+    ).subscribe((res : OutstandingPointRes) =>{
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin !');
         this.router.navigateByUrl('/login');
-        return;
+        return
       }
       this.dataTable.data = res.data;
       this.dataTableLength = res.total;
@@ -326,7 +283,6 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
       this.isLoadingResults = false;
     });
   }
-
 
   clearFilter(){
     this.isLoadingResults = true;
@@ -334,20 +290,16 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     this.fq.from_date = null;
     this.fq.through_date =  null;
     this.fq.phone = '';
-    this.fq.cust_id = '';
-    this.fq.type_trans = undefined;
-    this.fq.product_name = '';
-    this.fq.product_type = undefined;
+    this.fq.email = '';
     this.fq.partner = '';
-    this.fq.reff_number = '';
-    this.apiService.APIGetTransactionsEarningOPL(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOPLRes) => {
+    ).subscribe((res: OutstandingPointRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -363,56 +315,5 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     });
   }
 }
-@Component({
-  selector: 'app-dialog-show-data',
-  templateUrl: './dialogs/dialog-show-data.html',
-  styleUrls: ['./transactions-earnings-earningopl.component.css']
-})
-export class DialogShowDataComponent implements OnInit {
-  displayedColumns: string[] = [
-    'key',
-    'value',
-  ];
-  dataTable = new MatTableDataSource();
-
-  elementDataTable: object[] = [];
-  obj = {
-    key: '',
-    value: ''
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogShowDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) {}
-
-  ngOnInit() {
-    console.log(this.data);
-    const arrData = this.data.split(' || ');
-    for (const splitData of arrData) {
-      const arrSplitData = splitData.split(' : ');
-      const keys = arrSplitData[0].split('_');
-      arrSplitData[0] = '';
-      for (let key of keys) {
-        key = key.replace(/^./g, key[0].toUpperCase());
-        if (key.length <= 3) {
-          key = key.toUpperCase();
-        }
-        arrSplitData[0] = arrSplitData[0] + key + ' ';
-      }
-      this.obj = {
-        key: arrSplitData[0],
-        value: arrSplitData[1],
-      };
-      this.elementDataTable.push(this.obj);
-    }
-    this.dataTable.data = this.elementDataTable;
-  }
-
-  close(): void {
-    this.dialogRef.close();
-  }
-}
-
 
 

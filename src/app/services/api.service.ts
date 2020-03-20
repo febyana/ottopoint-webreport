@@ -21,7 +21,6 @@ import {
   PutSettingsVariablesTransactionsRes,
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
-  GetTransactionsEarningsOSPRes,
   GetTransactionsEarningsOPLRes,
   ChangePasswordRequest,
   ChangePasswordResponse,
@@ -34,6 +33,9 @@ import {
   GetTransactionsVouchersRedeemOplRes,
   GetListUltraVoucherRes,
   GetSKURes,
+  OutstandingPointRes,
+  OutstandingPoint,
+  OutstandingVoucherRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -58,7 +60,6 @@ export class ApiService {
   URLGetUsers: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
-  URLGetTransactionsEarningsOSP: string;
   URLGetTransactionsEarningsOPL: string;
   URLGetTransactionsEarningsQR: string;
   URLGetTransactionsVouchersRedeem: string;
@@ -80,6 +81,8 @@ export class ApiService {
   URLBulkAdjustment: string;
   URLListUltraVoucher : string;
   URLBulkAddCustomer: string;
+  URLOutstandingPoint: string;
+  URLOutstandingVoucher: string;
 
 
   constructor(
@@ -95,7 +98,6 @@ export class ApiService {
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
-    this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
     this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
@@ -116,6 +118,8 @@ export class ApiService {
     this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/addcustomer';
     this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history';
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
+    this.URLOutstandingPoint        = baseURLBackendDashboard + `/outstanding/point?`;
+    this.URLOutstandingVoucher        = baseURLBackendDashboard + `/outstanding/voucher?`;
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -210,18 +214,31 @@ export class ApiService {
     return this.httpClient.get<GetTransactionsEarningsPPOBRes>(this.URLGetTransactionsEarningsPPOB + this.queryParams, httpOptions);
   }
 
-  public APIGetTransactionsEarningOSP(
+  public APIOutstandingPoint(
     token :string,
     offset:number,
     limit:number,
     sortby:string,
     order:string,
     query:string
-  ): Observable<GetTransactionsEarningsOSPRes> {
+  ): Observable<OutstandingPointRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionsEarningsOSPRes>(this.URLGetTransactionsEarningsOSP + this.queryParams, httpOptions)
+    return this.httpClient.get<OutstandingPointRes>(this.URLOutstandingPoint + this.queryParams, httpOptions)
+  }
+  public APIOutstandingVoucher(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<OutstandingVoucherRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<OutstandingVoucherRes>(this.URLOutstandingVoucher + this.queryParams, httpOptions)
   }
 
   public APIGetTransactionsEarningOPL(
