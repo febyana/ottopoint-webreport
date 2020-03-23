@@ -161,21 +161,19 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          // Date : e.date,
-          // Time : e.time,
+          Date : e.date,
+          Time : e.time,
           Phone : e.phone,
-          Email : e.email,
+          Email :e.email,
           Partner : e.partner,
+          ProductName : e.product_name,
           Beginning : e.beginning,
-          // Adding : e.adding,
-          // Bonus : e.bonus,
-          // Spending : e.spending,
-          // P2pAdd : e.p2p_add,
-          // P2pSpend : e.p2p_spend,
-          // AdjustmentAdd : e.adjustment_add,
-          // Adjustmentspend : e.adjustment_spend,
-          // ExpiredVoucher : e.expired_point,
-          // EndingVoucher : e.ending_point,
+          RedeemPoint : e.redeem_point,
+          UsedVoucher : e.used_voucher,
+          UnusedVoucher : e.unused_voucher,
+          Reversal : e.reversal,
+          ExpiredVoucher : e.expired_voucher,
+          Ending : e.ending,
         };
         arrData.push(objData);
       });
@@ -210,21 +208,19 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            // Date : e.date,
-            // Time : e.time,
+            Date : e.date,
+            Time : e.time,
             Phone : e.phone,
             Email :e.email,
             Partner : e.partner,
+            ProductName : e.product_name,
             Beginning : e.beginning,
-            // Adding : e.adding,
-            // Bonus : e.bonus,
-            // Spending : e.spending,
-            // P2pAdd : e.p2p_add,
-            // P2pSpend : e.p2p_spend,
-            // AdjustmentAdd : e.adjustment_add,
-            // Adjustmentspend : e.adjustment_spend,
-            // ExpiredVoucher : e.expired_point,
-            // EndingVoucher : e.ending_point,
+            RedeemPoint : e.redeem_point,
+            UsedVoucher : e.used_voucher,
+            UnusedVoucher : e.unused_voucher,
+            Reversal : e.reversal,
+            ExpiredVoucher : e.expired_voucher,
+            Ending : e.ending
           };
           arrData.push(objData);
       });

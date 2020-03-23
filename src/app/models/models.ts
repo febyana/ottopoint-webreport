@@ -114,6 +114,7 @@ export interface OutstandingVoucher {
     beginning: string;
     redeem_point:string;
     used_voucher:string;
+    unused_voucher:string;
     reversal:string;
     expired_voucher:string;
     ending:string;
