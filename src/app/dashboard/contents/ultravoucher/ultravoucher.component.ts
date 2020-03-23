@@ -254,13 +254,13 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       this.query = this.query + 'a.institution_id.:' + this.fq.acc_id + ',';
     }
     if (this.fq.voucher_id !== '') {
-      this.query = this.query + 'B.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
+      this.query = this.query + 'a.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
     }
     if (this.fq.voucher_code !== '') {
-      this.query = this.query + 'B.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
+      this.query = this.query + 'a.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
     }
     if (this.fq.status !== undefined) {
-      this.query = this.query + 'b.status.:' + this.fq.status + ',';
+      this.query = this.query + 'a.status.:' + this.fq.status + ',';
     }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
