@@ -33,9 +33,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
   buffTotalData = 0;
   displayedColumns: string[] = [
     'no',
-    // 'date',
-    // 'time',
-    'customer_id',
+    'date',
+    'time',
+    // 'customer_id',
     'phone',
     'email',
     'partner',
@@ -44,8 +44,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     'redeem_point',
     'used_voucher',
     'unused_voucher',
+    'reversal',
     'expired_voucher',
-    // 'ending'
+    'ending'
   ];
 
   dataTable = new MatTableDataSource();
