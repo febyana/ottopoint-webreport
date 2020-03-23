@@ -81,7 +81,7 @@ export interface TransactionEarningPPOB {
     status: string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/outstanding
-export interface TransactionEarningOSP {
+export interface OutstandingPoint {
     id: string;
     num :string;
     phone: string;
@@ -101,6 +101,19 @@ export interface TransactionEarningOSP {
     time: string;
     created_at:string;
     updated_at:string;
+}
+export interface OutstandingVoucher {
+    id: string;
+    customer_id: string;
+    phone: string;
+    email: string;
+    partner: string;
+    product_name:string;
+    beginning: string;
+    redeem_point:string;
+    used_voucher:string;
+    expired_voucher:string;
+    purchase_at:string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/earningopl
 export interface TransactionEarningOPL {
@@ -142,8 +155,14 @@ export interface GetTransactionsEarningsPPOBRes {
     code: number;
     message: string;
 }
-export interface GetTransactionsEarningsOSPRes {
-    data: TransactionEarningOSP[];
+export interface OutstandingPointRes {
+    data: OutstandingPoint[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface OutstandingVoucherRes {
+    data: OutstandingVoucher[];
     total: number;
     code: number;
     message: string;
@@ -401,24 +420,6 @@ export interface GetSKURes {
     message: string;
 }
 
-export interface OutstandingPoint {
-    id: string;
-    phone:string;
-    email:string;
-    partner:string;
-    beginning:number;
-    adding:number;
-    bonus:number;
-    spending:number;
-    p2padd:number;
-    p2pspend:number;
-    adjustmentadd:number;
-    adjustmentspend:number;
-    expiredpoint:number;
-    endingpoint:number;
-    date:Date;
-    time:Time;
-}
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;

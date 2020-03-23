@@ -11,9 +11,11 @@
         <a mat-list-item routerLink="./upload-adjusment">Bulk Upload Adjusment</a>
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="./upload-addcustomer">Bulk Upload Customer</a>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider>
         <a mat-list-item routerLink="./osp" >Outstanding Point</a>
-        
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="./outstanding_voucher" >Outstanding Voucher</a> -->
+
     </mat-nav-list>
 
     <mat-divider></mat-divider>
@@ -46,6 +48,23 @@
                         <a mat-list-item routerLink="./transactions/earnings/qr" class="sub-content">Payments QR</a> -->
                     </mat-nav-list>
                 </mat-expansion-panel>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-divider></mat-divider>
+
+    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+        <mat-expansion-panel-header>
+            Outstanding
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./outstanding/point">Outstanding Point</a>
+            </mat-accordion>
+            <mat-accordion>
+                <a mat-list-item routerLink="./outstanding/voucher">Outstanding Voucher</a>
             </mat-accordion>
         </mat-nav-list>
     </mat-expansion-panel>
