@@ -512,3 +512,45 @@ export interface DataBulkDetail {
     errorDesc : any; 
     data : any;
 }
+
+
+export interface ReportUVResp {
+    data : DataUV[] ;
+    totalVoucher : number;
+    code: number;
+    message: string;
+} 
+
+export interface DataUV {
+    voucherName : any;
+    voucherType : any;
+    voucherId   : any;
+    status      : any;
+    stock       : any;
+    sku         : any;
+}
+
+export interface GetVoucherNameUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherTypeUV {
+    voucherType: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherCategoryUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface DataVoucherUV {
+    name: any;
+}
