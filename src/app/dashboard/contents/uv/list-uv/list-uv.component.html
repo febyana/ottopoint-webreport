@@ -1,0 +1,162 @@
+<mat-card>
+        <div class="loading-shade" *ngIf="isWaitingDownload">
+            <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+        </div>
+        <!-- judul -->
+        <h1>Report Stock Ultra Voucher</h1>
+        <!-- filters -->
+        <br>
+        <!-- <mat-form-field class="filter-field">
+            <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" [(ngModel)]="fq.from_date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+        </mat-form-field> -->
+        <!-- <mat-form-field class="filter-field">
+            <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" [(ngModel)]="fq.through_date">
+            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+            <mat-datepicker #dp2></mat-datepicker>
+        </mat-form-field> -->
+
+        <!-- =========== -->
+        <!-- <mat-form-field class="filter-field">
+                <mat-label>Product type</mat-label>
+                <mat-select [(ngModel)]="fq.product_type">
+                    <mat-option [value]="">
+                        None
+                    </mat-option>
+                    <mat-option *ngFor="let p of productTypes" [value]="p.v">
+                        {{p.k}}
+                    </mat-option>
+                </mat-select>
+        </mat-form-field> -->
+
+        <!-- =========== -->
+
+        <mat-form-field class="filter-field">
+            <mat-label>Voucher Name</mat-label>
+            <mat-select [(ngModel)]="fq.voucherName">
+                <mat-option [value]="">
+                    None
+                </mat-option>
+                <mat-option *ngFor="let p of voucher_name" [value]="p.v">
+                    {{p.k}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="filter-field">
+            <mat-label>Voucher Type</mat-label>
+            <mat-select [(ngModel)]="fq.voucherType">
+                <mat-option [value]="">
+                    None
+                </mat-option>
+                <mat-option *ngFor="let p of voucher_type" [value]="p.v">
+                    {{p.k}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="filter-field">
+                <mat-label>Category</mat-label>
+                <mat-select [(ngModel)]="fq.category">
+                    <mat-option [value]="">
+                        None
+                    </mat-option>
+                    <mat-option *ngFor="let p of categorys" [value]="p.v">
+                        {{p.k}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        <mat-form-field class="filter-field">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="fq.status">
+                <mat-option [value]="">
+                        None
+                </mat-option>
+                <mat-option *ngFor="let p of status" [value]="p.v">
+                     {{p.k}}
+                </mat-option>
+                <!-- <mat-option>
+                    Active
+                </mat-option>
+                <mat-option>
+                    Inactive
+                </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+
+        <!-- actions -->
+        <br>
+        <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
+        <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
+       
+        <!-- table -->
+        <div class="parent-table-container">
+            <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                <div class="no-data" *ngIf="isNoData">
+                    No Data
+                </div>
+            </div>
+            <div class="table-container" [style.height.px]="tableHeight">
+                    <table mat-table [dataSource]="dataTable">
+                    <ng-container matColumnDef="no" sticky>
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            No
+                        </th>
+                        <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="voucherName">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            Voucher Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.voucherName}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="voucherType">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            Voucher Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.voucherType}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="voucherId">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            Voucher ID
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.voucherId}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            Status
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.status}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="stock">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            Stock
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.stock}}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="sku">
+                        <th mat-header-cell *matHeaderCellDef disableClear>
+                            SKU
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.sku}}</td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+        <!-- paginator -->
+        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    </mat-card>
+        
