@@ -104,6 +104,8 @@ export interface OutstandingPoint {
 }
 export interface OutstandingVoucher {
     id: string;
+    date:string;
+    time:string;
     customer_id: string;
     phone: string;
     email: string;
@@ -112,7 +114,10 @@ export interface OutstandingVoucher {
     beginning: string;
     redeem_point:string;
     used_voucher:string;
+    unused_voucher:string;
+    reversal:string;
     expired_voucher:string;
+    ending:string;
     purchase_at:string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/earningopl
