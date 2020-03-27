@@ -21,7 +21,6 @@ import {
   PutSettingsVariablesTransactionsRes,
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
-  GetTransactionsEarningsOSPRes,
   GetTransactionsEarningsOPLRes,
   ChangePasswordRequest,
   ChangePasswordResponse,
@@ -34,6 +33,14 @@ import {
   GetTransactionsVouchersRedeemOplRes,
   GetListUltraVoucherRes,
   GetTransactionsRedeemPointOplRes,
+  GetSKURes,
+  OutstandingPointRes,
+  OutstandingPoint,
+  OutstandingVoucherRes,
+  ReportUVResp,
+  GetVoucherNameUV,
+  GetVoucherTypeUV,
+  GetVoucherCategoryUV,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -58,7 +65,6 @@ export class ApiService {
   URLGetUsers: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
-  URLGetTransactionsEarningsOSP: string;
   URLGetTransactionsEarningsOPL: string;
   URLGetTransactionsEarningsQR: string;
   URLGetTransactionsVouchersRedeem: string;
@@ -70,8 +76,13 @@ export class ApiService {
   URLPutSettingsVariablesTransactions: string;
   URLGetVouchersName: string;
   URLGetPPOBProductTypes: string;
+  URLGetSKU: string;
   URLChangePassword: string;
   URLChangeStatus: string;
+  URLReportVoucherUV: string;
+  URLGetVoucherNameUV: string;
+  URLGetVoucherTypeUV: string;
+  URLGetVoucherCategoryUV: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -80,6 +91,8 @@ export class ApiService {
   URLBulkAdjustment: string;
   URLListUltraVoucher : string;
   URLBulkAddCustomer: string;
+  URLOutstandingPoint: string;
+  URLOutstandingVoucher: string;
 
 
   constructor(
@@ -95,7 +108,6 @@ export class ApiService {
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
-    this.URLGetTransactionsEarningsOSP        = baseURLBackendDashboard + `/transactions/outstanding?`;
     this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
     this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
@@ -109,6 +121,7 @@ export class ApiService {
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
     this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
+    this.URLGetSKU                           = baseURLBackendDashboard + `/ultra_voucher/sku`;
     this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
@@ -116,6 +129,12 @@ export class ApiService {
     this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/addcustomer';
     this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history';
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
+    this.URLOutstandingPoint                 = baseURLBackendDashboard + `/outstanding/point?`;
+    this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
+    this.URLReportVoucherUV                  = baseURLBackendDashboard + `/ultra_voucher/list`
+    this.URLGetVoucherNameUV                 = baseURLBackendDashboard + `/ultra_voucher/name`
+    this.URLGetVoucherTypeUV                 = baseURLBackendDashboard + `/ultra_voucher/type`
+    this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -210,18 +229,31 @@ export class ApiService {
     return this.httpClient.get<GetTransactionsEarningsPPOBRes>(this.URLGetTransactionsEarningsPPOB + this.queryParams, httpOptions);
   }
 
-  public APIGetTransactionsEarningOSP(
+  public APIOutstandingPoint(
     token :string,
     offset:number,
     limit:number,
     sortby:string,
     order:string,
     query:string
-  ): Observable<GetTransactionsEarningsOSPRes> {
+  ): Observable<OutstandingPointRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetTransactionsEarningsOSPRes>(this.URLGetTransactionsEarningsOSP + this.queryParams, httpOptions)
+    return this.httpClient.get<OutstandingPointRes>(this.URLOutstandingPoint + this.queryParams, httpOptions)
+  }
+  public APIOutstandingVoucher(
+    token :string,
+    offset:number,
+    limit:number,
+    sortby:string,
+    order:string,
+    query:string
+  ): Observable<OutstandingVoucherRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<OutstandingVoucherRes>(this.URLOutstandingVoucher + this.queryParams, httpOptions)
   }
 
   public APIGetTransactionsEarningOPL(
@@ -396,6 +428,12 @@ export class ApiService {
     return this.httpClient.get<GetPPOBProductTypesRes>(this.URLGetPPOBProductTypes, httpOptions);
   }
 
+  public APIGetSKU(token: string): Observable<GetSKURes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
+  }
+
   public APIChangePassword(token: string, req: ChangePasswordRequest): Observable<ChangePasswordResponse> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -449,30 +487,7 @@ export class ApiService {
 
     return this.httpClient.post<BulkAddCustomerRes>(this.URLBulkAddCustomer, formData, httpOptionT);
 
-    // const rohmet = { content: formData };
-    // return this.httpClient.post<BulkAdjustmentResponse>(this.URLBulkAdjustment, formData, httpOptionsUp).pipe(
-    //   tap(
-    //     result => console.log('res ==>', result)
-    //   )
-    // );
   }
-
-
-  // ===========
-
-  // importFile(file): Observable<any> {
-  //   let formData = new FormData();    
-  //   formData.append('file', file, file.filename);
-
-  //   return this.http.post(this.inventoriesUrl + '/import', formData)
-  //   .map((response : any) => {
-  //       return response;
-  //     }).catch((error: any) => {
-  //       return Observable.throw(error);
-  //   });
-  // }
-
-  // ===========
 
   public APIBulkAdjustment(token: string, file): Observable<BulkAdjustmentResponse> {
     const formData = new FormData();
@@ -502,5 +517,32 @@ export class ApiService {
     //   )
     // );
   }
+
+  public APIReportVoucherUV(token: string, page, perpage, category, type, name, status: string): Observable<ReportUVResp> {
+    this.whichEnvironment();
+    this.queryParams = `?page=${String(page)}&perpage=${String(perpage)}&category=${String(category)}
+                        &voucherType=${String(type)}&voucherName=${String(name)}&status=${String(status)}`;
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<ReportUVResp>(this.URLReportVoucherUV + this.queryParams, httpOptions);
+  }
+
+  public APIGetVoucherNameUV(token: string): Observable<GetVoucherNameUV> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherNameUV>(this.URLGetVoucherNameUV , httpOptions);
+  }
+
+  public APIGetVoucherTypeUV(token: string): Observable<GetVoucherTypeUV> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherTypeUV>(this.URLGetVoucherTypeUV , httpOptions);
+  }
+
+  public APIGetVoucherCategoryUV(token: string): Observable<GetVoucherCategoryUV> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherCategoryUV>(this.URLGetVoucherCategoryUV , httpOptions);
+  }
+
 
 }

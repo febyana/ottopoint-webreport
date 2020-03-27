@@ -32,7 +32,8 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
-import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
+import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
+import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
@@ -41,6 +42,7 @@ import { RedeemVoucherOplComponent } from './contents/transactions/redeem-vouche
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
+import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -58,7 +60,8 @@ import { RedeemPointOplComponent } from './contents/transactions/redeem-point-op
     PaymentsQRComponent,
     VouchersRedeemComponent,
     SettingsVariablesTransactionsComponent,
-    TransactionsEarningsOspComponent,
+    OutstandingPointComponent,
+    OutstandingVoucherComponent,
     TransactionsEarningsEarningoplComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
@@ -71,6 +74,7 @@ import { RedeemPointOplComponent } from './contents/transactions/redeem-point-op
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
     RedeemPointOplComponent,
+    ListUvComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

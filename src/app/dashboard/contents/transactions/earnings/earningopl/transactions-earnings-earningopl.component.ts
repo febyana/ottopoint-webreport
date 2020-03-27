@@ -7,7 +7,6 @@ import { ApiService } from '../../../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetTransactionsEarningsOSPRes,
   ExportTransactionsEarningsPPOBToCSVReq,
   GetPPOBProductTypesRes,
   GetTransactionsEarningsOPLRes,

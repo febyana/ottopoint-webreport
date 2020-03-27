@@ -3,10 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../../../services/api.service';
+import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { GetTransactionsEarningsOSPRes} from '../../../../../models/models';
+import { OutstandingVoucherRes} from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -14,14 +14,14 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { ExcelServicesService } from '../../../../../services/xlsx.service';
+import { ExcelServicesService } from '../../../../services/xlsx.service';
 
 @Component({
   selector: 'app-transactions-earnings-osp',
-  templateUrl: './transactions-earnings-osp.component.html',
-  styleUrls: ['./transactions-earnings-osp.component.css']
+  templateUrl: './outstanding_voucher.component.html',
+  styleUrls: ['./outstanding_voucher.component.css']
 })
-export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
+export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
   query = '';
   fq = { // filter Query
     from_date: null,
@@ -33,23 +33,20 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
   buffTotalData = 0;
   displayedColumns: string[] = [
     'no',
-    'num',
     'date',
     'time',
-    // 'id',
+    // 'customer_id',
     'phone',
     'email',
     'partner',
+    'product_name',
     'beginning',
-    'adding',
-    'bonus',
-    'spending',
-    'p2p_add', 
-    'p2p_spend', 
-    'adjustment_add', 
-    'adjustment_spend',
-    'expired_point',
-    'ending_point',
+    'redeem_point',
+    'used_voucher',
+    'unused_voucher',
+    'reversal',
+    'expired_voucher',
+    'ending'
   ];
 
   dataTable = new MatTableDataSource();
@@ -92,7 +89,7 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       startWith({}),
       switchMap(() => {
         this.isLoadingResults = true;
-        return this.apiService.APIGetTransactionsEarningOSP(
+        return this.apiService.APIOutstandingVoucher(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
           this.paginator.pageSize,
@@ -124,37 +121,30 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  showDialogData(rowData: string) {
-    this.dialog.open(DialogShowDataComponent, {
-      width : '50%',
-      data : rowData,
-    });
-  }
-
   exportToCSV() {
     this.isWaitingDownload = true;
 
     const options = {
-      filename: 'transactions_outstanding_point' + Date().toLocaleString(),
+      filename: 'outstanding_voucher' + Date().toLocaleString(),
       fieldSeparator : ',',
       quoteStrings : '"',
       decimalSeparator:'.',
       showLabels:true,
       showTitle:true,
-      title:'Transactions Outstanding Point \nDownload At : '+ Date().toLocaleString(),
+      title:'Transactions Outstanding Voucher \nDownload At : '+ Date().toLocaleString(),
       useTextFile:false,
       useBom:true,
       useKeysAsHeaders:true,
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res:GetTransactionsEarningsOSPRes)=>{
+    ).subscribe((res:OutstandingVoucherRes)=>{
       this.isWaitingDownload = false;
       if (res.message  === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!')
@@ -174,18 +164,16 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
           Date : e.date,
           Time : e.time,
           Phone : e.phone,
-          Email : e.email,
+          Email :e.email,
           Partner : e.partner,
+          ProductName : e.product_name,
           Beginning : e.beginning,
-          Adding : e.adding,
-          Bonus : e.bonus,
-          Spending : e.spending,
-          P2pAdd : e.p2p_add,
-          P2pSpend : e.p2p_spend,
-          AdjustmentAdd : e.adjustment_add,
-          Adjustmentspend : e.adjustment_spend,
-          ExpiredPoint : e.expired_point,
-          EndingPoint : e.ending_point,
+          RedeemPoint : e.redeem_point,
+          UsedVoucher : e.used_voucher,
+          UnusedVoucher : e.unused_voucher,
+          Reversal : e.reversal,
+          ExpiredVoucher : e.expired_voucher,
+          Ending : e.ending,
         };
         arrData.push(objData);
       });
@@ -196,14 +184,14 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
   exportToXLSX() {
     this.isWaitingDownload = true;
     console.log('query :\n', this.query);
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOSPRes) => {
+    ).subscribe((res: OutstandingVoucherRes) => {
       this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -225,20 +213,18 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
             Phone : e.phone,
             Email :e.email,
             Partner : e.partner,
+            ProductName : e.product_name,
             Beginning : e.beginning,
-            Adding : e.adding,
-            Bonus : e.bonus,
-            Spending : e.spending,
-            P2pAdd : e.p2p_add,
-            P2pSpend : e.p2p_spend,
-            AdjustmentAdd : e.adjustment_add,
-            Adjustmentspend : e.adjustment_spend,
-            ExpiredPoint : e.expired_point,
-            EndingPoint : e.ending_point,
+            RedeemPoint : e.redeem_point,
+            UsedVoucher : e.used_voucher,
+            UnusedVoucher : e.unused_voucher,
+            Reversal : e.reversal,
+            ExpiredVoucher : e.expired_voucher,
+            Ending : e.ending
           };
           arrData.push(objData);
       });
-      this.excelService.exportAsExcelFile(arrData, 'transactions_outstanding_point_');
+      this.excelService.exportAsExcelFile(arrData, 'outstanding_voucher_');
     });
   }
 
@@ -268,14 +254,14 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     if(this.query !== ''){
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res : GetTransactionsEarningsOSPRes) =>{
+    ).subscribe((res : OutstandingVoucherRes) =>{
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin !');
         this.router.navigateByUrl('/login');
@@ -299,14 +285,14 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
     this.fq.phone = '';
     this.fq.email = '';
     this.fq.partner = '';
-    this.apiService.APIGetTransactionsEarningOSP(
+    this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetTransactionsEarningsOSPRes) => {
+    ).subscribe((res: OutstandingVoucherRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
@@ -320,56 +306,6 @@ export class TransactionsEarningsOspComponent implements AfterViewInit, OnInit {
       }
       this.isLoadingResults = false;
     });
-  }
-}
-@Component({
-  selector: 'app-dialog-show-data',
-  templateUrl: './dialogs/dialog-show-data.html',
-  styleUrls: ['./transactions-earnings-osp.component.css']
-})
-export class DialogShowDataComponent implements OnInit {
-  displayedColumns: string[] = [
-    'key',
-    'value',
-  ];
-  dataTable = new MatTableDataSource();
-
-  elementDataTable: object[] = [];
-  obj = {
-    key: '',
-    value: ''
-  };
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogShowDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) {}
-
-  ngOnInit() {
-    console.log(this.data);
-    const arrData = this.data.split(' || ');
-    for (const splitData of arrData) {
-      const arrSplitData = splitData.split(' : ');
-      const keys = arrSplitData[0].split('_');
-      arrSplitData[0] = '';
-      for (let key of keys) {
-        key = key.replace(/^./g, key[0].toUpperCase());
-        if (key.length <= 3) {
-          key = key.toUpperCase();
-        }
-        arrSplitData[0] = arrSplitData[0] + key + ' ';
-      }
-      this.obj = {
-        key: arrSplitData[0],
-        value: arrSplitData[1],
-      };
-      this.elementDataTable.push(this.obj);
-    }
-    this.dataTable.data = this.elementDataTable;
-  }
-
-  close(): void {
-    this.dialogRef.close();
   }
 }
 

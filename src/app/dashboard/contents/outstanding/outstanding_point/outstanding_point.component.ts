@@ -3,13 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import {
-  GetListUltraVoucherRes, GetSKURes
-} from '../../../models/models';
+import { OutstandingPointRes} from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -17,82 +14,74 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { ExcelServicesService } from '../../../services/xlsx.service';
-
+import { ExcelServicesService } from '../../../../services/xlsx.service';
 
 @Component({
-  selector: 'app-ultravoucher',
-  templateUrl: './ultravoucher.component.html',
-  styleUrls: ['./ultravoucher.component.css']
+  selector: 'app-transactions-earnings-osp',
+  templateUrl: './outstanding_point.component.html',
+  styleUrls: ['./outstanding_point.component.css']
 })
-export class UltravoucherComponent implements AfterViewInit, OnInit {
+export class OutstandingPointComponent implements AfterViewInit, OnInit {
   query = '';
-  fq = {
-    from_date : null, 
-    through_date : null,
-    sku :undefined,
-    acc_id:undefined,
-    voucher_id:'',
-    voucher_code:'',
-    status:undefined,
-  }
-
+  fq = { // filter Query
+    from_date: null,
+    through_date: null,
+    email: '',
+    phone: '',
+    partner: '',
+  };
   buffTotalData = 0;
-
   displayedColumns: string[] = [
     'no',
-    'voucher_code',
-    'voucher_id',
-    'sku',
-    'expiry_date_uv',
-    'expiry_date_op',
-    'status',
-    'account_id',
-    'order_no',
-    'invoice_no',
-    'reff_reuse',
+    'num',
+    'date',
+    'time',
+    // 'id',
+    'phone',
+    'email',
+    'partner',
+    'beginning',
+    'adding',
+    'bonus',
+    'spending',
+    'p2p_add', 
+    'p2p_spend', 
+    'adjustment_add', 
+    'adjustment_spend',
+    'expired_point',
+    'ending_point',
   ];
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
   tableHeight = window.screen.height * 0.35;
-  
+
   isLoadingResults = true;
   isWaitingDownload = false;
   isNoData = false;
-  
-  sku = [];
 
-  matSnackBarConfig : MatSnackBarConfig = {
+  productTypes = [];
+  
+  matSnackBarConfig: MatSnackBarConfig = {
     duration: 2000,
     verticalPosition: 'top',
-    horizontalPosition : 'center',
-    panelClass : ['snack-bar-exstra-css']
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
   };
 
-  @ViewChild(MatPaginator, {static:false}) paginator:MatPaginator;
-  @ViewChild(MatSort, {static:false}) sort:MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(
-    private apiService : ApiService,
-    private router : Router,
-    public dialog : MatDialog,
-    public datePipe : DatePipe,
-    private snackBar : MatSnackBar,
-    private excelService : ExcelServicesService
-   ) {}
+    private apiService: ApiService,
+    private router: Router,
+    public dialog: MatDialog,
+    public datePipe: DatePipe,
+    private snackBar: MatSnackBar,
+    private excelService: ExcelServicesService,
+  ) { }
 
   ngOnInit() {
-    this.apiService.APIGetSKU(
-      window.localStorage.getItem('token')
-    ).subscribe((res : GetSKURes) => {
-      res.data.forEach(e => {
-        this.sku.push({
-          k:e["name"],
-          v:e["id"],
-        });
-      });
-    });
   }
 
   ngAfterViewInit() {
@@ -103,7 +92,7 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       startWith({}),
       switchMap(() => {
         this.isLoadingResults = true;
-        return this.apiService.APIGetListUltraVoucher(
+        return this.apiService.APIOutstandingPoint(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
           this.paginator.pageSize,
@@ -139,26 +128,26 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     this.isWaitingDownload = true;
 
     const options = {
-      filename: 'listultravoucher' + Date().toLocaleString(),
+      filename: 'outstanding_point' + Date().toLocaleString(),
       fieldSeparator : ',',
       quoteStrings : '"',
       decimalSeparator:'.',
       showLabels:true,
       showTitle:true,
-      title:'List Ultra Voucher \nDownload At : '+ Date().toLocaleString(),
+      title:'Transactions Outstanding Point \nDownload At : '+ Date().toLocaleString(),
       useTextFile:false,
       useBom:true,
       useKeysAsHeaders:true,
     };
     const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetListUltraVoucher(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res:GetListUltraVoucherRes)=>{
+    ).subscribe((res:OutstandingPointRes)=>{
       this.isWaitingDownload = false;
       if (res.message  === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!')
@@ -175,16 +164,21 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          VoucherCode : e.voucher_code,
-          VoucherID : e.voucher_id,
-          Sku : e.sku,
-          ExpiryDateUV : e.expiry_date_uv,
-          ExpiryDateOP : e.expiry_date_op,
-          Status : e.status,
-          AccountID : e.account_id,
-          OrderNo : e.order_no,
-          InvoiceNO : e.invoice_no,
-          ReffReuse : e.reff_reuse
+          Date : e.date,
+          Time : e.time,
+          Phone : e.phone,
+          Email : e.email,
+          Partner : e.partner,
+          Beginning : e.beginning,
+          Adding : e.adding,
+          Bonus : e.bonus,
+          Spending : e.spending,
+          P2pAdd : e.p2p_add,
+          P2pSpend : e.p2p_spend,
+          AdjustmentAdd : e.adjustment_add,
+          Adjustmentspend : e.adjustment_spend,
+          ExpiredPoint : e.expired_point,
+          EndingPoint : e.ending_point,
         };
         arrData.push(objData);
       });
@@ -194,14 +188,15 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
 
   exportToXLSX() {
     this.isWaitingDownload = true;
-    this.apiService.APIGetListUltraVoucher(
+    console.log('query :\n', this.query);
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetListUltraVoucherRes) => {
+    ).subscribe((res: OutstandingPointRes) => {
       this.isWaitingDownload = false;
       if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -218,102 +213,66 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            VoucherCode : e.voucher_code,
-            VoucherID : e.voucher_id,
-            Sku : e.sku,
-            ExpiryDateUV : e.expiry_date_uv,
-            ExpiryDateOP : e.expiry_date_op,
-            Status : e.status,
-            AccountID : e.account_id,
-            OrderNo : e.order_no,
-            InvoiceNO : e.invoice_no,
-            ReffReuse : e.reff_reuse
+            Date : e.date,
+            Time : e.time,
+            Phone : e.phone,
+            Email :e.email,
+            Partner : e.partner,
+            Beginning : e.beginning,
+            Adding : e.adding,
+            Bonus : e.bonus,
+            Spending : e.spending,
+            P2pAdd : e.p2p_add,
+            P2pSpend : e.p2p_spend,
+            AdjustmentAdd : e.adjustment_add,
+            Adjustmentspend : e.adjustment_spend,
+            ExpiredPoint : e.expired_point,
+            EndingPoint : e.ending_point,
           };
           arrData.push(objData);
       });
-      this.excelService.exportAsExcelFile(arrData, 'list_ultravoucher');
+      this.excelService.exportAsExcelFile(arrData, 'outstanding_point_');
     });
   }
+
   submitFilter() {
     this.isLoadingResults = true;
     this.query = '';
     if (this.fq.from_date !== null) {
-      this.query = this.query + `a.created_at.gte:${
+      this.query = this.query + `a.date.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
-      this.query = this.query + `a.created_at.lte:${
+      this.query = this.query + `a.date.lte:${
         this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
       },`;
     }
-    if (this.fq.sku !== undefined) {
-      this.query = this.query + 'a.sku.:' + this.fq.sku + ',';
+    if (this.fq.phone != '') {
+      this.query = this.query + `a.phone.:` + this.fq.phone + ',';
     }
-    if (this.fq.acc_id !== undefined) {
-      this.query = this.query + 'a.institution_id.:' + this.fq.acc_id + ',';
+    if (this.fq.email != '') {
+      this.query = this.query + `a.email.:` + this.fq.email + ',';
     }
-    if (this.fq.voucher_id !== '') {
-      this.query = this.query + 'a.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
-    }
-    if (this.fq.voucher_code !== '') {
-      this.query = this.query + 'a.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
-    }
-    if (this.fq.status !== undefined) {
-      this.query = this.query + 'a.status.:' + this.fq.status + ',';
+    if (this.fq.partner != '') {
+      this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
     }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
       this.paginator.pageIndex = 0;
     }
-    this.apiService.APIGetListUltraVoucher(
+    this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetListUltraVoucherRes) => {
-      if ( res.message === 'Invalid Token' ) {
-        window.alert('Login Session Expired!\nPlease Relogin!');
+    ).subscribe((res : OutstandingPointRes) =>{
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin !');
         this.router.navigateByUrl('/login');
-        return;
-      }
-      if ( res.total === undefined) {
-        this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.dataTable.data = res.data;
-      this.dataTableLength = res.total;
-      this.isNoData = false;
-      if (res.total === 0) {
-        this.isNoData = true;
-      }
-      this.isLoadingResults = false;
-    });
-  }
-  clearFilter(){
-    this.isLoadingResults = true;
-    this.query = '';
-    this.fq.from_date = null;
-    this.fq.through_date =  null;
-    this.fq.acc_id = undefined;
-    this.fq.voucher_code = '';
-    this.fq.voucher_id = '';
-    this.fq.sku = undefined;
-    this.fq.status = undefined;
-    this.apiService.APIGetListUltraVoucher(
-      window.localStorage.getItem('token'),
-      this.paginator.pageIndex,
-      this.paginator.pageSize,
-      this.sort.active,
-      this.sort.direction,
-      this.query
-    ).subscribe((res: GetListUltraVoucherRes) => {
-      if ( res.message === 'Invalid Token' ) {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
-        return;
+        return
       }
       this.dataTable.data = res.data;
       this.dataTableLength = res.total;
@@ -325,4 +284,36 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     });
   }
 
+  clearFilter(){
+    this.isLoadingResults = true;
+    this.query = '';
+    this.fq.from_date = null;
+    this.fq.through_date =  null;
+    this.fq.phone = '';
+    this.fq.email = '';
+    this.fq.partner = '';
+    this.apiService.APIOutstandingPoint(
+      window.localStorage.getItem('token'),
+      this.paginator.pageIndex,
+      this.paginator.pageSize,
+      this.sort.active,
+      this.sort.direction,
+      this.query
+    ).subscribe((res: OutstandingPointRes) => {
+      if ( res.message === 'Invalid Token' ) {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      this.dataTable.data = res.data;
+      this.dataTableLength = res.total;
+      this.isNoData = false;
+      if (res.total === 0) {
+        this.isNoData = true;
+      }
+      this.isLoadingResults = false;
+    });
+  }
 }
+
+

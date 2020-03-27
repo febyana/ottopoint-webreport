@@ -6,12 +6,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { UsersComponent } from './contents/users/users.component';
 import { TransactionsEarningsPPOBComponent } from './contents/transactions/earnings/ppob/transactions-earnings-ppob.component';
-import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { TransactionsEarningsQRComponent } from './contents/transactions/earnings/qr/transactions-earnings-qr.component';
 import { RedeemVoucherOplComponent} from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
 import { RedeemPointOplComponent} from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
+import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
@@ -22,6 +22,8 @@ import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/b
 import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
 import { path, Component } from '@amcharts/amcharts4/core';
+import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
+import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
 
 
 export const routes: Routes = [
@@ -42,8 +44,12 @@ export const routes: Routes = [
         component: TransactionsEarningsPPOBComponent,
       }, 
       {
-        path: 'transactions/earnings/osp',
-        component: TransactionsEarningsOspComponent,
+        path: 'outstanding/point',
+        component: OutstandingPointComponent,
+      },
+      {
+        path: 'outstanding/voucher',
+        component: OutstandingVoucherComponent,
       },
       {
         path: 'transactions/earnings/earningopl',
@@ -82,12 +88,16 @@ export const routes: Routes = [
         component: RedeemVoucherOplComponent,
       },
       {
-        path: 'ultravoucher',
+        path: 'ultravoucher/list',
         component: UltravoucherComponent,
       },
       {
         path: 'transactions/redeempointopl',
         component: RedeemPointOplComponent,
+      },
+      {
+        path: 'ultravoucher/stock',
+        component: ListUvComponent,
       },
     ]
   }

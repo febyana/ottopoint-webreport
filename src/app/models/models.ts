@@ -81,7 +81,7 @@ export interface TransactionEarningPPOB {
     status: string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/outstanding
-export interface TransactionEarningOSP {
+export interface OutstandingPoint {
     id: string;
     num :string;
     phone: string;
@@ -101,6 +101,24 @@ export interface TransactionEarningOSP {
     time: string;
     created_at:string;
     updated_at:string;
+}
+export interface OutstandingVoucher {
+    id: string;
+    date:string;
+    time:string;
+    customer_id: string;
+    phone: string;
+    email: string;
+    partner: string;
+    product_name:string;
+    beginning: string;
+    redeem_point:string;
+    used_voucher:string;
+    unused_voucher:string;
+    reversal:string;
+    expired_voucher:string;
+    ending:string;
+    purchase_at:string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/earningopl
 export interface TransactionEarningOPL {
@@ -142,8 +160,14 @@ export interface GetTransactionsEarningsPPOBRes {
     code: number;
     message: string;
 }
-export interface GetTransactionsEarningsOSPRes {
-    data: TransactionEarningOSP[];
+export interface OutstandingPointRes {
+    data: OutstandingPoint[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface OutstandingVoucherRes {
+    data: OutstandingVoucher[];
     total: number;
     code: number;
     message: string;
@@ -394,24 +418,13 @@ export interface GetPPOBProductTypesRes {
     message: string;
 }
 
-export interface OutstandingPoint {
-    id: string;
-    phone:string;
-    email:string;
-    partner:string;
-    beginning:number;
-    adding:number;
-    bonus:number;
-    spending:number;
-    p2padd:number;
-    p2pspend:number;
-    adjustmentadd:number;
-    adjustmentspend:number;
-    expiredpoint:number;
-    endingpoint:number;
-    date:Date;
-    time:Time;
+export interface GetSKURes {
+    data: string[];
+    total: number;
+    code: number;
+    message: string;
 }
+
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;
@@ -498,4 +511,46 @@ export interface DataBulkDetail {
     errorCode : any;
     errorDesc : any; 
     data : any;
+}
+
+
+export interface ReportUVResp {
+    data : DataUV[] ;
+    totalVoucher : number;
+    code: number;
+    message: string;
+} 
+
+export interface DataUV {
+    voucherName : any;
+    voucherType : any;
+    voucherId   : any;
+    status      : any;
+    stock       : any;
+    sku         : any;
+}
+
+export interface GetVoucherNameUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherTypeUV {
+    voucherType: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherCategoryUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface DataVoucherUV {
+    name: any;
 }
