@@ -154,7 +154,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
             .subscribe(res => {
               console.log('response Add Customer: ', res);
               this.isLoadingResults = false;
-              if (res.meta.message == 'Internal Server Error') {
+              if (res.meta.code == 422) {
                 window.alert('Upload File Gagal');
                 this.router.navigateByUrl('/upload-addcustomer');
                 return;
