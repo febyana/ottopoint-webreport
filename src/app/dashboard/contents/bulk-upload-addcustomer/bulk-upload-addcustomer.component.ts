@@ -154,9 +154,11 @@ export class BulkUploadAddcustomerComponent implements OnInit {
             .subscribe(res => {
               console.log('response Add Customer: ', res);
               this.isLoadingResults = false;
-              if (res.meta.message == 'Internal Server Error') {
+              if (res.meta.code == 422) {
                 window.alert('Upload File Gagal');
                 this.router.navigateByUrl('/upload-addcustomer');
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
                 return;
               }
               // this.isLoadingResults = true;
@@ -173,8 +175,13 @@ export class BulkUploadAddcustomerComponent implements OnInit {
             },
             
           error=> {
+            let msg: any;
             this.isLoadingResults = false;
-              window.alert('Internal Server Eror');
+              msg = 'File Gagal di Upload'
+              this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
+              return;
           }
           );
       }
