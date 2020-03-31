@@ -29,6 +29,7 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     email: '',
     phone: '',
     partner: '',
+    product_name :'',
   };
   buffTotalData = 0;
   displayedColumns: string[] = [
@@ -250,6 +251,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     if (this.fq.partner != '') {
       this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
     }
+    if (this.fq.product_name != '') {
+      this.query = this.query + `a.product_name.icontains:` + this.fq.product_name + ',';
+    }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
       this.paginator.pageIndex = 0;
@@ -285,6 +289,7 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     this.fq.phone = '';
     this.fq.email = '';
     this.fq.partner = '';
+    this.fq.product_name ='';
     this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
