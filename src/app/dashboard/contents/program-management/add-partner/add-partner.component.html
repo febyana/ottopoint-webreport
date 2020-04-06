@@ -1,0 +1,70 @@
+<mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
+    <!-- judul -->
+    <h1>Add New Partner</h1>
+    <mat-card-content>
+    <form [formGroup]="partnerForm" (ngSubmit) = "submitLogin()" class="partner-form">
+        <mat-form-field class="partner-full-width">
+          <mat-label>Nama Perusahaan</mat-label>
+          <input matInput formControlName="_namaPerusahaan">
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Perusahaan</mat-label>
+            <input matInput formControlName="_alamatPerusahaan">
+          </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Domisili</mat-label>
+            <input matInput formControlName="_alamatDomisili">
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>No Telp</mat-label>
+            <input matInput formControlName="_noTelp" >
+        </mat-form-field>        
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Jenis Usaha</mat-label>
+            <input matInput formControlName="_jenisUsaha">
+        </mat-form-field>                
+ 
+        <mat-form-field class="partner-full-width">
+            <mat-label>Tax Number</mat-label>
+            <input matInput formControlName="_taxNumber">
+        </mat-form-field>          
+
+        <section class="partner-full-width">
+            <mat-label>User Type</mat-label>
+            <mat-checkbox class="usertype-margin" formControlName="_whiteList">Whitelist</mat-checkbox>
+            <mat-checkbox class="usertype-margin" formControlName="_blackList">Blacklist</mat-checkbox>
+          </section>
+
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Name</mat-label>
+            <input matInput formControlName="_picName">
+        </mat-form-field>       
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Phone</mat-label>
+            <input matInput formControlName="_picPhone">
+        </mat-form-field>       
+
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Email</mat-label>
+            <input matInput formControlName="_picEmail">
+        </mat-form-field>       
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Store (Optional)</mat-label>
+            <input matInput formControlName="_store">
+        </mat-form-field>          
+        <button mat-button>Add New Store</button>
+        
+    </form>
+</mat-card-content>
+
+
+</mat-card>
