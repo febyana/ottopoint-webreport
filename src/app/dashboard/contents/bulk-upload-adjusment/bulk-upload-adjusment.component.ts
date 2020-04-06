@@ -102,7 +102,6 @@ export class BulkUploadAdjusmentComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
-      this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)
@@ -169,16 +168,15 @@ export class BulkUploadAdjusmentComponent implements OnInit {
             this.fileImport)
             .subscribe(res => {
               console.log('response Adjustment : ', res);
-              this.isLoadingResults = false;
+              // this.isLoadingResults = false;
               if (res.meta.message == 'Internal Server Error') {
                 window.alert('Upload File Gagal');
                 this.router.navigateByUrl('/upload-adjusment');
                 return;
               }
-              // this.isLoadingResults = true;
               // this.dialogRef.close(false);
               let msg: any;
-              this.isLoadingResults = false;
+              // this.isLoadingResults = false;
               if (res.meta.message == 'SUCCESS') {
                 msg = 'File Berhasil di Upload'
                 this.snackBar.open(msg, 'close', this.matSnackBarConfig);
@@ -186,12 +184,14 @@ export class BulkUploadAdjusmentComponent implements OnInit {
                 this.fileInput.nativeElement.value = '';
                 return;
               }
+              this.isLoadingResults = true;
             },
             
           error=> {
             this.isLoadingResults = false;
               window.alert('Internal Server Eror');
           }
+          
           );
       }
   }
@@ -214,7 +214,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
       headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
-
+ 
     // console.log('query :\n', this.query);
     this.apiService.APIGetHistoyBulkDetail(
       window.localStorage.getItem('token'),
