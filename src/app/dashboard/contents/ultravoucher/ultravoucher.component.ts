@@ -31,7 +31,7 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     from_date : null, 
     through_date : null,
     sku :undefined,
-    acc_id:undefined,
+    acc_id:'',
     voucher_id:'',
     voucher_code:'',
     status:undefined,
@@ -251,13 +251,13 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       this.query = this.query + 'a.sku.:' + this.fq.sku + ',';
     }
     if (this.fq.acc_id !== undefined) {
-      this.query = this.query + 'a.institution_id.:' + this.fq.acc_id + ',';
+      this.query = this.query + 'a.account_id.icontains:' + this.fq.acc_id + ',';
     }
     if (this.fq.voucher_id !== '') {
-      this.query = this.query + 'a.SUPLIER_VOUCHER_ID.icontains:' + this.fq.voucher_id + ',';
+      this.query = this.query + 'a.voucher_id.icontains:' + this.fq.voucher_id + ',';
     }
     if (this.fq.voucher_code !== '') {
-      this.query = this.query + 'a.SUPLIER_VOUCHER_CODE.icontains:' + this.fq.voucher_code + ',';
+      this.query = this.query + 'a.voucher_code.icontains:' + this.fq.voucher_code + ',';
     }
     if (this.fq.status !== undefined) {
       this.query = this.query + 'a.status.:' + this.fq.status + ',';
@@ -297,7 +297,7 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.acc_id = undefined;
+    this.fq.acc_id = '';
     this.fq.voucher_code = '';
     this.fq.voucher_id = '';
     this.fq.sku = undefined;
