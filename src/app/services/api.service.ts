@@ -518,9 +518,9 @@ export class ApiService {
     // );
   }
 
-  public APIReportVoucherUV(token: string, page, perpage, category, type, name, status: string): Observable<ReportUVResp> {
+  public APIReportVoucherUV(token: string, page, perpage, type, name, status: string): Observable<ReportUVResp> {
     this.whichEnvironment();
-    this.queryParams = `?page=${String(page)}&perpage=${String(perpage)}&category=${String(category)}
+    this.queryParams = `?page=${String(page)}&perPage=${String(perpage)}
                         &voucherType=${String(type)}&voucherName=${String(name)}&status=${String(status)}`;
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<ReportUVResp>(this.URLReportVoucherUV + this.queryParams, httpOptions);

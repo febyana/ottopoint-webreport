@@ -24,7 +24,7 @@ export class ListUvComponent implements OnInit {
   vn = ''; // voucherName
   vt = ''; // voucherType
   s = ''; // status
-  c = ''; // category
+  // c = ''; // category
   fq = { // filter Query
     voucherName: undefined,
     voucherType: undefined,
@@ -129,7 +129,7 @@ export class ListUvComponent implements OnInit {
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
-            this.c, this.vt, this.vn, this.s
+            this.vt, this.vn, this.s
           );
         }),
         map(res => {
@@ -184,7 +184,7 @@ export class ListUvComponent implements OnInit {
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
-      this.c, this.vt, this.vn, this.s
+      this.vt, this.vn, this.s
     ).subscribe((res: ReportUVResp) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -203,7 +203,7 @@ export class ListUvComponent implements OnInit {
 
   clearFilter() {
     this.isLoadingResults = true;
-    this.c = '';
+    // this.c = '';
     this.vt = ''; 
     this.vn = ''; 
     this.s = '';
@@ -216,7 +216,7 @@ export class ListUvComponent implements OnInit {
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
-      this.c, this.vt, this.vn, this.s
+      this.vt, this.vn, this.s
     ).subscribe((res: ReportUVResp) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');

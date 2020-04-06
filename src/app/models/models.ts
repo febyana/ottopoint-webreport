@@ -512,6 +512,8 @@ export interface DataBulkDetail {
 export interface ReportUVResp {
     data : DataUV[] ;
     totalVoucher : number;
+    totalPage : number;
+    currentPage : number;
     code: number;
     message: string;
 } 
