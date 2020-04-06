@@ -5,35 +5,53 @@
     <!-- judul -->
     <h1>Add New Partner</h1>
     <mat-card-content>
-    <form [formGroup]="partnerForm" (ngSubmit) = "submitLogin()" class="partner-form">
+    <form [formGroup]="partnerForm" class="partner-form">
         <mat-form-field class="partner-full-width">
           <mat-label>Nama Perusahaan</mat-label>
           <input matInput formControlName="_namaPerusahaan">
+            <mat-error>
+                Nama Perusahaan is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Perusahaan</mat-label>
             <input matInput formControlName="_alamatPerusahaan">
+            <mat-error>
+                Alamat Perusahaan is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Domisili</mat-label>
             <input matInput formControlName="_alamatDomisili">
+            <mat-error>
+                Alamat Domisili is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>No Telp</mat-label>
             <input matInput formControlName="_noTelp" >
+            <mat-error>
+                No Telp is <strong>required</strong>
+            </mat-error>
         </mat-form-field>        
 
         <mat-form-field class="partner-full-width">
             <mat-label>Jenis Usaha</mat-label>
             <input matInput formControlName="_jenisUsaha">
+            <mat-error>
+                Jenis Usaha is <strong>required</strong>
+            </mat-error>
         </mat-form-field>                
  
         <mat-form-field class="partner-full-width">
             <mat-label>Tax Number</mat-label>
             <input matInput formControlName="_taxNumber">
+            <mat-error>
+                Tax Number is <strong>required</strong>
+            </mat-error>
         </mat-form-field>          
 
         <section class="partner-full-width">
@@ -61,8 +79,22 @@
             <mat-label>Store (Optional)</mat-label>
             <input matInput formControlName="_store">
         </mat-form-field>          
-        <button mat-button>Add New Store</button>
-        
+
+        <div class="partner-full-width">
+            <button mat-button color="primary">Add New Store</button>
+        </div>          
+
+        <div class="partner-full-width">
+            <mat-label>Upload File </mat-label>
+            <input id="fileInput" name="file" type="file" class="ng-hide" multiple style="width: 70%;">
+            <!-- <button id="uploadButton" class="md-raised md-primary"> Choose Files </button> -->
+        </div>          
+
+        <div class="partner-full-width">
+            <button mat-button color="primary" (click)="saveForm()">Create & Save</button>
+            <button mat-button color="primary">Cancel</button>
+            <button mat-button color="primary">Create & Submit</button>
+        </div>          
     </form>
 </mat-card-content>
 

@@ -11,6 +11,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddPartnerComponent implements OnInit {
   partnerForm:FormGroup;
   _checked = false;
+  isLoadingResults = false;
+  apiService: any;
   constructor(
     private formBuilder : FormBuilder
   ) { }
@@ -32,5 +34,16 @@ export class AddPartnerComponent implements OnInit {
       _store: [''],
     })
   }
+
+  saveForm() {
+    if (this.partnerForm.invalid) {
+      return;
+    }
+    this.isLoadingResults = true;
+    console.log(this.partnerForm.value._alamatPerusahaan)
+    this.apiService.Api
+    // this.apiService.API
+  }
+
 
 }
