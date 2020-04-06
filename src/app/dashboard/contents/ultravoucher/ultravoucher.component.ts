@@ -248,9 +248,9 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
       },`;
     }
     if (this.fq.sku !== undefined) {
-      this.query = this.query + 'a.sku.:' + this.fq.sku + ',';
+      this.query = this.query + 'a.code.:' + this.fq.sku + ',';
     }
-    if (this.fq.acc_id !== undefined) {
+    if (this.fq.acc_id !== '') {
       this.query = this.query + 'a.account_id.icontains:' + this.fq.acc_id + ',';
     }
     if (this.fq.voucher_id !== '') {
