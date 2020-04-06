@@ -554,3 +554,12 @@ export interface GetVoucherCategoryUV {
 export interface DataVoucherUV {
     name: any;
 }
+
+export interface Partner{
+    namaPerusahaan :string;
+    alamatPerusahaan :string;
+    alamatDomisili : string;
+    noTelp : number;
+    jenisUsaha : string;
+    taxNumber : number;
+}

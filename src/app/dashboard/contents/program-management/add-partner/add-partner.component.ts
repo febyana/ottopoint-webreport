@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-add-partner',
@@ -12,8 +13,8 @@ export class AddPartnerComponent implements OnInit {
   partnerForm:FormGroup;
   _checked = false;
   isLoadingResults = false;
-  apiService: any;
   constructor(
+    private apiService: ApiService,
     private formBuilder : FormBuilder
   ) { }
   
@@ -41,7 +42,7 @@ export class AddPartnerComponent implements OnInit {
     }
     this.isLoadingResults = true;
     console.log(this.partnerForm.value._alamatPerusahaan)
-    this.apiService.Api
+    // this.apiService.APIGetSKU
     // this.apiService.API
   }
 
