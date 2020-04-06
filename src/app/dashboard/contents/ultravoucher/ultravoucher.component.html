@@ -34,21 +34,7 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <mat-label>Acc ID</mat-label>
-        <mat-select [(ngModel)]="fq.acc_id">
-            <mat-option value="">
-                None
-            </mat-option>
-            <mat-option value="PEDE">
-                PEDE
-            </mat-option>
-            <mat-option value="OTTOPAY">
-                OTTOPAY
-            </mat-option>
-            <mat-option value="OTTOSG">
-                OTTOSG
-            </mat-option>
-        </mat-select>
+        <input matInput placeholder="Acc ID" [(ngModel)]="fq.acc_id">
     </mat-form-field>
     <!-- <mat-form-field class="filter-field">
         <input matInput placeholder="Product code" >
