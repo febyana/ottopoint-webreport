@@ -32,7 +32,7 @@
 
         <mat-form-field class="partner-full-width">
             <mat-label>No Telp</mat-label>
-            <input matInput formControlName="_noTelp" >
+            <input matInput formControlName="_noTelp" (keypress)="onlyNumberKey($event)" maxlength="14">
             <mat-error>
                 No Telp is <strong>required</strong>
             </mat-error>
@@ -48,7 +48,7 @@
  
         <mat-form-field class="partner-full-width">
             <mat-label>Tax Number</mat-label>
-            <input matInput formControlName="_taxNumber">
+            <input matInput formControlName="_taxNumber" (keypress)="onlyNumberKey($event)" maxlength="9">
             <mat-error>
                 Tax Number is <strong>required</strong>
             </mat-error>
@@ -65,16 +65,25 @@
         <mat-form-field class="partner-30">
             <mat-label>PIC Name</mat-label>
             <input matInput formControlName="_picName">
+            <mat-error>
+                PIC Name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>       
         
         <mat-form-field class="partner-30">
             <mat-label>PIC Phone</mat-label>
-            <input matInput formControlName="_picPhone">
+            <input matInput formControlName="_picPhone" (keypress)="onlyNumberKey($event)" maxlength="14">
+            <mat-error>
+                PIC Phone is <strong>required</strong>
+            </mat-error>
         </mat-form-field>       
 
         <mat-form-field class="partner-30">
             <mat-label>PIC Email</mat-label>
-            <input matInput formControlName="_picEmail">
+            <input matInput formControlName="_picEmail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" >
+            <mat-error>
+                PIC Email is <strong>required</strong> or Email is invalid
+            </mat-error>
         </mat-form-field>       
 
         <mat-form-field class="partner-full-width">
