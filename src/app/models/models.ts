@@ -555,11 +555,20 @@ export interface DataVoucherUV {
     name: any;
 }
 
-export interface Partner{
-    namaPerusahaan :string;
-    alamatPerusahaan :string;
+export interface AddNewPartnerReq{
+    namaPerusahaan : string;
+    alamatPerusahaan : string;
     alamatDomisili : string;
-    noTelp : number;
+    phoneNumber : string;
     jenisUsaha : string;
-    taxNumber : number;
+    taxNumber : string;
+    typeUser : string;
+    picNama : string;
+    picEmail : string;
+    picPhone : string;
+    status : string;
+}
+export interface AddNewPartnerRes {
+    data: string;
+    meta: MetaRes;
 }

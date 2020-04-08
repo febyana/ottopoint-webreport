@@ -12,7 +12,7 @@
     width: 30%;
     margin-right: 1%;
   }
-  .usertype-section {
+  /* .usertype-section {
     display: flex;
     align-content: center;
     align-items: center;
@@ -21,4 +21,7 @@
   
   .usertype-margin {
     margin: 0 10px;
+  } */
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
   }

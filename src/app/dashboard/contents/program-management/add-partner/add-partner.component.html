@@ -54,10 +54,12 @@
             </mat-error>
         </mat-form-field>          
 
-        <section class="partner-full-width">
-            <mat-label>User Type</mat-label>
-            <mat-checkbox class="usertype-margin" formControlName="_whiteList">Whitelist</mat-checkbox>
-            <mat-checkbox class="usertype-margin" formControlName="_blackList">Blacklist</mat-checkbox>
+        <mat-label>User Type </mat-label>
+        <section class="partner-full-width" style="margin-top: 10px;">
+            <mat-radio-group aria-label="Select an option" formControlName="_userType">
+                <mat-radio-button value="BlackList">BlackList</mat-radio-button>
+                <mat-radio-button value="WhiteList">WhiteList</mat-radio-button>
+              </mat-radio-group>
           </section>
 
         <mat-form-field class="partner-30">
@@ -77,23 +79,39 @@
 
         <mat-form-field class="partner-full-width">
             <mat-label>Store (Optional)</mat-label>
-            <input matInput formControlName="_store">
+            <input matInput >
         </mat-form-field>          
 
         <div class="partner-full-width">
-            <button mat-button color="primary">Add New Store</button>
+            <button mat-raised-button color="primary">
+                Add New Store
+            </button>
         </div>          
 
         <div class="partner-full-width">
-            <mat-label>Upload File </mat-label>
-            <input id="fileInput" name="file" type="file" class="ng-hide" multiple style="width: 70%;">
-            <!-- <button id="uploadButton" class="md-raised md-primary"> Choose Files </button> -->
+            <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+            [selectButtonText]="'Choose File(s)'"
+            [selectFilesButtonType]="button"
+            [allowMultipleFiles]="true"            
+            [customSvgIcon]="'close_custom'"
+            [acceptedTypes]="'.pdf'"></mat-file-upload>
+        <!-- [uploadButtonText]="'Submit'"
+        [uploadButtonType]="submit"
+        [showUploadButton]="true"
+        (uploadClicked)="onUploadClicked($event)"
+        (selectedFilesChanged)="onSelectedFilesChanged($event)" -->
         </div>          
 
         <div class="partner-full-width">
-            <button mat-button color="primary" (click)="saveForm()">Create & Save</button>
-            <button mat-button color="primary">Cancel</button>
-            <button mat-button color="primary">Create & Submit</button>
+            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="saveForm()">
+                Create & Save
+            </button>
+            <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="cancelForm()">
+                Cancel
+            </button>
+            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitForm()">
+                Create & Submit
+            </button>
         </div>          
     </form>
 </mat-card-content>
