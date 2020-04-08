@@ -1,0 +1,120 @@
+<mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
+    <!-- judul -->
+    <h1>Add New Partner</h1>
+    <mat-card-content>
+    <form [formGroup]="partnerForm" class="partner-form">
+        <mat-form-field class="partner-full-width">
+          <mat-label>Nama Perusahaan</mat-label>
+          <input matInput formControlName="_namaPerusahaan">
+            <mat-error>
+                Nama Perusahaan is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Perusahaan</mat-label>
+            <input matInput formControlName="_alamatPerusahaan">
+            <mat-error>
+                Alamat Perusahaan is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Domisili</mat-label>
+            <input matInput formControlName="_alamatDomisili">
+            <mat-error>
+                Alamat Domisili is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>No Telp</mat-label>
+            <input matInput formControlName="_noTelp" >
+            <mat-error>
+                No Telp is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>        
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Jenis Usaha</mat-label>
+            <input matInput formControlName="_jenisUsaha">
+            <mat-error>
+                Jenis Usaha is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>                
+ 
+        <mat-form-field class="partner-full-width">
+            <mat-label>Tax Number</mat-label>
+            <input matInput formControlName="_taxNumber">
+            <mat-error>
+                Tax Number is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>          
+
+        <mat-label>User Type </mat-label>
+        <section class="partner-full-width" style="margin-top: 10px;">
+            <mat-radio-group aria-label="Select an option" formControlName="_userType">
+                <mat-radio-button value="BlackList">BlackList</mat-radio-button>
+                <mat-radio-button value="WhiteList">WhiteList</mat-radio-button>
+              </mat-radio-group>
+          </section>
+
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Name</mat-label>
+            <input matInput formControlName="_picName">
+        </mat-form-field>       
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Phone</mat-label>
+            <input matInput formControlName="_picPhone">
+        </mat-form-field>       
+
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Email</mat-label>
+            <input matInput formControlName="_picEmail">
+        </mat-form-field>       
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Store (Optional)</mat-label>
+            <input matInput >
+        </mat-form-field>          
+
+        <div class="partner-full-width">
+            <button mat-raised-button color="primary">
+                Add New Store
+            </button>
+        </div>          
+
+        <div class="partner-full-width">
+            <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+            [selectButtonText]="'Choose File(s)'"
+            [selectFilesButtonType]="button"
+            [allowMultipleFiles]="true"            
+            [customSvgIcon]="'close_custom'"
+            [acceptedTypes]="'.pdf'"></mat-file-upload>
+        <!-- [uploadButtonText]="'Submit'"
+        [uploadButtonType]="submit"
+        [showUploadButton]="true"
+        (uploadClicked)="onUploadClicked($event)"
+        (selectedFilesChanged)="onSelectedFilesChanged($event)" -->
+        </div>          
+
+        <div class="partner-full-width">
+            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="saveForm()">
+                Create & Save
+            </button>
+            <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="cancelForm()">
+                Cancel
+            </button>
+            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitForm()">
+                Create & Submit
+            </button>
+        </div>          
+    </form>
+</mat-card-content>
+
+
+</mat-card>

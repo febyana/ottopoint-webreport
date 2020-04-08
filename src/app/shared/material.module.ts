@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatFileUploadModule } from 'mat-file-upload';
 
 import {
   MatCardModule,
@@ -23,8 +24,11 @@ import {
   MatNativeDateModule,
   MatGridListModule,
   MatListModule,
-  MatMenuModule
+  MatMenuModule,
+  MatCheckboxModule,
+  MatRadioModule
 } from '@angular/material';
+
 
 
 @NgModule({
@@ -52,7 +56,10 @@ import {
     MatNativeDateModule,
     MatGridListModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatFileUploadModule
   ],
   exports: [
     MatCardModule,
@@ -76,7 +83,10 @@ import {
     MatNativeDateModule,
     MatGridListModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatFileUploadModule
   ]
 })
 export class MaterialModule { }

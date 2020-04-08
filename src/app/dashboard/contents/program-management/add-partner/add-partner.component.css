@@ -1,0 +1,27 @@
+.partner-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .partner-full-width {
+    width: 100%;
+  }
+
+  .partner-30 {
+    width: 30%;
+    margin-right: 1%;
+  }
+  /* .usertype-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .usertype-margin {
+    margin: 0 10px;
+  } */
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }

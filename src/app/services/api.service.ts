@@ -41,6 +41,8 @@ import {
   GetVoucherNameUV,
   GetVoucherTypeUV,
   GetVoucherCategoryUV,
+  AddNewPartnerReq,
+  AddNewPartnerRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -93,6 +95,7 @@ export class ApiService {
   URLBulkAddCustomer: string;
   URLOutstandingPoint: string;
   URLOutstandingVoucher: string;
+  URLAddNewPartner: string;
 
 
   constructor(
@@ -135,6 +138,7 @@ export class ApiService {
     this.URLGetVoucherNameUV                 = baseURLBackendDashboard + `/ultra_voucher/name`
     this.URLGetVoucherTypeUV                 = baseURLBackendDashboard + `/ultra_voucher/type`
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
+    this.URLAddNewPartner                 = baseURLBackendDashboard + `/program-management/addnewpartner`
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -544,5 +548,13 @@ export class ApiService {
     return this.httpClient.get<GetVoucherCategoryUV>(this.URLGetVoucherCategoryUV , httpOptions);
   }
 
-
+  public APIAddNewPartner(req: AddNewPartnerReq, token: string): Observable<AddNewPartnerRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<AddNewPartnerRes>(this.URLAddNewPartner, req, httpOptions);
+  }
 }

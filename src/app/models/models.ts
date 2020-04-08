@@ -556,3 +556,21 @@ export interface GetVoucherCategoryUV {
 export interface DataVoucherUV {
     name: any;
 }
+
+export interface AddNewPartnerReq{
+    namaPerusahaan : string;
+    alamatPerusahaan : string;
+    alamatDomisili : string;
+    phoneNumber : string;
+    jenisUsaha : string;
+    taxNumber : string;
+    typeUser : string;
+    picNama : string;
+    picEmail : string;
+    picPhone : string;
+    status : string;
+}
+export interface AddNewPartnerRes {
+    data: string;
+    meta: MetaRes;
+}

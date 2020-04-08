@@ -43,6 +43,7 @@ import { UserCustomerComponent } from './contents/user-customer/user-customer.co
 import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
+import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -75,6 +76,7 @@ import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
     RedeemVoucherOplComponent,
     RedeemPointOplComponent,
     ListUvComponent,
+    AddPartnerComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,
