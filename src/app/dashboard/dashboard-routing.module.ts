@@ -25,7 +25,7 @@ import { path, Component } from '@amcharts/amcharts4/core';
 import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
-
+import { DataPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
 
 export const routes: Routes = [
   {
@@ -103,6 +103,10 @@ export const routes: Routes = [
       {
         path: 'ultravoucher/stock',
         component: ListUvComponent,
+      },
+      {
+        path: 'program-management/data-partner',
+        component: DataPartnerComponent,
       },
     ]
   }
