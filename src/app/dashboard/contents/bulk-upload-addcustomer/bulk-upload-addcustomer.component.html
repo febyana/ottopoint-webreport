@@ -1,45 +1,47 @@
 <mat-card>
-    <div class="loading-shade" *ngIf="isWaitingDownload">
-         <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
-         <!-- <div class="no-data" *ngIf="isNoData">
-             No Data 
-         </div> -->
-    </div>
-    <h1>Adjustment Point</h1>
-
-<div class="form-group">
-    <label style="margin-right: 1%"> Import File </label>
-    <input type="file" class="form-control" (change)="onImportFileChange($event, i)" style="margin-right: 1%" #fileInput>
-
-    <button mat-raised-button color="primary" (click)="submitImport()">Submit</button>
-
-</div>
-
-<!-- table -->
-<div class="parent-table-container">
-    <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
-        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-        <div class="no-data" *ngIf="isNoData">
+        <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+             <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+             <div class="no-data" *ngIf="isNoData">
+                 No Data 
+             </div>
+        </div>
+        <h1>Bulk Upload Add New Customer</h1>
+    
+    <div class="form-group">
+        <label>Import File</label> 
+        <input type="file" class="form-control" (change)="onImportFileChange($event, i)" #fileInput>
+    
+        <button mat-raised-button color="primary" (click)="submitImport()">Submit</button>
+      </div>
+    
+    <!-- table -->
+    <div class="parent-table-container">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            <div class="no-data" *ngIf="isNoData">
                 No Data 
             </div>
-        </div> 
+        </div>
         <div class="table-container" [style.height.px]="tableHeight">
             <table mat-table [dataSource]="dataTable" matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
-
+    
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.id}}</td>
                 </ng-container>
-
+    
                 <ng-container matColumnDef="no" sticky>
                     <th mat-header-cell *matHeaderCellDef disableClear>
                         No
                     </th>
                     <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
                 </ng-container>
-
+    
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date
@@ -60,43 +62,49 @@
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.total_data}}</td>
                 </ng-container>
-
+    
                 <ng-container matColumnDef="success">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Success
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.success}}</td>
                 </ng-container>
-
+    
                 <ng-container matColumnDef="gagal">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Failed
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.gagal}}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="report">
+    
+                <!-- <ng-container matColumnDef="report">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Report
                     </th>
-
-                    <td mat-cell *matCellDef="let row">
-                    <!-- <button mat-raised-button color="primary" (click)="Download(row.id)">Download</button> -->
-
-                    <button mat-button (click)="Download(row.id)" class="style class">
-                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
-                            Download
-                    </button>
+    
+                   <td mat-cell *matCellDef="let row">
+                   <button mat-button (click)="Download(row.id)" class="style class">
+                    <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon> Download</button>
                     </td>
-        
+    
+                </ng-container> -->
+                <ng-container matColumnDef="report">
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        Report
+                    </th>
+                    <td mat-cell *matCellDef="let row" style="text-align: center;">
+                        <button *ngIf="row.gagal === 0" mat-stroked-button disabled>=</button>
+                        <button *ngIf="row.gagal != 0" mat-button (click)="Download(row.id)" class="style class">
+                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon> Download</button>
+                    </td>
                 </ng-container>
-
+    
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+    
             </table>
         </div>
     </div>
     <!-- paginator -->
-    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
-</mat-card> 
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    </mat-card> 

@@ -613,7 +613,7 @@ export class DialogStatusUsersComponent implements OnInit {
     this.data = {
         phone : this.dataForm.value.phone,
         status: this.data.status,
-    }
+    } 
     console.log('query :\n', this.data);
     this.apiService.APIChangeStatus(
         window.localStorage.getItem('token'),

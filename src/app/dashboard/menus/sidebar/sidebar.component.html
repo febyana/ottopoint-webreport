@@ -10,8 +10,12 @@
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="./upload-adjusment">Bulk Upload Adjusment</a>
         <mat-divider></mat-divider>
-        <!-- <a mat-list-item routerLink="./upload-addcustomer">Bulk Upload Customer</a> -->
-        
+        <a mat-list-item routerLink="./upload-addcustomer">Bulk Upload Customer</a>
+        <!-- <mat-divider></mat-divider>
+        <a mat-list-item routerLink="./osp" >Outstanding Point</a>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="./outstanding_voucher" >Outstanding Voucher</a> -->
+
     </mat-nav-list>
 
     <mat-divider></mat-divider>
@@ -25,8 +29,10 @@
             <mat-accordion>
                 <a mat-list-item routerLink="./transactions/vouchers/redeem">Vouchers Redeem</a>
                 <mat-divider></mat-divider>
-                <!-- <a mat-list-item routerLink="./transactions/vouchers/redeemopl">Vouchers Redeem OPL</a>
-                <mat-divider></mat-divider> -->
+                <a mat-list-item routerLink="./transactions/vouchers/redeemopl">Vouchers Redeem OPL</a>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="./transactions/redeempointopl">Redeem Point OPL</a>
+                <mat-divider></mat-divider>
                 <mat-expansion-panel class="mat-elevation-z0">
                     <mat-expansion-panel-header class="sub-header">
                         Earnings
@@ -34,14 +40,43 @@
                     <mat-divider></mat-divider>
                     <mat-nav-list style="margin: 0;">
                         <a mat-list-item routerLink="./transactions/earnings/ppob" class="sub-content">OttoFin</a>
-                       <!-- <mat-divider></mat-divider> -->
+                       <mat-divider></mat-divider>
                         <!-- <a mat-list-item routerLink="./transactions/earnings/osp" class="sub-content">Outstanding Point</a>
-                        <mat-divider></mat-divider>
-                        <a mat-list-item routerLink="./transactions/earnings/earningopl" class="sub-content">Earning Point OPL</a> -->
+                        <mat-divider></mat-divider> -->
+                        <a mat-list-item routerLink="./transactions/earnings/earningopl" class="sub-content">Earning Point OPL</a>
                         <!-- <mat-divider></mat-divider>
                         <a mat-list-item routerLink="./transactions/earnings/qr" class="sub-content">Payments QR</a> -->
                     </mat-nav-list>
                 </mat-expansion-panel>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-divider></mat-divider>
+
+    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+        <mat-expansion-panel-header>
+            Outstanding
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./outstanding/point">Outstanding Point</a>
+            </mat-accordion>
+            <mat-accordion>
+                <a mat-list-item routerLink="./outstanding/voucher">Outstanding Voucher</a>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+        <mat-expansion-panel-header>
+            Program Management
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./program-management/add-partner">Add New Partner</a>
             </mat-accordion>
         </mat-nav-list>
     </mat-expansion-panel>
@@ -59,9 +94,31 @@
             </mat-accordion>
         </mat-nav-list>
     </mat-expansion-panel>
-<!-- <mat-nav-list> -->
-    <!-- <mat-divider></mat-divider>
-    <a mat-list-item routerLink="./ultravoucher">Ultra Voucher List</a>     -->
-<!-- </mat-nav-list> -->
+
+    <mat-divider></mat-divider>
+
+    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+        <mat-expansion-panel-header>
+                Ultra Voucher
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="./ultravoucher/list">Report Stock Ultra Voucher</a>    
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="./ultravoucher/stock">Ultra Voucher List</a>
+                <mat-divider></mat-divider>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>  
+    <mat-divider></mat-divider>
+
+<!-- <mat-nav-list>
+    <a mat-list-item routerLink="./ultravoucher">Ultra Voucher List</a>    
+</mat-nav-list> -->
+
+
+
+
 </mat-accordion>
 

@@ -1,5 +1,5 @@
 {
-    "selected_environment": "prod",
+    "selected_environment": "local",
     "environments": {
         "prod": {
             "backend_dashboard": {

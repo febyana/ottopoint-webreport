@@ -32,9 +32,13 @@ import {
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
-import { TransactionsEarningsOspComponent } from './contents/transactions/earnings/osp/transactions-earnings-osp.component';
+import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
+import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
+import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
+import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
+import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -52,10 +56,14 @@ import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/b
     PaymentsQRComponent,
     VouchersRedeemComponent,
     SettingsVariablesTransactionsComponent,
-    TransactionsEarningsOspComponent,
+    OutstandingPointComponent,
+    OutstandingVoucherComponent,
     TransactionsEarningsEarningoplComponent,
     DialogStatusUsersComponent,
     BulkUploadAdjusmentComponent,
+    BulkUploadAddcustomerComponent,
+    RedeemVoucherOplComponent,
+    RedeemPointOplComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

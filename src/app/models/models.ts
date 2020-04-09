@@ -80,7 +80,7 @@ export interface TransactionEarningPPOB {
     status: string;
 }
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/outstanding
-export interface TransactionEarningOSP {
+export interface OutstandingPoint {
     id: string;
     num :string;
     phone: string;
@@ -101,6 +101,24 @@ export interface TransactionEarningOSP {
     created_at:string;
     updated_at:string;
 }
+export interface OutstandingVoucher {
+    id: string;
+    date:string;
+    time:string;
+    customer_id: string;
+    phone: string;
+    email: string;
+    partner: string;
+    product_name:string;
+    beginning: string;
+    redeem_point:string;
+    used_voucher:string;
+    unused_voucher:string;
+    reversal:string;
+    expired_voucher:string;
+    ending:string;
+    purchase_at:string;
+}
 // [get] http://localhost:4200/#/dashboard/transactions/earnings/earningopl
 export interface TransactionEarningOPL {
     customer_id: string;
@@ -111,10 +129,10 @@ export interface TransactionEarningOPL {
     product_code: string;
     product_type: string;
     product_name: string;
-    denom: string;
-    selling_price: string;
+    // denom: string;
+    // selling_price: string;
     comment: string;
-    transactions_date: string;
+    created_At: string;
     transactions_time: string;
     loyaltycardno: string;
     pos: string;
@@ -141,8 +159,14 @@ export interface GetTransactionsEarningsPPOBRes {
     code: number;
     message: string;
 }
-export interface GetTransactionsEarningsOSPRes {
-    data: TransactionEarningOSP[];
+export interface OutstandingPointRes {
+    data: OutstandingPoint[];
+    total: number;
+    code: number;
+    message: string;
+}
+export interface OutstandingVoucherRes {
+    data: OutstandingVoucher[];
     total: number;
     code: number;
     message: string;
@@ -231,7 +255,7 @@ export interface TransactionVoucherRedeemOpl {
     customerLastname: string;
     customerPhone: string;
     customerEmail: string;
-    partner: string;
+    institution: string;
     vendor: string;
     costInPoints: number;
     campaignName: string;
@@ -239,10 +263,37 @@ export interface TransactionVoucherRedeemOpl {
     campaignType: string;
     cust_active_point_am: number;
     status: string;
-    deliveryStatus: DeliveryStatus;
+    dlv_stts: string;
     used: string;
     rrn: string;
 }
+
+export interface GetTransactionsRedeemPointOplRes {
+    data: TransactionRedeemPointOpl[];
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface TransactionRedeemPointOpl {
+    customer_id: string;
+    customerPhone: string;
+    customerEmail: string;
+    type_trx: string;
+    value: number;
+    product_code: string;
+    product_type: string;
+    product_name: string;
+    comment: string;
+    createdAt: string;
+    timeTrx: string;
+    customerLoyaltyCardNumber: string;
+    pos: string;
+    issuer: string;
+    rrn: string;
+    partner: string;
+}
+
 
 export interface DeliveryStatus {
     status: string;
@@ -361,24 +412,13 @@ export interface GetPPOBProductTypesRes {
     message: string;
 }
 
-export interface OutstandingPoint {
-    id: string;
-    phone:string;
-    email:string;
-    partner:string;
-    beginning:number;
-    adding:number;
-    bonus:number;
-    spending:number;
-    p2padd:number;
-    p2pspend:number;
-    adjustmentadd:number;
-    adjustmentspend:number;
-    expiredpoint:number;
-    endingpoint:number;
-    date:Date;
-    time:Time;
+export interface GetSKURes {
+    data: string[];
+    total: number;
+    code: number;
+    message: string;
 }
+
 export interface ChangePasswordRequest {
     old_password: string;
     new_password: string;
@@ -465,4 +505,66 @@ export interface DataBulkDetail {
     errorCode : any;
     errorDesc : any; 
     data : any;
+}
+
+
+export interface ReportUVResp {
+    data : DataUV[] ;
+    totalVoucher : number;
+    totalPage : number;
+    currentPage : number;
+    code: number;
+    message: string;
+} 
+
+export interface DataUV {
+    voucherName : any;
+    voucherType : any;
+    voucherId   : any;
+    status      : any;
+    stock       : any;
+    sku         : any;
+}
+
+export interface GetVoucherNameUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherTypeUV {
+    voucherType: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface GetVoucherCategoryUV {
+    voucherName: DataVoucherUV[];
+    total : any;
+    code: number;
+    message: string;
+}
+
+export interface DataVoucherUV {
+    name: any;
+}
+
+export interface AddNewPartnerReq{
+    namaPerusahaan : string;
+    alamatPerusahaan : string;
+    alamatDomisili : string;
+    phoneNumber : string;
+    jenisUsaha : string;
+    taxNumber : string;
+    typeUser : string;
+    picNama : string;
+    picEmail : string;
+    picPhone : string;
+    status : string;
+}
+export interface AddNewPartnerRes {
+    data: string;
+    meta: MetaRes;
 }

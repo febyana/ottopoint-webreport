@@ -4,7 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   HistoryBulk,
   HistoryBulkDetail,
@@ -17,16 +16,14 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { ExportToCsv } from 'export-to-csv';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
-
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-bulk-upload-adjusment',
-  templateUrl: './bulk-upload-adjusment.component.html',
-  styleUrls: ['./bulk-upload-adjusment.component.css']
+  selector: 'app-bulk-upload-addcustomer',
+  templateUrl: './bulk-upload-addcustomer.component.html',
+  styleUrls: ['./bulk-upload-addcustomer.component.css']
 })
-
-export class BulkUploadAdjusmentComponent implements OnInit {
+export class BulkUploadAddcustomerComponent implements OnInit {
   isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   myForm = new FormGroup({
@@ -41,16 +38,6 @@ export class BulkUploadAdjusmentComponent implements OnInit {
     horizontalPosition: 'center',
     panelClass: ['snack-bar-ekstra-css']
   };
-
-
-  // query = '';
-  // fq = { // filter Query
-  //   date: '',
-  //   file_name: '',
-  //   total_data: '',
-  //   success : '',
-  //   gagal : ','
-  // };
 
   displayedColumns: string[] = [
     // 'id',
@@ -74,9 +61,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
-
   constructor(
-    // private dialogRef: MatDialogRef,
     private apiService: ApiService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -90,7 +75,6 @@ export class BulkUploadAdjusmentComponent implements OnInit {
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [
-        // 'id',
         'date',
         'file_name',
         'total_data',
@@ -102,6 +86,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
+      this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)
@@ -115,7 +100,7 @@ export class BulkUploadAdjusmentComponent implements OnInit {
               window.localStorage.getItem('token'),
               this.paginator.pageIndex,
               this.paginator.pageSize,
-              "adjustment",
+              "customer",
             );
           }),
           map(res => {
@@ -163,20 +148,23 @@ export class BulkUploadAdjusmentComponent implements OnInit {
         this.isLoadingResults = true;
         console.log('log 2 : ', this.fileImport)
           // this.blockUI.start('Loading...');
-          this.apiService.APIBulkAdjustment(
+          this.apiService.APIBulkAddCustomer(
             window.localStorage.getItem('token'),
             this.fileImport)
             .subscribe(res => {
-              console.log('response Adjustment : ', res);
-              // this.isLoadingResults = false;
-              if (res.meta.message == 'Internal Server Error') {
+              console.log('response Add Customer: ', res);
+              this.isLoadingResults = false;
+              if (res.meta.code == 422) {
                 window.alert('Upload File Gagal');
-                this.router.navigateByUrl('/upload-adjusment');
+                this.router.navigateByUrl('/upload-addcustomer');
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
                 return;
               }
+              // this.isLoadingResults = true;
               // this.dialogRef.close(false);
               let msg: any;
-              // this.isLoadingResults = false;
+              this.isLoadingResults = false;
               if (res.meta.message == 'SUCCESS') {
                 msg = 'File Berhasil di Upload'
                 this.snackBar.open(msg, 'close', this.matSnackBarConfig);
@@ -184,38 +172,40 @@ export class BulkUploadAdjusmentComponent implements OnInit {
                 this.fileInput.nativeElement.value = '';
                 return;
               }
-              this.isLoadingResults = true;
             },
             
           error=> {
+            let msg: any;
             this.isLoadingResults = false;
-              // window.alert('Internal Server Eror');
-              window.alert('Upload File Gagal');
+              msg = 'File Gagal di Upload'
+              this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+                this.ngAfterViewInit();
+                this.fileInput.nativeElement.value = '';
+              return;
           }
-          
           );
       }
   }
 
   Download(id) {
-    this.isLoadingResults = true;
     console.log('Download ID : ', id);
+    this.isWaitingDownload = true;
     // https://www.npmjs.com/package/export-to-csv
     const options = {
-      filename: 'AdjustmentPoint' + Date().toLocaleString(),
+      filename: 'AddNewCustomer' + Date().toLocaleString(),
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Adjustmenr Point',
+      title: 'Add New Customer',
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
       headers: ['Error Code', 'Error Desc', 'Line', 'Data']
     };
     const csvExporter = new ExportToCsv(options);
- 
+
     // console.log('query :\n', this.query);
     this.apiService.APIGetHistoyBulkDetail(
       window.localStorage.getItem('token'),

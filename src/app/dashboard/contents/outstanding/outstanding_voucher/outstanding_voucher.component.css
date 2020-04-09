@@ -1,6 +1,4 @@
-mat-card {
-    margin: 1%;
-}
+
 .filter-field {
     margin-right: 2%;
     width: 23%;
@@ -17,8 +15,8 @@ button{
     margin-top: 1%;
     border: 1px solid #a5a5a5;
     position: relative;
-    overflow: auto;
     min-height: 200px;
+    overflow: auto;
 }
 table {
     width: 100%;
@@ -45,7 +43,7 @@ th{
     text-align: center;
 }
 
-mat-form-field {
+mat-form-field{
     width: 100%;
 }
 ::ng-deep snack-bar-container.snack-bar-ekstra-css{
@@ -57,9 +55,10 @@ mat-form-field {
     padding: 8px;
     border-right: 1px solid #e0e0e0;
 }
-.mat-column-action {
-    border-right: none;
+.mat-column-created_at,
+.mat-column-key {
     border-left: 1px solid #e0e0e0;
 }
-
-
+.mat-column-status {
+    border-right: none;
+}
