@@ -86,7 +86,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
 
     // tslint:disable-next-line:use-lifecycle-interface
     ngAfterViewInit() {
-      this.isLoadingResults = true;
+      // this.isLoadingResults = true;
       // If the user changes the sort order, reset back to the first page.
       this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       merge(this.sort.sortChange, this.paginator.page)

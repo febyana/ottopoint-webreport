@@ -68,18 +68,6 @@
             </mat-accordion>
         </mat-nav-list>
     </mat-expansion-panel>
-
-    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
-        <mat-expansion-panel-header>
-            Program Management
-        </mat-expansion-panel-header>
-        <mat-divider></mat-divider>
-        <mat-nav-list style="margin: 0;">
-            <mat-accordion>
-                <a mat-list-item routerLink="./program-management/add-partner">Add New Partner</a>
-            </mat-accordion>
-        </mat-nav-list>
-    </mat-expansion-panel>
     
     <mat-divider></mat-divider>
 
@@ -96,21 +84,7 @@
     </mat-expansion-panel>
 
     <mat-divider></mat-divider>
-
-    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
-        <mat-expansion-panel-header>
-                Ultra Voucher
-        </mat-expansion-panel-header>
-        <mat-divider></mat-divider>
-        <mat-nav-list style="margin: 0;">
-            <mat-accordion>
-                <a mat-list-item routerLink="./ultravoucher/list">Report Stock Ultra Voucher</a>    
-                <mat-divider></mat-divider>
-                <a mat-list-item routerLink="./ultravoucher/stock">Ultra Voucher List</a>
-                <mat-divider></mat-divider>
-            </mat-accordion>
-        </mat-nav-list>
-    </mat-expansion-panel>  
+     
     <mat-divider></mat-divider>
 
 <!-- <mat-nav-list>

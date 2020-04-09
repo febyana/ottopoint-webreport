@@ -80,13 +80,18 @@
                         Report
                     </th>
 
-                    <td mat-cell *matCellDef="let row">
-                    <!-- <button mat-raised-button color="primary" (click)="Download(row.id)">Download</button> -->
+                    <!-- <td mat-cell *matCellDef="let row">
 
                     <button mat-button (click)="Download(row.id)" class="style class">
                             <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
                             Download
                     </button>
+                    </td> -->
+
+                    <td mat-cell *matCellDef="let row" style="text-align: center;">
+                        <button *ngIf="row.gagal === 0" mat-stroked-button disabled>=</button>
+                        <button *ngIf="row.gagal != 0" mat-button (click)="Download(row.id)" class="style class">
+                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon> Download</button>
                     </td>
         
                 </ng-container>
