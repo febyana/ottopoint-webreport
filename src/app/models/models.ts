@@ -570,7 +570,30 @@ export interface AddNewPartnerReq{
     picPhone : string;
     status : string;
 }
+
+
 export interface AddNewPartnerRes {
+    data: string;
+    meta: MetaRes;
+}
+
+
+export interface AddNewStoreReq {
+        name : string;
+        description : any;
+        identifier : any;
+        streetname : any;
+        buildingname : any;
+        unitname : any;
+        postalcode : any;
+        city : any;
+        province : any;
+        country : any;
+        latitude : any;
+        longtitude : any;
+}
+
+export interface AddNewStoreResp {
     data: string;
     meta: MetaRes;
 }

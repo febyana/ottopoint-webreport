@@ -44,6 +44,7 @@ import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.comp
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
+import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -77,6 +78,7 @@ import { AddPartnerComponent } from './contents/program-management/add-partner/a
     RedeemPointOplComponent,
     ListUvComponent,
     AddPartnerComponent,
+    AddNewStoreComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

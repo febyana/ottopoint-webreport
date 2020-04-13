@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { AddNewPartnerReq, AddNewPartnerRes } from 'src/app/models/models';
+import { AddNewPartnerReq, AddNewStoreReq, AddNewPartnerRes, AddNewStoreResp } from 'src/app/models/models';
 import { Router } from '@angular/router';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
+import { AddNewStoreComponent } from '../add-new-store/add-new-store.component'
 
 @Component({
   selector: 'app-add-partner',
@@ -15,10 +17,11 @@ import {
   styleUrls: ['./add-partner.component.css']
 })
 
-
 export class AddPartnerComponent implements OnInit {
+  data_store : AddNewStoreReq;
   partnerForm:FormGroup;
   AddNewPartnerReq : AddNewPartnerReq;
+  AddNewStoreReq : AddNewStoreReq;
   _whiteList : false
   _blackList : false
   isLoadingResults = false;
@@ -35,6 +38,7 @@ export class AddPartnerComponent implements OnInit {
     private formBuilder : FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
+    public dialog: MatDialog,
     
     // public data :AddNewPartnerReq
   ) { }
@@ -52,6 +56,7 @@ export class AddPartnerComponent implements OnInit {
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
+      _store: ['', ''],
       // _fileUpload:['', Validators.required]
     })
   }
@@ -92,6 +97,23 @@ export class AddPartnerComponent implements OnInit {
       this.router.navigate(['/program-management/data-partner']);
       return;
     });
+
+    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+    this.apiService.APIAddNewStore(
+      this.AddNewStoreReq,
+      window.localStorage.getItem('token')
+    ).subscribe((res: AddNewStoreResp) => {
+      if (res.data !== null) {
+        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        this.router.navigate(['/program-management/data-partner']);
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+      this.router.navigate(['/program-management/data-partner']);
+      return;
+    });
+    
   }
 
   cancelForm(){
@@ -120,7 +142,7 @@ export class AddPartnerComponent implements OnInit {
       status : "waiting for approval"
     };
 
-    console.log('query : \n', this.AddNewPartnerReq);
+    console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
     this.apiService.APIAddNewPartner(
       this.AddNewPartnerReq,
       window.localStorage.getItem('token')
@@ -135,8 +157,44 @@ export class AddPartnerComponent implements OnInit {
       this.router.navigate(['/program-management/data-partner']);
       return;
     });
+
+    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+    this.apiService.APIAddNewStore(
+      this.AddNewStoreReq,
+      window.localStorage.getItem('token')
+    ).subscribe((res: AddNewStoreResp) => {
+      if (res.data !== null) {
+        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        this.router.navigate(['/program-management/data-partner']);
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+      this.router.navigate(['/program-management/data-partner']);
+      return;
+    });
+
   }
   onlyNumberKey(event) {
     return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
+
+  openFormAddNewStore() {
+    const dialogRef = this.dialog.open(AddNewStoreComponent, {
+      width: '50%',
+    });
+
+     dialogRef.afterClosed().subscribe(data_store => {
+       if (data_store != '') {
+        this.partnerForm.value._store = data_store.name
+        this.AddNewStoreReq = data_store
+        this.partnerForm = this.formBuilder.group({
+          _store: [data_store.name, ''],
+          // _fileUpload:['', Validators.required]
+        })
+         console.log('Data Store :\n', this.partnerForm.value._store);
+       }
+    });
+  }
+
 }

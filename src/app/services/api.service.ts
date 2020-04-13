@@ -43,6 +43,8 @@ import {
   GetVoucherCategoryUV,
   AddNewPartnerReq,
   AddNewPartnerRes,
+  AddNewStoreReq,
+  AddNewStoreResp,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -85,6 +87,7 @@ export class ApiService {
   URLGetVoucherNameUV: string;
   URLGetVoucherTypeUV: string;
   URLGetVoucherCategoryUV: string;
+  URLAddNewStore: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -137,8 +140,9 @@ export class ApiService {
     this.URLReportVoucherUV                  = baseURLBackendDashboard + `/ultra_voucher/list`
     this.URLGetVoucherNameUV                 = baseURLBackendDashboard + `/ultra_voucher/name`
     this.URLGetVoucherTypeUV                 = baseURLBackendDashboard + `/ultra_voucher/type`
-    this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
-    this.URLAddNewPartner                 = baseURLBackendDashboard + `/program-management/addnewpartner`
+    this.URLGetVoucherCategoryUV             = baseURLBackendDashboard + `/ultra_voucher/category`
+    this.URLAddNewPartner                    = baseURLBackendDashboard + `/program-management/addnewpartner`
+    this.URLAddNewStore                      = baseURLBackendDashboard + `/program-management/addnewstore`
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -556,5 +560,16 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<AddNewPartnerRes>(this.URLAddNewPartner, req, httpOptions);
+  }
+
+
+  public APIAddNewStore(req: AddNewStoreReq, token: string): Observable<AddNewStoreResp> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<AddNewStoreResp>(this.URLAddNewStore, req, httpOptions);
   }
 }
