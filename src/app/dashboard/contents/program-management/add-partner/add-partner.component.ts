@@ -56,7 +56,7 @@ export class AddPartnerComponent implements OnInit {
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
-      _store: [this.data_store, this.data_store],
+      _store: ['', ''],
       // _fileUpload:['', Validators.required]
     })
   }
@@ -97,6 +97,23 @@ export class AddPartnerComponent implements OnInit {
       this.router.navigate(['/program-management/data-partner']);
       return;
     });
+
+    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+    this.apiService.APIAddNewStore(
+      this.AddNewStoreReq,
+      window.localStorage.getItem('token')
+    ).subscribe((res: AddNewStoreResp) => {
+      if (res.data !== null) {
+        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        this.router.navigate(['/program-management/data-partner']);
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+      this.router.navigate(['/program-management/data-partner']);
+      return;
+    });
+    
   }
 
   cancelForm(){
@@ -125,7 +142,7 @@ export class AddPartnerComponent implements OnInit {
       status : "waiting for approval"
     };
 
-    console.log('query : \n', this.AddNewPartnerReq);
+    console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
     this.apiService.APIAddNewPartner(
       this.AddNewPartnerReq,
       window.localStorage.getItem('token')
@@ -140,36 +157,27 @@ export class AddPartnerComponent implements OnInit {
       this.router.navigate(['/program-management/data-partner']);
       return;
     });
+
+    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+    this.apiService.APIAddNewStore(
+      this.AddNewStoreReq,
+      window.localStorage.getItem('token')
+    ).subscribe((res: AddNewStoreResp) => {
+      if (res.data !== null) {
+        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        this.router.navigate(['/program-management/data-partner']);
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+      this.router.navigate(['/program-management/data-partner']);
+      return;
+    });
+
   }
   onlyNumberKey(event) {
     return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
-  
-
-  commitForm(){
-  event.preventDefault();
-  if (this.partnerForm.invalid) {
-    return;
-  }
-  this.isLoadingResults = true;
-
-  console.log('AddNewStoreRequest : \n', this.partnerForm.value._store);
-  this.apiService.APIAddNewStore(
-    this.AddNewStoreReq,
-    window.localStorage.getItem('token')
-  )
-  // .subscribe((res: AddNewStoreResp) => {
-  //   if (res.data !== null) {
-  //     this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
-  //     this.router.navigate(['/program-management/data-partner']);
-  //     return;
-  //   }
-  //   this.isLoadingResults = false;
-  //   this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
-  //   this.router.navigate(['/program-management/data-partner']);
-  //   return;
-  // });
-}
 
   openFormAddNewStore() {
     const dialogRef = this.dialog.open(AddNewStoreComponent, {
@@ -179,6 +187,7 @@ export class AddPartnerComponent implements OnInit {
      dialogRef.afterClosed().subscribe(data_store => {
        if (data_store != '') {
         this.partnerForm.value._store = data_store.name
+        this.AddNewStoreReq = data_store
         this.partnerForm = this.formBuilder.group({
           _store: [data_store.name, ''],
           // _fileUpload:['', Validators.required]
