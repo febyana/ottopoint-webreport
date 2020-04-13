@@ -9,12 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './shared/material.module';
-
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+// import { AddPartnerComponent } from './dashboard/contents/program-management/add-partner/add-partner.component'
 
 @NgModule({
   declarations: [
+    // AddPartnerComponent,
     AppComponent,
     LoginComponent,
   ],
@@ -29,6 +31,8 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
 
     MaterialModule,
+
+    ScrollingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
