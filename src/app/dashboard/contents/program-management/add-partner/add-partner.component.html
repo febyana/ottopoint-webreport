@@ -98,12 +98,21 @@
         </div>          
 
         <div class="partner-full-width">
-            <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+            <!-- <mat-file-upload [labelText]="'Select a file (or multiple) :'"
             [selectButtonText]="'Choose File(s)'"
             [selectFilesButtonType]="button"
             [allowMultipleFiles]="true"            
             [customSvgIcon]="'close_custom'"
-            [acceptedTypes]="'.pdf'"></mat-file-upload>
+            [acceptedTypes]="'.pdf'"></mat-file-upload> -->
+            <!-- <input formControlName="_fileUpload" type="file" multiple/><br/> -->
+            <label for="file">File</label>
+            <input 
+                id="file" 
+                type="file" 
+                multiple
+                class="form-control"
+                formControlName="_fileUpload"
+                (change)="onFileChange($event)">
         <!-- [uploadButtonText]="'Submit'"
         [uploadButtonType]="submit"
         [showUploadButton]="true"

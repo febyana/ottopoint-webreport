@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { AddNewPartnerReq, AddNewPartnerRes } from 'src/app/models/models';
 import { Router } from '@angular/router';
-import {MatRadioModule} from '@angular/material/radio';
 import {
   MatSnackBar,
   MatSnackBarConfig
@@ -28,6 +27,7 @@ export class AddPartnerComponent implements OnInit {
     horizontalPosition: 'center',
     panelClass: ['snack-bar-ekstra-css']
   };
+  myFiles:string [] = [];
 
 
   constructor(
@@ -52,7 +52,7 @@ export class AddPartnerComponent implements OnInit {
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
-      // _fileUpload:['', Validators.required]
+      _fileUpload:['']
     })
   }
 
@@ -83,6 +83,7 @@ export class AddPartnerComponent implements OnInit {
       window.localStorage.getItem('token')
     ).subscribe((res: AddNewPartnerRes) => {
       if (res.data !== null) {
+        this.UploadFile()
         this.snackBar.open('Success Save Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/program-management/data-partner']);
         return;
@@ -126,6 +127,7 @@ export class AddPartnerComponent implements OnInit {
       window.localStorage.getItem('token')
     ).subscribe((res: AddNewPartnerRes) => {
       if (res.data !== null) {
+        this.UploadFile()
         this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/program-management/data-partner']);
         return;
@@ -136,7 +138,27 @@ export class AddPartnerComponent implements OnInit {
       return;
     });
   }
+
+  UploadFile(){
+    const formData = new FormData();
+ 
+    for (var i = 0; i < this.myFiles.length; i++) { 
+      formData.append("file[]", this.myFiles[i]);
+    }
+    // this.http.post('http://localhost:8001/upload.php', formData)
+    //   .subscribe(res => {
+    //     console.log(res);
+    //     alert('Uploaded Successfully.');
+    //   })
+    return 
+  }
   onlyNumberKey(event) {
     return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+  onFileChange(event) {
+   
+    for (var i = 0; i < event.target.files.length; i++) { 
+        this.myFiles.push(event.target.files[i]);
+    }
   }
 }
