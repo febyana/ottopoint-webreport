@@ -20,7 +20,7 @@
             <mat-error>
                 Alamat Perusahaan is <strong>required</strong>
             </mat-error>
-          </mat-form-field>
+        </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Domisili</mat-label>
@@ -88,22 +88,28 @@
 
         <mat-form-field class="partner-full-width">
             <mat-label>Store (Optional)</mat-label>
-            <input matInput >
+            <input matInput formControlName="_store">
         </mat-form-field>          
 
         <div class="partner-full-width">
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="primary" (click)="openFormAddNewStore()">
                 Add New Store
             </button>
         </div>          
 
+<<<<<<< HEAD
         <div class="partner-full-width">
             <!-- <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+=======
+        <!-- <div class="partner-full-width">
+            <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+>>>>>>> c6f9994b96bc2b8f315b3c2fc16c0a025eabe055
             [selectButtonText]="'Choose File(s)'"
             [selectFilesButtonType]="button"
             [allowMultipleFiles]="true"            
             [customSvgIcon]="'close_custom'"
             [acceptedTypes]="'.pdf'"></mat-file-upload> -->
+<<<<<<< HEAD
             <!-- <input formControlName="_fileUpload" type="file" multiple/><br/> -->
             <label for="file">File</label>
             <input 
@@ -113,12 +119,14 @@
                 class="form-control"
                 formControlName="_fileUpload"
                 (change)="onFileChange($event)">
+=======
+>>>>>>> c6f9994b96bc2b8f315b3c2fc16c0a025eabe055
         <!-- [uploadButtonText]="'Submit'"
         [uploadButtonType]="submit"
         [showUploadButton]="true"
         (uploadClicked)="onUploadClicked($event)"
         (selectedFilesChanged)="onSelectedFilesChanged($event)" -->
-        </div>          
+        <!-- </div>           -->
 
         <div class="partner-full-width">
             <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="saveForm()">

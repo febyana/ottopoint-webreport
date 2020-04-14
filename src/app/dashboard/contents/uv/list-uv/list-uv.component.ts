@@ -24,7 +24,7 @@ export class ListUvComponent implements OnInit {
   vn = ''; // voucherName
   vt = ''; // voucherType
   s = ''; // status
-  c = ''; // category
+  // c = ''; // category
   fq = { // filter Query
     voucherName: undefined,
     voucherType: undefined,
@@ -103,17 +103,17 @@ export class ListUvComponent implements OnInit {
       });
     });
 
-    // Category
-    this.apiService.APIGetVoucherCategoryUV(
-      window.localStorage.getItem('token')
-    ).subscribe((res: GetVoucherCategoryUV) => {
-      res.voucherName.forEach(e => {
-        this.categorys.push({
-          k: e.name,
-          v: e.name,
-        });
-      });
-    });
+    // // Category
+    // this.apiService.APIGetVoucherCategoryUV(
+    //   window.localStorage.getItem('token')
+    // ).subscribe((res: GetVoucherCategoryUV) => {
+    //   res.voucherName.forEach(e => {
+    //     this.categorys.push({
+    //       k: e.name,
+    //       v: e.name,
+    //     });
+    //   });
+    // });
 
   }
 
@@ -129,7 +129,7 @@ export class ListUvComponent implements OnInit {
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
             this.paginator.pageSize,
-            this.c, this.vt, this.vn, this.s
+            this.vt, this.vn, this.s
           );
         }),
         map(res => {
@@ -158,10 +158,11 @@ export class ListUvComponent implements OnInit {
 
   submitFilter() {
     this.isLoadingResults = true;
-    this.c = '';
+    // this.c = '';
     this.vt = ''; 
     this.vn = ''; 
     this.s = '';
+    
     
     if (this.fq.voucherName !== undefined) {
       this.vn = this.fq.voucherName ;
@@ -172,18 +173,18 @@ export class ListUvComponent implements OnInit {
     if (this.fq.status !== undefined) {
       this.s = this.fq.status ;
     }
-    if (this.fq.category !== undefined) {
-      this.c = this.fq.category ;
-    }
-    // console.log('query :\n', this.query);
-    // if (this.query !== '') {
-    //   this.paginator.pageIndex = 0;
+    // if (this.fq.category !== undefined) {
+    //   this.c = this.fq.category ;
     // }
+
+    console.log('voucherName :\n', this.vn);
+    console.log('voucherType :\n', this.vt);
+    console.log('status :\n', this.s);
     this.apiService.APIReportVoucherUV(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
-      this.c, this.vt, this.vn, this.s
+      this.vt, this.vn, this.s
     ).subscribe((res: ReportUVResp) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
@@ -202,7 +203,7 @@ export class ListUvComponent implements OnInit {
 
   clearFilter() {
     this.isLoadingResults = true;
-    this.c = '';
+    // this.c = '';
     this.vt = ''; 
     this.vn = ''; 
     this.s = '';
@@ -215,7 +216,7 @@ export class ListUvComponent implements OnInit {
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
       this.paginator.pageSize,
-      this.c, this.vt, this.vn, this.s
+      this.vt, this.vn, this.s
     ).subscribe((res: ReportUVResp) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');

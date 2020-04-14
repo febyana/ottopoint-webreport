@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatFileUploadModule } from 'mat-file-upload';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+// import { MatFileUploadModule } from 'mat-file-upload';
 
 import {
   MatCardModule,
@@ -26,7 +27,7 @@ import {
   MatListModule,
   MatMenuModule,
   MatCheckboxModule,
-  MatRadioModule
+  MatRadioModule,
 } from '@angular/material';
 
 
@@ -59,7 +60,8 @@ import {
     MatMenuModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatFileUploadModule
+    ScrollingModule,
+    // MatFileUploadModule
   ],
   exports: [
     MatCardModule,
@@ -86,7 +88,8 @@ import {
     MatMenuModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatFileUploadModule
+    ScrollingModule,
+    // MatFileUploadModule
   ]
 })
 export class MaterialModule { }
