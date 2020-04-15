@@ -112,12 +112,12 @@ export class AddPartnerComponent implements OnInit {
         // this.UploadFile()
         this.saveStore(res.data["ID"])
         this.snackBar.open('Success Save Data', 'close', this.matSnackBarConfig);        
-        this.router.navigate(['/program-management/data-partner']);
+        this.router.navigate(['/dashboard/program-management/data-partner']);
         return;
       }
       this.isLoadingResults = false;
       this.snackBar.open('Failed Save data', 'close', this.matSnackBarConfig);
-      this.router.navigate(['/program-management/data-partner']);
+      this.router.navigate(['/dashboard/program-management/data-partner']);
       return;
     });
     
@@ -125,7 +125,7 @@ export class AddPartnerComponent implements OnInit {
 
   cancelForm(){
     this.snackBar.open('Cancel create data', 'close', this.matSnackBarConfig);
-    this.router.navigate(['/program-management/data-partner']);
+    this.router.navigate(['/dashboard/program-management/data-partner']);
   }
 
   submitForm(){
@@ -158,12 +158,12 @@ export class AddPartnerComponent implements OnInit {
         // this.UploadFile()
         this.saveStore(res.data["ID"])
         this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
-        this.router.navigate(['/program-management/data-partner']);
+        this.router.navigate(['/dashboard/program-management/data-partner']);
         return;
       }
       this.isLoadingResults = false;
       this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
-      this.router.navigate(['/program-management/data-partner']);
+      this.router.navigate(['/dashboard/program-management/data-partner']);
       return;
     });
 
@@ -180,12 +180,12 @@ export class AddPartnerComponent implements OnInit {
         ).subscribe((res: AddNewStoreResp) => {
           if (res.data !== null) {
             // this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
-            // this.router.navigate(['/program-management/data-partner']);
+            // this.router.navigate(['/dashboard/program-management/data-partner']);
             return;
           }
           // this.isLoadingResults = false;
           this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
-          // this.router.navigate(['/program-management/data-partner']);
+          // this.router.navigate(['/dashboard/program-management/data-partner']);
           return;
         });
       }
