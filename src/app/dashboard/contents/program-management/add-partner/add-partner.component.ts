@@ -24,7 +24,8 @@ export class AddPartnerComponent implements OnInit {
   partnerForm:FormGroup;
   dataForm:FormGroup;
   AddNewPartnerReq : AddNewPartnerReq;
-  AddNewStoreReq : AddNewStoreReq;
+  AddNewStoreReq : AddNewStoreReq[];
+  arrStore : AddNewStoreReq[] = [];
   _whiteList : false
   _blackList : false
   isLoadingResults = false;
@@ -64,6 +65,21 @@ export class AddPartnerComponent implements OnInit {
       _store: ['', ''],
       // _fileUpload:['', Validators.required]
     })
+    // this.partnerForm = this.formBuilder.group({
+    //   _namaPerusahaan: ['', ''],
+    //   _alamatPerusahaan: ['',''],
+    //   _alamatDomisili: ['', ''],
+    //   _userType:['',''],
+    //   _noTelp: ['', ''],
+    //   _jenisUsaha: ['',''],
+    //   _taxNumber: ['',''],
+    //   _picName: ['', ''],
+    //   _picPhone: ['', ''],
+    //   _picEmail: ['', ''],
+    //   _fileUpload:[''],
+    //   _store: ['', ''],
+    //   // _fileUpload:['', Validators.required]
+    // })
   }
 
   saveForm() {
@@ -87,23 +103,6 @@ export class AddPartnerComponent implements OnInit {
       status : "draft"
     };
 
-    console.log('query : \n', this.AddNewPartnerReq);
-    this.apiService.APIAddNewPartner(
-      this.AddNewPartnerReq,
-      window.localStorage.getItem('token')
-    ).subscribe((res: AddNewPartnerRes) => {
-      if (res.data !== null) {
-        this.UploadFile()
-        this.snackBar.open('Success Save Data', 'close', this.matSnackBarConfig);        
-        this.router.navigate(['/program-management/data-partner']);
-        return;
-      }
-      this.isLoadingResults = false;
-      this.snackBar.open('Failed Save data', 'close', this.matSnackBarConfig);
-      this.router.navigate(['/program-management/data-partner']);
-      return;
-    });
-
     console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
     this.apiService.APIAddNewPartner(
       this.AddNewPartnerReq,
@@ -112,12 +111,12 @@ export class AddPartnerComponent implements OnInit {
       if (res.data !== null) {
         // this.UploadFile()
         this.saveStore(res.data["ID"])
-        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        this.snackBar.open('Success Save Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/program-management/data-partner']);
         return;
       }
       this.isLoadingResults = false;
-      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+      this.snackBar.open('Failed Save data', 'close', this.matSnackBarConfig);
       this.router.navigate(['/program-management/data-partner']);
       return;
     });
@@ -172,21 +171,25 @@ export class AddPartnerComponent implements OnInit {
 
   saveStore(id) {
     // console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
-    this.AddNewStoreReq.m_institution_id = id
-    this.apiService.APIAddNewStore(
-      this.AddNewStoreReq,
-      window.localStorage.getItem('token')
-    ).subscribe((res: AddNewStoreResp) => {
-      if (res.data !== null) {
-        // this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
-        // this.router.navigate(['/program-management/data-partner']);
-        return;
+    if (this.arrStore.length > 0) {
+      for (var i = 0;i<this.arrStore.length;i++){
+        this.arrStore[i].m_institution_id = id    
+        this.apiService.APIAddNewStore(
+          this.arrStore[i],
+          window.localStorage.getItem('token')
+        ).subscribe((res: AddNewStoreResp) => {
+          if (res.data !== null) {
+            // this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+            // this.router.navigate(['/program-management/data-partner']);
+            return;
+          }
+          // this.isLoadingResults = false;
+          this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
+          // this.router.navigate(['/program-management/data-partner']);
+          return;
+        });
       }
-      // this.isLoadingResults = false;
-      this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
-      // this.router.navigate(['/program-management/data-partner']);
-      return;
-    });
+      }
   }
 
   UploadFile(){
@@ -218,6 +221,12 @@ export class AddPartnerComponent implements OnInit {
     });
 
      dialogRef.afterClosed().subscribe(data_store => {
+       var text = ""
+       this.arrStore.push(data_store)
+       for (var i=0;i<this.arrStore.length;i++){
+          text = text + this.arrStore[i].name + ","
+          console.log(text)
+       }
        if (data_store != '') {
         this.partnerForm.value._store = data_store.name
         this.AddNewStoreReq = data_store
@@ -233,7 +242,7 @@ export class AddPartnerComponent implements OnInit {
           _picPhone: [this.partnerForm.value._picPhone, Validators.required],
           _picEmail: [this.partnerForm.value._picEmail, Validators.required],
           _fileUpload:[''],
-          _store: [data_store.name, ''],
+          _store: [text, ''],
           // _fileUpload:['', Validators.required]
         })
        }
