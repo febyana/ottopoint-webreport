@@ -88,6 +88,7 @@ import { DataPartnerComponent } from './contents/program-management/data-partner
     DialogShowDataComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
+    AddNewStoreComponent
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

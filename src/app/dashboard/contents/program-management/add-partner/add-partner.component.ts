@@ -225,7 +225,6 @@ export class AddPartnerComponent implements OnInit {
        this.arrStore.push(data_store)
        for (var i=0;i<this.arrStore.length;i++){
           text = text + this.arrStore[i].name + ","
-          console.log(text)
        }
        if (data_store != '') {
         this.partnerForm.value._store = data_store.name
