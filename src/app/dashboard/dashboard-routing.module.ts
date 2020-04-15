@@ -26,7 +26,7 @@ import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_
 import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
-
+import { DataPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
 
 export const routes: Routes = [
   {
@@ -106,8 +106,8 @@ export const routes: Routes = [
         component: ListUvComponent,
       },
       {
-        path: 'program-management/contoh',
-        component: AddNewStoreComponent,
+        path: 'program-management/data-partner',
+        component: DataPartnerComponent,
       },
     ]
   }

@@ -45,6 +45,8 @@ import {
   AddNewPartnerRes,
   AddNewStoreReq,
   AddNewStoreResp,
+  GetDataPartner,
+  GetDataPartnerRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -99,6 +101,7 @@ export class ApiService {
   URLOutstandingPoint: string;
   URLOutstandingVoucher: string;
   URLAddNewPartner: string;
+  URLGetDataPartner: string;
 
 
   constructor(
@@ -143,6 +146,8 @@ export class ApiService {
     this.URLGetVoucherCategoryUV             = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLAddNewPartner                    = baseURLBackendDashboard + `/program-management/addnewpartner`
     this.URLAddNewStore                      = baseURLBackendDashboard + `/program-management/addnewstore`
+    this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
+    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -356,6 +361,22 @@ export class ApiService {
     );
   }
 
+  public APIGetDataPartner(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetDataPartnerRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetDataPartnerRes>(
+      this.URLGetDataPartner + this.queryParams,
+      httpOptions
+    );
+  }
   public APIGetAnalyticsTransactions(token: string): Observable<GetAnalyticsTransactionsRes> {
     this.whichEnvironment();
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);

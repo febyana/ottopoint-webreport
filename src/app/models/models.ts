@@ -300,6 +300,27 @@ export interface TransactionRedeemPointOpl {
     partner: string;
 }
 
+export interface GetDataPartnerRes {
+    data: GetDataPartner[];
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface GetDataPartner {
+    partner_id: string;
+    name: string;
+    created_at: string;
+    address: string;
+    business_type: string;
+    tax_number: string;
+    pic_name: string;
+    pic_email: string;
+    phone: string;
+    user_type: string;
+    status:string;
+    approve_date: string;
+}
 
 export interface DeliveryStatus {
     status: string;
