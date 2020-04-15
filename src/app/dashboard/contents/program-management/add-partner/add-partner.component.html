@@ -88,7 +88,7 @@
 
         <mat-form-field class="partner-full-width">
             <mat-label>Store (Optional)</mat-label>
-            <input matInput formControlName="_store">
+            <input matInput formControlName="_store" value="">
         </mat-form-field>          
 
         <div class="partner-full-width">
@@ -97,19 +97,28 @@
             </button>
         </div>          
 
-        <!-- <div class="partner-full-width">
-            <mat-file-upload [labelText]="'Select a file (or multiple) :'"
+        <div class="partner-full-width">
+            <!-- <mat-file-upload [labelText]="'Select a file (or multiple) :'"
             [selectButtonText]="'Choose File(s)'"
             [selectFilesButtonType]="button"
             [allowMultipleFiles]="true"            
             [customSvgIcon]="'close_custom'"
             [acceptedTypes]="'.pdf'"></mat-file-upload> -->
+            <!-- <input formControlName="_fileUpload" type="file" multiple/><br/> -->
+            <label for="file">File</label>
+            <input 
+                id="file" 
+                type="file" 
+                multiple
+                class="form-control"
+                formControlName="_fileUpload"
+                (change)="onFileChange($event)">
         <!-- [uploadButtonText]="'Submit'"
         [uploadButtonType]="submit"
         [showUploadButton]="true"
         (uploadClicked)="onUploadClicked($event)"
         (selectedFilesChanged)="onSelectedFilesChanged($event)" -->
-        <!-- </div>           -->
+        </div>          
 
         <div class="partner-full-width">
             <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="saveForm()">
@@ -121,7 +130,8 @@
             <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitForm()">
                 Create & Submit
             </button>
-        </div>          
+        </div>       
+
     </form>
 </mat-card-content>
 
