@@ -86,6 +86,7 @@ import { AddNewStoreComponent } from './contents/program-management/add-new-stor
     DialogShowDataComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
+    AddNewStoreComponent
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],
