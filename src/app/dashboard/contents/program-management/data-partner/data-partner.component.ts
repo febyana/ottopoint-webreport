@@ -49,6 +49,7 @@ export class DataPartnerComponent implements OnInit {
     'user_type',
     'status',
     'approve_date',
+    'action',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
@@ -74,11 +75,6 @@ export class DataPartnerComponent implements OnInit {
   vouchersName = [];
  // tslint:disable-next-line:use-lifecycle-interface
  ngOnInit() {
-  this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
-  console.log(
-    'screen height :\n', window.screen.height,
-    '\nheightFilterAndActions :\n', document.getElementById('heightFilterAndActions').offsetHeight);
-  // hide action column if not have privilage
   if (!this.isCanCreate) {
     this.displayedColumns = [
       // 'id',
@@ -94,7 +90,10 @@ export class DataPartnerComponent implements OnInit {
       'phone',
       'user_type',
       'status',
-      'approve_date'
+      'approve_date',
+      'action',
+      'action1',
+      'action2',
     ];
   }
 }
@@ -235,33 +234,46 @@ export class DataPartnerComponent implements OnInit {
           phone: e.phone,
           user_type: e.user_type,
           status: e.status,
-          approve_date: e.approve_date,
+          approve_date: e.approve_date.substr(0,10),
           };
           arrData.push(objData);
       });
       this.excelService.exportAsExcelFile(arrData, 'List_Data_Partner');
     });
   }
+  
   submitFilter() {
     this.isLoadingResults = true;
     this.query = '';
     if (this.fq.from_date !== null) {
-      this.query = this.query + `a.date_trx.gte:${
+      this.query = this.query + `a.created_at.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
-      if (this.fq.through_date !== null) {
-        this.query = this.query + `a.date_trx.lte:${
-          this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
-        },`;
+    if (this.fq.through_date !== null) {
+      this.query = this.query + `a.created_at.lte:${
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
+      },`;
+      
+      // this.query = this.query + `created_at.lte:${
+      //   this.datePipe.transform(
+      //     this.fq.through_date.setDate(
+      //       this.fq.through_date.getDate() + 1
+      //     ), 'yyyy-MM-dd 06:59:59')
+      // },`;
+      // this.fq.through_date.setDate(
+      //   this.fq.through_date.getDate() - 1
+      // );
+    }
+    if (this.fq.status !== undefined) {
+      this.query = this.query + 'a.status.:' + this.fq.status + ',';
     }
     if (this.fq.name !== '') {
-      this.query = this.query + 'name.icontains:' + this.fq.name + ',';
+      this.query = this.query + 'a.name.:' + this.fq.name + ',';
     }
-    if (this.fq.status !== '') {
-      this.query = this.query + 'status:' + this.fq.status + ',';
-    }
-    this.query = this.query.replace(/.$/g, ''); // replace tanda "," terakhir
+    // replace tanda (,) terakhir
+    this.query = this.query.replace(/.$/g, '');
+    // balik ke page pertama jika filter tidak kosong
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
@@ -282,19 +294,21 @@ export class DataPartnerComponent implements OnInit {
       this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
+      console.log('data total table : ',this.dataTableLength)
       if (res.total === 0) {
         this.isNoData = true;
       }
       this.isLoadingResults = false;
     });
   }
+  
   clearFilter() {
     this.isLoadingResults = true;
     this.query = '';
     this.fq.from_date = null;
     this.fq.through_date =  null;
-    this.fq.name = '';
     this.fq.status = undefined;
+    this.fq.name = '';
     console.log('query :\n', this.query);
     this.sort.active = 'id';
     this.sort.direction = 'desc';
@@ -321,4 +335,3 @@ export class DataPartnerComponent implements OnInit {
     });
   }
 }
-
