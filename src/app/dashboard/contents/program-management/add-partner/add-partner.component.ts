@@ -3,16 +3,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { AddNewPartnerReq, AddNewStoreReq, AddNewPartnerRes, AddNewStoreResp } from 'src/app/models/models';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
-=======
 import {MatRadioModule} from '@angular/material/radio';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
->>>>>>> c6f9994b96bc2b8f315b3c2fc16c0a025eabe055
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { AddNewStoreComponent } from '../add-new-store/add-new-store.component'
+import { element } from 'protractor';
+import { getElement } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-add-partner',
@@ -23,6 +22,7 @@ import { AddNewStoreComponent } from '../add-new-store/add-new-store.component'
 export class AddPartnerComponent implements OnInit {
   data_store : AddNewStoreReq;
   partnerForm:FormGroup;
+  dataForm:FormGroup;
   AddNewPartnerReq : AddNewPartnerReq;
   AddNewStoreReq : AddNewStoreReq;
   _whiteList : false
@@ -60,12 +60,9 @@ export class AddPartnerComponent implements OnInit {
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
-<<<<<<< HEAD
-      _fileUpload:['']
-=======
+      _fileUpload:[''],
       _store: ['', ''],
       // _fileUpload:['', Validators.required]
->>>>>>> c6f9994b96bc2b8f315b3c2fc16c0a025eabe055
     })
   }
 
@@ -107,12 +104,14 @@ export class AddPartnerComponent implements OnInit {
       return;
     });
 
-    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
-    this.apiService.APIAddNewStore(
-      this.AddNewStoreReq,
+    console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
+    this.apiService.APIAddNewPartner(
+      this.AddNewPartnerReq,
       window.localStorage.getItem('token')
-    ).subscribe((res: AddNewStoreResp) => {
+    ).subscribe((res: AddNewPartnerRes) => {
       if (res.data !== null) {
+        // this.UploadFile()
+        this.saveStore(res.data["ID"])
         this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/program-management/data-partner']);
         return;
@@ -157,7 +156,8 @@ export class AddPartnerComponent implements OnInit {
       window.localStorage.getItem('token')
     ).subscribe((res: AddNewPartnerRes) => {
       if (res.data !== null) {
-        this.UploadFile()
+        // this.UploadFile()
+        this.saveStore(res.data["ID"])
         this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/program-management/data-partner']);
         return;
@@ -168,22 +168,25 @@ export class AddPartnerComponent implements OnInit {
       return;
     });
 
-    console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+  }
+
+  saveStore(id) {
+    // console.log('AddNewStoreReq : \n', this.AddNewStoreReq);
+    this.AddNewStoreReq.m_institution_id = id
     this.apiService.APIAddNewStore(
       this.AddNewStoreReq,
       window.localStorage.getItem('token')
     ).subscribe((res: AddNewStoreResp) => {
       if (res.data !== null) {
-        this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
-        this.router.navigate(['/program-management/data-partner']);
+        // this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
+        // this.router.navigate(['/program-management/data-partner']);
         return;
       }
-      this.isLoadingResults = false;
+      // this.isLoadingResults = false;
       this.snackBar.open('Failed Submit data', 'close', this.matSnackBarConfig);
-      this.router.navigate(['/program-management/data-partner']);
+      // this.router.navigate(['/program-management/data-partner']);
       return;
     });
-
   }
 
   UploadFile(){
@@ -202,14 +205,12 @@ export class AddPartnerComponent implements OnInit {
   onlyNumberKey(event) {
     return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
-<<<<<<< HEAD
   onFileChange(event) {
    
     for (var i = 0; i < event.target.files.length; i++) { 
         this.myFiles.push(event.target.files[i]);
     }
   }
-=======
 
   openFormAddNewStore() {
     const dialogRef = this.dialog.open(AddNewStoreComponent, {
@@ -221,13 +222,22 @@ export class AddPartnerComponent implements OnInit {
         this.partnerForm.value._store = data_store.name
         this.AddNewStoreReq = data_store
         this.partnerForm = this.formBuilder.group({
+          _namaPerusahaan: [this.partnerForm.value._namaPerusahaan, Validators.required],
+          _alamatPerusahaan: [this.partnerForm.value._alamatPerusahaan, Validators.required],
+          _alamatDomisili: [this.partnerForm.value._alamatDomisili, Validators.required],
+          _userType:[this.partnerForm.value._userType,Validators.required],
+          _noTelp: [this.partnerForm.value._noTelp, Validators.required],
+          _jenisUsaha: [this.partnerForm.value._jenisUsaha,Validators.required],
+          _taxNumber: [this.partnerForm.value._taxNumber,Validators.required],
+          _picName: [this.partnerForm.value._picName, Validators.required],
+          _picPhone: [this.partnerForm.value._picPhone, Validators.required],
+          _picEmail: [this.partnerForm.value._picEmail, Validators.required],
+          _fileUpload:[''],
           _store: [data_store.name, ''],
           // _fileUpload:['', Validators.required]
         })
-         console.log('Data Store :\n', this.partnerForm.value._store);
        }
     });
   }
 
->>>>>>> c6f9994b96bc2b8f315b3c2fc16c0a025eabe055
 }

@@ -67,6 +67,7 @@ export class AddNewStoreComponent implements OnInit {
     this.isLoadingResults = true;
 
     this.AddNewStoreReq = {
+        m_institution_id:0,
         name: this.dataForm.value.name,
         description: this.dataForm.value.desc,
         identifier: this.dataForm.value.identifier,

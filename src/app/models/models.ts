@@ -579,18 +579,19 @@ export interface AddNewPartnerRes {
 
 
 export interface AddNewStoreReq {
-        name : string;
-        description : any;
-        identifier : any;
-        streetname : any;
-        buildingname : any;
-        unitname : any;
-        postalcode : any;
-        city : any;
-        province : any;
-        country : any;
-        latitude : any;
-        longtitude : any;
+    m_institution_id : number;
+    name : string;
+    description : any;
+    identifier : any;
+    streetname : any;
+    buildingname : any;
+    unitname : any;
+    postalcode : any;
+    city : any;
+    province : any;
+    country : any;
+    latitude : any;
+    longtitude : any;
 }
 
 export interface AddNewStoreResp {
