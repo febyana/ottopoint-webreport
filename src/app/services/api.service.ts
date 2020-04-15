@@ -138,7 +138,7 @@ export class ApiService {
     this.URLGetVoucherNameUV                 = baseURLBackendDashboard + `/ultra_voucher/name`
     this.URLGetVoucherTypeUV                 = baseURLBackendDashboard + `/ultra_voucher/type`
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
-    this.URLGetDataPartner                   = baseURLBackendDashboard + `/management/partner?`;
+    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
