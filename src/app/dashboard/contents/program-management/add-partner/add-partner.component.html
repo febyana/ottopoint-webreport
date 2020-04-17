@@ -98,26 +98,8 @@
         </div>          
 
         <div class="partner-full-width">
-            <!-- <mat-file-upload [labelText]="'Select a file (or multiple) :'"
-            [selectButtonText]="'Choose File(s)'"
-            [selectFilesButtonType]="button"
-            [allowMultipleFiles]="true"            
-            [customSvgIcon]="'close_custom'"
-            [acceptedTypes]="'.pdf'"></mat-file-upload> -->
-            <!-- <input formControlName="_fileUpload" type="file" multiple/><br/> -->
-            <label for="file">File</label>
-            <input 
-                id="file" 
-                type="file" 
-                multiple
-                class="form-control"
-                formControlName="_fileUpload"
-                (change)="onFileChange($event)">
-        <!-- [uploadButtonText]="'Submit'"
-        [uploadButtonType]="submit"
-        [showUploadButton]="true"
-        (uploadClicked)="onUploadClicked($event)"
-        (selectedFilesChanged)="onSelectedFilesChanged($event)" -->
+            <label>Import File</label> 
+            <input type="file" (change)="onImportFileChange($event, i)" #fileInput multiple>
         </div>          
 
         <div class="partner-full-width">
@@ -127,7 +109,7 @@
             <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="cancelForm()">
                 Cancel
             </button>
-            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitForm()">
+            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitImport()">
                 Create & Submit
             </button>
         </div>       

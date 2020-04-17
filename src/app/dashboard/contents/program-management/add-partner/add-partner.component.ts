@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { AddNewPartnerReq, AddNewStoreReq, AddNewPartnerRes, AddNewStoreResp } from 'src/app/models/models';
+import { AddNewPartnerReq, AddNewStoreReq, AddNewPartnerRes, AddNewStoreResp, PartnerUploadReq, PartnerUploadRes } from 'src/app/models/models';
 import { Router } from '@angular/router';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import {
 } from '@angular/material/snack-bar';
 import { AddNewStoreComponent } from '../add-new-store/add-new-store.component'
 import { element } from 'protractor';
-import { getElement } from '@amcharts/amcharts4/core';
+import { getElement, array } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-add-partner',
@@ -26,8 +26,10 @@ export class AddPartnerComponent implements OnInit {
   AddNewPartnerReq : AddNewPartnerReq;
   AddNewStoreReq : AddNewStoreReq[];
   arrStore : AddNewStoreReq[] = [];
+  partnerUploadreq : PartnerUploadReq;
   _whiteList : false
   _blackList : false
+  fileImport : any;
   isLoadingResults = false;
   matSnackBarConfig: MatSnackBarConfig = {
     duration: 5000,
@@ -50,36 +52,35 @@ export class AddPartnerComponent implements OnInit {
   
  
   ngOnInit() {
+    // this.partnerForm = this.formBuilder.group({
+    //   _namaPerusahaan: ['', Validators.required],
+    //   _alamatPerusahaan: ['', Validators.required],
+    //   _alamatDomisili: ['', Validators.required],
+    //   _userType:['',Validators.required],
+    //   _noTelp: ['', Validators.required],
+    //   _jenisUsaha: ['',Validators.required],
+    //   _taxNumber: ['',Validators.required],
+    //   _picName: ['', Validators.required],
+    //   _picPhone: ['', Validators.required],
+    //   _picEmail: ['', Validators.required],
+    //   _fileUpload:[''],
+    //   _store: ['', ''],
+    // })
     this.partnerForm = this.formBuilder.group({
-      _namaPerusahaan: ['', Validators.required],
-      _alamatPerusahaan: ['', Validators.required],
-      _alamatDomisili: ['', Validators.required],
-      _userType:['',Validators.required],
-      _noTelp: ['', Validators.required],
-      _jenisUsaha: ['',Validators.required],
-      _taxNumber: ['',Validators.required],
-      _picName: ['', Validators.required],
-      _picPhone: ['', Validators.required],
-      _picEmail: ['', Validators.required],
+      _namaPerusahaan: ['', ''],
+      _alamatPerusahaan: ['',''],
+      _alamatDomisili: ['', ''],
+      _userType:['',''],
+      _noTelp: ['', ''],
+      _jenisUsaha: ['',''],
+      _taxNumber: ['',''],
+      _picName: ['', ''],
+      _picPhone: ['', ''],
+      _picEmail: ['', ''],
       _fileUpload:[''],
       _store: ['', ''],
       // _fileUpload:['', Validators.required]
     })
-    // this.partnerForm = this.formBuilder.group({
-    //   _namaPerusahaan: ['', ''],
-    //   _alamatPerusahaan: ['',''],
-    //   _alamatDomisili: ['', ''],
-    //   _userType:['',''],
-    //   _noTelp: ['', ''],
-    //   _jenisUsaha: ['',''],
-    //   _taxNumber: ['',''],
-    //   _picName: ['', ''],
-    //   _picPhone: ['', ''],
-    //   _picEmail: ['', ''],
-    //   _fileUpload:[''],
-    //   _store: ['', ''],
-    //   // _fileUpload:['', Validators.required]
-    // })
   }
 
   saveForm() {
@@ -155,8 +156,10 @@ export class AddPartnerComponent implements OnInit {
       window.localStorage.getItem('token')
     ).subscribe((res: AddNewPartnerRes) => {
       if (res.data !== null) {
-        // this.UploadFile()
-        this.saveStore(res.data["ID"])
+        if (this.arrStore.length > 0) {
+          this.saveStore(res.data["ID"])
+        } 
+        this.submitImport()
         this.snackBar.open('Success Submit Data', 'close', this.matSnackBarConfig);        
         this.router.navigate(['/dashboard/program-management/data-partner']);
         return;
@@ -166,7 +169,6 @@ export class AddPartnerComponent implements OnInit {
       this.router.navigate(['/dashboard/program-management/data-partner']);
       return;
     });
-
   }
 
   saveStore(id) {
@@ -192,28 +194,68 @@ export class AddPartnerComponent implements OnInit {
       }
   }
 
-  UploadFile(){
-    const formData = new FormData();
- 
-    for (var i = 0; i < this.myFiles.length; i++) { 
-      formData.append("file[]", this.myFiles[i]);
+  onImportFileChange(event, index) {
+    let reader = new FileReader();
+    var file = new Array()
+    if(event.target.files && event.target.files.length > 0) {
+      for (var i =0;i<event.target.files.length;i++){
+        file.push(event.target.files[i])
+      }
+      console.log(file)
+      this.fileImport = file
+      console.log(this.fileImport)
+        // this.fileImport = file;
+        // console.log('log 1 : ', file)
     }
-    // this.http.post('http://localhost:8001/upload.php', formData)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //     alert('Uploaded Successfully.');
-    //   })
-    return 
-  }
+}
+
+submitImport() {
+  console.log(this.fileImport)
+  event.preventDefault();
+    if(this.fileImport) {
+      this.isLoadingResults = true;
+      console.log('log 2 : ', this.fileImport)
+        // this.blockUI.start('Loading...');
+        this.apiService.APIUploadPartner(
+          window.localStorage.getItem('token'),
+          this.fileImport)
+          .subscribe(res => {
+            console.log('response Partner Upload: ', res);
+            // this.isLoadingResults = false;
+            // this.dialogRef.close(false);
+            let msg: any;
+            this.isLoadingResults = false;
+            if (res.Meta.message == 'SUCCESS') {
+              msg = 'File Berhasil di Upload'
+              this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+              // this.ngAfterViewInit();
+              // this.fileInput.nativeElement.value = '';
+              return;
+            }
+          },
+          
+        error=> {
+          let msg: any;
+          this.isLoadingResults = false;
+            msg = 'File Gagal di Upload'
+            this.snackBar.open(msg, 'close', this.matSnackBarConfig);
+              // this.ngAfterViewInit();
+              // this.fileInput.nativeElement.value = '';
+            return;
+        }
+        );
+    }
+}
   onlyNumberKey(event) {
     return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
-  onFileChange(event) {
+  // onFileChange(event) {
    
-    for (var i = 0; i < event.target.files.length; i++) { 
-        this.myFiles.push(event.target.files[i]);
-    }
-  }
+  //   for (var i = 0; i < event.target.files.length; i++) { 
+  //       this.myFiles.push(event.target.files[i]);
+  //   }
+
+  // }
 
   openFormAddNewStore() {
     const dialogRef = this.dialog.open(AddNewStoreComponent, {

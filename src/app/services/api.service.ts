@@ -45,6 +45,8 @@ import {
   AddNewPartnerRes,
   AddNewStoreReq,
   AddNewStoreResp,
+  PartnerUploadReq,
+  PartnerUploadRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -99,6 +101,7 @@ export class ApiService {
   URLOutstandingPoint: string;
   URLOutstandingVoucher: string;
   URLAddNewPartner: string;
+  URLUploadPartner: string;
 
 
   constructor(
@@ -143,6 +146,7 @@ export class ApiService {
     this.URLGetVoucherCategoryUV             = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLAddNewPartner                    = baseURLBackendDashboard + `/program-management/addnewpartner`
     this.URLAddNewStore                      = baseURLBackendDashboard + `/program-management/addnewstore`
+    this.URLUploadPartner                      = baseURLBackendDashboard + `/upload/multiple_file`
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -572,4 +576,24 @@ export class ApiService {
     }
     return this.httpClient.post<AddNewStoreResp>(this.URLAddNewStore, req, httpOptions);
   }
+
+  public APIUploadPartner(token: string, file): Observable<PartnerUploadRes> {
+    const formData = new FormData();
+    if (file.length > 0){
+      for (var i = 0; i<file.length;i++){
+        formData.append('multiplefiles', file[i], file[i].filename);
+      }
+    }
+    console.log("BULK : ", formData.get('multiplefiles'));
+    this.whichEnvironment();
+
+    const httpOptionT = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      })
+    };
+
+    return this.httpClient.post<PartnerUploadRes>(this.URLUploadPartner, formData, httpOptionT);
+    }
+  
 }
