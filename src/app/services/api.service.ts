@@ -149,6 +149,7 @@ export class ApiService {
     this.URLGetVoucherCategoryUV = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLAddNewPartner = baseURLBackendDashboard + `/program-management/addnewpartner`
     this.URLAddNewStore = baseURLBackendDashboard + `/program-management/addnewstore`
+    this.URLGetDataPartner = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
