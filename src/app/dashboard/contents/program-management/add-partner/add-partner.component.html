@@ -97,19 +97,19 @@
             </button>
         </div>          
 
-        <div class="partner-full-width">
+        <div class="partner-full-width" style="margin:10px">
             <label>Import File</label> 
-            <input type="file" (change)="onImportFileChange($event, i)" #fileInput multiple>
+            <input type="file" (change)="onImportFileChange($event, i)" multiple accept="application/pdf">
         </div>          
 
         <div class="partner-full-width">
-            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="saveForm()">
+            <button style="margin-right: 5px;" mat-raised-button color="primary" #saveFormButton (click)="saveData('draft')">
                 Create & Save
             </button>
             <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="cancelForm()">
                 Cancel
             </button>
-            <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="submitImport()">
+            <button style="margin-right: 5px;" mat-raised-button color="primary" #submitFormButton (click)="saveData('Waiting for approval')">
                 Create & Submit
             </button>
         </div>       

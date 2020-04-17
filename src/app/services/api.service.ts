@@ -96,7 +96,7 @@ export class ApiService {
   URLHistoyBulkDetail: string;
   URLGetHistoryBulk: string;
   URLBulkAdjustment: string;
-  URLListUltraVoucher : string;
+  URLListUltraVoucher: string;
   URLBulkAddCustomer: string;
   URLOutstandingPoint: string;
   URLOutstandingVoucher: string;
@@ -113,43 +113,43 @@ export class ApiService {
     baseURLOttopay: string
   ) {
     // backend dashboard
-    this.URLGetToken                         = baseURLBackendDashboard + `/login`;
-    this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
-    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
-    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
-    this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
-    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
-    this.URLListUltraVoucher                 = baseURLBackendDashboard + `/transactions/ultravoucher?`;
+    this.URLGetToken = baseURLBackendDashboard + `/login`;
+    this.URLGetUsers = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetTransactionsPaymentsQR = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
+    this.URLGetTransactionsEarningsPPOB = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsOPL = baseURLBackendDashboard + `/transactions/earningopl?`;
+    this.URLGetTransactionsVouchersRedeem = baseURLBackendDashboard + `/transactions/vouchers?`;
+    this.URLListUltraVoucher = baseURLBackendDashboard + `/transactions/ultravoucher?`;
     this.URLGetTransactionsVouchersRedeemOpl = baseURLBackendDashboard + `/history/redeem?`;
-    this.URLGetTransactionsRedeemPointOpl    = baseURLBackendDashboard + `/history/redeempointopl?`;
-    this.URLGetAnalyticsTransactions         = baseURLBackendDashboard + `/analytics/transactions`;
-    this.URLGetAnalyticsUsers                = baseURLBackendDashboard + `/analytics/users`;
+    this.URLGetTransactionsRedeemPointOpl = baseURLBackendDashboard + `/history/redeempointopl?`;
+    this.URLGetAnalyticsTransactions = baseURLBackendDashboard + `/analytics/transactions`;
+    this.URLGetAnalyticsUsers = baseURLBackendDashboard + `/analytics/users`;
     this.URLGetSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/get?`;
-    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment'
-    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history'
-    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?'
+    this.URLBulkAdjustment = baseURLBackendDashboard + '/bulk/adjustment'
+    this.URLGetHistoryBulk = baseURLBackendDashboard + '/bulk/history'
+    this.URLHistoyBulkDetail = baseURLBackendDashboard + '/bulk/detail?'
     this.URLPutSettingsVariablesTransactions = baseURLBackendDashboard + `/settings/put/`;
-    this.URLGetVouchersName                  = baseURLBackendDashboard + `/vouchers/name`;
-    this.URLGetSKU                           = baseURLBackendDashboard + `/ultra_voucher/sku`;
-    this.URLGetPPOBProductTypes              = baseURLBackendDashboard + `/ppob/product-types`;
-    this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
-    this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
-    this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment';
-    this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/addcustomer';
-    this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history';
-    this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
-    this.URLOutstandingPoint                 = baseURLBackendDashboard + `/outstanding/point?`;
-    this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
-    this.URLReportVoucherUV                  = baseURLBackendDashboard + `/ultra_voucher/list`
-    this.URLGetVoucherNameUV                 = baseURLBackendDashboard + `/ultra_voucher/name`
-    this.URLGetVoucherTypeUV                 = baseURLBackendDashboard + `/ultra_voucher/type`
-    this.URLGetVoucherCategoryUV             = baseURLBackendDashboard + `/ultra_voucher/category`
-    this.URLAddNewPartner                    = baseURLBackendDashboard + `/program-management/addnewpartner`
-    this.URLAddNewStore                      = baseURLBackendDashboard + `/program-management/addnewstore`
-    this.URLUploadPartner                      = baseURLBackendDashboard + `/upload/multiple_file`
+    this.URLGetVouchersName = baseURLBackendDashboard + `/vouchers/name`;
+    this.URLGetSKU = baseURLBackendDashboard + `/ultra_voucher/sku`;
+    this.URLGetPPOBProductTypes = baseURLBackendDashboard + `/ppob/product-types`;
+    this.URLChangePassword = baseURLBackendDashboard + '/change_password'; // belum
+    this.URLChangeStatus = baseURLBackendDashboard + '/users/status'; // on progress
+    this.URLBulkAdjustment = baseURLBackendDashboard + '/bulk/adjustment';
+    this.URLBulkAddCustomer = baseURLBackendDashboard + '/bulk/addcustomer';
+    this.URLGetHistoryBulk = baseURLBackendDashboard + '/bulk/history';
+    this.URLHistoyBulkDetail = baseURLBackendDashboard + '/bulk/detail?';
+    this.URLOutstandingPoint = baseURLBackendDashboard + `/outstanding/point?`;
+    this.URLOutstandingVoucher = baseURLBackendDashboard + `/outstanding/voucher?`;
+    this.URLReportVoucherUV = baseURLBackendDashboard + `/ultra_voucher/list`
+    this.URLGetVoucherNameUV = baseURLBackendDashboard + `/ultra_voucher/name`
+    this.URLGetVoucherTypeUV = baseURLBackendDashboard + `/ultra_voucher/type`
+    this.URLGetVoucherCategoryUV = baseURLBackendDashboard + `/ultra_voucher/category`
+    this.URLAddNewPartner = baseURLBackendDashboard + `/program-management/addnewpartner`
+    this.URLAddNewStore = baseURLBackendDashboard + `/program-management/addnewstore`
+    this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
     // ottopay
-    this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
-    this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
+    this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
+    this.URLRegisterUser = baseURLOttopay + `/register_user`;
   }
 
   whichEnvironment() {
@@ -195,7 +195,7 @@ export class ApiService {
     password: string,
   ): Observable<LoginRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
     return this.httpClient.get<LoginRes>(this.URLGetToken, httpOptions);
   }
 
@@ -208,7 +208,7 @@ export class ApiService {
     query: string
   ): Observable<GetUsersRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
   }
@@ -222,7 +222,7 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsPaymentsQRRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsPaymentsQRRes>(this.URLGetTransactionsPaymentsQR + this.queryParams, httpOptions);
   }
@@ -236,18 +236,18 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsEarningsPPOBRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsPPOBRes>(this.URLGetTransactionsEarningsPPOB + this.queryParams, httpOptions);
   }
 
   public APIOutstandingPoint(
-    token :string,
-    offset:number,
-    limit:number,
-    sortby:string,
-    order:string,
-    query:string
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
   ): Observable<OutstandingPointRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -255,12 +255,12 @@ export class ApiService {
     return this.httpClient.get<OutstandingPointRes>(this.URLOutstandingPoint + this.queryParams, httpOptions)
   }
   public APIOutstandingVoucher(
-    token :string,
-    offset:number,
-    limit:number,
-    sortby:string,
-    order:string,
-    query:string
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
   ): Observable<OutstandingVoucherRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -269,12 +269,12 @@ export class ApiService {
   }
 
   public APIGetTransactionsEarningOPL(
-    token :string,
-    offset:number,
-    limit:number,
-    sortby:string,
-    order:string,
-    query:string
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
   ): Observable<GetTransactionsEarningsOPLRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -282,12 +282,12 @@ export class ApiService {
     return this.httpClient.get<GetTransactionsEarningsOPLRes>(this.URLGetTransactionsEarningsOPL + this.queryParams, httpOptions)
   }
   public APIGetListUltraVoucher(
-    token :string,
-    offset:number,
-    limit:number,
-    sortby:string,
-    order:string,
-    query:string
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
   ): Observable<GetListUltraVoucherRes> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -304,7 +304,7 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsEarningsQRRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsQRRes>(this.URLGetTransactionsEarningsQR + this.queryParams, httpOptions);
   }
@@ -318,7 +318,7 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsVouchersRedeemRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsVouchersRedeemRes>(
       this.URLGetTransactionsVouchersRedeem + this.queryParams,
@@ -335,7 +335,7 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsVouchersRedeemOplRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsVouchersRedeemOplRes>(
       this.URLGetTransactionsVouchersRedeemOpl + this.queryParams,
@@ -352,7 +352,7 @@ export class ApiService {
     query: string
   ): Observable<GetTransactionsRedeemPointOplRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsRedeemPointOplRes>(
       this.URLGetTransactionsRedeemPointOpl + this.queryParams,
@@ -362,19 +362,19 @@ export class ApiService {
 
   public APIGetAnalyticsTransactions(token: string): Observable<GetAnalyticsTransactionsRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetAnalyticsTransactionsRes>(this.URLGetAnalyticsTransactions, httpOptions);
   }
 
   public APIGetAnalyticsUsers(token: string): Observable<GetAnalyticsUsersRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetAnalyticsUsersRes>(this.URLGetAnalyticsUsers, httpOptions);
   }
 
   public APIEligibleUser(req: AddEligibleUserReq, token: string): Observable<AddEligibleUserRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
       alert('you not have privilage to this action');
       return;
@@ -384,7 +384,7 @@ export class ApiService {
 
   public APIRegisterUser(req: RegisterUserReq, token: string): Observable<RegisterUserRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
       alert('you not have privilage to this action');
       return;
@@ -401,7 +401,7 @@ export class ApiService {
     query: string
   ): Observable<GetSettingsVariablesTransactionsRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetSettingsVariablesTransactionsRes>(
       this.URLGetSettingsVariablesTransactions + this.queryParams,
@@ -416,7 +416,7 @@ export class ApiService {
   ): Observable<PutSettingsVariablesTransactionsRes> {
     this.whichEnvironment();
     this.queryParams = `?id=${String(id)}`;
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('update')) {
       alert('you not have privilage to this action');
       return;
@@ -430,19 +430,19 @@ export class ApiService {
 
   public APIGetVouchersName(token: string): Observable<GetVouchersNameRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetVouchersNameRes>(this.URLGetVouchersName, httpOptions);
   }
 
   public APIGetPPOBProductTypes(token: string): Observable<GetPPOBProductTypesRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetPPOBProductTypesRes>(this.URLGetPPOBProductTypes, httpOptions);
   }
 
   public APIGetSKU(token: string): Observable<GetSKURes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
   }
 
@@ -462,18 +462,18 @@ export class ApiService {
     token: string,
     offset: any,
     limit: any,
-    bulkcode:any,
+    bulkcode: any,
   ): Observable<HistoryBulk> {
     this.whichEnvironment();
     this.queryParams = `?offset=${String(offset)}&limit=${String(limit)}&bulkcode=${String(bulkcode)}`;
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<HistoryBulk>(this.URLGetHistoryBulk + this.queryParams, httpOptions);
   }
 
 
   public APIGetHistoyBulkDetail(token: string, id: string): Observable<HistoryBulkDetail> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `id=${String(id)}`;
     return this.httpClient.get<HistoryBulkDetail>(this.URLHistoyBulkDetail + this.queryParams, httpOptions);
   }
@@ -488,7 +488,7 @@ export class ApiService {
 
     // httpOptions.headers.set('Authorization', 'Bearer ' + token);
     // httpOptions.headers.set('Content-Type', 'multipart/form-data');
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
 
     const httpOptionT = {
@@ -511,7 +511,7 @@ export class ApiService {
 
     // httpOptions.headers.set('Authorization', 'Bearer ' + token);
     // httpOptions.headers.set('Content-Type', 'multipart/form-data');
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     // httpOptions.headers =  httpOptions.headers.set('Content-Type', '');
 
     const httpOptionT = {
@@ -534,31 +534,31 @@ export class ApiService {
     this.whichEnvironment();
     this.queryParams = `?page=${String(page)}&perPage=${String(perpage)}
                         &voucherType=${String(type)}&voucherName=${String(name)}&status=${String(status)}`;
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<ReportUVResp>(this.URLReportVoucherUV + this.queryParams, httpOptions);
   }
 
   public APIGetVoucherNameUV(token: string): Observable<GetVoucherNameUV> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetVoucherNameUV>(this.URLGetVoucherNameUV , httpOptions);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherNameUV>(this.URLGetVoucherNameUV, httpOptions);
   }
 
   public APIGetVoucherTypeUV(token: string): Observable<GetVoucherTypeUV> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetVoucherTypeUV>(this.URLGetVoucherTypeUV , httpOptions);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherTypeUV>(this.URLGetVoucherTypeUV, httpOptions);
   }
 
   public APIGetVoucherCategoryUV(token: string): Observable<GetVoucherCategoryUV> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetVoucherCategoryUV>(this.URLGetVoucherCategoryUV , httpOptions);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetVoucherCategoryUV>(this.URLGetVoucherCategoryUV, httpOptions);
   }
 
   public APIAddNewPartner(req: AddNewPartnerReq, token: string): Observable<AddNewPartnerRes> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
       alert('you not have privilage to this action');
       return;
@@ -569,7 +569,7 @@ export class ApiService {
 
   public APIAddNewStore(req: AddNewStoreReq, token: string): Observable<AddNewStoreResp> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
       alert('you not have privilage to this action');
       return;
@@ -577,23 +577,21 @@ export class ApiService {
     return this.httpClient.post<AddNewStoreResp>(this.URLAddNewStore, req, httpOptions);
   }
 
-  public APIUploadPartner(token: string, file): Observable<PartnerUploadRes> {
+  public APIUploadPartner(token: string, file, id: string): Observable<PartnerUploadRes> {
     const formData = new FormData();
-    if (file.length > 0){
-      for (var i = 0; i<file.length;i++){
+    if (file.length > 0) {
+      for (var i = 0; i < file.length; i++) {
         formData.append('multiplefiles', file[i], file[i].filename);
+        formData.append('InstitutionID', id)
       }
     }
-    console.log("BULK : ", formData.get('multiplefiles'));
     this.whichEnvironment();
-
     const httpOptionT = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
     };
-
     return this.httpClient.post<PartnerUploadRes>(this.URLUploadPartner, formData, httpOptionT);
-    }
-  
+  }
+
 }

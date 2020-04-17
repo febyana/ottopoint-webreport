@@ -573,7 +573,7 @@ export interface AddNewPartnerReq{
 
 
 export interface AddNewPartnerRes {
-    data: string;
+    Data: string;
     meta: MetaRes;
 }
 
