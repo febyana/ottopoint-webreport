@@ -594,7 +594,7 @@ export interface AddNewPartnerReq{
 
 
 export interface AddNewPartnerRes {
-    data: string;
+    Data: string;
     meta: MetaRes;
 }
 
@@ -614,8 +614,29 @@ export interface AddNewStoreReq {
     latitude : any;
     longtitude : any;
 }
-
 export interface AddNewStoreResp {
     data: string;
     meta: MetaRes;
 }
+
+export interface PartnerUploadReq {
+    multiplefiles : any;
+}
+
+export interface PartnerUploadRes {
+    data: PartnerUploadResData;
+    Meta: MetaRes;
+}
+
+export interface PartnerUploadResData {
+    success : number;
+    failed : number;
+    details : PartnerUploadResDetails;
+}
+
+export interface PartnerUploadResDetails {
+    rc : string;
+    rd : string;
+    fileName : string;
+}
+
