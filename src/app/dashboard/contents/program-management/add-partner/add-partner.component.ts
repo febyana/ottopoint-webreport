@@ -224,8 +224,11 @@ export class AddPartnerComponent implements OnInit {
        var text = ""
        this.arrStore.push(data_store)
        for (var i=0;i<this.arrStore.length;i++){
+         if (this.arrStore[i].name != undefined) {
           text = text + this.arrStore[i].name + ","
-       }
+
+         }
+      }
        if (data_store != '') {
         this.partnerForm.value._store = data_store.name
         this.AddNewStoreReq = data_store
