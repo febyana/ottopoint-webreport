@@ -205,13 +205,15 @@ export class AddPartnerComponent implements OnInit {
       width: '50%',
     });
 
-    dialogRef.afterClosed().subscribe(data_store => {
-      var text = ""
-      this.arrStore.push(data_store)
-      for (var i = 0; i < this.arrStore.length; i++) {
-        text = text + this.arrStore[i].name + ","
+     dialogRef.afterClosed().subscribe(data_store => {
+       var text = ""
+       this.arrStore.push(data_store)
+       for (var i=0;i<this.arrStore.length;i++){
+         if (this.arrStore[i].name != undefined) {
+          text = text + this.arrStore[i].name + ","
+         }
       }
-      if (data_store != '') {
+       if (data_store != '') {
         this.partnerForm.value._store = data_store.name
         this.AddNewStoreReq = data_store
         this.partnerForm = this.formBuilder.group({
