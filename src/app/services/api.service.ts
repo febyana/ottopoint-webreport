@@ -47,6 +47,7 @@ import {
   AddNewStoreResp,
   GetDataPartner,
   GetDataPartnerRes,
+  GetDataPartnerResp,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -102,6 +103,7 @@ export class ApiService {
   URLOutstandingVoucher: string;
   URLAddNewPartner: string;
   URLGetDataPartner: string;
+  URLGetDataPartnerById: string;
 
 
   constructor(
@@ -148,6 +150,7 @@ export class ApiService {
     this.URLAddNewStore                      = baseURLBackendDashboard + `/program-management/addnewstore`
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
+    this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
     // ottopay
     this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -592,5 +595,14 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<AddNewStoreResp>(this.URLAddNewStore, req, httpOptions);
+  }
+
+  public APIGetPatnerByID(id:number, token: string): Observable<GetDataPartnerResp> {
+    this.whichEnvironment();
+    this.queryParams = `id=`+id;
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetDataPartnerResp>(
+      this.URLGetDataPartnerById + this.queryParams, httpOptions
+    );
   }
 }

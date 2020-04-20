@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit,Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -7,16 +7,17 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
+import {MatSelectionList} from '@angular/material';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class DataPartnerComponent implements OnInit {
   isLoadingResults = true;
   isWaitingDownload = false;
   isNoData = false;
+  DataPatner: GetDataPartner;
 
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -65,6 +67,7 @@ export class DataPartnerComponent implements OnInit {
   matSnackBarConfig: MatSnackBarConfig<any>;
 
   constructor(
+    // public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
@@ -333,5 +336,88 @@ export class DataPartnerComponent implements OnInit {
       }
       this.isLoadingResults = false;
     });
+  }
+
+  View(row:GetDataPartner){
+    console.log(row.name)
+    const dialogRef = this.dialog.open(DialogViewDataPatnerComponent, {
+      width: '50%',
+      data : this.DataPatner = row
+    });
+
+  }
+}
+
+
+@Component({
+  selector: 'app-dialog-view-datapatner',
+  templateUrl: './dialog-view/dialog-view-datapatner.html',
+  styleUrls: ['./data-partner.component.css']
+})
+
+export class DialogViewDataPatnerComponent implements OnInit {
+
+  fileSelectionList: MatSelectionList;
+  constructor(
+    public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
+    private apiService: ApiService,
+  ) {}
+
+  dataPatner : DataPatnerView ;
+  dataStore : ViewStore[];
+  dataFile : FileDownload[];
+  countFile : number;
+  countStore : number;
+  companyName : string;
+  textClock : boolean;
+  pathSelected : string;
+
+
+  getData(){
+    this.textClock = true;
+    this.apiService.APIGetPatnerByID(
+      this.data.id,
+      window.localStorage.getItem('token')
+    ).subscribe((res:GetDataPartnerResp) =>{
+      if (res.Meta.code != 200){
+        this.dialogRef.close();
+        alert(res.Meta.message);
+      }
+      
+        this.dataPatner = res.Data;
+        this.dataStore = res.Data.store;
+
+        this.dataFile = res.Data.file;
+        this.countFile = (res.Data.file).length;
+        this.countStore = (res.Data.store).length;
+        
+
+    },(err : any) =>{
+      alert(err)
+    });
+  }
+
+  
+  downloadFile(pth){
+    console.log(pth)
+    const url = 'http://127.0.0.1:8819/' + pth
+    console.log(url)
+    // window.open(url)
+    window.location.href = url;
+  }
+
+
+  
+  close(){
+    this.dialogRef.close();
+  }
+  approved(){
+    this.dialogRef.close();
+  }
+  ngOnInit(){
+    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
+    this.companyName = "PT Ottodigital Group"
+    this.getData()
   }
 }
