@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
@@ -8,15 +8,19 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
   GetDataPartnerRes,
+  ChangeStatusPartnerRes,
+  ChangeStatusPartner,
+  GetDataPartner,
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -25,6 +29,8 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
   styleUrls: ['./data-partner.component.css']
 })
 export class DataPartnerComponent implements OnInit {
+  ChangeStatusPartner: ChangeStatusPartner;
+
   [x: string]: any;
   query = '';
   fq = { // filter Query
@@ -72,7 +78,7 @@ export class DataPartnerComponent implements OnInit {
     private snackBar: MatSnackBar,
     private excelService: ExcelServicesService,
   ) {}
-  vouchersName = [];
+
  // tslint:disable-next-line:use-lifecycle-interface
  ngOnInit() {
   if (!this.isCanCreate) {
@@ -93,7 +99,7 @@ export class DataPartnerComponent implements OnInit {
       'approve_date',
       'action',
       'action1',
-      'action2',
+      'is_active',
     ];
   }
 }
@@ -138,6 +144,37 @@ export class DataPartnerComponent implements OnInit {
         })
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
+
+    openFormChangeStatusPartner(row: GetDataPartner) {
+
+    const dialogRef = this.dialog.open(DialogStatusPartnerComponent, {
+      width: '50%',
+      data: this.ChangeStatusPartner = {
+        id: row.id,
+        is_active: row.is_active,
+      },
+
+    });
+
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
+        this.isLoadingResults = true;
+        console.log('query :\n', this.query);
+        this.apiService.APIGetDataPartner(
+          window.localStorage.getItem('token'),
+          this.paginator.pageIndex,
+          this.paginator.pageSize,
+          this.sort.active,
+          this.sort.direction,
+          this.query
+        ).subscribe((res: GetDataPartnerRes) => {
+          this.dataTable.data = res.data;
+          this.isLoadingResults = false;
+        });
+      }
+    });
+  }
+  
   exportToCSV() {
     this.isWaitingDownload = true;
 
@@ -241,7 +278,8 @@ export class DataPartnerComponent implements OnInit {
       this.excelService.exportAsExcelFile(arrData, 'List_Data_Partner');
     });
   }
-  
+
+
   submitFilter() {
     this.isLoadingResults = true;
     this.query = '';
@@ -334,4 +372,82 @@ export class DataPartnerComponent implements OnInit {
       this.isLoadingResults = false;
     });
   }
+}
+
+//// ChngaeStatus
+
+@Component({
+  selector: 'app-dialog-status-partner',
+  templateUrl: './dialogs/dialog-status-partner.html',
+  styleUrls: ['./data-partner.component.css']
+})
+
+export class DialogStatusPartnerComponent implements OnInit {
+  dataForm: FormGroup;
+  get f() { return this.dataForm.controls; }
+
+  isLoadingResults = false;
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogStatusPartnerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ChangeStatusPartner,
+    private formBuilder: FormBuilder,
+    // private x: boolean,
+    private apiService: ApiService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
+    this.dataForm = this.formBuilder.group({
+      id: [this.data.id, Validators.required],
+      // status: [this.data.status, Validators.required]
+  });
+  }
+
+  no(): void {
+    event.preventDefault();
+    this.dialogRef.close();
+  }
+
+  yes() {
+    event.preventDefault();
+    this.isLoadingResults = true;
+
+    if (this.data.is_active === true) {
+      this.data.is_active = false
+    } else {
+      this.data.is_active = true
+    }
+
+    this.data = {
+        id: this.dataForm.value.id,
+        is_active: this.data.is_active,
+    }
+    console.log('query :\n', this.data);
+    this.apiService.APIChangeStatusPartner(
+        window.localStorage.getItem('token'),
+        this.data,
+    ).subscribe((res: ChangeStatusPartnerRes) => {
+        this.isLoadingResults = false;
+        if (res.data !== null) {
+            this.dialogRef.close(true);
+            return;
+        }
+        // this.dialogRef.close(false);
+        this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+        return;
+    });
+
+
+  }
+
+
+  
 }
