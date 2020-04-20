@@ -151,6 +151,9 @@ export class ApiService {
     this.URLAddNewStore = baseURLBackendDashboard + `/program-management/addnewstore`
     this.URLGetDataPartner = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
+    this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
+    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
+    this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -614,4 +617,13 @@ export class ApiService {
     return this.httpClient.post<PartnerUploadRes>(this.URLUploadPartner, formData, httpOptionT);
   }
 
+
+  public APIGetPatnerByID(id:number, token: string): Observable<GetDataPartnerResp> {
+    this.whichEnvironment();
+    this.queryParams = `id=`+id;
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetDataPartnerResp>(
+      this.URLGetDataPartnerById + this.queryParams, httpOptions
+    );
+  }
 }

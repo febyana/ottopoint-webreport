@@ -1,0 +1,187 @@
+<h2 mat-dialog-title>View Patner</h2>
+
+<mat-dialog-content>
+  
+    <!-- <form [formGroup]="partnerForm" class="partner-form"> -->
+        <mat-form-field class="partner-full-width">
+          <mat-label>Nama Perusahaan</mat-label>
+          <input matInput type="text" [(ngModel)]="dataPatner.name" disabled={{textClock}}>
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Perusahaan</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.address" disabled={{textClock}}>
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Domisili</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.residenceAddress" disabled={{textClock}}>
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>No Telp</mat-label>
+            <input matInput type="number" [(ngModel)]="dataPatner.phone" disabled={{textClock}}>
+        </mat-form-field>        
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Jenis Usaha</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.businessType" disabled={{textClock}}>
+        </mat-form-field>                
+ 
+        <mat-form-field class="partner-full-width">
+            <mat-label>Tax Number</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.taxNumber" disabled={{textClock}}>
+        </mat-form-field>          
+
+        <mat-form-field class="partner-full-width">
+        <mat-label>Type User</mat-label>
+        <input matInput type="text" [(ngModel)]="dataPatner.userType" disabled={{textClock}}>
+        </mat-form-field>
+
+        <mat-label>PIC</mat-label>
+        <br>
+        <mat-form-field class="partner-30">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.picName" disabled={{textClock}}>
+        </mat-form-field>       
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Phone</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.picPhone" disabled={{textClock}}>
+        </mat-form-field>    
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Email</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.picEmail" disabled={{textClock}}>
+        </mat-form-field> 
+
+
+<!-- store details -->
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Store
+          </mat-panel-title>
+          <mat-panel-description>
+              {{countStore}} Store
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <mat-expansion-panel *ngFor="let stores of dataStore">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{stores.name}}</mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+        
+            <mat-form-field class="partner-30">
+                <mat-label>Store name</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.name disabled={{textClock}}>
+            </mat-form-field>
+            <mat-form-field class="partner-30">
+                <mat-label>Description</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.description disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Building name</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.buildingname disabled={{textClock}}>
+            </mat-form-field>
+
+
+            <mat-form-field class="partner-30">
+                <mat-label>Unit name</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.unitname disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Street name</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.streetname disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>City</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.city disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Country</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.country disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Postal code</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.postalCode disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Latitude</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.latitude disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Longtitude</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.longtitude disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Created at</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.createdAt disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Created by</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.createdBy disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Updated at</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.updatedAt disabled={{textClock}}>
+            </mat-form-field>
+
+            <mat-form-field class="partner-30">
+                <mat-label>Updated by</mat-label>
+                <input matInput type="text" [(ngModel)]=stores.updatedBy disabled={{textClock}}>
+            </mat-form-field>
+        
+          </mat-expansion-panel>
+    
+      </mat-expansion-panel>
+</mat-accordion>
+<!-- store details -->
+        <br>
+        
+<!-- file download -->
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>File Download</mat-panel-title>
+          <mat-panel-description>
+              {{countFile}} Files
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let dtaFiles of dataFile">
+            <mat-form-field class="partner-30">
+                <mat-label>File name</mat-label>
+                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
+            </mat-form-field>
+            <a (click)="downloadFile(dtaFiles.Path)">
+                <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
+            </a>
+        </div>
+  
+
+        
+
+      </mat-expansion-panel>
+</mat-accordion>
+<!-- file download -->
+        
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary"(click)="approved()">Approved</button>
+    <button class="mat-raised-button"(click)="close()">Cencel</button>
+</mat-dialog-actions>

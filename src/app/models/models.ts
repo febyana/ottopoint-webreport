@@ -308,6 +308,7 @@ export interface GetDataPartnerRes {
 }
 
 export interface GetDataPartner {
+    id:number;
     partner_id: string;
     name: string;
     created_at: string;
@@ -640,3 +641,53 @@ export interface PartnerUploadResDetails {
     fileName : string;
 }
 
+
+
+export interface GetDataPartnerResp {
+    Data: DataPatnerView;
+    Meta: MetaRes;
+    code: number;
+}
+
+export interface DataPatnerView {
+    name : string;
+    BrandName : string;
+    Email : string;
+    userType: number;
+    address: string;
+    residenceAddress: string;
+    businessType: string;
+    taxNumber: string;
+    phone : string;
+    picName: string;
+    picEmail: string;
+    picPhone : string;
+    store : ViewStore[];
+    file: FileDownload[];
+
+}
+
+
+export interface ViewStore {
+    name : string;
+    description : string;
+    identifier : string;
+    streetname : string;
+    buildingName : string;
+    unitname : string;
+    postalCode : string;
+    city : string;
+    state : string;
+    country : string;
+    latitude : string;
+    longtitude : string;
+    createdAt : Time;
+    createdBy : string;
+    updatedAt : Time;
+    updatedBy : string;
+}
+
+export interface FileDownload {
+    Path : string;
+    fileName : string;
+} 

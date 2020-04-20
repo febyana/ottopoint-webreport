@@ -61,3 +61,16 @@ mat-form-field{
 .mat-column-exp_date {
     border-right: none;
 }
+
+.partner-full-width {
+    width: 100%;
+  }
+
+  .partner-30 {
+    width: 30%;
+    margin-right: 1%;
+  }
+
+  .panel{
+    margin-left: 3%;
+  }
