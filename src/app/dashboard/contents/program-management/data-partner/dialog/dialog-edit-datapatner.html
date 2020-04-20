@@ -1,58 +1,58 @@
-<h2 mat-dialog-title>View Patner</h2>
+<h2 mat-dialog-title>Edit Patner</h2>
 
 <mat-dialog-content>
   
     <!-- <form [formGroup]="partnerForm" class="partner-form"> -->
         <mat-form-field class="partner-full-width">
           <mat-label>Nama Perusahaan</mat-label>
-          <input matInput type="text" [(ngModel)]="dataPatner.name" disabled={{textClock}}>
+          <input matInput type="text" [(ngModel)]="dataPatner.name" disabled="{{isDisabled}}">
         </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Perusahaan</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.address" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.address" disabled="{{isDisabled}}">
         </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Domisili</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.residenceAddress" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.residenceAddress" disabled="{{isDisabled}}">
         </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>No Telp</mat-label>
-            <input matInput type="number" [(ngModel)]="dataPatner.phone" disabled={{textClock}}>
+            <input matInput type="number" [(ngModel)]="dataPatner.phone" disabled="{{isDisabled}}">
         </mat-form-field>        
 
         <mat-form-field class="partner-full-width">
             <mat-label>Jenis Usaha</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.businessType" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.businessType" disabled="{{isDisabled}}">
         </mat-form-field>                
  
         <mat-form-field class="partner-full-width">
             <mat-label>Tax Number</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.taxNumber" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.taxNumber" disabled="{{isDisabled}}">
         </mat-form-field>          
 
         <mat-form-field class="partner-full-width">
         <mat-label>Type User</mat-label>
-        <input matInput type="text" [(ngModel)]="dataPatner.userType" disabled={{textClock}}>
+        <input matInput type="text" [(ngModel)]="dataPatner.userType" disabled="{{isDisabled}}">
         </mat-form-field>
 
         <mat-label>PIC</mat-label>
         <br>
         <mat-form-field class="partner-30">
             <mat-label>Name</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.picName" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.picName" disabled="{{isDisabled}}">
         </mat-form-field>       
         
         <mat-form-field class="partner-30">
             <mat-label>PIC Phone</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.picPhone" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.picPhone" disabled="{{isDisabled}}">
         </mat-form-field>    
         
         <mat-form-field class="partner-30">
             <mat-label>PIC Email</mat-label>
-            <input matInput type="text" [(ngModel)]="dataPatner.picEmail" disabled={{textClock}}>
+            <input matInput type="text" [(ngModel)]="dataPatner.picEmail" disabled="{{isDisabled}}">
         </mat-form-field> 
 
 
@@ -77,72 +77,72 @@
         
             <mat-form-field class="partner-30">
                 <mat-label>Store name</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.name disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.name disabled="{{isDisabled}}">
             </mat-form-field>
             <mat-form-field class="partner-30">
                 <mat-label>Description</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.description disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.description disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Building name</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.buildingname disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.buildingname disabled="{{isDisabled}}">
             </mat-form-field>
 
 
             <mat-form-field class="partner-30">
                 <mat-label>Unit name</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.unitname disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.unitname disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Street name</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.streetname disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.streetname disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>City</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.city disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.city disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Country</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.country disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.country disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Postal code</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.postalCode disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.postalCode disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Latitude</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.latitude disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.latitude disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Longtitude</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.longtitude disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.longtitude disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Created at</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.createdAt disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.createdAt disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Created by</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.createdBy disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.createdBy disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Updated at</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.updatedAt disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.updatedAt disabled="{{isDisabled}}">
             </mat-form-field>
 
             <mat-form-field class="partner-30">
                 <mat-label>Updated by</mat-label>
-                <input matInput type="text" [(ngModel)]=stores.updatedBy disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=stores.updatedBy disabled="{{isDisabled}}">
             </mat-form-field>
         
           </mat-expansion-panel>
@@ -165,7 +165,7 @@
         <div *ngFor="let dtaFiles of dataFile">
             <mat-form-field class="partner-30">
                 <mat-label>File name</mat-label>
-                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
+                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled="{{isDisabled}}">
             </mat-form-field>
             <a (click)="downloadFile(dtaFiles.Path)">
                 <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>

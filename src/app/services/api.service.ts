@@ -49,6 +49,7 @@ import {
   GetDataPartnerRes,
   PartnerUploadReq,
   PartnerUploadRes,
+  GetDataPartnerResp,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -92,6 +93,8 @@ export class ApiService {
   URLGetVoucherTypeUV: string;
   URLGetVoucherCategoryUV: string;
   URLAddNewStore: string;
+  URLGetDataPartnerById: string;
+  URLUpdateDataPartner: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
@@ -152,8 +155,9 @@ export class ApiService {
     this.URLGetDataPartner = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
-    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
+    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
+    this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/edit-partner`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -617,13 +621,21 @@ export class ApiService {
     return this.httpClient.post<PartnerUploadRes>(this.URLUploadPartner, formData, httpOptionT);
   }
 
-
   public APIGetPatnerByID(id:number, token: string): Observable<GetDataPartnerResp> {
     this.whichEnvironment();
     this.queryParams = `id=`+id;
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetDataPartnerResp>(
       this.URLGetDataPartnerById + this.queryParams, httpOptions
+    );
+  }
+
+  public APIUpdateDataPartner(id:number, token: string): Observable<GetDataPartnerResp> {
+    this.whichEnvironment();
+    this.queryParams = `?id=${String(id)}`
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetDataPartnerResp>(
+      this.URLUpdateDataPartner + this.queryParams, httpOptions
     );
   }
 }
