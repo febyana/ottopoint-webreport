@@ -642,6 +642,15 @@ export interface PartnerUploadResDetails {
 }
 
 
+export interface EditDataPartner {
+    data: EditDataPartners;
+    meta: MetaRes;
+}
+
+
+export interface EditDataPartners {
+    id : any;
+}
 
 export interface GetDataPartnerResp {
     Data: DataPatnerView;

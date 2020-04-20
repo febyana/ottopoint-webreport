@@ -7,7 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -523,15 +523,16 @@ export class DialogEditDataPatnerComponent implements OnInit {
     this.apiService.APIUpdateDataPartner(
       this.data.id,
       window.localStorage.getItem('token')
-    ).subscribe((res: GetDataPartnerResp) => {
-      if (res.Meta.code !== 200) {
+    ).subscribe((res: EditDataPartner) => {
+      if (res.meta.code !== 200) {
         // this.dialogRef.close(true);
+        console.log('Response Update Data Partner :\n', res.data);
         window.alert('Gagal Ubah Data');
         this.router.navigateByUrl('/program-management/data-partner');
         return;
       }
       this.isLoadingResults = false;
-      this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
     });
   }
 
