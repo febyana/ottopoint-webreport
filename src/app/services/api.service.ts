@@ -50,6 +50,7 @@ import {
   PartnerUploadReq,
   PartnerUploadRes,
   GetDataPartnerResp,
+  EditDataPartner,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -630,11 +631,11 @@ export class ApiService {
     );
   }
 
-  public APIUpdateDataPartner(id:number, token: string): Observable<GetDataPartnerResp> {
+  public APIUpdateDataPartner(id:number, token: string): Observable<EditDataPartner> {
     this.whichEnvironment();
     this.queryParams = `?id=${String(id)}`
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetDataPartnerResp>(
+    return this.httpClient.put<EditDataPartner>(
       this.URLUpdateDataPartner + this.queryParams, httpOptions
     );
   }
