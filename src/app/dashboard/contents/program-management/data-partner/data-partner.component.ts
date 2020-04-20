@@ -346,12 +346,22 @@ export class DataPartnerComponent implements OnInit {
     });
 
   }
+
+  Edit(row:GetDataPartner){
+    console.log(row.name)
+    const dialogRef = this.dialog.open(DialogEditDataPatnerComponent, {
+      width: '50%',
+      data : this.DataPatner = row
+    });
+
+  }
 }
 
+// ========= Dialog View Data Partner ==========
 
 @Component({
   selector: 'app-dialog-view-datapatner',
-  templateUrl: './dialog-view/dialog-view-datapatner.html',
+  templateUrl: './dialog/dialog-view-datapatner.html',
   styleUrls: ['./data-partner.component.css']
 })
 
@@ -420,4 +430,109 @@ export class DialogViewDataPatnerComponent implements OnInit {
     this.companyName = "PT Ottodigital Group"
     this.getData()
   }
+}
+
+// ========= Dialog Edit Data Partner ==========
+
+@Component({
+  selector: 'app-dialog-edit-datapatner',
+  templateUrl: './dialog/dialog-edit-datapatner.html',
+  styleUrls: ['./data-partner.component.css']
+})
+
+export class DialogEditDataPatnerComponent implements OnInit {
+
+  fileSelectionList: MatSelectionList;
+  isDisabled = false;
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditDataPatnerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
+    private apiService: ApiService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+  ) {}
+
+  dataPatner : DataPatnerView ;
+  dataStore : ViewStore[];
+  dataFile : FileDownload[];
+  countFile : number;
+  countStore : number;
+  companyName : string;
+  textClock : boolean;
+  pathSelected : string;
+
+  isLoadingResults = true;
+
+  getData(){
+    this.textClock = true;
+    this.apiService.APIGetPatnerByID(
+      this.data.id,
+      window.localStorage.getItem('token')
+    ).subscribe((res:GetDataPartnerResp) =>{
+      if (res.Meta.code != 200){
+        this.dialogRef.close();
+        alert(res.Meta.message);
+      }
+      
+        this.dataPatner = res.Data;
+        this.dataStore = res.Data.store;
+
+        this.dataFile = res.Data.file;
+        this.countFile = (res.Data.file).length;
+        this.countStore = (res.Data.store).length;
+        
+
+    },(err : any) =>{
+      alert(err)
+    });
+  }
+
+  
+  downloadFile(pth){
+    console.log(pth)
+    const url = 'http://127.0.0.1:8819/' + pth
+    console.log(url)
+    // window.open(url)
+    window.location.href = url;
+  }
+
+  
+
+  ngOnInit(){
+    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
+    this.companyName = "PT Ottodigital Group"
+    this.getData()
+  }
+
+  close(){
+    this.dialogRef.close();
+  }
+
+  submit() {
+    event.preventDefault(); // mencegah form untuk refresh page
+    this.isLoadingResults = true;
+    console.log('Edit Data Partner :\n', this.data.id);
+    this.apiService.APIUpdateDataPartner(
+      this.data.id,
+      window.localStorage.getItem('token')
+    ).subscribe((res: GetDataPartnerResp) => {
+      if (res.Meta.code !== 200) {
+        // this.dialogRef.close(true);
+        window.alert('Gagal Ubah Data');
+        this.router.navigateByUrl('/program-management/data-partner');
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+    });
+  }
+
 }
