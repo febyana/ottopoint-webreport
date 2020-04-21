@@ -52,6 +52,8 @@ import {
   GetDataPartnerResp,
   EditDataPartnerReq,
   EditDataPartner,
+  ChangeStatusPartner,
+  ChangeStatusPartnerRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -90,6 +92,7 @@ export class ApiService {
   URLGetSKU: string;
   URLChangePassword: string;
   URLChangeStatus: string;
+  URLChangeStatusPartner: string;
   URLReportVoucherUV: string;
   URLGetVoucherNameUV: string;
   URLGetVoucherTypeUV: string;
@@ -156,6 +159,7 @@ export class ApiService {
     this.URLAddNewStore = baseURLBackendDashboard + `/program-management/addnewstore`
     this.URLGetDataPartner = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
+    this.URLChangeStatusPartner              = baseURLBackendDashboard + '/program-management/partnerstatus';
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
@@ -485,6 +489,12 @@ export class ApiService {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.post<ChangeStatusResponse>(this.URLChangeStatus, req, httpOptions);
+  }
+
+  public APIChangeStatusPartner(token: string, req: ChangeStatusPartner): Observable<ChangeStatusPartnerRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.post<ChangeStatusPartnerRes>(this.URLChangeStatusPartner, req, httpOptions);
   }
 
   public APIGetHistoyBulk(

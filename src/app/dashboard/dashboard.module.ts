@@ -16,6 +16,11 @@ import {
   DialogRegisterComponent,
   DialogStatusUsersComponent,
 } from './contents/users/users.component';
+
+import {
+  DialogStatusPartnerComponent,
+} from './contents/program-management/data-partner/data-partner.component';
+
 import {
   TransactionsEarningsPPOBComponent,
   DialogShowDataComponent
@@ -68,6 +73,7 @@ import { DataPartnerComponent, DialogViewDataPatnerComponent, DialogEditDataPatn
     TransactionsEarningsEarningoplComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
+    DialogStatusPartnerComponent,
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
@@ -90,6 +96,7 @@ import { DataPartnerComponent, DialogViewDataPatnerComponent, DialogEditDataPatn
     DialogShowDataComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
+    DialogStatusPartnerComponent,
     DialogViewDataPatnerComponent,
     DialogEditDataPatnerComponent,
     AddNewStoreComponent
