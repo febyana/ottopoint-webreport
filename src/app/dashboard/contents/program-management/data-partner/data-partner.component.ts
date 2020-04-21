@@ -7,7 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -364,14 +364,13 @@ export class DialogViewDataPatnerComponent implements OnInit {
     private apiService: ApiService,
   ) {}
 
-  dataPatner : DataPatnerView ;
-  dataStore : ViewStore[];
-  dataFile : FileDownload[];
-  countFile : number;
-  countStore : number;
-  companyName : string;
-  textClock : boolean;
-  pathSelected : string;
+  dataPatner    : DataPatnerView ;
+  dataStore     : ViewStore[];
+  dataFile      : FileDownload[];
+  countFile     : number;
+  countStore    : number;
+  textClock     : boolean;
+  pathSelected  : string;
 
 
   getData(){
@@ -401,10 +400,23 @@ export class DialogViewDataPatnerComponent implements OnInit {
   
   downloadFile(pth){
     console.log(pth)
-    const url = 'http://127.0.0.1:8819/' + pth
-    console.log(url)
-    // window.open(url)
-    window.location.href = url;
+    this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
+    ).subscribe((res:DownloadFileRes) => {
+      if (res.Meta.code == 200){
+         const url = this.apiService.URLDownloadFile + `filePath=` + pth
+         window.open(url)
+        alert(res.Data);
+      } else{
+        alert(res.Meta.message);
+      }
+
+      if (res.code == 203){
+        alert("Invalid Token");
+      }
+    },(err : any) =>{
+      alert(err);
+    });
+  
   }
 
 
@@ -416,8 +428,6 @@ export class DialogViewDataPatnerComponent implements OnInit {
     this.dialogRef.close();
   }
   ngOnInit(){
-    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
-    this.companyName = "PT Ottodigital Group"
     this.getData()
   }
 }
