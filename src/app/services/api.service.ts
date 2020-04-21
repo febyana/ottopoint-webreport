@@ -50,6 +50,7 @@ import {
   PartnerUploadReq,
   PartnerUploadRes,
   GetDataPartnerResp,
+  EditDataPartnerReq,
   EditDataPartner,
 } from '../models/models';
 
@@ -158,7 +159,7 @@ export class ApiService {
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
-    this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/edit-partner`
+    this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -631,12 +632,12 @@ export class ApiService {
     );
   }
 
-  public APIUpdateDataPartner(id:number, token: string): Observable<EditDataPartner> {
+  public APIUpdateDataPartner(req :EditDataPartnerReq, id:number, token: string): Observable<EditDataPartner> {
     this.whichEnvironment();
     this.queryParams = `?id=${String(id)}`
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.put<EditDataPartner>(
-      this.URLUpdateDataPartner + this.queryParams, httpOptions
+      this.URLUpdateDataPartner + this.queryParams, req, httpOptions
     );
   }
 }

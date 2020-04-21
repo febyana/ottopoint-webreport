@@ -641,7 +641,19 @@ export interface PartnerUploadResDetails {
     fileName : string;
 }
 
-
+export interface EditDataPartnerReq {
+    namaPerusahaan : any;
+    alamatPerusahaan : any;
+    alamatDomisili : any;
+    phoneNumber : any;
+    jenisUsaha : any;
+    taxNumber : any;
+    typeUser : any;
+    picNama : any;
+    picEmail : any;
+    picPhone : any;
+    status : any;
+}
 export interface EditDataPartner {
     data: EditDataPartners;
     meta: MetaRes;
@@ -659,9 +671,9 @@ export interface GetDataPartnerResp {
 }
 
 export interface DataPatnerView {
-    name : string;
-    BrandName : string;
-    Email : string;
+    name : any;
+    brandName : any;
+    email : string;
     userType: number;
     address: string;
     residenceAddress: string;
