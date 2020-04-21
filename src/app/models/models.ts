@@ -655,13 +655,12 @@ export interface EditDataPartnerReq {
     status : any;
 }
 export interface EditDataPartner {
-    data: EditDataPartners;
-    meta: MetaRes;
+    Data: EditDataPartners;
+    Meta: MetaRes;
 }
 
-
 export interface EditDataPartners {
-    id : any;
+    ID : any;
 }
 
 export interface GetDataPartnerResp {

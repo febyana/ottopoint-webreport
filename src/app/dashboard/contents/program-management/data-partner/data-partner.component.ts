@@ -581,16 +581,18 @@ export class DialogEditDataPatnerComponent implements OnInit {
       this.data.id,
       window.localStorage.getItem('token')
     ).subscribe((res: EditDataPartner) => {
-      if (res.data === undefined ) {
+      if (res.Meta.code !== 200 ) {
         // this.dialogRef.close(true);
-        console.log('Response Update Data Partner :\n', res.data);
-        window.alert('Gagal Ubah Data');
-        this.dialogRef.close();
+        console.log('Response Update Data Partner :\n', res);
+        // window.alert('Gagal Ubah Data');
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.dialogRef.close(true);
         // this.router.navigateByUrl('/program-management/data-partner');
         return;
       }
       this.isLoadingResults = false;
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+      this.dialogRef.close(false);
+      this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
     });
   }
 
