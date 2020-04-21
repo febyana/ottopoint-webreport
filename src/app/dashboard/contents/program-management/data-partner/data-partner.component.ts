@@ -7,7 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner, EditDataPartnerReq
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -444,6 +444,8 @@ export class DialogEditDataPatnerComponent implements OnInit {
 
   fileSelectionList: MatSelectionList;
   isDisabled = false;
+  req : EditDataPartnerReq;
+  userType : string;
 
   matSnackBarConfig: MatSnackBarConfig = {
     duration: 2000,
@@ -460,7 +462,19 @@ export class DialogEditDataPatnerComponent implements OnInit {
     private router: Router,
   ) {}
 
-  dataPatner : DataPatnerView ;
+  // dataPatner : DataPatnerView ;
+  residenceAddress : any;
+  address : any;
+  phone : any;
+  name : any;
+  businessType : any;
+  picEmail : any;
+  picName : any;
+  picPhone : any;
+  taxNumber : any;
+  typeUser : number;
+  status : any;
+
   dataStore : ViewStore[];
   dataFile : FileDownload[];
   countFile : number;
@@ -482,7 +496,18 @@ export class DialogEditDataPatnerComponent implements OnInit {
         alert(res.Meta.message);
       }
       
-        this.dataPatner = res.Data;
+        // this.dataPatner = res.Data;
+        this.residenceAddress = res.Data.residenceAddress
+        this.address = res.Data.address
+        this.phone = res.Data.phone
+        this.name = res.Data.name
+        this.businessType = res.Data.businessType
+        this.picEmail = res.Data.picEmail
+        this.picName = res.Data.picName
+        this.picPhone = res.Data.picPhone
+        this.taxNumber = res.Data.taxNumber
+        this.typeUser = res.Data.userType
+
         this.dataStore = res.Data.store;
 
         this.dataFile = res.Data.file;
@@ -495,7 +520,12 @@ export class DialogEditDataPatnerComponent implements OnInit {
     });
   }
 
-  
+  ngOnInit(){
+    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
+    this.companyName = "PT Ottodigital Group"
+    this.getData()
+  }
+
   downloadFile(pth){
     console.log(pth)
     const url = 'http://127.0.0.1:8819/' + pth
@@ -504,31 +534,59 @@ export class DialogEditDataPatnerComponent implements OnInit {
     window.location.href = url;
   }
 
-  
-
-  ngOnInit(){
-    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
-    this.companyName = "PT Ottodigital Group"
-    this.getData()
-  }
-
   close(){
     this.dialogRef.close();
   }
 
-  submit() {
+  approved() {
     event.preventDefault(); // mencegah form untuk refresh page
     this.isLoadingResults = true;
-    console.log('Edit Data Partner :\n', this.data.id);
+    console.log('Edit Data Partner :\n', this.residenceAddress);
+
+    // this.req.alamatDomisili    = this.residenceAddress
+    // this.req.alamatPerusahaan  = this.address
+    // this.req.phoneNumber       = this.phone
+    // this.req.namaPerusahaan    = this.name
+    // this.req.jenisUsaha        = this.businessType
+    // this.req.picEmail          = this.picEmail
+    // this.req.picNama           = this.picName
+    // this.req.picPhone          = this.picPhone
+    // this.req.status            = 'Approved'
+    // this.req.taxNumber         = this.taxNumber
+    // this.req.typeUser          = this.typeUser
+
+    if (this.typeUser === 0) {
+      this.userType = 'BlackList'
+    } else if (this.typeUser === 1) {
+      this.userType = 'WhiteList'
+    }
+
+    this.req = {
+      alamatDomisili    : this.residenceAddress,
+      alamatPerusahaan  : this.address,
+      phoneNumber       : this.phone,
+      namaPerusahaan    : this.name,
+      jenisUsaha        : this.businessType,
+      picEmail          : this.picEmail,
+      picNama           : this.picName,
+      picPhone          : this.picPhone,
+      status            : 'Approved',
+      taxNumber         : this.taxNumber,
+      typeUser          : this.userType,
+    }
+
+    console.log('Edit Data Partner :\n', this.req);
     this.apiService.APIUpdateDataPartner(
+      this.req,
       this.data.id,
       window.localStorage.getItem('token')
     ).subscribe((res: EditDataPartner) => {
-      if (res.meta.code !== 200) {
+      if (res.data === undefined ) {
         // this.dialogRef.close(true);
         console.log('Response Update Data Partner :\n', res.data);
         window.alert('Gagal Ubah Data');
-        this.router.navigateByUrl('/program-management/data-partner');
+        this.dialogRef.close();
+        // this.router.navigateByUrl('/program-management/data-partner');
         return;
       }
       this.isLoadingResults = false;
