@@ -7,7 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner, EditDataPartnerReq
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner, EditDataPartnerReq,
   ChangeStatusPartnerRes,
   ChangeStatusPartner,
 } from '../../../../models/models';
