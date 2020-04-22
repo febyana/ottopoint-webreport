@@ -442,6 +442,8 @@ export class DialogViewDataPatnerComponent implements OnInit {
 
 export class DialogEditDataPatnerComponent implements OnInit {
 
+  checkedBL = false;
+  checkedWL = false;
   fileSelectionList: MatSelectionList;
   isDisabled = false;
   req : EditDataPartnerReq;
@@ -486,7 +488,6 @@ export class DialogEditDataPatnerComponent implements OnInit {
   isLoadingResults = true;
 
   getData(){
-    this.textClock = true;
     this.apiService.APIGetPatnerByID(
       this.data.id,
       window.localStorage.getItem('token')
@@ -496,6 +497,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
         alert(res.Meta.message);
       }
       
+      console.log("typeUser awal : ", res.Data.userType)
         // this.dataPatner = res.Data;
         this.residenceAddress = res.Data.residenceAddress
         this.address = res.Data.address
@@ -513,6 +515,15 @@ export class DialogEditDataPatnerComponent implements OnInit {
         this.dataFile = res.Data.file;
         this.countFile = (res.Data.file).length;
         this.countStore = (res.Data.store).length;
+
+        console.log("typeUser : ", res.Data.userType)
+        if (res.Data.userType === 0) {
+          this.checked(true, false)
+        } else if (res.Data.userType === 1) {
+          this.checked(false, true)
+        } else {
+          this.checked(false, false)
+        }
         
 
     },(err : any) =>{
@@ -523,7 +534,14 @@ export class DialogEditDataPatnerComponent implements OnInit {
   ngOnInit(){
     console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
     this.companyName = "PT Ottodigital Group"
+
+    // console.log("typeUser 2 : ", this.typeUser)
     this.getData()
+  }
+
+  checked(x: boolean, y:boolean) {
+    this.checkedBL = x;
+    this.checkedWL = y;
   }
 
   downloadFile(pth){
@@ -543,17 +561,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
     this.isLoadingResults = true;
     console.log('Edit Data Partner :\n', this.residenceAddress);
 
-    // this.req.alamatDomisili    = this.residenceAddress
-    // this.req.alamatPerusahaan  = this.address
-    // this.req.phoneNumber       = this.phone
-    // this.req.namaPerusahaan    = this.name
-    // this.req.jenisUsaha        = this.businessType
-    // this.req.picEmail          = this.picEmail
-    // this.req.picNama           = this.picName
-    // this.req.picPhone          = this.picPhone
-    // this.req.status            = 'Approved'
-    // this.req.taxNumber         = this.taxNumber
-    // this.req.typeUser          = this.typeUser
+    console.log('typeUser :\n', this.typeUser);
 
     if (this.typeUser === 0) {
       this.userType = 'BlackList'

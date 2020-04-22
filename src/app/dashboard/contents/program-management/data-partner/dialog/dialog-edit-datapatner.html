@@ -33,11 +33,20 @@
             <input matInput type="text" [(ngModel)]="taxNumber" disabled="{{isDisabled}}">
         </mat-form-field>          
 
-        <mat-form-field class="partner-full-width">
+        <!-- <mat-form-field class="partner-full-width">
         <mat-label>Type User</mat-label>
         <input matInput type="number" [(ngModel)]="typeUser" disabled="{{isDisabled}}">
-        </mat-form-field>
+        </mat-form-field> -->
 
+        <mat-label>User Type </mat-label>
+        <section class="partner-full-width" style="margin-top: 10px;">
+            <mat-radio-group aria-label="Select an option" (ngModel)="typeUser">
+                <mat-radio-button value="0" [checked]="checkedBL" style="margin-right: 20px;">BlackList</mat-radio-button>
+                <mat-radio-button value="1" [checked]="checkedWL" style="margin-right: 20px;">WhiteList</mat-radio-button>
+            </mat-radio-group>
+          </section>
+
+        <br>
         <mat-label>PIC</mat-label>
         <br>
         <mat-form-field class="partner-30">
