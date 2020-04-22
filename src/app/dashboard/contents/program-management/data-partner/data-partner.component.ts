@@ -469,7 +469,11 @@ export class DialogViewDataPatnerComponent implements OnInit {
   }
 }
 
+
+
 // ========= Dialog Edit Data Partner ==========
+
+
 
 @Component({
   selector: 'app-dialog-edit-datapatner',
@@ -511,7 +515,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
   picName : any;
   picPhone : any;
   taxNumber : any;
-  typeUser : number;
+  // typeUser : number;
   status : any;
 
   dataStore : ViewStore[];
@@ -545,7 +549,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
         this.picName = res.Data.picName
         this.picPhone = res.Data.picPhone
         this.taxNumber = res.Data.taxNumber
-        this.typeUser = res.Data.userType
+        // this.typeUser = res.Data.userType
 
         this.dataStore = res.Data.store;
 
@@ -596,15 +600,19 @@ export class DialogEditDataPatnerComponent implements OnInit {
   approved() {
     event.preventDefault(); // mencegah form untuk refresh page
     this.isLoadingResults = true;
-    console.log('Edit Data Partner :\n', this.residenceAddress);
+    console.log('CheckButton 1 :\n', this.checkedBL);
+    console.log('CheckButton 2 :\n', this.checkedWL);
 
-    console.log('typeUser :\n', this.typeUser);
-
-    if (this.typeUser === 0) {
+    if (this.checkedBL === false) {
       this.userType = 'BlackList'
-    } else if (this.typeUser === 1) {
+      console.log('userType BL :\n', this.userType);
+    } else if (this.checkedWL === false) {
       this.userType = 'WhiteList'
+      console.log('userType WL :\n', this.userType);
     }
+
+    console.log('userType :\n', this.userType);
+
 
     this.req = {
       alamatDomisili    : this.residenceAddress,
@@ -626,6 +634,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
       this.data.id,
       window.localStorage.getItem('token')
     ).subscribe((res: EditDataPartner) => {
+      console.log('Response Update Data Partner :\n', res);
       if (res.Meta.code !== 200 ) {
         // this.dialogRef.close(true);
         console.log('Response Update Data Partner :\n', res);
@@ -635,11 +644,14 @@ export class DialogEditDataPatnerComponent implements OnInit {
         // this.router.navigateByUrl('/program-management/data-partner');
         return;
       }
+
       this.isLoadingResults = false;
       this.dialogRef.close(false);
       this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
     });
+    this.isLoadingResults = false;
   }
+  
 
 }
 //// ChngaeStatus
