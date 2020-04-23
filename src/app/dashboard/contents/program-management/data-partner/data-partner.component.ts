@@ -7,7 +7,8 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, EditDataPartner, EditDataPartnerReq,
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, 
+  EditDataPartner, EditDataPartnerReq, DownloadFileRes,
   ChangeStatusPartnerRes,
   ChangeStatusPartner,
 } from '../../../../models/models';
@@ -21,6 +22,7 @@ import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
 import {MatSelectionList} from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -401,7 +403,6 @@ export class DataPartnerComponent implements OnInit {
   templateUrl: './dialog/dialog-view-datapatner.html',
   styleUrls: ['./data-partner.component.css']
 })
-
 export class DialogViewDataPatnerComponent implements OnInit {
 
   fileSelectionList: MatSelectionList;
@@ -409,16 +410,16 @@ export class DialogViewDataPatnerComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
+    public dialog: MatDialog,
   ) {}
 
-  dataPatner : DataPatnerView ;
-  dataStore : ViewStore[];
-  dataFile : FileDownload[];
-  countFile : number;
-  countStore : number;
-  companyName : string;
-  textClock : boolean;
-  pathSelected : string;
+  dataPatner    : DataPatnerView ;
+  dataStore     : ViewStore[];
+  dataFile      : FileDownload[];
+  countFile     : number;
+  countStore    : number;
+  textClock     : boolean;
+  pathSelected  : string;
 
 
   getData(){
@@ -445,26 +446,39 @@ export class DialogViewDataPatnerComponent implements OnInit {
     });
   }
 
-  
+
   downloadFile(pth){
     console.log(pth)
-    const url = 'http://127.0.0.1:8819/' + pth
-    console.log(url)
-    // window.open(url)
-    window.location.href = url;
+    this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
+    ).subscribe((res:DownloadFileRes) => {
+      if (res.Meta.code == 200){
+         const url = this.apiService.URLDownloadFile + `filePath=` + pth
+        //  console.log("ini url : ", url)
+         window.open(url)
+        // alert(res.Data);
+      } else{
+        alert(res.Meta.message);
+      }
+
+      if (res.code == 203){
+        alert("Invalid Token");
+      }
+    },(err : any) =>{
+      alert(err);
+    });
+  
   }
 
-
-  
   close(){
     this.dialogRef.close();
   }
   approved(){
     this.dialogRef.close();
+    const dialogRef = this.dialog.open(DialogApproval1Component, {
+      width: '50%',
+    });
   }
   ngOnInit(){
-    console.log("masuk di componen DialogViewDataPatnerComponent : ", this.data.id)
-    this.companyName = "PT Ottodigital Group"
     this.getData()
   }
 }
@@ -730,4 +744,46 @@ export class DialogStatusPartnerComponent implements OnInit {
 
 
   
+}
+
+@Component({
+  selector: 'app-dialog-approval1',
+  templateUrl: './dialog-view/dialog-approval1.html',
+  styleUrls: ['./data-partner.component.css']
+})
+export class DialogApproval1Component implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<DialogApproval1Component>,
+
+    private apiService: ApiService,
+    public dialog: MatDialog,
+  ) {}
+
+  doApproved(){
+    this.dialogRef.close();
+    const dialogRef = this.dialog.open(PopUpApprovalComponent, {
+      width: '50%',
+    });
+  }
+
+  cencel(){
+    this.dialogRef.close();
+  }
+
+  ngOnInit(){
+
+  }
+}
+
+@Component({
+  selector: 'app-popup1-approval',
+  templateUrl: './dialog-view/popup1-approval.html',
+  styleUrls: ['./data-partner.component.css']
+})
+export class PopUpApprovalComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<PopUpApprovalComponent>,
+  ){}
+  ngOnInit(){
+  }
 }

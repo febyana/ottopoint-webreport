@@ -54,6 +54,7 @@ import {
   EditDataPartner,
   ChangeStatusPartner,
   ChangeStatusPartnerRes,
+  DownloadFileRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -112,6 +113,7 @@ export class ApiService {
   URLOutstandingVoucher: string;
   URLAddNewPartner: string;
   URLGetDataPartner: string;
+  URLDownloadFile: string;
   URLUploadPartner: string;
 
 
@@ -164,6 +166,7 @@ export class ApiService {
     this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
+    this.URLDownloadFile                     = baseURLBackendDashboard + `/program-management/download-file?`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -639,6 +642,15 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetDataPartnerResp>(
       this.URLGetDataPartnerById + this.queryParams, httpOptions
+    );
+  }
+
+  public APIDownloadFile(path: string, token : string): Observable<DownloadFileRes> {
+    this.whichEnvironment();
+    this.queryParams = `filePath=`+path
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<DownloadFileRes>(
+      this.URLDownloadFile + this.queryParams, httpOptions
     );
   }
 

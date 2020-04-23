@@ -723,3 +723,9 @@ export interface FileDownload {
     Path : string;
     fileName : string;
 } 
+
+export interface DownloadFileRes {
+    Meta: MetaRes;
+    Data: string;
+    code: number;
+} 
