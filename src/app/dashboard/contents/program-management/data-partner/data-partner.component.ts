@@ -20,6 +20,7 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
 import {MatSelectionList} from '@angular/material';
 
 
+
 @Component({
   selector: 'app-data-partner',
   templateUrl: './data-partner.component.html',
@@ -354,7 +355,6 @@ export class DataPartnerComponent implements OnInit {
   templateUrl: './dialog-view/dialog-view-datapatner.html',
   styleUrls: ['./data-partner.component.css']
 })
-
 export class DialogViewDataPatnerComponent implements OnInit {
 
   fileSelectionList: MatSelectionList;
@@ -362,6 +362,7 @@ export class DialogViewDataPatnerComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
+    public dialog: MatDialog,
   ) {}
 
   dataPatner    : DataPatnerView ;
@@ -397,15 +398,16 @@ export class DialogViewDataPatnerComponent implements OnInit {
     });
   }
 
-  
+
   downloadFile(pth){
     console.log(pth)
     this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
     ).subscribe((res:DownloadFileRes) => {
       if (res.Meta.code == 200){
          const url = this.apiService.URLDownloadFile + `filePath=` + pth
+        //  console.log("ini url : ", url)
          window.open(url)
-        alert(res.Data);
+        // alert(res.Data);
       } else{
         alert(res.Meta.message);
       }
@@ -419,15 +421,58 @@ export class DialogViewDataPatnerComponent implements OnInit {
   
   }
 
-
-  
   close(){
     this.dialogRef.close();
   }
   approved(){
     this.dialogRef.close();
+    const dialogRef = this.dialog.open(DialogApproval1Component, {
+      width: '50%',
+    });
   }
   ngOnInit(){
     this.getData()
+  }
+}
+
+@Component({
+  selector: 'app-dialog-approval1',
+  templateUrl: './dialog-view/dialog-approval1.html',
+  styleUrls: ['./data-partner.component.css']
+})
+export class DialogApproval1Component implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<DialogApproval1Component>,
+
+    private apiService: ApiService,
+    public dialog: MatDialog,
+  ) {}
+
+  doApproved(){
+    this.dialogRef.close();
+    const dialogRef = this.dialog.open(PopUpApprovalComponent, {
+      width: '50%',
+    });
+  }
+
+  cencel(){
+    this.dialogRef.close();
+  }
+
+  ngOnInit(){
+
+  }
+}
+
+@Component({
+  selector: 'app-popup1-approval',
+  templateUrl: './dialog-view/popup1-approval.html',
+  styleUrls: ['./data-partner.component.css']
+})
+export class PopUpApprovalComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<PopUpApprovalComponent>,
+  ){}
+  ngOnInit(){
   }
 }

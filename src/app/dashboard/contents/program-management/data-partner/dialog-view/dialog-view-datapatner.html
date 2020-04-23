@@ -34,8 +34,8 @@
         </mat-form-field>          
 
         <mat-form-field class="partner-full-width">
-        <mat-label>Type User</mat-label>
-        <input matInput type="text" [(ngModel)]="dataPatner.userType" disabled={{textClock}}>
+            <mat-label>Type User</mat-label>
+            <input matInput type="text" [(ngModel)]="dataPatner.userType" disabled={{textClock}}>
         </mat-form-field>
 
         <mat-label>PIC</mat-label>
@@ -163,7 +163,7 @@
         </mat-expansion-panel-header>
 
         <div *ngFor="let dtaFiles of dataFile">
-            <mat-form-field class="partner-30">
+            <mat-form-field class="partner-85">
                 <mat-label>File name</mat-label>
                 <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
             </mat-form-field>

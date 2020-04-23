@@ -45,7 +45,7 @@ import { RedeemPointOplComponent } from './contents/transactions/redeem-point-op
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
-import { DataPartnerComponent,DialogViewDataPatnerComponent } from './contents/program-management/data-partner/data-partner.component';
+import { DataPartnerComponent,DialogViewDataPatnerComponent,DialogApproval1Component,PopUpApprovalComponent } from './contents/program-management/data-partner/data-partner.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -82,6 +82,8 @@ import { DataPartnerComponent,DialogViewDataPatnerComponent } from './contents/p
     AddNewStoreComponent,
     DataPartnerComponent,
     DialogViewDataPatnerComponent,
+    DialogApproval1Component,
+    PopUpApprovalComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,
@@ -90,7 +92,9 @@ import { DataPartnerComponent,DialogViewDataPatnerComponent } from './contents/p
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
     DialogViewDataPatnerComponent,
-    AddNewStoreComponent
+    AddNewStoreComponent,
+    DialogApproval1Component,
+    PopUpApprovalComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

@@ -609,14 +609,6 @@ export class ApiService {
     );
   }
 
-  // public APIDownloadFile(path: string, token : string): Observable<DownloadFileRes> {
-  //   this.whichEnvironment();
-  //   this.queryParams = `filePath=`+path
-  //   httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
-  //   return this.httpClient.get<DownloadFileRes>(
-  //     this.URLDownloadFile + this.queryParams, httpOptions
-  //   );
-  // }
   public APIDownloadFile(path: string, token : string): Observable<DownloadFileRes> {
     this.whichEnvironment();
     this.queryParams = `filePath=`+path
