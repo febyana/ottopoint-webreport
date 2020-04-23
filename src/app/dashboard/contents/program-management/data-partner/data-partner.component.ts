@@ -400,7 +400,7 @@ export class DataPartnerComponent implements OnInit {
 
 @Component({
   selector: 'app-dialog-view-datapatner',
-  templateUrl: './dialog/dialog-view-datapatner.html',
+  templateUrl: './dialog-view/dialog-view-datapatner.html',
   styleUrls: ['./data-partner.component.css']
 })
 export class DialogViewDataPatnerComponent implements OnInit {
@@ -611,7 +611,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  approved() {
+  save() {
     event.preventDefault(); // mencegah form untuk refresh page
     this.isLoadingResults = true;
     console.log('CheckButton 1 :\n', this.checkedBL);
