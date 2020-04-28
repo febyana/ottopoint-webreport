@@ -1,126 +1,141 @@
-    <div class="loading-shade" *ngIf="isWaitingDownload">
-            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-    </div>
-    <!-- judul -->
-    <h1>Add New Store</h1>
-
-    <!-- <cdk-virtual-scroll-viewport class="example-viewport" itemSize="30"> -->
-    <form [formGroup]="dataForm">
-
-        <div mat-dialog-content>
-        <h4 class="background-text">Basic Information</h4>
-        <mat-label style="margin-right : 77px">Nama *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="name">
-            <mat-error>
-                Nama is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 53px">Description *</mat-label>
-        <mat-form-field appearance="fill" class="filter-field-desc">
-            <textarea matInput formControlName="desc"></textarea>
-            <mat-error>
-                 Description is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 58px">Identifier *</mat-label>
-         <mat-form-field appearance="fill" class="filter-field">
-         <input matInput formControlName="identifier">
-         <mat-error>
-            Identifier is <strong>required</strong>
-         </mat-error>
-        </mat-form-field>    
-
-        <br>
-
-        <h4 class="background-text">Localization</h4>
-
-        <mat-label style="margin-right : 33px">Street Name *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="street_name">
-            <mat-error>
-                Street Name is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 20px">Building Name *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="building_name">
-            <mat-error>
-                Building Name is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 35px">Postal Code *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="postal_code">
-            <mat-error>
-                Postal Code is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 93px">City *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="city">
-            <mat-error>
-                Cisty is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-        
-        <mat-label style="margin-right : 55px">Province *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="province">
-            <mat-error>
-                province is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 58px">Country *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="country">
-            <mat-error>
-                Country is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 58px">Latitude *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="latitude">
-        </mat-form-field>
-
-        <br>
-
-        <mat-label style="margin-right : 40px">Longtitude *</mat-label>
-            <mat-form-field appearance="fill" class="filter-field">
-            <input matInput formControlName="longtitude">
-        </mat-form-field>
+<div *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
 </div>
-<!-- </cdk-virtual-scroll-viewport> -->
-    <div mat-dialog-actions align="end">
-        <button style="text-align: center;" mat-raised-button color="primary" (click)="submitForm()">
-            Save
-        </button>
-        <button style="text-align: right;" mat-raised-button color="warn" (click)="cancelForm()">
-            Cancel
-        </button>
-    </div>      
+<!-- judul -->
+<h1>Add New Store</h1>
+
+<!-- <cdk-virtual-scroll-viewport class="example-viewport" itemSize="30"> -->
+<form [formGroup]="dataForm">
+
+    <div mat-dialog-content class="background">
+    <br>
+    <h3 class="background-text">Basic Information</h3>
+    <br>
+    <mat-label class="form-text">Nama *</mat-label>
+    <br>
+    <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="name">
+        <mat-error>
+            Nama is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Description</mat-label>
+    <br>
+    <mat-form-field appearance="fill" class="filter-field-desc">
+        <textarea matInput formControlName="desc"></textarea>
+        <!-- <mat-error>
+             Description is <strong>required</strong>
+        </mat-error> -->
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Identifier *</mat-label>
+    <br>
+     <mat-form-field appearance="fill" class="filter-field">
+     <input matInput formControlName="identifier">
+     <mat-error>
+        Identifier is <strong>required</strong>
+     </mat-error>
+    </mat-form-field>    
+
+    <br>
+
+    <h3 class="background-text">Localization</h3>
+
+    <mat-label class="form-text">Street Name *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="street_name">
+        <mat-error>
+            Street Name is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Building Name *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="building_name">
+        <mat-error>
+            Building Name is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Postal Code *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="postal_code">
+        <mat-error>
+            Postal Code is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">City *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="city">
+        <mat-error>
+            Cisty is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+    
+    <mat-label class="form-text">Province *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="province">
+        <mat-error>
+            province is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Country *</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="country">
+        <mat-error>
+            Country is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Latitude</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="latitude">
+    </mat-form-field>
+
+    <br>
+
+    <mat-label class="form-text">Longtitude</mat-label>
+    <br>
+        <mat-form-field appearance="fill" class="filter-field">
+        <input matInput formControlName="longtitude">
+    </mat-form-field>
+</div>
 
 </form>
+
+<br>
+<!-- </cdk-virtual-scroll-viewport> -->
+<div mat-dialog-actions align="end">
+    <button style="text-align: center;" mat-raised-button color="primary" (click)="submitForm()">
+        Save
+    </button>
+    <button style="text-align: right;" mat-raised-button color="warn" (click)="cancelForm()">
+        Cancel
+    </button>
+</div>      

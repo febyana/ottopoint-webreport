@@ -44,7 +44,7 @@ export class AddNewStoreComponent implements OnInit {
   ngOnInit() {
     this.dataForm = this.formBuilder.group({
       name: ['', Validators.required],
-      desc: ['', Validators.required],
+      desc: [''],
       identifier: ['', Validators.required],
       street_name:['',Validators.required],
       unitname:['',Validators.required],
