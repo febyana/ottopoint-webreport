@@ -71,6 +71,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   isWaitingDownload = false;
   isNoData = false;
 
+
   productTypes = [];
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -103,6 +104,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
         });
       });
     });
+    
   }
 
   ngAfterViewInit() {
@@ -273,13 +275,13 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
     this.isLoadingResults = true;
     this.query = '';
     if (this.fq.from_date !== null) {
-      this.query = this.query + `a.created_at.gte:${
+      this.query = this.query + `a.FULLDATETIME.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
       },`;
     }
     if (this.fq.through_date !== null) {
-      this.query = this.query + `a.created_at.lte:${
-        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
+      this.query = this.query + `a.FULLDATETIME.lte:${
+        this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 23:59:59')
       },`;
     }
     if (this.fq.phone !== '') {

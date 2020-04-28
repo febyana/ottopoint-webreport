@@ -39,9 +39,6 @@
     <mat-form-field class="filter-field">
         <input matInput placeholder="Partner" [(ngModel)]="fq.partner">
     </mat-form-field>
-    <mat-form-field class="filter-field">
-        <input matInput placeholder="Product Name" [(ngModel)]="fq.product_name">
-    </mat-form-field>
     <!-- <mat-form-field class="filter-field">
         <mat-label>Product type</mat-label>
         <mat-select >
@@ -76,7 +73,7 @@
         </div>
         <div class="table-container" [style.height.px]="tableHeight">
             <table mat-table [dataSource]="dataTable"
-                matSort matSortActive="created_at" matSortDisableClear matSortDirection="asc">
+                matSort matSortActive="created_at" matSortDisableClear matSortDirection="desc">
                 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
@@ -96,14 +93,14 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Date
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.date}}</td>
+                    <td mat-cell *matCellDef="let row"></td>
                 </ng-container>
 
                 <ng-container matColumnDef="time" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Time
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.time}}</td>
+                    <td mat-cell *matCellDef="let row"></td>
                 </ng-container>
 
                 <ng-container matColumnDef="customer_id">
@@ -170,14 +167,6 @@
                     <td mat-cell *matCellDef="let row">{{row.unused_voucher}}</td>
                 </ng-container>
 
-
-                <ng-container matColumnDef="reversal">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
-                        Redeem to Reversal Ke Point
-                    </th>
-                    <td mat-cell *matCellDef="let row">{{row.reversal}}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="expired_voucher">
                     <th mat-header-cell *matHeaderCellDef disableClear>
                         Expired Voucher
@@ -185,11 +174,11 @@
                     <td mat-cell *matCellDef="let row">{{row.expired_voucher}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="ending">
+                <ng-container matColumnDef="ending_point">
                     <th mat-header-cell *matHeaderCellDef disableClear>
-                        Ending
+                        Ending Point
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.ending}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.ending_point}}</td>
                 </ng-container> 
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

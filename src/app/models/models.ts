@@ -171,6 +171,12 @@ export interface OutstandingVoucherRes {
     code: number;
     message: string;
 }
+export interface OutstandingVoucherRes {
+    data: OutstandingVoucher[];
+    total: number;
+    code: number;
+    message: string;
+}
 export interface GetTransactionsEarningsOPLRes {
     data: TransactionEarningOPL[];
     total: number;

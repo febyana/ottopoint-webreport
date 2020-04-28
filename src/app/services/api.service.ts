@@ -33,6 +33,8 @@ import {
   GetSKURes,
   OutstandingPointRes,
   OutstandingVoucherRes,
+  ChangePasswordRequest,
+  ChangePasswordResponse,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -69,6 +71,7 @@ export class ApiService {
   URLGetVouchersName: string;
   URLGetPPOBProductTypes: string;
   URLGetSKU: string;
+  URLChangePassword: string;
   URLChangeStatus: string;
   URLHistoyBulkDetail: string;
   URLGetHistoryBulk: string;
@@ -233,7 +236,6 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<OutstandingVoucherRes>(this.URLOutstandingVoucher + this.queryParams, httpOptions)
   }
-
   public APIGetTransactionsEarningOPL(
     token :string,
     offset:number,
@@ -394,6 +396,12 @@ export class ApiService {
   }
 
   public APIGetSKU(token: string): Observable<GetSKURes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
+  }
+
+  public APIChangePassword(token: string, req: ChangePasswordRequest): Observable<ChangePasswordResponse> {
     this.whichEnvironment();
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
