@@ -403,8 +403,8 @@ export class ApiService {
 
   public APIChangePassword(token: string, req: ChangePasswordRequest): Observable<ChangePasswordResponse> {
     this.whichEnvironment();
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<GetSKURes>(this.URLGetSKU, httpOptions);
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.post<ChangePasswordResponse>(this.URLChangePassword, req, httpOptions);
   }
 
   public APIChangeStatus(token: string, req: ChangeStatusRequest): Observable<ChangeStatusResponse> {
