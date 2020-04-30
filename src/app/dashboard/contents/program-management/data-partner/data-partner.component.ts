@@ -17,7 +17,8 @@ import {
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
-import {MatSelectionList} from '@angular/material';
+import {MatSelectionList, JAN} from '@angular/material';
+import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -402,23 +403,20 @@ export class DialogViewDataPatnerComponent implements OnInit {
   downloadFile(pth){
     console.log(pth)
     this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
-    ).subscribe((res:DownloadFileRes) => {
-      if (res.Meta.code == 200){
-         const url = this.apiService.URLDownloadFile + `filePath=` + pth
-        //  console.log("ini url : ", url)
-         window.open(url)
-        // alert(res.Data);
-      } else{
+    ).subscribe((res:any) => {
+      if (res.Meta.code != 200){
         alert(res.Meta.message);
+      } else {
+      const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      window.open(url)
       }
-
       if (res.code == 203){
         alert("Invalid Token");
       }
     },(err : any) =>{
-      alert(err);
+      const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      window.open(url)
     });
-  
   }
 
   close(){
