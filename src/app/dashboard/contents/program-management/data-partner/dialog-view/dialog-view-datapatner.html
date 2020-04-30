@@ -63,9 +63,11 @@
           <mat-panel-title>
             Store
           </mat-panel-title>
-          <mat-panel-description>
-              {{countStore}} Store
-          </mat-panel-description>
+          <div *ngIf="countStore != 0">
+            <mat-panel-description>
+                {{countStore}} Store
+            </mat-panel-description>
+          </div>
         </mat-expansion-panel-header>
     
         <mat-expansion-panel *ngFor="let stores of dataStore">
@@ -157,9 +159,11 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>File Download</mat-panel-title>
-          <mat-panel-description>
-              {{countFile}} Files
-          </mat-panel-description>
+          <div *ngIf="countFile != 0">
+            <mat-panel-description>
+                {{countFile}} Files
+            </mat-panel-description>
+          </div>
         </mat-expansion-panel-header>
 
         <div *ngFor="let dtaFiles of dataFile">
@@ -185,5 +189,3 @@
     <button class="mat-raised-button mat-primary"(click)="approved()">Approved</button>
     <button class="mat-raised-button"(click)="close()">Cencel</button>
 </mat-dialog-actions>
-
-<!--  -->
