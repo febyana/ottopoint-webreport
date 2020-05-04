@@ -54,15 +54,15 @@
             </mat-error>
         </mat-form-field>          
 
-        <mat-label>User Type </mat-label>
         <section class="partner-full-width" style="margin-top: 10px;">
+            <mat-label style="margin-right:15px;">User Type</mat-label>
             <mat-radio-group aria-label="Select an option" formControlName="_userType">
                 <mat-radio-button value="BlackList">BlackList</mat-radio-button>
                 <mat-radio-button value="WhiteList">WhiteList</mat-radio-button>
               </mat-radio-group>
           </section>
 
-        <mat-form-field class="partner-30">
+        <mat-form-field class="partner-full-width">
             <mat-label>PIC Name</mat-label>
             <input matInput formControlName="_picName">
             <mat-error>
@@ -70,7 +70,7 @@
             </mat-error>
         </mat-form-field>       
         
-        <mat-form-field class="partner-30">
+        <mat-form-field class="partner-full-width">
             <mat-label>PIC Phone</mat-label>
             <input matInput formControlName="_picPhone" (keypress)="onlyNumberKey($event)" maxlength="14">
             <mat-error>
@@ -78,7 +78,7 @@
             </mat-error>
         </mat-form-field>       
 
-        <mat-form-field class="partner-30">
+        <mat-form-field class="partner-full-width">
             <mat-label>PIC Email</mat-label>
             <input matInput formControlName="_picEmail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" >
             <mat-error>
@@ -98,7 +98,7 @@
         </div>          
 
         <div class="partner-full-width" style="margin:10px">
-            <label>Import File</label> 
+            <label style="margin-right:15px;">Import File </label> 
             <input type="file" (change)="onImportFileChange($event, i)" multiple accept="application/pdf">
         </div>          
 
