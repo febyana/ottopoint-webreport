@@ -58,23 +58,28 @@
 }
 
 .form-text {
-  /* top: 10px; */
-  margin-left: 10px;
+  /* margin-top: 100px; */
+  margin-bottom: 5px;
+  background: white	;
 }
 
 .filter-field {
-  margin-left: 10px;
+  margin-bottom: 15px;
   margin-top: 10px;
-  width: 400px;
+  width: 670px;
+  /* color: white	; */
 }
 
 .filter-field-desc {
-  
-  width: 400px;
-  font-size: 30px;
+  margin-top: 10px;
+  width: 670px;
+  /* background: #DCDCDC	; */
+  /* height: 300px; */
+  /* font-size: 30px; */
 }
 
 .background-text {
   color: black;
-  background:grey;
+  background: #DCDCDC	;
+  text-align: center;
 }
