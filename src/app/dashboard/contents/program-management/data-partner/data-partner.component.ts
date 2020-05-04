@@ -635,7 +635,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
       picEmail          : this.picEmail,
       picNama           : this.picName,
       picPhone          : this.picPhone,
-      status            : 'Approved',
+      status            : '',
       taxNumber         : this.taxNumber,
       typeUser          : this.userType,
     }
