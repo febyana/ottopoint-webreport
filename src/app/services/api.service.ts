@@ -115,6 +115,7 @@ export class ApiService {
   URLGetDataPartner: string;
   URLDownloadFile: string;
   URLUploadPartner: string;
+  URLGenerateAPIKey : string;
 
 
   constructor(
@@ -167,6 +168,7 @@ export class ApiService {
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     this.URLDownloadFile                     = baseURLBackendDashboard + `/program-management/download-file?`
+    this.URLGenerateAPIKey                     = baseURLBackendDashboard + `/program-management/apikey?`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -668,6 +670,13 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.put<EditDataPartner>(
       this.URLUpdateDataPartner + this.queryParams, req, httpOptions
-    );
+    );}
+    
+  public APIGenerateAPIKey(id: number, token : string): Observable<any> {
+    this.whichEnvironment();
+    this.queryParams = `id=`+id
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    console.log(httpOptions.headers)
+    return this.httpClient.post<any>(this.URLGenerateAPIKey + this.queryParams, httpOptions);
   }
 }

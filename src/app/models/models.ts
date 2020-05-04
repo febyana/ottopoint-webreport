@@ -729,3 +729,8 @@ export interface DownloadFileRes {
     Data: string;
     code: number;
 } 
+export interface ApikeyRes {
+    Meta: MetaRes;
+    Data: string;
+    code: number;
+} 

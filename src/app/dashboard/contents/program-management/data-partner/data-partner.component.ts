@@ -7,10 +7,12 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload, 
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,
   EditDataPartner, EditDataPartnerReq, DownloadFileRes,
   ChangeStatusPartnerRes,
   ChangeStatusPartner,
+  ApikeyRes
+  // GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes, ApikeyRes
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -384,7 +386,6 @@ export class DataPartnerComponent implements OnInit {
       width: '50%',
       data : this.DataPatner = row
     });
-
   }
 
   Edit(row:GetDataPartner){
@@ -407,12 +408,14 @@ export class DataPartnerComponent implements OnInit {
 export class DialogViewDataPatnerComponent implements OnInit {
 
   fileSelectionList: MatSelectionList;
+  
   constructor(
     public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
     public dialog: MatDialog,
   ) {}
+  
 
   dataPatner    : DataPatnerView ;
   dataStore     : ViewStore[];
@@ -421,6 +424,7 @@ export class DialogViewDataPatnerComponent implements OnInit {
   countStore    : number;
   textClock     : boolean;
   pathSelected  : string;
+  
 
 
   getData(){
@@ -474,6 +478,7 @@ export class DialogViewDataPatnerComponent implements OnInit {
     this.dialogRef.close();
     const dialogRef = this.dialog.open(DialogApproval1Component, {
       width: '50%',
+      data : this.data
     });
   }
   ngOnInit(){
@@ -752,16 +757,34 @@ export class DialogStatusPartnerComponent implements OnInit {
 export class DialogApproval1Component implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogApproval1Component>,
-
+    @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
     public dialog: MatDialog,
   ) {}
-
+  
   doApproved(){
     this.dialogRef.close();
-    const dialogRef = this.dialog.open(PopUpApprovalComponent, {
-      width: '50%',
+
+    // const dialogRef = this.dialog.open(PopUpApprovalComponent, {
+    //   width: '50%',
+    // });
+    // generate apikey 
+    this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
+    ).subscribe((res:any) => {
+      if (res.Meta.code != 200){
+        alert(res.Meta.message);
+      } else {
+      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      // window.open(url)
+      }
+      if (res.code == 203){
+        alert("Invalid Token");
+      }
+    },(err : any) =>{
+      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      // window.open(url)
     });
+    
   }
 
   cencel(){
