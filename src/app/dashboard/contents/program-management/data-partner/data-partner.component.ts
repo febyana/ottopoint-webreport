@@ -560,7 +560,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  approved() {
+  save() {
     event.preventDefault(); // mencegah form untuk refresh page
     this.isLoadingResults = true;
     console.log('CheckButton 1 :\n', this.checkedBL);
@@ -586,7 +586,7 @@ export class DialogEditDataPatnerComponent implements OnInit {
       picEmail          : this.picEmail,
       picNama           : this.picName,
       picPhone          : this.picPhone,
-      status            : 'Approved',
+      status            : '',
       taxNumber         : this.taxNumber,
       typeUser          : this.userType,
     }
