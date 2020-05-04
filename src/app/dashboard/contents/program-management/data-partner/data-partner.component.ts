@@ -373,6 +373,8 @@ export class DialogViewDataPatnerComponent implements OnInit {
   countStore    : number;
   textClock     : boolean;
   pathSelected  : string;
+  blacklist = "BlackList"
+  whitelist = "WhiteList"
 
 
   getData(){
