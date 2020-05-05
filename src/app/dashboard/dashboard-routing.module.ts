@@ -27,6 +27,7 @@ import { OutstandingPointComponent } from './contents/outstanding/outstanding_po
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
 import { DataPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
+import { EarningRuleComponent } from './contents/campaign-management/earning-rule/earning-rule.component';
 
 export const routes: Routes = [
   {
@@ -108,6 +109,10 @@ export const routes: Routes = [
       {
         path: 'program-management/data-partner',
         component: DataPartnerComponent,
+      },
+      {
+        path: 'campaign-management/earning-rule',
+        component: EarningRuleComponent,
       },
     ]
   }

@@ -1,0 +1,261 @@
+<mat-card>
+    <mat-card-content>
+        <!-- judul -->
+        <h1>Add Earning Rule</h1>
+    </mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
+    <!-- <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Basic Information</mat-card-title>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>     -->
+    <mat-card-content>
+        <form [formGroup]="EarningRuleForm" class="EarningRuleForm">
+            <div class="basic-information">
+                <mat-card-header>
+                    <mat-card-title>Basic Information</mat-card-title>
+                </mat-card-header>
+                <mat-form-field class="full-width">
+                    <mat-label>Name </mat-label>
+                    <input matInput formControlName="_name">
+                    <mat-error>
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Description </mat-label>
+                    <input matInput formControlName="_desc">
+                    <mat-error>
+                        Description is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Active</mat-label>
+                    <mat-select matNativeControl required formControlName="_activity" name="activity">
+                        <mat-option value="" selected></mat-option>
+                        <mat-option *ngFor="let activity of activities" [value]="activity.value">
+                            {{activity.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Partner </mat-label>
+                    <input matInput formControlName="_partner">
+                    <mat-error>
+                        Partner is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <br>
+            <div class="type-details">
+                <mat-card-header>
+                    <mat-card-title>Type Details</mat-card-title>
+                </mat-card-header>
+                <mat-form-field class="full-width">
+                    <mat-label>Type</mat-label>
+                    <mat-select matNativeControl required formControlName="_typedetail" name="activity"
+                        (ngModelChange)="typechange($event)">
+                        <mat-option value="" selected></mat-option>
+                        <mat-option *ngFor="let typedetail of typedetials" [value]="typedetail.value">
+                            {{typedetail.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div class="general-spending-rule" #generalspendingrule style="display: none;">
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Point Value </mat-label>
+                        <input matInput formControlName="_gsr_pointValue">
+                        <mat-error>
+                            Point Value is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Excluded SKUs </mat-label>
+                        <input matInput formControlName="_gsr_excludedSku">
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Min Order Value </mat-label>
+                        <input matInput formControlName="_gsr_minOrderValue">
+                    </mat-form-field>
+
+                </div>
+
+                <div class="multiply-earning-points" #multiplyearningpoints style="display: none;">
+                    <mat-form-field class="full-width">
+                        <mat-label>SKU </mat-label>
+                        <input matInput formControlName="_mep_sku">
+                        <mat-error>
+                            SKU is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Multiplier </mat-label>
+                        <input matInput formControlName="_mep_multiplier">
+                        <mat-error>
+                            Multiplier is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="instant-reward" #instantreward style="display: none;">
+                </div>
+                <div class="custom-event-rule" #customeventrule style="display: none;">
+                    <mat-form-field class="full-width">
+                        <mat-label>Custom Event Name </mat-label>
+                        <input matInput formControlName="_cer_customEventName">
+                        <mat-error>
+                            Custom Event Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Points </mat-label>
+                        <input matInput formControlName="_cer_points">
+                        <mat-error>
+                            Points is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="full-width" style="margin-top: 10px;margin-bottom: 10px;">
+                        <label>Usage Limit Active &emsp; </label>
+                        <mat-checkbox (change)="ULACheckbox($event)"></mat-checkbox>
+                    </div>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Period </mat-label>
+                        <input matInput formControlName="_cer_period">
+                        <mat-error>
+                            Period is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Limit </mat-label>
+                        <input matInput formControlName="_cer_limit">
+                        <mat-error>
+                            Limit is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="custom-referral" #customreferral style="display: none;">
+                    <mat-form-field class="full-width">
+                        <mat-label>Event Name</mat-label>
+                        <mat-select matNativeControl required formControlName="_cr_eventName" name="_cr_eventName">
+                            <mat-option value="" selected></mat-option>
+                            <mat-option *ngFor="let eventname of cr_eventnames" [value]="eventname.value">
+                                {{eventname.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Reward</mat-label>
+                        <mat-select matNativeControl required formControlName="_cr_reward" name="_reward">
+                            <mat-option value="" selected></mat-option>
+                            <mat-option *ngFor="let reward of rewards" [value]="reward.value">
+                                {{reward.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Point </mat-label>
+                        <input matInput formControlName="_cr_point">
+                        <mat-error>
+                            Point is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="event-rule" #eventrule style="display: none;">
+                    <mat-form-field class="full-width">
+                        <mat-label>Event Name</mat-label>
+                        <mat-select matNativeControl required formControlName="_er_eventName" name="_er_eventName">
+                            <mat-option value="" selected></mat-option>
+                            <mat-option *ngFor="let eventname of er_eventnames" [value]="eventname.value">
+                                {{eventname.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Points </mat-label>
+                        <input matInput formControlName="_er_points">
+                        <mat-error>
+                            Points is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <br>
+            <div class="activity-of-rule">
+                <mat-card-header>
+                    <mat-card-title>Activity of rule</mat-card-title>
+                </mat-card-header>
+                <div class="full-width" style="margin-top: 10px;margin-bottom: 10px;">
+                    <label>All time Active &emsp; </label>
+                    <mat-checkbox (change)="ATACheckbox($event)"></mat-checkbox>
+                </div>
+                <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" formControlName="_toDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                    <mat-datepicker #dp2></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <br>
+            <div class="target">
+                <mat-card-header>
+                    <mat-card-title>Target</mat-card-title>
+                </mat-card-header>
+                <mat-form-field class="full-width">
+                    <mat-label>Levels</mat-label>
+                    <mat-select matNativeControl required formControlName="_levels" name="_levels">
+                        <mat-option value="" selected></mat-option>
+                        <mat-option *ngFor="let level of levels" [value]="level.value">
+                            {{level.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <br>
+            <div class="reward-campaign" #rewardcampaign style="display: none;">
+                <mat-card-header>
+                    <mat-card-title>Reward Campaign</mat-card-title>
+                </mat-card-header>
+                <mat-form-field class="full-width">
+                    <mat-label>Reward Campaign</mat-label>
+                    <mat-select matNativeControl required formControlName="_rewardCampaign" name="_rewardCampaign">
+                        <mat-option value="" selected></mat-option>
+                        <!-- <mat-option *ngFor="let level of levels" [value]="level.value">
+                            {{level.viewValue}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button style="margin-right: 5px;" mat-raised-button color="primary" #saveFormButton (click)="saveForm()">
+            Save
+        </button>
+        <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="cancelForm()">
+            Cancel
+        </button>
+      </mat-card-actions>
+</mat-card>
