@@ -120,6 +120,8 @@ export interface TransactionEarningOPL {
     customer_id: string;
     phone: string;
     email: string;
+    first_name : string;
+    last_name : string;
     transactions_type: string;
     value_point: string;
     product_code: string;
