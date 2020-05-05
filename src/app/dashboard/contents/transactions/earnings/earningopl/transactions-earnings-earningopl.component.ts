@@ -44,6 +44,8 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   displayedColumns: string[] = [
   'no'
   , 'customer_id'
+  , 'first_name'
+  , 'last_name'
   , 'phone'
   , 'email'
   , 'transactions_type'
@@ -65,7 +67,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35
+  tableHeight = window.screen.height * 1.13
 
   isLoadingResults = true;
   isWaitingDownload = false;
