@@ -27,6 +27,10 @@ import { OutstandingPointComponent } from './contents/outstanding/outstanding_po
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
 import { DataPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
+import { EarningRulesComponent } from './contents/campaign-management/earning-rules/earning-rules.component';
+import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
+import { RewardCampaignsComponent } from './contents/campaign-management/reward-campaigns/reward-campaigns.component';
+import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
 
 export const routes: Routes = [
   {
@@ -108,6 +112,22 @@ export const routes: Routes = [
       {
         path: 'program-management/data-partner',
         component: DataPartnerComponent,
+      },
+      {
+        path: 'campaign-management/earning-rules',
+        component: EarningRulesComponent,
+      },
+      {
+        path: 'campaign-management/levels',
+        component: LevelsComponent,
+      },
+      {
+        path: 'campaign-management/reward-campaigns',
+        component: RewardCampaignsComponent,
+      },
+      {
+        path: 'campaign-management/segments',
+        component: SegmentsComponent,
       },
     ]
   }

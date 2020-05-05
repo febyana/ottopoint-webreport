@@ -51,6 +51,10 @@ import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
 import { DataPartnerComponent,DialogViewDataPatnerComponent, DialogEditDataPatnerComponent ,DialogApproval1Component,PopUpApprovalComponent } from './contents/program-management/data-partner/data-partner.component';
+import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
+import { EarningRulesComponent } from './contents/campaign-management/earning-rules/earning-rules.component';
+import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
+import { RewardCampaignsComponent } from './contents/campaign-management/reward-campaigns/reward-campaigns.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -90,7 +94,11 @@ import { DataPartnerComponent,DialogViewDataPatnerComponent, DialogEditDataPatne
     DialogViewDataPatnerComponent,
     DialogApproval1Component,
     PopUpApprovalComponent,
-    DialogEditDataPatnerComponent
+    DialogEditDataPatnerComponent,
+    LevelsComponent,
+    EarningRulesComponent,
+    SegmentsComponent,
+    RewardCampaignsComponent
   ],
   entryComponents: [
     DialogAddEligibleComponent,
