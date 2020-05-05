@@ -88,6 +88,29 @@
 
     <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
         <mat-expansion-panel-header>
+            Campaign Management
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list style="margin: 0;">
+            <mat-accordion>
+                <a mat-list-item routerLink="">Levels</a>
+            </mat-accordion>
+            <mat-accordion>
+                <a mat-list-item routerLink="">Earning Rules</a>
+            </mat-accordion>
+            <mat-accordion>
+                <a mat-list-item routerLink="">Segments</a>
+            </mat-accordion>
+            <mat-accordion>
+                <a mat-list-item routerLink="">Reward Campaign</a>
+            </mat-accordion>
+        </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-divider></mat-divider>
+
+    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+        <mat-expansion-panel-header>
             Settings
         </mat-expansion-panel-header>
         <mat-divider></mat-divider>
