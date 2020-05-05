@@ -161,28 +161,28 @@
 <!-- store details -->
         <br>
         
+        
 <!-- file download -->
 <mat-accordion>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>File Download</mat-panel-title>
-          <mat-panel-description>
-              {{countFile}} Files
-          </mat-panel-description>
+          <div *ngIf="countFile != 0">
+            <mat-panel-description>
+                {{countFile}} Files
+            </mat-panel-description>
+          </div>
         </mat-expansion-panel-header>
 
         <div *ngFor="let dtaFiles of dataFile">
-            <mat-form-field class="partner-30">
+            <mat-form-field class="partner-85">
                 <mat-label>File name</mat-label>
-                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled="{{isDisabled}}">
+                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
             </mat-form-field>
             <a (click)="downloadFile(dtaFiles.Path)">
-                <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
+                <mat-icon class="icon" aria-hidden="false">vertical_align_bottom</mat-icon>
             </a>
         </div>
-  
-
-        
 
       </mat-expansion-panel>
 </mat-accordion>
