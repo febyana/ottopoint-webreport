@@ -424,7 +424,9 @@ export class DialogViewDataPatnerComponent implements OnInit {
   countStore    : number;
   textClock     : boolean;
   pathSelected  : string;
-  
+  blacklist = "BlackList"
+  whitelist = "WhiteList"
+
 
 
   getData(){
@@ -458,9 +460,6 @@ export class DialogViewDataPatnerComponent implements OnInit {
     ).subscribe((res:any) => {
       if (res.Meta.code != 200){
         alert(res.Meta.message);
-      } else {
-      const url = this.apiService.URLDownloadFile + `filePath=` + pth
-      window.open(url)
       }
       if (res.code == 203){
         alert("Invalid Token");
