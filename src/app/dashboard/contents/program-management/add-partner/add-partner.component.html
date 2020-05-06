@@ -13,6 +13,14 @@
                 Nama Perusahaan is <strong>required</strong>
             </mat-error>
         </mat-form-field>
+        
+        <mat-form-field class="partner-full-width">
+            <mat-label>Nama Brand</mat-label>
+            <input matInput formControlName="_namaBrand">
+              <mat-error>
+                  Nama Brand is <strong>required</strong>
+              </mat-error>
+          </mat-form-field>
 
         <mat-form-field class="partner-full-width">
             <mat-label>Alamat Perusahaan</mat-label>
@@ -86,12 +94,12 @@
             </mat-error>
         </mat-form-field>       
 
-        <mat-form-field class="partner-full-width">
+        <mat-form-field class="partner-full-width" hidden>
             <mat-label>Store (Optional)</mat-label>
             <input matInput formControlName="_store" value="" readonly>
         </mat-form-field>          
 
-        <div class="partner-full-width">
+        <div class="partner-full-width" hidden>
             <button mat-raised-button color="primary" (click)="openFormAddNewStore()">
                 Add New Store
             </button>

@@ -52,12 +52,13 @@ export class AddPartnerComponent implements OnInit {
   ngOnInit() {
     this.partnerForm = this.formBuilder.group({
       _namaPerusahaan: ['', Validators.required],
+      _namaBrand : ['', Validators.required],
       _alamatPerusahaan: ['', Validators.required],
       _alamatDomisili: ['', Validators.required],
       _userType:['',Validators.required],
       _noTelp: ['', Validators.required],
       _jenisUsaha: ['',Validators.required],
-      _taxNumber: ['',Validators.required],
+      _taxNumber: ['',''],
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
@@ -91,6 +92,7 @@ export class AddPartnerComponent implements OnInit {
 
     this.AddNewPartnerReq = {
       namaPerusahaan : this.partnerForm.value._namaPerusahaan,
+      namaBrand : this.partnerForm.value._namaBrand,
       phoneNumber : this.partnerForm.value._noTelp,
       alamatPerusahaan : this.partnerForm.value._alamatPerusahaan,
       alamatDomisili : this.partnerForm.value._alamatDomisili,
@@ -137,6 +139,7 @@ export class AddPartnerComponent implements OnInit {
 
     this.AddNewPartnerReq = {
       namaPerusahaan : this.partnerForm.value._namaPerusahaan,
+      namaBrand : this.partnerForm.value._namaBrand,
       phoneNumber : this.partnerForm.value._noTelp,
       alamatPerusahaan : this.partnerForm.value._alamatPerusahaan,
       alamatDomisili : this.partnerForm.value._alamatDomisili,
@@ -234,12 +237,13 @@ export class AddPartnerComponent implements OnInit {
         this.AddNewStoreReq = data_store
         this.partnerForm = this.formBuilder.group({
           _namaPerusahaan: [this.partnerForm.value._namaPerusahaan, Validators.required],
+          _namaBrand: [this.partnerForm.value._namaBrand, Validators.required],
           _alamatPerusahaan: [this.partnerForm.value._alamatPerusahaan, Validators.required],
           _alamatDomisili: [this.partnerForm.value._alamatDomisili, Validators.required],
           _userType:[this.partnerForm.value._userType,Validators.required],
           _noTelp: [this.partnerForm.value._noTelp, Validators.required],
           _jenisUsaha: [this.partnerForm.value._jenisUsaha,Validators.required],
-          _taxNumber: [this.partnerForm.value._taxNumber,Validators.required],
+          _taxNumber: [this.partnerForm.value._taxNumber,''],
           _picName: [this.partnerForm.value._picName, Validators.required],
           _picPhone: [this.partnerForm.value._picPhone, Validators.required],
           _picEmail: [this.partnerForm.value._picEmail, Validators.required],

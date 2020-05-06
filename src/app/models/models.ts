@@ -559,6 +559,7 @@ export interface DataVoucherUV {
 
 export interface AddNewPartnerReq{
     namaPerusahaan : string;
+    namaBrand : string;
     alamatPerusahaan : string;
     alamatDomisili : string;
     phoneNumber : string;
