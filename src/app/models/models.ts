@@ -627,6 +627,7 @@ export interface AddNewStoreReq {
     latitude : any;
     longtitude : any;
 }
+
 export interface AddNewStoreResp {
     data: string;
     meta: MetaRes;
@@ -734,3 +735,31 @@ export interface ApikeyRes {
     Data: string;
     code: number;
 } 
+
+export interface EarningRuleReq {
+    name : string;
+    desc : string;
+    active : string;
+    partner : string;
+    type : string;
+    gsr_pointvalue : string;
+    gsr_excludedsku : string;
+    gsr_minordervalue : string;
+    mep_sku : string;
+    mep_multiplier : string;
+    cer_customeventname : string;
+    cer_points: string;
+    cer_ula:boolean;
+    cer_period:string;
+    cer_limit:string;
+    er_eventname:string;
+    er_points:string;
+    cr_eventname:string;
+    cr_reward:string;
+    cr_point:string;
+    rewardcampaign: string;
+    alltimeactive:boolean;
+    fromdate : string;
+    todate:string;
+    level:string;
+}

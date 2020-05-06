@@ -22,7 +22,7 @@
                 </mat-card-header>
                 <mat-form-field class="full-width">
                     <mat-label>Name </mat-label>
-                    <input matInput formControlName="_name">
+                    <input matInput formControlName="_name" #name>
                     <mat-error>
                         Name is <strong>required</strong>
                     </mat-error>
@@ -30,7 +30,7 @@
 
                 <mat-form-field class="full-width">
                     <mat-label>Description </mat-label>
-                    <input matInput formControlName="_desc">
+                    <input matInput formControlName="_desc" #desc>
                     <mat-error>
                         Description is <strong>required</strong>
                     </mat-error>
@@ -38,7 +38,7 @@
 
                 <mat-form-field class="full-width">
                     <mat-label>Active</mat-label>
-                    <mat-select matNativeControl required formControlName="_activity" name="activity">
+                    <mat-select matNativeControl required formControlName="_activity" name="activity" #activity>
                         <mat-option value="" selected></mat-option>
                         <mat-option *ngFor="let activity of activities" [value]="activity.value">
                             {{activity.viewValue}}
@@ -48,7 +48,7 @@
 
                 <mat-form-field class="full-width">
                     <mat-label>Partner </mat-label>
-                    <input matInput formControlName="_partner">
+                    <input matInput formControlName="_partner" #partner>
                     <mat-error>
                         Partner is <strong>required</strong>
                     </mat-error>
@@ -61,7 +61,7 @@
                 </mat-card-header>
                 <mat-form-field class="full-width">
                     <mat-label>Type</mat-label>
-                    <mat-select matNativeControl required formControlName="_typedetail" name="activity"
+                    <mat-select matNativeControl required formControlName="_typedetail" name="typedetail" #typedetail
                         (ngModelChange)="typechange($event)">
                         <mat-option value="" selected></mat-option>
                         <mat-option *ngFor="let typedetail of typedetials" [value]="typedetail.value">
@@ -69,12 +69,12 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
+                <!-- start general spending rule -->
                 <div class="general-spending-rule" #generalspendingrule style="display: none;">
 
                     <mat-form-field class="full-width">
                         <mat-label>Point Value </mat-label>
-                        <input matInput formControlName="_gsr_pointValue">
+                        <input matInput formControlName="_gsr_pointValue" #gsr_pointvalue>
                         <mat-error>
                             Point Value is <strong>required</strong>
                         </mat-error>
@@ -82,20 +82,21 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Excluded SKUs </mat-label>
-                        <input matInput formControlName="_gsr_excludedSku">
+                        <input matInput formControlName="_gsr_excludedSku" #gsr_excludedsku>
                     </mat-form-field>
 
                     <mat-form-field class="full-width">
                         <mat-label>Min Order Value </mat-label>
-                        <input matInput formControlName="_gsr_minOrderValue">
+                        <input matInput formControlName="_gsr_minOrderValue" #gsr_minordervalue>
                     </mat-form-field>
-
                 </div>
+                <!-- end general spending rule -->
 
+                <!-- start multiply-earning-points -->
                 <div class="multiply-earning-points" #multiplyearningpoints style="display: none;">
                     <mat-form-field class="full-width">
                         <mat-label>SKU </mat-label>
-                        <input matInput formControlName="_mep_sku">
+                        <input matInput formControlName="_mep_sku" #mep_sku>
                         <mat-error>
                             SKU is <strong>required</strong>
                         </mat-error>
@@ -103,18 +104,22 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Multiplier </mat-label>
-                        <input matInput formControlName="_mep_multiplier">
+                        <input matInput formControlName="_mep_multiplier" #mep_multiplier>
                         <mat-error>
                             Multiplier is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
+                <!-- end multiply-earning-points -->
+                <!-- start instant-reward-->
                 <div class="instant-reward" #instantreward style="display: none;">
                 </div>
-                <div class="custom-event-rule" #customeventrule style="display: none;">
+                <!-- end instant-reward-->
+                <!-- start custom-event-rule-->
+                <div class="custom-event-rule" #customeventrule style="display: none;" >
                     <mat-form-field class="full-width">
                         <mat-label>Custom Event Name </mat-label>
-                        <input matInput formControlName="_cer_customEventName">
+                        <input matInput formControlName="_cer_customEventName" #cer_customeventname>
                         <mat-error>
                             Custom Event Name is <strong>required</strong>
                         </mat-error>
@@ -122,7 +127,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Points </mat-label>
-                        <input matInput formControlName="_cer_points">
+                        <input matInput formControlName="_cer_points" #cer_points>
                         <mat-error>
                             Points is <strong>required</strong>
                         </mat-error>
@@ -135,7 +140,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Period </mat-label>
-                        <input matInput formControlName="_cer_period">
+                        <input matInput formControlName="_cer_period" #cer_period>
                         <mat-error>
                             Period is <strong>required</strong>
                         </mat-error>
@@ -143,16 +148,18 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Limit </mat-label>
-                        <input matInput formControlName="_cer_limit">
+                        <input matInput formControlName="_cer_limit" #cer_limit>
                         <mat-error>
                             Limit is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
+                <!-- end custom-event-rule-->
+                <!-- start custom referral-->
                 <div class="custom-referral" #customreferral style="display: none;">
                     <mat-form-field class="full-width">
                         <mat-label>Event Name</mat-label>
-                        <mat-select matNativeControl required formControlName="_cr_eventName" name="_cr_eventName">
+                        <mat-select matNativeControl required formControlName="_cr_eventName" name="_cr_eventName" #cr_eventname>
                             <mat-option value="" selected></mat-option>
                             <mat-option *ngFor="let eventname of cr_eventnames" [value]="eventname.value">
                                 {{eventname.viewValue}}
@@ -162,7 +169,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Reward</mat-label>
-                        <mat-select matNativeControl required formControlName="_cr_reward" name="_reward">
+                        <mat-select matNativeControl required formControlName="_cr_reward" name="_reward" #cr_reward>
                             <mat-option value="" selected></mat-option>
                             <mat-option *ngFor="let reward of rewards" [value]="reward.value">
                                 {{reward.viewValue}}
@@ -172,16 +179,18 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Point </mat-label>
-                        <input matInput formControlName="_cr_point">
+                        <input matInput formControlName="_cr_point" #cr_point>
                         <mat-error>
                             Point is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
+                <!-- end custom referral-->
+                <!-- start event-rule-->
                 <div class="event-rule" #eventrule style="display: none;">
                     <mat-form-field class="full-width">
                         <mat-label>Event Name</mat-label>
-                        <mat-select matNativeControl required formControlName="_er_eventName" name="_er_eventName">
+                        <mat-select matNativeControl required formControlName="_er_eventName" name="_er_eventName" #er_eventname>
                             <mat-option value="" selected></mat-option>
                             <mat-option *ngFor="let eventname of er_eventnames" [value]="eventname.value">
                                 {{eventname.viewValue}}
@@ -191,12 +200,13 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Points </mat-label>
-                        <input matInput formControlName="_er_points">
+                        <input matInput formControlName="_er_points" #er_points>
                         <mat-error>
                             Points is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
+                <!-- end event-rule-->
             </div>
             <br>
             <div class="activity-of-rule">
@@ -208,12 +218,12 @@
                     <mat-checkbox (change)="ATACheckbox($event)"></mat-checkbox>
                 </div>
                 <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate">
+                    <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate" #fromdate>
                     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                     <mat-datepicker #dp></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" formControlName="_toDate">
+                    <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" formControlName="_toDate" #todate>
                     <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
                     <mat-datepicker #dp2></mat-datepicker>
                 </mat-form-field>
@@ -225,7 +235,7 @@
                 </mat-card-header>
                 <mat-form-field class="full-width">
                     <mat-label>Levels</mat-label>
-                    <mat-select matNativeControl required formControlName="_levels" name="_levels">
+                    <mat-select matNativeControl required formControlName="_levels" name="_levels" #level>
                         <mat-option value="" selected></mat-option>
                         <mat-option *ngFor="let level of levels" [value]="level.value">
                             {{level.viewValue}}
@@ -240,7 +250,7 @@
                 </mat-card-header>
                 <mat-form-field class="full-width">
                     <mat-label>Reward Campaign</mat-label>
-                    <mat-select matNativeControl required formControlName="_rewardCampaign" name="_rewardCampaign">
+                    <mat-select matNativeControl required formControlName="_rewardCampaign" name="_rewardCampaign" #rewardcampaign>
                         <mat-option value="" selected></mat-option>
                         <!-- <mat-option *ngFor="let level of levels" [value]="level.value">
                             {{level.viewValue}}
