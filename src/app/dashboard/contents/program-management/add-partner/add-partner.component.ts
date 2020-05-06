@@ -58,13 +58,8 @@ export class AddPartnerComponent implements OnInit {
       _alamatDomisili: ['', Validators.required],
       _userType: ['', Validators.required],
       _noTelp: ['', Validators.required],
-<<<<<<< HEAD
-      _jenisUsaha: ['', Validators.required],
-      _taxNumber: ['', Validators.required],
-=======
       _jenisUsaha: ['',Validators.required],
       _taxNumber: ['',''],
->>>>>>> OP-318-Program-Management
       _picName: ['', Validators.required],
       _picPhone: ['', Validators.required],
       _picEmail: ['', Validators.required],
@@ -88,53 +83,7 @@ export class AddPartnerComponent implements OnInit {
     // })
   }
 
-<<<<<<< HEAD
   cancelForm() {
-=======
-  saveForm() {
-    event.preventDefault();
-    if (this.partnerForm.invalid) {
-      return;
-    }
-    this.isLoadingResults = true;
-
-    this.AddNewPartnerReq = {
-      namaPerusahaan : this.partnerForm.value._namaPerusahaan,
-      namaBrand : this.partnerForm.value._namaBrand,
-      phoneNumber : this.partnerForm.value._noTelp,
-      alamatPerusahaan : this.partnerForm.value._alamatPerusahaan,
-      alamatDomisili : this.partnerForm.value._alamatDomisili,
-      jenisUsaha : this.partnerForm.value._jenisUsaha,
-      taxNumber : this.partnerForm.value._taxNumber,
-      typeUser : this.partnerForm.value._userType,
-      picNama : this.partnerForm.value._picName,
-      picEmail : this.partnerForm.value._picEmail,
-      picPhone : this.partnerForm.value._picPhone,
-      status : "draft"
-    };
-
-    console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
-    this.apiService.APIAddNewPartner(
-      this.AddNewPartnerReq,
-      window.localStorage.getItem('token')
-    ).subscribe((res: AddNewPartnerRes) => {
-      if (res.data !== null) {
-        // this.UploadFile()
-        this.saveStore(res.data["ID"])
-        this.snackBar.open('Success Save Data', 'close', this.matSnackBarConfig);        
-        this.router.navigate(['/dashboard/program-management/data-partner']);
-        return;
-      }
-      this.isLoadingResults = false;
-      this.snackBar.open('Failed Save data', 'close', this.matSnackBarConfig);
-      this.router.navigate(['/dashboard/program-management/data-partner']);
-      return;
-    });
-    
-  }
-
-  cancelForm(){
->>>>>>> OP-318-Program-Management
     this.snackBar.open('Cancel create data', 'close', this.matSnackBarConfig);
     this.router.navigate(['/dashboard/program-management/data-partner']);
   }
@@ -146,8 +95,8 @@ export class AddPartnerComponent implements OnInit {
     this.isLoadingResults = true;
 
     this.AddNewPartnerReq = {
-<<<<<<< HEAD
       namaPerusahaan: this.partnerForm.value._namaPerusahaan,
+      namaBrand : this.partnerForm.value._namaBrand,
       phoneNumber: this.partnerForm.value._noTelp,
       alamatPerusahaan: this.partnerForm.value._alamatPerusahaan,
       alamatDomisili: this.partnerForm.value._alamatDomisili,
@@ -158,20 +107,6 @@ export class AddPartnerComponent implements OnInit {
       picEmail: this.partnerForm.value._picEmail,
       picPhone: this.partnerForm.value._picPhone,
       status: status
-=======
-      namaPerusahaan : this.partnerForm.value._namaPerusahaan,
-      namaBrand : this.partnerForm.value._namaBrand,
-      phoneNumber : this.partnerForm.value._noTelp,
-      alamatPerusahaan : this.partnerForm.value._alamatPerusahaan,
-      alamatDomisili : this.partnerForm.value._alamatDomisili,
-      jenisUsaha : this.partnerForm.value._jenisUsaha,
-      taxNumber : this.partnerForm.value._taxNumber,
-      typeUser : this.partnerForm.value._userType,
-      picNama : this.partnerForm.value._picName,
-      picEmail : this.partnerForm.value._picEmail,
-      picPhone : this.partnerForm.value._picPhone,
-      status : "waiting for approval"
->>>>>>> OP-318-Program-Management
     };
 
     console.log('AddNewPartnerReq : \n', this.AddNewPartnerReq);
@@ -290,13 +225,8 @@ export class AddPartnerComponent implements OnInit {
           _alamatDomisili: [this.partnerForm.value._alamatDomisili, Validators.required],
           _userType: [this.partnerForm.value._userType, Validators.required],
           _noTelp: [this.partnerForm.value._noTelp, Validators.required],
-<<<<<<< HEAD
-          _jenisUsaha: [this.partnerForm.value._jenisUsaha, Validators.required],
-          _taxNumber: [this.partnerForm.value._taxNumber, Validators.required],
-=======
           _jenisUsaha: [this.partnerForm.value._jenisUsaha,Validators.required],
           _taxNumber: [this.partnerForm.value._taxNumber,''],
->>>>>>> OP-318-Program-Management
           _picName: [this.partnerForm.value._picName, Validators.required],
           _picPhone: [this.partnerForm.value._picPhone, Validators.required],
           _picEmail: [this.partnerForm.value._picEmail, Validators.required],
