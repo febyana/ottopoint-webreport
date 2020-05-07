@@ -641,6 +641,7 @@ export interface DataPatnerView {
     picName: string;
     picEmail: string;
     picPhone : string;
+    status:string;
     store : ViewStore[];
     file: FileDownload[];
 
@@ -681,3 +682,18 @@ export interface ApikeyRes {
     Data: string;
     code: number;
 } 
+
+export interface UpdateStatusReq {
+    typeUser : any;
+    status : any;
+    
+    
+}
+export interface UpdateStatusRes {
+    Data: ResDtaUpdateStatus;
+    Meta: MetaRes;
+}
+
+export interface ResDtaUpdateStatus {
+    ID : any;
+}
