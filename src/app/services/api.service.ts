@@ -55,6 +55,8 @@ import {
   ChangeStatusPartner,
   ChangeStatusPartnerRes,
   DownloadFileRes,
+  UpdateStatusReq,
+  UpdateStatusRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -169,6 +171,7 @@ export class ApiService {
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     this.URLDownloadFile                     = baseURLBackendDashboard + `/program-management/download-file?`
     this.URLGenerateAPIKey                     = baseURLBackendDashboard + `/program-management/apikey?`
+    this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -679,4 +682,13 @@ export class ApiService {
     console.log(httpOptions.headers)
     return this.httpClient.post<any>(this.URLGenerateAPIKey + this.queryParams, httpOptions);
   }
+
+  public APIUpdateStatusDataPartner(req :UpdateStatusReq, id:number, token: string): Observable<UpdateStatusRes> {
+    this.whichEnvironment();
+    this.queryParams = `?id=${String(id)}`
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.put<UpdateStatusRes>(
+      this.URLUpdateDataPartner + this.queryParams, req, httpOptions
+    );}
+
 }

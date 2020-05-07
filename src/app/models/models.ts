@@ -698,6 +698,7 @@ export interface DataPatnerView {
     picName: string;
     picEmail: string;
     picPhone : string;
+    status:string;
     store : ViewStore[];
     file: FileDownload[];
 
@@ -739,6 +740,7 @@ export interface ApikeyRes {
     code: number;
 } 
 
+
 export interface EarningRuleReq {
     name : string;
     desc : string;
@@ -766,3 +768,19 @@ export interface EarningRuleReq {
     todate:string;
     level:string;
 }
+
+export interface UpdateStatusReq {
+    typeUser : any;
+    status : any;
+    
+    
+}
+export interface UpdateStatusRes {
+    Data: ResDtaUpdateStatus;
+    Meta: MetaRes;
+}
+
+export interface ResDtaUpdateStatus {
+    ID : any;
+}
+

@@ -67,7 +67,7 @@
 
 
 <!-- store details -->
-<mat-accordion>
+<!-- <mat-accordion>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -165,7 +165,7 @@
           </mat-expansion-panel>
     
       </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
 <!-- store details -->
         <br>
         
@@ -205,7 +205,24 @@
         
 </mat-dialog-content>
 
-<mat-dialog-actions>
-    <button class="mat-raised-button mat-primary"(click)="approved()">Approved</button>
-    <button class="mat-raised-button"(click)="close()">Cancel</button>
-</mat-dialog-actions>
+
+<div *ngIf="dataPatner.status == statusApproved">
+    <mat-dialog-actions>
+        <button class="mat-raised-button"(click)="close()">Close</button>
+    </mat-dialog-actions>
+</div>
+
+<div *ngIf="dataPatner.status == statusWaitingApproval">
+    <mat-dialog-actions>
+        <button class="mat-raised-button mat-primary"(click)="approved()">Approved</button>
+        <button class="mat-raised-button"(click)="close()">Cancel</button>
+    </mat-dialog-actions>
+</div>
+
+<div *ngIf="dataPatner.status == statusDraft">
+    <mat-dialog-actions>
+        <button class="mat-raised-button mat-primary"(click)="submit()">Submit</button>
+        <button class="mat-raised-button"(click)="close()">Cancel</button>
+    </mat-dialog-actions>
+</div>
+

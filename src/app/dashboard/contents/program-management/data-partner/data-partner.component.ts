@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { merge, of as observableOf } from 'rxjs';
+import { merge, of as observableOf, from } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +11,8 @@ import {
   EditDataPartner, EditDataPartnerReq, DownloadFileRes,
   ChangeStatusPartnerRes,
   ChangeStatusPartner,
-  ApikeyRes
+  ApikeyRes,
+  UpdateStatusReq,UpdateStatusRes,
   // GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes, ApikeyRes
 } from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
@@ -25,6 +26,7 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
 import {MatSelectionList, JAN} from '@angular/material';
 import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 
 
@@ -70,6 +72,7 @@ export class DataPartnerComponent implements OnInit {
   isWaitingDownload = false;
   isNoData = false;
   DataPatner: GetDataPartner;
+  
 
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -384,9 +387,28 @@ export class DataPartnerComponent implements OnInit {
     console.log(row.name)
     const dialogRef = this.dialog.open(DialogViewDataPatnerComponent, {
       width: '50%',
-      data : this.DataPatner = row
+      data : this.DataPatner = row,
+    });
+
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
+        this.isLoadingResults = true;
+        console.log('query :\n', this.query);
+        this.apiService.APIGetDataPartner(
+          window.localStorage.getItem('token'),
+          this.paginator.pageIndex,
+          this.paginator.pageSize,
+          this.sort.active,
+          this.sort.direction,
+          this.query
+        ).subscribe((res: GetDataPartnerRes) => {
+          this.dataTable.data = res.data;
+          this.isLoadingResults = false;
+        });
+      }
     });
   }
+
 
   Edit(row:GetDataPartner){
     console.log(row.name)
@@ -396,6 +418,7 @@ export class DataPartnerComponent implements OnInit {
     });
 
   }
+
 }
 
 // ========= Dialog View Data Partner ==========
@@ -408,15 +431,27 @@ export class DataPartnerComponent implements OnInit {
 export class DialogViewDataPatnerComponent implements OnInit {
 
   fileSelectionList: MatSelectionList;
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
+
   
   constructor(
     public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private router: Router,
   ) {}
-  
 
+  // PartnerComponent:DataPartnerComponent
+  isLoadingResults = true;
+  reqUpdateStatus : UpdateStatusReq;
   dataPatner    : DataPatnerView ;
   dataStore     : ViewStore[];
   dataFile      : FileDownload[];
@@ -424,8 +459,12 @@ export class DialogViewDataPatnerComponent implements OnInit {
   countStore    : number;
   textClock     : boolean;
   pathSelected  : string;
-  blacklist = "BlackList"
-  whitelist = "WhiteList"
+  blacklist       = "BlackList"
+  whitelist       = "WhiteList"
+  statusApproved  = "Approved"
+  statusWaitingApproval   = "Waiting for approval"
+  statusDraft     = "draft"
+
 
 
 
@@ -473,6 +512,7 @@ export class DialogViewDataPatnerComponent implements OnInit {
   close(){
     this.dialogRef.close();
   }
+
   approved(){
     this.dialogRef.close();
     const dialogRef = this.dialog.open(DialogApproval1Component, {
@@ -480,6 +520,38 @@ export class DialogViewDataPatnerComponent implements OnInit {
       data : this.data
     });
   }
+
+  submit(){
+    this.isLoadingResults = true;
+    this.reqUpdateStatus = {
+      typeUser          : (this.dataPatner.userType.toString()),
+      status            : this.statusApproved,
+
+    }
+
+    this.apiService.APIUpdateStatusDataPartner(
+      this.reqUpdateStatus,
+      this.data.id,
+      window.localStorage.getItem('token')
+    ).subscribe((res: UpdateStatusRes) => {
+      console.log('Response Update Status Data Partner :\n', res);
+      if (res.Meta.code !== 200 ) {
+        console.log('Response Update Status Data Partner :\n', res);
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.dialogRef.close(true);
+        return;
+      }
+
+      this.isLoadingResults = false;
+      this.dialogRef.close(true);
+      this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
+      return;
+    });
+    this.isLoadingResults = false;
+  }
+
+  
+
   ngOnInit(){
     this.getData()
   }
