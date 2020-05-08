@@ -102,8 +102,7 @@
             </div>
         </div>
         <div class="table-container" [style.height.px]="tableHeight">
-            <table mat-table [dataSource]="dataTable"
-                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+            <table mat-table [dataSource]="dataTable" matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
                 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
@@ -253,18 +252,25 @@
                     <td mat-cell *matCellDef="let row">{{row.status}}</td>
                 </ng-container>
 
-                <!-- <ng-container matColumnDef="delivery_status">
+                <!-- <ng-container matColumnDef="activeTo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Cost In Point
+                        Expired
+                    </th>
+                    <td mat-cell *matCellDef="let row"></td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="activeTo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Expired
                     </th>
                     <td mat-cell *matCellDef="let row">
-                        <span *ngIf="row.status != undefined">
-                            {{row.status.replace('00 (', '').replace('01 (', '').replace('09 (', '').replace(')', '')}}
+                        <span *ngIf="row.used == 1">
+                            {{row.activeTo | date:'mediumDate'}}
                         </span>
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="used_unsused">
+                <!-- <ng-container matColumnDef="used_unsused">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Cost In Point
                     </th>
@@ -316,6 +322,6 @@
         </div>
     </div>
     <!-- paginator -->
-    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[20, 30, 100, 1000]"></mat-paginator>
 </mat-card>
     

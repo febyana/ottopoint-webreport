@@ -270,6 +270,7 @@ export interface TransactionVoucherRedeemOpl {
     cust_active_point_am: number;
     status: string;
     dlv_stts: string;
+    activeTo: string;
     used: string;
     rrn: string;
 }

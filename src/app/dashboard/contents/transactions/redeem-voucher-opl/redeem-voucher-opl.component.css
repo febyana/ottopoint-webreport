@@ -1,4 +1,6 @@
-
+mat-card {
+    margin: 1%;
+}
 .filter-field {
     margin-right: 2%;
     width: 23%;
