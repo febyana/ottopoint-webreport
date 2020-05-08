@@ -429,7 +429,9 @@ export class DataPartnerComponent implements OnInit {
   styleUrls: ['./data-partner.component.css']
 })
 export class DialogViewDataPatnerComponent implements OnInit {
-
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  dataTable = new MatTableDataSource();
   fileSelectionList: MatSelectionList;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -515,38 +517,91 @@ export class DialogViewDataPatnerComponent implements OnInit {
 
   approved(){
     this.dialogRef.close();
-    const dialogRef = this.dialog.open(DialogApproval1Component, {
-      width: '50%',
-      data : this.data
+    this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
+    ).subscribe((res:any) => {
+      if (res.Meta.code != 200){
+        alert(res.Meta.message);
+      } else {
+        this.isLoadingResults = false;
+        this.dialogRef.close(true);
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
+        return;
+      }
+      if (res.code == 203){
+        alert("Invalid Token");
+      }
+    },(err : any) =>{
+      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      // window.open(url)
     });
+    // const dialogRef = this.dialog.open(DialogApproval1Component, {
+    //   width: '50%',
+    //   data : this.data
+    // });
+    // dialogRef.afterClosed().subscribe(valid => {
+    //   if (valid === true) {
+    //     this.isLoadingResults = true;
+    //     // console.log('query :\n', this.query);
+    //     this.apiService.APIGetDataPartner(
+    //       window.localStorage.getItem('token'),
+    //       this.paginator.pageIndex,
+    //       this.paginator.pageSize,
+    //       this.sort.active,
+    //       this.sort.direction,
+    //       ''
+    //     ).subscribe((res: GetDataPartnerRes) => {
+    //       this.dataTable.data = res.data;
+    //       this.isLoadingResults = false;
+    //     });
+    //   }
+    // });
   }
 
   submit(){
+    this.dialogRef.close();
     this.isLoadingResults = true;
-    this.reqUpdateStatus = {
-      typeUser          : (this.dataPatner.userType.toString()),
-      status            : this.statusApproved,
-
-    }
-
-    this.apiService.APIUpdateStatusDataPartner(
-      this.reqUpdateStatus,
-      this.data.id,
-      window.localStorage.getItem('token')
-    ).subscribe((res: UpdateStatusRes) => {
-      console.log('Response Update Status Data Partner :\n', res);
-      if (res.Meta.code !== 200 ) {
-        console.log('Response Update Status Data Partner :\n', res);
-        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
-        this.dialogRef.close(true);
-        return;
-      }
-
-      this.isLoadingResults = false;
+    this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
+    ).subscribe((res:any) => {
+      if (res.Meta.code != 200){
+        alert(res.Meta.message);
+      } else {
+              this.isLoadingResults = false;
       this.dialogRef.close(true);
       this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
       return;
+      }
+      if (res.code == 203){
+        alert("Invalid Token");
+      }
+    },(err : any) =>{
+      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      // window.open(url)
     });
+
+    // this.reqUpdateStatus = {
+    //   typeUser          : (this.dataPatner.userType.toString()),
+    //   status            : this.statusApproved,
+
+    // }
+
+    // this.apiService.APIUpdateStatusDataPartner(
+    //   this.reqUpdateStatus,
+    //   this.data.id,
+    //   window.localStorage.getItem('token')
+    // ).subscribe((res: UpdateStatusRes) => {
+    //   console.log('Response Update Status Data Partner :\n', res);
+    //   if (res.Meta.code !== 200 ) {
+    //     console.log('Response Update Status Data Partner :\n', res);
+    //     this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+    //     this.dialogRef.close(true);
+    //     return;
+    //   }
+
+    //   this.isLoadingResults = false;
+    //   this.dialogRef.close(true);
+    //   this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
+    //   return;
+    // });
     this.isLoadingResults = false;
   }
 
@@ -821,7 +876,7 @@ export class DialogStatusPartnerComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-dialog-approval1',
+  selector: 'app-dialog-approval1', 
   templateUrl: './dialog-view/dialog-approval1.html',
   styleUrls: ['./data-partner.component.css']
 })
