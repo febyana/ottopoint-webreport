@@ -166,7 +166,7 @@ export class ApiService {
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
     this.URLChangeStatusPartner              = baseURLBackendDashboard + '/program-management/partnerstatus';
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
-    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`
+    this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     this.URLDownloadFile                     = baseURLBackendDashboard + `/program-management/download-file?`
