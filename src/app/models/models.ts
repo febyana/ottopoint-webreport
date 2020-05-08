@@ -308,7 +308,7 @@ export interface GetDataPartnerRes {
 }
 
 export interface GetDataPartner {
-    id:number;
+    id: number;
     partner_id: string;
     name: string;
     created_at: string;
@@ -321,6 +321,7 @@ export interface GetDataPartner {
     user_type: string;
     status:string;
     approve_date: string;
+    is_active: boolean;
 }
 
 export interface DeliveryStatus {
@@ -466,8 +467,19 @@ export interface ChangeStatusRequest {
     status: boolean;
 }
 
+export interface ChangeStatusPartner {
+    id: number;
+    is_active: boolean;
+}
+
+
 export interface BulkAdjustmentResponse {
     data: BulkAdjustmentData;
+    meta: MetaRes;
+}
+
+export interface ChangeStatusPartnerRes {
+    data: ChangeStatusPartner;
     meta: MetaRes;
 }
 

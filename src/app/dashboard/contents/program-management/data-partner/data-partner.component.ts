@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit,Inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf, from } from 'rxjs';
@@ -7,7 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes, ApikeyRes,UpdateStatusReq,UpdateStatusRes,
+  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes, ApikeyRes,UpdateStatusReq,UpdateStatusRes, ChangeStatusPartner,
 } from '../../../../models/models'; 
 import { ExportToCsv } from 'export-to-csv';
 import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,6 +21,8 @@ import {MatSelectionList, JAN} from '@angular/material';
 import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 // import {DataPartnerComponent} from '../data-partner/data-partner.component
 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DialogStatusUsersComponent } from '../../users/users.component';
 
 
 @Component({
@@ -29,6 +31,8 @@ import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./data-partner.component.css']
 })
 export class DataPartnerComponent implements OnInit {
+  ChangeStatusPartner: ChangeStatusPartner;
+
   [x: string]: any;
   query = '';
   fq = { // filter Query
@@ -79,7 +83,7 @@ export class DataPartnerComponent implements OnInit {
     private snackBar: MatSnackBar,
     private excelService: ExcelServicesService,
   ) {}
-  vouchersName = [];
+
  // tslint:disable-next-line:use-lifecycle-interface
  ngOnInit() {
   if (!this.isCanCreate) {
@@ -100,7 +104,7 @@ export class DataPartnerComponent implements OnInit {
       'approve_date',
       'action',
       'action1',
-      'action2',
+      'is_active',
     ];
   }
 }
@@ -145,6 +149,37 @@ export class DataPartnerComponent implements OnInit {
         })
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
+
+    openFormChangeStatusPartner(row: GetDataPartner) {
+
+    const dialogRef = this.dialog.open(DialogStatusUsersComponent, {
+      width: '50%',
+      data: this.ChangeStatusPartner = {
+        id: row.id,
+        is_active: row.is_active,
+      },
+
+    });
+
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
+        this.isLoadingResults = true;
+        console.log('query :\n', this.query);
+        this.apiService.APIGetDataPartner(
+          window.localStorage.getItem('token'),
+          this.paginator.pageIndex,
+          this.paginator.pageSize,
+          this.sort.active,
+          this.sort.direction,
+          this.query
+        ).subscribe((res: GetDataPartnerRes) => {
+          this.dataTable.data = res.data;
+          this.isLoadingResults = false;
+        });
+      }
+    });
+  }
+  
   exportToCSV() {
     this.isWaitingDownload = true;
 
@@ -248,7 +283,8 @@ export class DataPartnerComponent implements OnInit {
       this.excelService.exportAsExcelFile(arrData, 'List_Data_Partner');
     });
   }
-  
+
+
   submitFilter() {
     this.isLoadingResults = true;
     this.query = '';

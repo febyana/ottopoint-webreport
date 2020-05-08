@@ -16,6 +16,11 @@ import {
   DialogRegisterComponent,
   DialogStatusUsersComponent,
 } from './contents/users/users.component';
+
+// import {
+//   DialogStatusPartnerComponent,
+// } from './contents/program-management/data-partner/data-partner.component';
+
 import {
   TransactionsEarningsPPOBComponent,
   DialogShowDataComponent
@@ -68,6 +73,7 @@ import { DataPartnerComponent,DialogViewDataPatnerComponent,DialogApproval1Compo
     TransactionsEarningsEarningoplComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
+    // DialogStatusPartnerComponent,
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
@@ -95,6 +101,7 @@ import { DataPartnerComponent,DialogViewDataPatnerComponent,DialogApproval1Compo
     AddNewStoreComponent,
     DialogApproval1Component,
     PopUpApprovalComponent,
+    // DialogStatusPartnerComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],

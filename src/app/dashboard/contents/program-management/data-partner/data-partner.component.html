@@ -17,7 +17,7 @@
         <mat-datepicker #dp2></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="filter-field">
-        <input matInput placeholder="Partner" [(ngModel)]="fq.name">
+        <input matInput placeholder="Partner Name" [(ngModel)]="fq.name">
     </mat-form-field>
         <mat-form-field class="filter-field">
             <mat-label>Status</mat-label>
@@ -25,10 +25,10 @@
                 <mat-option [value]="">
                     None
                 </mat-option>
-                <mat-option value="waiting for approval">
+                <mat-option value="Waiting for approval">
                     Waiting For Approval
                 </mat-option>
-                <mat-option value="approved">
+                <mat-option value="Approved">
                     Approved
                 </mat-option>
                 <mat-option value="draft">
@@ -166,7 +166,7 @@
                         Approval Date
                     </th>
                     <!-- <td *ngIf="row.approve_date === 0001-01-01T00:00:00Z" mat-cell *matCellDef="let row">{{row.approve_date}}</td> -->
-                    <td mat-cell *matCellDef="let row">{{row.approve_date | date:'mediumDate'}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.approve_date.substr(0,10)}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -184,17 +184,17 @@
                         Action
                     </th>
                     <td mat-cell *matCellDef="let row" style="text-align: center;">
-                        <button  mat-button (click)="View(row.id)" class="style class">
-                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng"></mat-icon>Edit</button>
+                        <button  mat-button (click)="View(row.id)" class="style class">Edit</button>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="action2">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" mat-sort-header disableClear>
+
+                <ng-container matColumnDef="is_active">
+                    <th mat-header-cell *matHeaderCellDef disableClear>
                         Action
                     </th>
-                    <td mat-cell *matCellDef="let row" style="text-align: center;">
-                        <button  mat-button (click)="View(row.id)" class="style class">
-                            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng"></mat-icon>Deactive</button>
+                    <td mat-cell *matCellDef="let row">
+                        <button *ngIf="row.is_active === false && row.id" mat-stroked-button color="primary" (click)="openFormChangeStatusPartner(row)" style="width: 100px;">Active</button>
+                        <button *ngIf="row.is_active === true && row.id" mat-stroked-button color="warn" (click)="openFormChangeStatusPartner(row)" style="width: 100px;">Deactive</button>
                     </td>
                 </ng-container>
                 <!-- <ng-container matColumnDef="deliveryStatus">
