@@ -66,7 +66,8 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit 
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  //tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
