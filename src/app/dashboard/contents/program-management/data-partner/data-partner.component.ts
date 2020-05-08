@@ -7,17 +7,17 @@ import { ApiService } from '../../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {
-  GetDataPartnerRes,GetDataPartner,GetDataPartnerResp,DataPatnerView,ViewStore,FileDownload,DownloadFileRes, ApikeyRes,UpdateStatusReq,UpdateStatusRes, ChangeStatusPartner,
-} from '../../../../models/models'; 
+  GetDataPartnerRes, GetDataPartner, GetDataPartnerResp, DataPatnerView, ViewStore, FileDownload, DownloadFileRes, ApikeyRes, UpdateStatusReq, UpdateStatusRes, ChangeStatusPartner,
+} from '../../../../models/models';
 import { ExportToCsv } from 'export-to-csv';
-import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
-import {MatSelectionList, JAN} from '@angular/material';
+import { MatSelectionList, JAN } from '@angular/material';
 import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 // import {DataPartnerComponent} from '../data-partner/data-partner.component
 
@@ -47,7 +47,7 @@ export class DataPartnerComponent implements OnInit {
     'no',
     'partner_id',
     'name',
-    'created_at', 
+    'created_at',
     'address',
     'business_type',
     'tax_number',
@@ -67,11 +67,11 @@ export class DataPartnerComponent implements OnInit {
   isWaitingDownload = false;
   isNoData = false;
   DataPatner: GetDataPartner;
-  
 
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   matSnackBarConfig: MatSnackBarConfig<any>;
 
   constructor(
@@ -82,32 +82,32 @@ export class DataPartnerComponent implements OnInit {
     public datePipe: DatePipe,
     private snackBar: MatSnackBar,
     private excelService: ExcelServicesService,
-  ) {}
+  ) { }
 
- // tslint:disable-next-line:use-lifecycle-interface
- ngOnInit() {
-  if (!this.isCanCreate) {
-    this.displayedColumns = [
-      // 'id',
-      'no',
-      'partner_id',
-      'name',
-      'created_at', 
-      'address',
-      'business_type',
-      'tax_number',
-      'pic_name',
-      'pic_email',
-      'phone',
-      'user_type',
-      'status',
-      'approve_date',
-      'action',
-      'action1',
-      'is_active',
-    ];
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngOnInit() {
+    if (!this.isCanCreate) {
+      this.displayedColumns = [
+        // 'id',
+        'no',
+        'partner_id',
+        'name',
+        'created_at',
+        'address',
+        'business_type',
+        'tax_number',
+        'pic_name',
+        'pic_email',
+        'phone',
+        'user_type',
+        'status',
+        'approve_date',
+        'action',
+        'action1',
+        'is_active',
+      ];
+    }
   }
-}
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -130,12 +130,12 @@ export class DataPartnerComponent implements OnInit {
         map(res => {
           this.dataTableLength = res.total;
           this.isLoadingResults = false;
-          if ( res.message === 'Invalid Token' ) {
+          if (res.message === 'Invalid Token') {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( res.total === 0 ) {
+          if (res.total === 0) {
             this.isNoData = true;
             return;
           }
@@ -150,7 +150,7 @@ export class DataPartnerComponent implements OnInit {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-    openFormChangeStatusPartner(row: GetDataPartner) {
+  openFormChangeStatusPartner(row: GetDataPartner) {
 
     const dialogRef = this.dialog.open(DialogStatusUsersComponent, {
       width: '50%',
@@ -179,21 +179,21 @@ export class DataPartnerComponent implements OnInit {
       }
     });
   }
-  
+
   exportToCSV() {
     this.isWaitingDownload = true;
 
     const options = {
       filename: 'Data_Partner' + Date().toLocaleString(),
-      fieldSeparator : ',',
-      quoteStrings : '"',
-      decimalSeparator:'.',
-      showLabels:true,
-      showTitle:true,
-      title:'List Data Partner \nDownload At : '+ Date().toLocaleString(),
-      useTextFile:false,
-      useBom:true,
-      useKeysAsHeaders:true,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'List Data Partner \nDownload At : ' + Date().toLocaleString(),
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
     };
     const csvExporter = new ExportToCsv(options);
     this.apiService.APIGetDataPartner(
@@ -203,9 +203,9 @@ export class DataPartnerComponent implements OnInit {
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res:GetDataPartnerRes)=>{
+    ).subscribe((res: GetDataPartnerRes) => {
       this.isWaitingDownload = false;
-      if (res.message  === 'Invalid Token') {
+      if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!')
         this.router.navigateByUrl('/login');
         return;
@@ -216,18 +216,18 @@ export class DataPartnerComponent implements OnInit {
       }
 
       const arrData = [];
-      let no = 1; 
+      let no = 1;
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          partner_id : e.partner_id,
-          name : e.name,
-          created_at : e.created_at.substr(0,10),
-          address :e.address,
-          business_type : e.business_type,
-          tax_number : e.tax_number,
-          pic_name : e.pic_name,
-          pic_email : e.pic_email,
+          partner_id: e.partner_id,
+          name: e.name,
+          created_at: e.created_at.substr(0, 10),
+          address: e.address,
+          business_type: e.business_type,
+          tax_number: e.tax_number,
+          pic_name: e.pic_name,
+          pic_email: e.pic_email,
           phone: e.phone,
           user_type: e.user_type,
           status: e.status,
@@ -263,22 +263,22 @@ export class DataPartnerComponent implements OnInit {
       const arrData = [];
       let no = 1;
       res.data.forEach((e) => {
-          const objData = {
+        const objData = {
           No: no++,
-          partner_id : e.partner_id,
-          name : e.name,
-          created_at : e.created_at.substr(0,10),
-          address :e.address,
-          business_type : e.business_type,
-          tax_number : e.tax_number,
-          pic_name : e.pic_name,
-          pic_email : e.pic_email,
+          partner_id: e.partner_id,
+          name: e.name,
+          created_at: e.created_at.substr(0, 10),
+          address: e.address,
+          business_type: e.business_type,
+          tax_number: e.tax_number,
+          pic_name: e.pic_name,
+          pic_email: e.pic_email,
           phone: e.phone,
           user_type: e.user_type,
           status: e.status,
-          approve_date: e.approve_date.substr(0,10),
-          };
-          arrData.push(objData);
+          approve_date: e.approve_date.substr(0, 10),
+        };
+        arrData.push(objData);
       });
       this.excelService.exportAsExcelFile(arrData, 'List_Data_Partner');
     });
@@ -291,13 +291,13 @@ export class DataPartnerComponent implements OnInit {
     if (this.fq.from_date !== null) {
       this.query = this.query + `a.created_at.gte:${
         this.datePipe.transform(this.fq.from_date, 'yyyy-MM-dd 00:00:00')
-      },`;
+        },`;
     }
     if (this.fq.through_date !== null) {
       this.query = this.query + `a.created_at.lte:${
         this.datePipe.transform(this.fq.through_date, 'yyyy-MM-dd 24:00:00')
-      },`;
-      
+        },`;
+
       // this.query = this.query + `created_at.lte:${
       //   this.datePipe.transform(
       //     this.fq.through_date.setDate(
@@ -329,7 +329,7 @@ export class DataPartnerComponent implements OnInit {
       this.sort.direction,
       this.query
     ).subscribe((res: GetDataPartnerRes) => {
-      if ( res.message === 'Invalid Token' ) {
+      if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
@@ -337,19 +337,19 @@ export class DataPartnerComponent implements OnInit {
       this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
-      console.log('data total table : ',this.dataTableLength)
+      console.log('data total table : ', this.dataTableLength)
       if (res.total === 0) {
         this.isNoData = true;
       }
       this.isLoadingResults = false;
     });
   }
-  
+
   clearFilter() {
     this.isLoadingResults = true;
     this.query = '';
     this.fq.from_date = null;
-    this.fq.through_date =  null;
+    this.fq.through_date = null;
     this.fq.status = undefined;
     this.fq.name = '';
     console.log('query :\n', this.query);
@@ -363,7 +363,7 @@ export class DataPartnerComponent implements OnInit {
       this.sort.direction,
       this.query
     ).subscribe((res: GetDataPartnerRes) => {
-      if ( res.message === 'Invalid Token' ) {
+      if (res.message === 'Invalid Token') {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
@@ -378,11 +378,11 @@ export class DataPartnerComponent implements OnInit {
     });
   }
 
-  View(row:GetDataPartner){
+  View(row: GetDataPartner) {
     console.log(row.name)
     const dialogRef = this.dialog.open(DialogViewDataPatnerComponent, {
       width: '50%',
-      data : this.DataPatner = row,
+      data: this.DataPatner = row,
     });
 
     dialogRef.afterClosed().subscribe(valid => {
@@ -415,8 +415,8 @@ export class DataPartnerComponent implements OnInit {
   styleUrls: ['./data-partner.component.css']
 })
 export class DialogViewDataPatnerComponent implements OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   dataTable = new MatTableDataSource();
   fileSelectionList: MatSelectionList;
 
@@ -427,7 +427,7 @@ export class DialogViewDataPatnerComponent implements OnInit {
     panelClass: ['snack-bar-ekstra-css']
   };
 
-  
+
   constructor(
     public dialogRef: MatDialogRef<DialogViewDataPatnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
@@ -435,171 +435,125 @@ export class DialogViewDataPatnerComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-  ) {}
+  ) { }
 
   // PartnerComponent:DataPartnerComponent
   isLoadingResults = true;
-  reqUpdateStatus : UpdateStatusReq;
-  dataPatner    : DataPatnerView ;
-  dataStore     : ViewStore[];
-  dataFile      : FileDownload[];
-  countFile     : number;
-  countStore    : number;
-  textClock     : boolean;
-  pathSelected  : string;
-  blacklist       = "BlackList"
-  whitelist       = "WhiteList"
-  statusApproved  = "Approved"
-  statusWaitingApproval   = "Waiting for approval"
-  statusDraft     = "draft"
+  reqUpdateStatus: UpdateStatusReq;
+  dataPatner: DataPatnerView;
+  dataStore: ViewStore[];
+  dataFile: FileDownload[];
+  countFile: number;
+  countStore: number;
+  textClock: boolean;
+  pathSelected: string;
+  blacklist = "BlackList"
+  whitelist = "WhiteList"
+  statusApproved = "Approved"
+  statusWaitingApproval = "Waiting for approval"
+  statusDraft = "draft"
 
 
 
 
-  getData(){
+  getData() {
     this.textClock = true;
     this.apiService.APIGetPatnerByID(
       this.data.id,
       window.localStorage.getItem('token')
-    ).subscribe((res:GetDataPartnerResp) =>{
-      if (res.Meta.code != 200){
+    ).subscribe((res: GetDataPartnerResp) => {
+      if (res.Meta.code != 200) {
         this.dialogRef.close();
         alert(res.Meta.message);
       }
-      
-        this.dataPatner = res.Data;
-        this.dataStore = res.Data.store;
 
-        this.dataFile = res.Data.file;
-        this.countFile = (res.Data.file).length;
-        this.countStore = (res.Data.store).length;
-        
+      this.dataPatner = res.Data;
+      this.dataStore = res.Data.store;
 
-    },(err : any) =>{
+      this.dataFile = res.Data.file;
+      this.countFile = (res.Data.file).length;
+      this.countStore = (res.Data.store).length;
+
+
+    }, (err: any) => {
       alert(err)
     });
   }
 
 
-  downloadFile(pth){
+  downloadFile(pth) {
     console.log(pth)
     this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
-    ).subscribe((res:any) => {
-      if (res.Meta.code != 200){
+    ).subscribe((res: any) => {
+      if (res.Meta.code != 200) {
         alert(res.Meta.message);
       }
-      if (res.code == 203){
+      if (res.code == 203) {
         alert("Invalid Token");
       }
-    },(err : any) =>{
+    }, (err: any) => {
       const url = this.apiService.URLDownloadFile + `filePath=` + pth
       window.open(url)
     });
   }
 
-  close(){
+  close() {
     this.dialogRef.close();
   }
 
-  approved(){
-    this.dialogRef.close();
-    this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
-    ).subscribe((res:any) => {
-      if (res.Meta.code != 200){
-        alert(res.Meta.message);
-      } else {
-        this.isLoadingResults = false;
+  approved() {
+    this.isLoadingResults = true;
+
+    this.apiService.APIGenerateAPIKey(
+      this.data.id, window.localStorage.getItem('token')
+    ).subscribe((res: any) => {
+      console.log('Response Approved Data Partner :\n', res);
+      if (res.Meta.code !== 200 ) {
+        // console.log('Response Update Approved Data Partner :\n', res);
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
         this.dialogRef.close(true);
-        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
         return;
       }
-      if (res.code == 203){
-        alert("Invalid Token");
-      }
-    },(err : any) =>{
-      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
-      // window.open(url)
-    });
-    // const dialogRef = this.dialog.open(DialogApproval1Component, {
-    //   width: '50%',
-    //   data : this.data
-    // });
-    // dialogRef.afterClosed().subscribe(valid => {
-    //   if (valid === true) {
-    //     this.isLoadingResults = true;
-    //     // console.log('query :\n', this.query);
-    //     this.apiService.APIGetDataPartner(
-    //       window.localStorage.getItem('token'),
-    //       this.paginator.pageIndex,
-    //       this.paginator.pageSize,
-    //       this.sort.active,
-    //       this.sort.direction,
-    //       ''
-    //     ).subscribe((res: GetDataPartnerRes) => {
-    //       this.dataTable.data = res.data;
-    //       this.isLoadingResults = false;
-    //     });
-    //   }
-    // });
-  }
 
-  submit(){
-    this.dialogRef.close();
-    this.isLoadingResults = true;
-    this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
-    ).subscribe((res:any) => {
-      if (res.Meta.code != 200){
-        alert(res.Meta.message);
-      } else {
-              this.isLoadingResults = false;
+      this.isLoadingResults = false;
       this.dialogRef.close(true);
       this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
       return;
-      }
-      if (res.code == 203){
-        alert("Invalid Token");
-      }
-    },(err : any) =>{
-      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
-      // window.open(url)
     });
-
-    // this.reqUpdateStatus = {
-    //   typeUser          : (this.dataPatner.userType.toString()),
-    //   status            : this.statusApproved,
-
-    // }
-
-    // this.apiService.APIUpdateStatusDataPartner(
-    //   this.reqUpdateStatus,
-    //   this.data.id,
-    //   window.localStorage.getItem('token')
-    // ).subscribe((res: UpdateStatusRes) => {
-    //   console.log('Response Update Status Data Partner :\n', res);
-    //   if (res.Meta.code !== 200 ) {
-    //     console.log('Response Update Status Data Partner :\n', res);
-    //     this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
-    //     this.dialogRef.close(true);
-    //     return;
-    //   }
-
-    //   this.isLoadingResults = false;
-    //   this.dialogRef.close(true);
-    //   this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
-    //   return;
-    // });
     this.isLoadingResults = false;
   }
 
-  
+  submit() {
+    this.isLoadingResults = true;
 
-  ngOnInit(){
+    this.apiService.APIGenerateAPIKey(
+      this.data.id, window.localStorage.getItem('token')
+    ).subscribe((res: any) => {
+      console.log('Response Approved Data Partner :\n', res);
+      if (res.Meta.code !== 200 ) {
+        // console.log('Response Update Approved Data Partner :\n', res);
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.dialogRef.close(true);
+        return;
+      }
+
+      this.isLoadingResults = false;
+      this.dialogRef.close(true);
+      this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);      
+      return;
+    });
+    this.isLoadingResults = false;
+  }
+
+
+
+  ngOnInit() {
     this.getData()
   }
 }
 
 @Component({
-  selector: 'app-dialog-approval1', 
+  selector: 'app-dialog-approval1',
   templateUrl: './dialog-view/dialog-approval1.html',
   styleUrls: ['./data-partner.component.css']
 })
@@ -609,9 +563,9 @@ export class DialogApproval1Component implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: GetDataPartner,
     private apiService: ApiService,
     public dialog: MatDialog,
-  ) {}
-  
-  doApproved(){
+  ) { }
+
+  doApproved() {
     this.dialogRef.close();
 
     // const dialogRef = this.dialog.open(PopUpApprovalComponent, {
@@ -619,28 +573,28 @@ export class DialogApproval1Component implements OnInit {
     // });
     // generate apikey 
     this.apiService.APIGenerateAPIKey(this.data.id, window.localStorage.getItem('token')
-    ).subscribe((res:any) => {
-      if (res.Meta.code != 200){
+    ).subscribe((res: any) => {
+      if (res.Meta.code != 200) {
         alert(res.Meta.message);
       } else {
-      // const url = this.apiService.URLDownloadFile + `filePath=` + pth
-      // window.open(url)
+        // const url = this.apiService.URLDownloadFile + `filePath=` + pth
+        // window.open(url)
       }
-      if (res.code == 203){
+      if (res.code == 203) {
         alert("Invalid Token");
       }
-    },(err : any) =>{
+    }, (err: any) => {
       // const url = this.apiService.URLDownloadFile + `filePath=` + pth
       // window.open(url)
     });
-    
+
   }
 
-  cencel(){
+  cencel() {
     this.dialogRef.close();
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 }
@@ -653,7 +607,7 @@ export class DialogApproval1Component implements OnInit {
 export class PopUpApprovalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PopUpApprovalComponent>,
-  ){}
-  ngOnInit(){
+  ) { }
+  ngOnInit() {
   }
 }
