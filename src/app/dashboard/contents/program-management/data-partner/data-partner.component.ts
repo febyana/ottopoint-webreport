@@ -20,7 +20,6 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
 import { MatSelectionList, JAN } from '@angular/material';
 import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DialogStatusUsersComponent } from '../../users/users.component';
 
 
 @Component({
@@ -150,7 +149,7 @@ export class DataPartnerComponent implements OnInit {
 
   openFormChangeStatusPartner(row: GetDataPartner) {
 
-    const dialogRef = this.dialog.open(DialogStatusUsersComponent, {
+    const dialogRef = this.dialog.open(DialogStatusPartnerComponent, {
       width: '50%',
       data: this.ChangeStatusPartner = {
         id: row.id,
@@ -794,7 +793,6 @@ export class DialogStatusPartnerComponent implements OnInit {
     } else {
       this.data.is_active = true
     }
-
     this.data = {
         id: this.dataForm.value.id,
         is_active: this.data.is_active,

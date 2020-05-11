@@ -50,7 +50,7 @@ import { RedeemPointOplComponent } from './contents/transactions/redeem-point-op
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
 import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
-import { DataPartnerComponent,DialogViewDataPatnerComponent, DialogEditDataPatnerComponent ,DialogApproval1Component,PopUpApprovalComponent } from './contents/program-management/data-partner/data-partner.component';
+import { DataPartnerComponent,DialogViewDataPatnerComponent, DialogEditDataPatnerComponent ,DialogApproval1Component,PopUpApprovalComponent, DialogStatusPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
 import { EarningRuleComponent } from './contents/campaign-management/earning-rule/earning-rule.component';
 import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
 import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
@@ -77,7 +77,7 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     TransactionsEarningsEarningoplComponent,
     DialogChangePasswordComponent,
     DialogStatusUsersComponent,
-    // DialogStatusPartnerComponent,
+    DialogStatusPartnerComponent,
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
@@ -111,7 +111,7 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     AddNewStoreComponent,
     DialogApproval1Component,
     PopUpApprovalComponent,
-    // DialogStatusPartnerComponent,
+    DialogStatusPartnerComponent,
   ],
   providers: [DatePipe],
   imports: [ CommonModule, DashboardRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule ],
