@@ -745,81 +745,81 @@ export class DialogEditDataPatnerComponent implements OnInit {
 }
 //// ChngaeStatus
 
-// @Component({
-//   selector: 'app-dialog-status-partner',
-//   templateUrl: './dialogs/dialog-status-partner.html',
-//   styleUrls: ['./data-partner.component.css']
-// })
+@Component({
+  selector: 'app-dialog-status-partner',
+  templateUrl: './dialogs/dialog-status-partner.html',
+  styleUrls: ['./data-partner.component.css']
+})
 
-// export class DialogStatusPartnerComponent implements OnInit {
-//   dataForm: FormGroup;
-//   get f() { return this.dataForm.controls; }
+export class DialogStatusPartnerComponent implements OnInit {
+  dataForm: FormGroup;
+  get f() { return this.dataForm.controls; }
 
-//   isLoadingResults = false;
+  isLoadingResults = false;
 
-//   matSnackBarConfig: MatSnackBarConfig = {
-//     duration: 2000,
-//     verticalPosition: 'top',
-//     horizontalPosition: 'center',
-//     panelClass: ['snack-bar-ekstra-css']
-//   };
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 2000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
 
-//   constructor(
-//     public dialogRef: MatDialogRef<DialogStatusPartnerComponent>,
-//     @Inject(MAT_DIALOG_DATA) public data: ChangeStatusPartner,
-//     private formBuilder: FormBuilder,
-//     // private x: boolean,
-//     private apiService: ApiService,
-//     private snackBar: MatSnackBar
-//   ) {}
+  constructor(
+    public dialogRef: MatDialogRef<DialogStatusPartnerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ChangeStatusPartner,
+    private formBuilder: FormBuilder,
+    // private x: boolean,
+    private apiService: ApiService,
+    private snackBar: MatSnackBar
+  ) {}
 
-//   ngOnInit() {
-//     this.dataForm = this.formBuilder.group({
-//       id: [this.data.id, Validators.required],
-//       // status: [this.data.status, Validators.required]
-//   });
-//   }
+  ngOnInit() {
+    this.dataForm = this.formBuilder.group({
+      id: [this.data.id, Validators.required],
+      // status: [this.data.status, Validators.required]
+  });
+  }
 
-//   no(): void {
-//     event.preventDefault();
-//     this.dialogRef.close();
-//   }
+  no(): void {
+    event.preventDefault();
+    this.dialogRef.close();
+  }
 
-//   yes() {
-//     event.preventDefault();
-//     this.isLoadingResults = true;
+  yes() {
+    event.preventDefault();
+    this.isLoadingResults = true;
 
-//     if (this.data.is_active === true) {
-//       this.data.is_active = false
-//     } else {
-//       this.data.is_active = true
-//     }
+    if (this.data.is_active === true) {
+      this.data.is_active = false
+    } else {
+      this.data.is_active = true
+    }
 
-//     this.data = {
-//         id: this.dataForm.value.id,
-//         is_active: this.data.is_active,
-//     }
-//     console.log('query :\n', this.data);
-//     this.apiService.APIChangeStatusPartner(
-//         window.localStorage.getItem('token'),
-//         this.data,
-//     ).subscribe((res: ChangeStatusPartnerRes) => {
-//         this.isLoadingResults = false;
-//         if (res.data !== null) {
-//             this.dialogRef.close(true);
-//             return;
-//         }
-//         // this.dialogRef.close(false);
-//         this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-//         return;
-//     });
+    this.data = {
+        id: this.dataForm.value.id,
+        is_active: this.data.is_active,
+    }
+    console.log('query :\n', this.data);
+    this.apiService.APIChangeStatusPartner(
+        window.localStorage.getItem('token'),
+        this.data,
+    ).subscribe((res: ChangeStatusPartnerRes) => {
+        this.isLoadingResults = false;
+        if (res.data !== null) {
+            this.dialogRef.close(true);
+            return;
+        }
+        // this.dialogRef.close(false);
+        this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+        return;
+    });
 
 
-//   }
+  }
 
 
   
-// }
+}
 
 @Component({
   selector: 'app-dialog-approval1',
