@@ -22,7 +22,7 @@
                 </mat-card-header>
                 <mat-form-field class="full-width">
                     <mat-label>Name </mat-label>
-                    <input matInput formControlName="_name" #name>
+                    <input matInput formControlName="_name" #name required>
                     <mat-error>
                         Name is <strong>required</strong>
                     </mat-error>
@@ -30,7 +30,7 @@
 
                 <mat-form-field class="full-width">
                     <mat-label>Description </mat-label>
-                    <input matInput formControlName="_desc" #desc>
+                    <input matInput formControlName="_desc" #desc required>
                     <mat-error>
                         Description is <strong>required</strong>
                     </mat-error>
@@ -44,14 +44,19 @@
                             {{activity.viewValue}}
                         </mat-option>
                     </mat-select>
+                    <mat-error>
+                        Active is <strong>required</strong>
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                    <mat-label>Partner </mat-label>
-                    <input matInput formControlName="_partner" #partner>
-                    <mat-error>
-                        Partner is <strong>required</strong>
-                    </mat-error>
+                    <mat-label>Partner</mat-label>
+                    <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
+                        <mat-option value="" selected></mat-option>
+                        <mat-option *ngFor="let partner of partners" [value]="partner.value">
+                            {{partner.viewValue}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
             <br>
@@ -63,7 +68,7 @@
                     <mat-label>Type</mat-label>
                     <mat-select matNativeControl required formControlName="_typedetail" name="typedetail" #typedetail
                         (ngModelChange)="typechange($event)">
-                        <mat-option value="" selected></mat-option>
+                        <mat-option value="none" selected></mat-option>
                         <mat-option *ngFor="let typedetail of typedetials" [value]="typedetail.value">
                             {{typedetail.viewValue}}
                         </mat-option>
@@ -74,7 +79,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Point Value </mat-label>
-                        <input matInput formControlName="_gsr_pointValue" #gsr_pointvalue>
+                        <input matInput formControlName="_gsr_pointValue" #gsr_pointvalue (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Point Value is <strong>required</strong>
                         </mat-error>
@@ -87,7 +92,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Min Order Value </mat-label>
-                        <input matInput formControlName="_gsr_minOrderValue" #gsr_minordervalue>
+                        <input matInput formControlName="_gsr_minOrderValue" #gsr_minordervalue (keypress)="onlyNumberKey($event)">
                     </mat-form-field>
                 </div>
                 <!-- end general spending rule -->
@@ -104,7 +109,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Multiplier </mat-label>
-                        <input matInput formControlName="_mep_multiplier" #mep_multiplier>
+                        <input matInput formControlName="_mep_multiplier" #mep_multiplier (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Multiplier is <strong>required</strong>
                         </mat-error>
@@ -127,7 +132,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Points </mat-label>
-                        <input matInput formControlName="_cer_points" #cer_points>
+                        <input matInput formControlName="_cer_points" #cer_points (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Points is <strong>required</strong>
                         </mat-error>
@@ -135,20 +140,22 @@
 
                     <div class="full-width" style="margin-top: 10px;margin-bottom: 10px;">
                         <label>Usage Limit Active &emsp; </label>
-                        <mat-checkbox (change)="ULACheckbox($event)"></mat-checkbox>
+                        <mat-checkbox (change)="ULACheckbox($event)" formControlName="_cer_ulacheckbox"></mat-checkbox>
                     </div>
 
                     <mat-form-field class="full-width">
-                        <mat-label>Period </mat-label>
-                        <input matInput formControlName="_cer_period" #cer_period>
-                        <mat-error>
-                            Period is <strong>required</strong>
-                        </mat-error>
+                        <mat-label>Period</mat-label>
+                        <mat-select matNativeControl required formControlName="_cer_period" name="_cer_period" #cer_period>
+                            <mat-option value="" selected></mat-option>
+                            <mat-option *ngFor="let period of periods" [value]="period.value">
+                                {{period.viewValue}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="full-width">
                         <mat-label>Limit </mat-label>
-                        <input matInput formControlName="_cer_limit" #cer_limit>
+                        <input matInput formControlName="_cer_limit" #cer_limit (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Limit is <strong>required</strong>
                         </mat-error>
@@ -179,7 +186,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Point </mat-label>
-                        <input matInput formControlName="_cr_point" #cr_point>
+                        <input matInput formControlName="_cr_point" #cr_point (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Point is <strong>required</strong>
                         </mat-error>
@@ -200,7 +207,7 @@
 
                     <mat-form-field class="full-width">
                         <mat-label>Points </mat-label>
-                        <input matInput formControlName="_er_points" #er_points>
+                        <input matInput formControlName="_er_points" #er_points (keypress)="onlyNumberKey($event)">
                         <mat-error>
                             Points is <strong>required</strong>
                         </mat-error>
@@ -215,21 +222,23 @@
                 </mat-card-header>
                 <div class="full-width" style="margin-top: 10px;margin-bottom: 10px;">
                     <label>All time Active &emsp; </label>
-                    <mat-checkbox (change)="ATACheckbox($event)"></mat-checkbox>
+                    <mat-checkbox (change)="ATACheckbox($event)" formControlName="_atacheckbox"></mat-checkbox>
                 </div>
-                <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate" #fromdate>
-                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                    <mat-datepicker #dp></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" formControlName="_toDate" #todate>
-                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                    <mat-datepicker #dp2></mat-datepicker>
-                </mat-form-field>
+                <div class="dateATA" style="display: none;" #dateata>
+                    <mat-form-field class="full-width">
+                        <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate" #fromdate>
+                        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                        <mat-datepicker #dp></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" formControlName="_toDate" #todate>
+                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                        <mat-datepicker #dp2></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
             <br>
-            <div class="target">
+            <div class="target" style="display:none">
                 <mat-card-header>
                     <mat-card-title>Target</mat-card-title>
                 </mat-card-header>
