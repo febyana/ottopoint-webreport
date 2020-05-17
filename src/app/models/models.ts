@@ -300,6 +300,20 @@ export interface TransactionRedeemPointOpl {
     partner: string;
 }
 
+export interface GetUsersEligibilityRes {
+    data: UsersEligibility[];
+    total: number;
+    code: number;
+    message: string;
+}
+
+export interface UsersEligibility {
+    phone: string;
+    user_type: string;
+    created_at: string;
+    created_by: string;
+    name: string;
+}
 
 export interface DeliveryStatus {
     status: string;
@@ -307,13 +321,11 @@ export interface DeliveryStatus {
 
 // Eligible
 export interface AddEligibleUserReq {
-    nama: string;
-    merchant_id: string;
     phone: string;
-    institution: string;
+    instutionId: string;
 }
 export interface AddEligibleUserRes {
-    data: string;
+    data: AddEligibleUserReq[];
     meta: MetaRes;
 }
 

@@ -21,6 +21,7 @@ import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustom
 import { path, Component } from '@amcharts/amcharts4/core';
 import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
+import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
 
 
 export const routes: Routes = [
@@ -83,6 +84,10 @@ export const routes: Routes = [
       {
         path: 'transactions/redeempointopl',
         component: RedeemPointOplComponent,
+      },
+      {
+        path: 'users-eligibility',
+        component: UsersEligibilityComponent,
       },
     ]
   }

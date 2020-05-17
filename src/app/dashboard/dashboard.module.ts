@@ -12,10 +12,15 @@ import { SidebarComponent } from './menus/sidebar/sidebar.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   UsersComponent,
-  DialogAddEligibleComponent,
+  //DialogAddEligibleComponent,
   DialogRegisterComponent,
   DialogStatusUsersComponent,
 } from './contents/users/users.component';
+
+import { 
+  DialogAddEligibleComponent,
+} from './contents/users-eligibility/users-eligibility.component'
+
 import {
   TransactionsEarningsPPOBComponent,
   DialogShowDataComponent
@@ -39,6 +44,7 @@ import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/b
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
 import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
+import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
@@ -64,6 +70,7 @@ import { RedeemPointOplComponent } from './contents/transactions/redeem-point-op
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
     RedeemPointOplComponent,
+    UsersEligibilityComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

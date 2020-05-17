@@ -35,6 +35,7 @@ import {
   OutstandingVoucherRes,
   ChangePasswordRequest,
   ChangePasswordResponse,
+  GetUsersEligibilityRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -57,6 +58,7 @@ export class ApiService {
   // baseURLBackendDashboard: string;
   URLGetToken: string;
   URLGetUsers: string;
+  URLGetUsersEligibility: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
   URLGetTransactionsEarningsOPL: string;
@@ -96,6 +98,7 @@ export class ApiService {
     // backend dashboard
     this.URLGetToken                         = baseURLBackendDashboard + `/login`;
     this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetUsersEligibility              = baseURLBackendDashboard + `/users/eligibility?`;
     this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
     this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
     this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
@@ -117,7 +120,7 @@ export class ApiService {
     this.URLOutstandingPoint                 = baseURLBackendDashboard + `/outstanding/point?`;
     this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
     // ottopay
-    this.URLEligibleUser                     = baseURLOttopay + `/add_eligible`;
+    this.URLEligibleUser                     = baseURLBackendDashboard + `/users/add-eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
   }
 
@@ -180,6 +183,20 @@ export class ApiService {
     httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
+  }
+
+  public APIGetUsersEligibility(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetUsersEligibilityRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetUsersEligibilityRes>(this.URLGetUsersEligibility + this.queryParams, httpOptions);
   }
 
   public APIGetTransactionsPaymentsQR(

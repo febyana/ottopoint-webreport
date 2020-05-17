@@ -151,33 +151,33 @@ export class UsersComponent {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  openFormAddEligibleUser() {
-    const dialogRef = this.dialog.open(DialogAddEligibleComponent, {
-      width: '50%',
-    });
+  // openFormAddEligibleUser() {
+  //   const dialogRef = this.dialog.open(DialogAddEligibleComponent, {
+  //     width: '50%',
+  //   });
 
-    // after closed dialog
-    dialogRef.afterClosed().subscribe(valid => {
-      if (valid === true) {
-        this.isLoadingResults = true;
-        this.paginator.pageIndex = 0;
-        this.sort.active = 'id';
-        this.sort.direction = 'desc';
-        console.log('query :\n', this.query);
-        this.apiService.APIGetUsers(
-          window.localStorage.getItem('token'),
-          this.paginator.pageIndex,
-          this.paginator.pageSize,
-          this.sort.active,
-          this.sort.direction,
-          this.query
-        ).subscribe((res: GetUsersRes) => {
-          this.dataTable.data = res.data;
-          this.isLoadingResults = false;
-        });
-      }
-    });
-  }
+  //   // after closed dialog
+  //   dialogRef.afterClosed().subscribe(valid => {
+  //     if (valid === true) {
+  //       this.isLoadingResults = true;
+  //       this.paginator.pageIndex = 0;
+  //       this.sort.active = 'id';
+  //       this.sort.direction = 'desc';
+  //       console.log('query :\n', this.query);
+  //       this.apiService.APIGetUsers(
+  //         window.localStorage.getItem('token'),
+  //         this.paginator.pageIndex,
+  //         this.paginator.pageSize,
+  //         this.sort.active,
+  //         this.sort.direction,
+  //         this.query
+  //       ).subscribe((res: GetUsersRes) => {
+  //         this.dataTable.data = res.data;
+  //         this.isLoadingResults = false;
+  //       });
+  //     }
+  //   });
+  // }
 
   // row is get from users.component.html
   openFormRegisterUser(row: User) {
@@ -414,77 +414,77 @@ export class UsersComponent {
   }
 }
 
-@Component({
-  selector: 'app-dialog-add-eligible',
-  templateUrl: './dialogs/dialog-add-eligible.html',
-  styleUrls: ['./users.component.css']
-})
-export class DialogAddEligibleComponent implements OnInit {
-  req: AddEligibleUserReq;
+// @Component({
+//   selector: 'app-dialog-add-eligible',
+//   templateUrl: './dialogs/dialog-add-eligible.html',
+//   styleUrls: ['./users.component.css']
+// })
+// export class DialogAddEligibleComponent implements OnInit {
+//   req: AddEligibleUserReq;
 
-  dataForm: FormGroup;
-  get f() { return this.dataForm.controls; }
+//   dataForm: FormGroup;
+//   get f() { return this.dataForm.controls; }
 
-  isLoadingResults = false;
+//   isLoadingResults = false;
 
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
+//   matSnackBarConfig: MatSnackBarConfig = {
+//     duration: 2000,
+//     verticalPosition: 'top',
+//     horizontalPosition: 'center',
+//     panelClass: ['snack-bar-ekstra-css']
+//   };
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogAddEligibleComponent>,
-    private formBuilder: FormBuilder,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar
-  ) {}
+//   constructor(
+//     public dialogRef: MatDialogRef<DialogAddEligibleComponent>,
+//     private formBuilder: FormBuilder,
+//     private apiService: ApiService,
+//     private snackBar: MatSnackBar
+//   ) {}
 
-  ngOnInit() {
-    this.dataForm = this.formBuilder.group({
-      nama: ['', Validators.required],
-      merchant_id: ['', Validators.required],
-      phone: ['', [
-        Validators.pattern,
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(12)
-      ]],
-      institution: [undefined, Validators.required],
-    });
-  }
+//   ngOnInit() {
+//     this.dataForm = this.formBuilder.group({
+//       nama: ['', Validators.required],
+//       merchant_id: ['', Validators.required],
+//       phone: ['', [
+//         Validators.pattern,
+//         Validators.required,
+//         Validators.minLength(11),
+//         Validators.maxLength(12)
+//       ]],
+//       institution: [undefined, Validators.required],
+//     });
+//   }
 
-  cancel(): void {
-    event.preventDefault(); // mencegah form untuk refresh page
-    this.dialogRef.close(false);
-  }
+//   cancel(): void {
+//     event.preventDefault(); // mencegah form untuk refresh page
+//     this.dialogRef.close(false);
+//   }
 
-  submit() {
-    event.preventDefault(); // mencegah form untuk refresh page
-    if (this.dataForm.invalid) {
-      return;
-    }
-    this.isLoadingResults = true;
-    this.req = {
-      nama: this.dataForm.value.nama,
-      merchant_id: this.dataForm.value.merchant_id,
-      phone: this.dataForm.value.phone,
-      institution: this.dataForm.value.institution
-    };
-    console.log('query :\n', this.req);
-    this.apiService.APIEligibleUser(
-      this.req,
-      window.localStorage.getItem('token')
-    ).subscribe((res: AddEligibleUserRes) => {
-      if (res.data !== null) {// #
-        this.dialogRef.close(true);
-      }
-      this.isLoadingResults = false;
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-    });
-  }
-}
+//   submit() {
+//     event.preventDefault(); // mencegah form untuk refresh page
+//     if (this.dataForm.invalid) {
+//       return;
+//     }
+//     this.isLoadingResults = true;
+//     this.req = {
+//       //nama: this.dataForm.value.nama,
+//       //merchant_id: this.dataForm.value.merchant_id,
+//       phone: this.dataForm.value.phone,
+//       institution: this.dataForm.value.institution
+//     };
+//     console.log('query :\n', this.req);
+//     this.apiService.APIEligibleUser(
+//       this.req,
+//       window.localStorage.getItem('token')
+//     ).subscribe((res: AddEligibleUserRes) => {
+//       if (res.data !== null) {// #
+//         this.dialogRef.close(true);
+//       }
+//       this.isLoadingResults = false;
+//       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+//     });
+//   }
+// }
 
 @Component({
   selector: 'app-dialog-register',
