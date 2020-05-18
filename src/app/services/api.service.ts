@@ -55,6 +55,10 @@ import {
   ChangeStatusPartner,
   ChangeStatusPartnerRes,
   DownloadFileRes,
+  IssuerListRes,
+  EarningRuleReq,
+  EarningRuleRes,
+  VoucherListRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -116,7 +120,9 @@ export class ApiService {
   URLDownloadFile: string;
   URLUploadPartner: string;
   URLGenerateAPIKey : string;
-
+  URLGetIssuerList:string;
+  URLGetVoucherList:string;
+  URLAddNewEarningRule:string;
 
   constructor(
     private httpClient: HttpClient,
@@ -169,6 +175,9 @@ export class ApiService {
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     this.URLDownloadFile                     = baseURLBackendDashboard + `/program-management/download-file?`
     this.URLGenerateAPIKey                     = baseURLBackendDashboard + `/program-management/apikey?`
+    this.URLGetIssuerList                     = baseURLBackendDashboard + `/list-institution`
+    this.URLGetVoucherList                     = baseURLBackendDashboard + `/voucherlist`
+    this.URLAddNewEarningRule                     = baseURLBackendDashboard + `/earningRules/createEarning`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
@@ -610,7 +619,6 @@ export class ApiService {
     return this.httpClient.post<AddNewPartnerRes>(this.URLAddNewPartner, req, httpOptions);
   }
 
-
   public APIAddNewStore(req: AddNewStoreReq, token: string): Observable<AddNewStoreResp> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
@@ -676,7 +684,30 @@ export class ApiService {
     this.whichEnvironment();
     this.queryParams = `id=`+id
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    console.log(httpOptions.headers)
     return this.httpClient.post<any>(this.URLGenerateAPIKey + this.queryParams, httpOptions);
   }
+
+  public APIGetIssuerList(token : string): Observable<IssuerListRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<IssuerListRes>(this.URLGetIssuerList, httpOptions);
+  }
+
+  public APIGetVoucherList(token : string): Observable<VoucherListRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<VoucherListRes>(this.URLGetVoucherList, httpOptions);
+  }
+
+  public APINewEarningRule(req: EarningRuleReq, token: string): Observable<EarningRuleRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<EarningRuleRes>(this.URLAddNewEarningRule, req, httpOptions);
+  }
+
+
 }

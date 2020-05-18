@@ -2,12 +2,22 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatSnackBarConfig } from '@angular/material';
 import { DatePipe } from '@angular/common';
-import { EarningRuleReq } from 'src/app/models/models';
+import { EarningRuleReq, IssuerListRes, EarningRuleRes, VoucherListRes } from 'src/app/models/models';
 interface data {
   value: string;
   viewValue: string;
+}
+
+interface dataint{
+  value : number;
+  viewValue:string;
+}
+
+interface dataBool{
+  value : boolean;
+  viewValue:string;
 }
 
 @Component({
@@ -26,6 +36,7 @@ export class EarningRuleComponent implements OnInit {
   @ViewChild('rewardcampaign', { static: false }) rewardcampaign: ElementRef;
 
   @ViewChild('dateata', { static: false }) dateata: ElementRef;
+  @ViewChild('ulaperiod', { static: false }) ulaperiod: ElementRef;
 
   EarningRuleReq: EarningRuleReq;
   EarningRuleForm: FormGroup;
@@ -39,31 +50,31 @@ export class EarningRuleComponent implements OnInit {
   ula = false
   ata = false
 
-  activities: data[] = [
-    { value: 'active', viewValue: 'Active' },
-    { value: 'inactive', viewValue: 'Inactive' },
+  activities: dataBool[] = [
+    { value: true, viewValue: 'Active' },
+    { value: false, viewValue: 'Inactive' },
   ];
 
   typedetials: data[] = [
-    { value: 'general-spending-rule', viewValue: 'General Spending Rule' },
-    { value: 'multiply-earning-points', viewValue: 'Multiply Earning Points' },
-    { value: 'instant-reward', viewValue: 'Instant Reward' },
-    { value: 'custom-event-rule', viewValue: 'Custom Event Rule' },
-    { value: 'event-rule', viewValue: 'Event Rule' },
-    { value: 'customer-referral', viewValue: 'Customer Referral' },
+    { value: 'points', viewValue: 'General Spending Rule' },
+    { value: 'multiply_for_product', viewValue: 'Multiply Earning Points' },
+    { value: 'instant_reward', viewValue: 'Instant Reward' },
+    { value: 'custom_event', viewValue: 'Custom Event Rule' },
+    { value: 'event', viewValue: 'Event Rule' },
+    { value: 'referral', viewValue: 'Customer Referral' },
   ];
 
   cr_eventnames: data[] = [
-    { value: 'every-purchase', viewValue: 'Every Purchase' },
-    { value: 'first-purchase', viewValue: 'First Purchase' },
+    { value: 'every_purchase', viewValue: 'Every Purchase' },
+    { value: 'first_purchase', viewValue: 'First Purchase' },
     { value: 'register', viewValue: 'Register' },
   ];
 
   er_eventnames: data[] = [
-    { value: 'account-created', viewValue: 'Account Created' },
-    { value: 'customer-login', viewValue: 'Customer Login' },
-    { value: 'first-purchase', viewValue: 'First Purchase' },
-    { value: 'newsletter-sub', viewValue: 'Newsletter Subscribtion' },
+    { value: 'account_created', viewValue: 'Account Created' },
+    { value: 'customer_logged_in', viewValue: 'Customer Login' },
+    { value: 'first_transaction', viewValue: 'First Purchase' },
+    { value: 'newsletter_subscription', viewValue: 'Newsletter Subscription' },
   ];
 
   rewards: data[] = [
@@ -72,11 +83,17 @@ export class EarningRuleComponent implements OnInit {
     { value: 'referrer', viewValue: 'Referrer' },
   ];
 
-  partners: data[] = [
-    { value: 'partner1', viewValue: 'partner1' },
-  ];
+  partners: dataint[] = [];
+
+  vouchers: data[] = [];
+  
   periods: data[] = [
-    { value: 'periods1', viewValue: 'periods1' },
+    { value: 'day', viewValue: 'Day' },
+    { value: 'week', viewValue: 'Week' },
+    { value: 'year', viewValue: 'Year' },
+    { value: '3_months', viewValue: '3 Months' },
+    { value: '6_months', viewValue: '6 Months' },
+    { value: 'forever', viewValue: 'Forever' },
   ];
 
   levels: data[] = [
@@ -85,6 +102,13 @@ export class EarningRuleComponent implements OnInit {
     { value: 'level2', viewValue: 'Level 2' },
     { value: 'level3', viewValue: 'Level 3' },
   ];
+
+  matSnackBarConfig: MatSnackBarConfig = {
+    duration: 5000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: ['snack-bar-ekstra-css']
+  };
 
   constructor(
     private apiService: ApiService,
@@ -124,33 +148,62 @@ export class EarningRuleComponent implements OnInit {
       _levels: undefined,
       _rewardCampaign: undefined
     })
+    
+    this.apiService.APIGetIssuerList(
+      window.localStorage.getItem('token')
+    ).subscribe((res: IssuerListRes) => {
+      res.data.forEach(e => {
+        this.partners.push({
+           value: e.id, 
+           viewValue: e.partnerId + " - " +e.institutionName
+        });
+      });
+    });
+
+    this.apiService.APIGetVoucherList(
+      window.localStorage.getItem('token')
+    ).subscribe((res: VoucherListRes) => {
+      res.data.forEach(e => {
+        this.vouchers.push({
+           value: e.id, 
+           viewValue: e.name
+        });
+      });
+    });
+
 
   }
+
   ULACheckbox(event) {
     this.ula = event.checked
+    if (this.ula) {
+      this.renderer.setStyle(this.ulaperiod.nativeElement, 'display', 'block');
+    } else {
+      this.renderer.setStyle(this.ulaperiod.nativeElement, 'display', 'none');
+    }
   }
   ATACheckbox(event) {
     this.ata = event.checked
     if (this.ata) {
-      this.renderer.setStyle(this.dateata.nativeElement, 'display', 'block');
-    } else {
       this.renderer.setStyle(this.dateata.nativeElement, 'display', 'none');
+    } else {
+      this.renderer.setStyle(this.dateata.nativeElement, 'display', 'block');
     }
   }
 
   typechange(value) {
     var element
-    if (value == "general-spending-rule") {
+    if (value == "points") {
       element = this.generalSpendingRule.nativeElement
-    } else if (value == "multiply-earning-points") {
+    } else if (value == "multiply_for_product") {
       element = this.multiplyEarningPoints.nativeElement
-    } else if (value == "custom-event-rule") {
+    } else if (value == "custom_event") {
       element = this.customeventrule.nativeElement
-    } else if (value == "customer-referral") {
+    } else if (value == "referral") {
       element = this.customreferral.nativeElement
-    } else if (value == "event-rule") {
+    } else if (value == "event") {
       element = this.eventrule.nativeElement
-    } else if (value == "instant-reward") {
+    } else if (value == "instant_reward") {
       element = this.instantreward.nativeElement
     }
     this.hideType()
@@ -161,7 +214,7 @@ export class EarningRuleComponent implements OnInit {
     } else {
       this.renderer.setStyle(this.rewardcampaign.nativeElement, 'display', 'none');
     }
-    if (value != "none") {
+    if (value != "") {
       this.renderer.setStyle(element, 'display', 'block');
     }
   }
@@ -169,7 +222,7 @@ export class EarningRuleComponent implements OnInit {
   hideType() {
     this.renderer.setStyle(this.generalSpendingRule.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.multiplyEarningPoints.nativeElement, 'display', 'none');
-    this.renderer.setStyle(this.instantreward.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.rewardcampaign.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.customeventrule.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.customreferral.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.eventrule.nativeElement, 'display', 'none');
@@ -203,7 +256,6 @@ export class EarningRuleComponent implements OnInit {
       _levels: undefined,
       _rewardCampaign: undefined
     })
-    this.renderer.setStyle(this.dateata.nativeElement, 'display', 'none');
     this.hideType()
   }
 
@@ -221,40 +273,75 @@ export class EarningRuleComponent implements OnInit {
     if (this.ata) {
       ata = true
     }
+    var from, to, eventName, pointAmount
+    if (this.EarningRuleForm.value._fromDate !== null) {
+      from = this.datePipe.transform(this.EarningRuleForm.value._fromDate, 'yyyy-MM-dd')
+    }
+    if (this.EarningRuleForm.value._toDate !== null) {
+      to = this.datePipe.transform(this.EarningRuleForm.value._toDate, 'yyyy-MM-dd')
+    }
+
+    if(this.EarningRuleForm.value._cer_customEventName != ""){
+      eventName = this.EarningRuleForm.value._cer_customEventName
+    }else if(this.EarningRuleForm.value._cr_eventName != ""){
+      eventName = this.EarningRuleForm.value._cr_eventName
+    }else{
+      eventName =undefined
+    }
+
+    if (eventName == undefined) {
+      eventName = this.EarningRuleForm.value._er_eventName
+    }
+
+    if(this.EarningRuleForm.value._cer_points != 0){
+      pointAmount = this.EarningRuleForm.value._cer_points
+    }else if(this.EarningRuleForm.value._cr_point != 0){
+      pointAmount = this.EarningRuleForm.value._cr_point
+    }else if(this.EarningRuleForm.value._er_points != 0) {
+      pointAmount = this.EarningRuleForm.value._er_points
+    }else{
+      pointAmount = 0
+    }
+    
 
     this.EarningRuleReq = {
       name: this.EarningRuleForm.value._name,
       desc: this.EarningRuleForm.value._desc,
       active: this.EarningRuleForm.value._activity,
-      partner: this.EarningRuleForm.value._partner,
-      alltimeactive: ata,
-      fromdate: this.EarningRuleForm.value._fromDate,
-      todate: this.EarningRuleForm.value._toDate,
-      level: this.EarningRuleForm.value._levels,
-      type: this.EarningRuleForm.value._typedetail,
-      // general spending rule 
-      gsr_pointvalue: this.EarningRuleForm.value._gsr_pointValue,
-      gsr_excludedsku: this.EarningRuleForm.value._gsr_excludedSku,
-      gsr_minordervalue: this.EarningRuleForm.value._gsr_minOrderValue,
-      // multipy earning point 
-      mep_sku: this.EarningRuleForm.value._mep_sku,
-      mep_multiplier: this.EarningRuleForm.value._mep_multiplier,
-      // custom event rule
-      cer_customeventname: this.EarningRuleForm.value._cer_customEventName,
-      cer_points: this.EarningRuleForm.value._cer_points,
-      cer_ula: ula,
-      cer_period: this.EarningRuleForm.value._cer_period,
-      cer_limit: this.EarningRuleForm.value._cer_limit,
-      // event rule
-      er_eventname: this.EarningRuleForm.value._er_eventName,
-      er_points: this.EarningRuleForm.value._er_points,
-      // custom referral
-      cr_eventname: this.EarningRuleForm.value._cr_eventName,
-      cr_reward: this.EarningRuleForm.value._cr_reward,
-      cr_point: this.EarningRuleForm.value._cr_point,
-      //instant reward
-      rewardcampaign: this.EarningRuleForm.value._rewardCampaign,
-    };
+      institution_id : this.EarningRuleForm.value._partner,
+      rewardCampaignId : this.EarningRuleForm.value._rewardCampaign,
+      rewardType : this.EarningRuleForm.value._cr_reward,
+      allTimeActive : ata,
+      startAt:from,
+      endAt:to,
+      type : this.EarningRuleForm.value._typedetail,
+      eventName:eventName,
+      pointsAmount:Number(pointAmount),
+      limitActive: ula,
+      limitPeriod: this.EarningRuleForm.value._cer_period,
+      limitLimit: Number(this.EarningRuleForm.value._cer_limit),
+      pointValue : Number(this.EarningRuleForm.value._gsr_pointValue),
+      minOrderValue : Number(this.EarningRuleForm.value._gsr_minOrderValue),
+      totalSkuIds : 2,
+      skuIds1 : "Product 1",
+      skuIds2 : "Product 2"
+    }
+    
+     this.apiService.APINewEarningRule(
+      this.EarningRuleReq,
+      window.localStorage.getItem('token')
+    ).subscribe((res: EarningRuleRes) => {
+      if (res.messages == "Success") {
+        this.snackBar.open('Successfully Create Data', 'close', this.matSnackBarConfig);
+        this.clearForm()
+        // this.router.navigate(['/dashboard/program-management/data-partner']);
+        return;
+      }
+      this.isLoadingResults = false;
+      this.snackBar.open('Failed Create data', 'close', this.matSnackBarConfig);
+      // this.router.navigate(['/dashboard/program-management/data-partner']);
+      return;
+    });
 
     this.isLoadingResults = true;
     // this.emptyValue();
@@ -306,6 +393,7 @@ export class EarningRuleComponent implements OnInit {
       _cer_points: '',
       _cer_ulacheckbox: false,
     })
+    this.renderer.setStyle(this.ulaperiod.nativeElement, 'display', 'none');
   }
   clearER() {
     this.EarningRuleForm.patchValue({
