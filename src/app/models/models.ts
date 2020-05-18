@@ -769,22 +769,23 @@ export interface EarningRuleReq {
     rewardType : string; 
     eventName : string;
     pointsAmount : number;
-    pointValue : number; //
+    pointValue : number; 
     allTimeActive : boolean; 
     startAt : string;
     endAt : string;
     limitActive: boolean;
     limitPeriod: string;
     limitLimit: number;
-    // excludedSKUs : string; //
-    minOrderValue : number; //
+    minOrderValue : number; 
+    excludedSkuSkuIds : string;
+    skuIds : string;
     // multiplier : string; //
     // labelMultipliers : string; //
     // skuIds : string; //
-    totalSkuIds : number; //
+    // totalSkuIds : number; //
     // skuIds0 : string; // 
-    skuIds1 : string; //
-    skuIds2 : string; // 
+    // skuIds1 : string; //
+    // skuIds2 : string; // 
     // skuIds3 : string; //
     // skuIds4 : string; //
 }

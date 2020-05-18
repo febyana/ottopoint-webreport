@@ -1,3 +1,4 @@
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
@@ -5,6 +6,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog, MatSnackBarConfig } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { EarningRuleReq, IssuerListRes, EarningRuleRes, VoucherListRes } from 'src/app/models/models';
+import {MatChipInputEvent} from '@angular/material/chips';
+
 interface data {
   value: string;
   viewValue: string;
@@ -40,6 +43,14 @@ export class EarningRuleComponent implements OnInit {
 
   EarningRuleReq: EarningRuleReq;
   EarningRuleForm: FormGroup;
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  excludedSKUs: string[] = [];
+  skuIds : string[] = [];
 
   fq = {
     from_date: null,
@@ -170,8 +181,50 @@ export class EarningRuleComponent implements OnInit {
         });
       });
     });
+  }
 
+  addExSKU(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.excludedSKUs.push(value);
+    }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeExSKU(excludedSKU): void {
+    const index = this.excludedSKUs.indexOf(excludedSKU);
+
+    if (index >= 0) {
+      this.excludedSKUs.splice(index, 1);
+    }
+  }
+
+  addSKU(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.skuIds.push(value);
+    }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeSKU(SKU): void {
+    const index = this.skuIds.indexOf(SKU);
+
+    if (index >= 0) {
+      this.skuIds.splice(index, 1);
+    }
   }
 
   ULACheckbox(event) {
@@ -229,33 +282,7 @@ export class EarningRuleComponent implements OnInit {
   }
 
   clearForm(): void {
-    this.EarningRuleForm = this.formBuilder.group({
-      _name: [''],
-      _desc: [''],
-      _activity: undefined,
-      _partner: undefined,
-      _typedetail: undefined,
-      _gsr_pointValue: [''],
-      _gsr_excludedSku: [''],
-      _gsr_minOrderValue: [''],
-      _mep_sku: [''],
-      _mep_multiplier: [''],
-      _cer_customEventName: [''],
-      _cer_points: [''],
-      _cer_ulacheckbox: false,
-      _cer_period: undefined,
-      _cer_limit: [''],
-      _cr_eventName: undefined,
-      _cr_reward: undefined,
-      _cr_point: [''],
-      _er_eventName: undefined,
-      _er_points: [''],
-      _atacheckbox: false,
-      _fromDate: null,
-      _toDate: null,
-      _levels: undefined,
-      _rewardCampaign: undefined
-    })
+    this.EarningRuleForm.reset()
     this.hideType()
   }
 
@@ -322,9 +349,8 @@ export class EarningRuleComponent implements OnInit {
       limitLimit: Number(this.EarningRuleForm.value._cer_limit),
       pointValue : Number(this.EarningRuleForm.value._gsr_pointValue),
       minOrderValue : Number(this.EarningRuleForm.value._gsr_minOrderValue),
-      totalSkuIds : 2,
-      skuIds1 : "Product 1",
-      skuIds2 : "Product 2"
+      excludedSkuSkuIds : this.excludedSKUs.toString(),
+      skuIds : this.skuIds.toString()
     }
     
      this.apiService.APINewEarningRule(
@@ -350,7 +376,6 @@ export class EarningRuleComponent implements OnInit {
     // this.dialogRef.close(this.AddNewStoreReq)
   }
   cancelForm() {
-    // alert("cancel")
     this.clearForm()
   }
 
@@ -372,6 +397,7 @@ export class EarningRuleComponent implements OnInit {
       _gsr_excludedSku: '',
       _gsr_minOrderValue: '',
     })
+    this.excludedSKUs = []
   }
 
   clearMEP() {
@@ -379,6 +405,7 @@ export class EarningRuleComponent implements OnInit {
       _mep_multiplier: '',
       _mep_sku: ''
     })
+    this.skuIds = []
   }
   clearIR() {
     this.EarningRuleForm.patchValue({
