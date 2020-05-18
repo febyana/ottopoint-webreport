@@ -739,42 +739,35 @@ export interface ApikeyRes {
     Meta: MetaRes;
     Data: string;
     code: number;
-} 
-
-
-export interface EarningRuleReq {
-    name : string;
-    desc : string;
-    active : string;
-    partner : string;
-    type : string;
-    gsr_pointvalue : string;
-    gsr_excludedsku : string;
-    gsr_minordervalue : string;
-    mep_sku : string;
-    mep_multiplier : string;
-    cer_customeventname : string;
-    cer_points: string;
-    cer_ula:boolean;
-    cer_period:string;
-    cer_limit:string;
-    er_eventname:string;
-    er_points:string;
-    cr_eventname:string;
-    cr_reward:string;
-    cr_point:string;
-    rewardcampaign: string;
-    alltimeactive:boolean;
-    fromdate : string;
-    todate:string;
-    level:string;
 }
+
+export interface IssuerListRes{
+    response_code : string;
+    messages : string;
+    data : IssuerNameList[];
+}
+
+export interface IssuerNameList{
+    id :number;
+    institutionName :string;
+    partnerId : string
+}
+
+export interface VoucherListRes{
+    response_code : string;
+    messages : string;
+    data : VoucherNameList[];
+}
+
+export interface VoucherNameList{
+    id :string;
+    name :string;
+}
+
 
 export interface UpdateStatusReq {
     typeUser : any;
-    status : any;
-    
-    
+    status : any;    
 }
 export interface UpdateStatusRes {
     Data: ResDtaUpdateStatus;
@@ -785,3 +778,37 @@ export interface ResDtaUpdateStatus {
     ID : any;
 }
 
+export interface EarningRuleReq {
+    name : string;
+    desc : string;
+    active : string;
+    institution_id : number;
+    type : string;
+    rewardCampaignId : string; 
+    rewardType : string; 
+    eventName : string;
+    pointsAmount : number;
+    pointValue : number; //
+    allTimeActive : boolean; 
+    startAt : string;
+    endAt : string;
+    limitActive: boolean;
+    limitPeriod: string;
+    limitLimit: number;
+    // excludedSKUs : string; //
+    minOrderValue : number; //
+    // multiplier : string; //
+    // labelMultipliers : string; //
+    // skuIds : string; //
+    totalSkuIds : number; //
+    // skuIds0 : string; // 
+    skuIds1 : string; //
+    skuIds2 : string; // 
+    // skuIds3 : string; //
+    // skuIds4 : string; //
+}
+export interface EarningRuleRes {
+    data: string;
+    messages: string;
+    response_code:string;
+}

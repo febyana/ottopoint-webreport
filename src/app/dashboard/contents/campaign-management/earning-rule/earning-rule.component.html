@@ -28,11 +28,24 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="full-width">
+                <mat-form-field class="full-width" style="display: none;">
                     <mat-label>Description </mat-label>
                     <input matInput formControlName="_desc" #desc required>
                     <mat-error>
                         Description is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Issuer</mat-label>
+                    <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
+                        <mat-option value="" selected></mat-option>
+                        <mat-option *ngFor="let partner of partners" [value]="partner.value">
+                            {{partner.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        Issuer is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
 
@@ -48,16 +61,6 @@
                         Active is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
-
-                <mat-form-field class="full-width">
-                    <mat-label>Partner</mat-label>
-                    <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
-                        <mat-option value="" selected></mat-option>
-                        <mat-option *ngFor="let partner of partners" [value]="partner.value">
-                            {{partner.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
             <br>
             <div class="type-details">
@@ -68,11 +71,14 @@
                     <mat-label>Type</mat-label>
                     <mat-select matNativeControl required formControlName="_typedetail" name="typedetail" #typedetail
                         (ngModelChange)="typechange($event)">
-                        <mat-option value="none" selected></mat-option>
+                        <mat-option value="" selected></mat-option>
                         <mat-option *ngFor="let typedetail of typedetials" [value]="typedetail.value">
                             {{typedetail.viewValue}}
                         </mat-option>
                     </mat-select>
+                    <mat-error>
+                        Type is <strong>required</strong>
+                    </mat-error>
                 </mat-form-field>
                 <!-- start general spending rule -->
                 <div class="general-spending-rule" #generalspendingrule style="display: none;">
@@ -143,23 +149,28 @@
                         <mat-checkbox (change)="ULACheckbox($event)" formControlName="_cer_ulacheckbox"></mat-checkbox>
                     </div>
 
-                    <mat-form-field class="full-width">
-                        <mat-label>Period</mat-label>
-                        <mat-select matNativeControl required formControlName="_cer_period" name="_cer_period" #cer_period>
-                            <mat-option value="" selected></mat-option>
-                            <mat-option *ngFor="let period of periods" [value]="period.value">
-                                {{period.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field class="full-width">
-                        <mat-label>Limit </mat-label>
-                        <input matInput formControlName="_cer_limit" #cer_limit (keypress)="onlyNumberKey($event)">
-                        <mat-error>
-                            Limit is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
+                    <div class="ULAPeriod" #ulaperiod style="display: none;">
+                        <mat-form-field class="full-width">
+                            <mat-label>Period</mat-label>
+                            <mat-select matNativeControl formControlName="_cer_period" name="_cer_period" #cer_period>
+                                <mat-option value="" selected></mat-option>
+                                <mat-option *ngFor="let period of periods" [value]="period.value">
+                                    {{period.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Period is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+    
+                        <mat-form-field class="full-width">
+                            <mat-label>Limit </mat-label>
+                            <input matInput formControlName="_cer_limit" #cer_limit (keypress)="onlyNumberKey($event)">
+                            <mat-error>
+                                Limit is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
                 <!-- end custom-event-rule-->
                 <!-- start custom referral-->
@@ -224,7 +235,7 @@
                     <label>All time Active &emsp; </label>
                     <mat-checkbox (change)="ATACheckbox($event)" formControlName="_atacheckbox"></mat-checkbox>
                 </div>
-                <div class="dateATA" style="display: none;" #dateata>
+                <div class="dateATA" #dateata>
                     <mat-form-field class="full-width">
                         <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" formControlName="_fromDate" #fromdate>
                         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -261,9 +272,9 @@
                     <mat-label>Reward Campaign</mat-label>
                     <mat-select matNativeControl required formControlName="_rewardCampaign" name="_rewardCampaign" #rewardcampaign>
                         <mat-option value="" selected></mat-option>
-                        <!-- <mat-option *ngFor="let level of levels" [value]="level.value">
-                            {{level.viewValue}}
-                        </mat-option> -->
+                        <mat-option *ngFor="let voucher of vouchers" [value]="voucher.value">
+                            {{voucher.viewValue}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
