@@ -759,6 +759,12 @@ export interface VoucherNameList{
     name :string;
 }
 
+export interface SKUListRes{
+    response_code : string;
+    messages : string;
+    data : string;
+}
+
 export interface EarningRuleReq {
     name : string;
     desc : string;
