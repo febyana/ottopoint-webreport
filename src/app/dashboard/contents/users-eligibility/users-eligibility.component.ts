@@ -277,7 +277,42 @@ export class DialogAddEligibleComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  submit() {
+  // submit1() {
+  //   event.preventDefault(); // mencegah form untuk refresh page
+  //   if (this.dataForm.invalid) {
+  //     return;
+  //   }
+  //   this.isLoadingResults = true;
+  //   this.req = {
+  //     phone: this.dataForm.value.phone,
+  //     instutionId: this.dataForm.value.instutionId
+  //   };
+  //   console.log('query :\n', this.req);
+  //   this.apiService.APIEligibleUser(
+  //     this.req,
+  //     window.localStorage.getItem('token')
+  //   ).subscribe(res => {
+  //     if (res.Meta.message == 'SUCCESS') {// #
+  //       window.alert('Succes Add eligible');
+  //       this.dialogRef.close(true);
+  //       this.ngOnInit();
+  //       return;
+  //     }
+  //     if (res.Meta.message == 'Partner not found') {
+  //       window.alert('Partner Not Found');
+  //      this.dialogRef.close(true);
+  //      return;
+  //     }
+  //     if (res.Meta.message == 'User sudah eligible') {
+  //       window.alert('User sudah eligible');
+  //       this.dialogRef.close(true);
+  //     }
+  //     this.isLoadingResults = false;
+  //     this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+  //   });
+  // }
+
+  submit(){
     event.preventDefault(); // mencegah form untuk refresh page
     if (this.dataForm.invalid) {
       return;
@@ -287,28 +322,22 @@ export class DialogAddEligibleComponent implements OnInit {
       phone: this.dataForm.value.phone,
       instutionId: this.dataForm.value.instutionId
     };
-    console.log('query :\n', this.req);
     this.apiService.APIEligibleUser(
       this.req,
       window.localStorage.getItem('token')
-    ).subscribe(res => {
-      if (res.meta.message == 'SUCCESS') {// #
-        window.alert('Succes Add eligible');
+    ).subscribe((res: AddEligibleUserRes) =>{
+      if (res.Meta.code == 200) {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
         this.dialogRef.close(true);
-        this.ngOnInit();
         return;
-      }
-      if (res.meta.message == 'Partner not found') {
-        window.alert('Partner Not Found');
-       this.dialogRef.close(true);
-       return;
-      }
-      if (res.meta.message == 'User sudah eligible') {
-        window.alert('User sudah eligible');
+      } else {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
         this.dialogRef.close(true);
       }
-      this.isLoadingResults = false;
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-    });
+    },(err : any) =>{
+      alert(err)
+    })
   }
 }

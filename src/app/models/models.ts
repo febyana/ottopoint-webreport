@@ -325,8 +325,9 @@ export interface AddEligibleUserReq {
     instutionId: string;
 }
 export interface AddEligibleUserRes {
-    data: AddEligibleUserReq[];
-    meta: MetaRes;
+    Meta: MetaRes;
+    Data: AddEligibleUserReq[];
+    
 }
 
 // Register
