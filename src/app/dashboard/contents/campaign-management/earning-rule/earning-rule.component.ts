@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog, MatSnackBarConfig } from '@angular/material';
 import { DatePipe } from '@angular/common';
-import { EarningRuleReq, IssuerListRes, EarningRuleRes, VoucherListRes } from 'src/app/models/models';
+import { EarningRuleReq, IssuerListRes, EarningRuleRes, VoucherListRes, SKUListRes } from 'src/app/models/models';
 import {MatChipInputEvent} from '@angular/material/chips';
 
 interface data {
@@ -261,6 +261,12 @@ export class EarningRuleComponent implements OnInit {
     }
     this.hideType()
     this.clearType()
+    this.apiService.APIGetSKUList(
+      window.localStorage.getItem('token')
+    ).subscribe((res: SKUListRes) => {
+      this.skuIds.push(res.data)
+      this.excludedSKUs.push(res.data)
+    });
 
     if (element == this.instantreward.nativeElement) {
       this.renderer.setStyle(this.rewardcampaign.nativeElement, 'display', 'block');

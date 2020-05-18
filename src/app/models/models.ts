@@ -764,7 +764,6 @@ export interface VoucherNameList{
     name :string;
 }
 
-
 export interface UpdateStatusReq {
     typeUser : any;
     status : any;    
@@ -776,6 +775,12 @@ export interface UpdateStatusRes {
 
 export interface ResDtaUpdateStatus {
     ID : any;
+}
+
+export interface SKUListRes{
+    response_code : string;
+    messages : string;
+    data : string;
 }
 
 export interface EarningRuleReq {

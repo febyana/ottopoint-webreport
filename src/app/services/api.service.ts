@@ -61,6 +61,7 @@ import {
   EarningRuleReq,
   VoucherListRes,
   EarningRuleRes,
+  SKUListRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -125,6 +126,7 @@ export class ApiService {
   URLGetIssuerList:string;
   URLGetVoucherList:string;
   URLAddNewEarningRule:string;
+  URLGetSKUList:string;
 
   constructor(
     private httpClient: HttpClient,
@@ -180,6 +182,7 @@ export class ApiService {
     this.URLUpdateDataPartner               = baseURLBackendDashboard + `/program-management/updatepartner`
     this.URLGetIssuerList                     = baseURLBackendDashboard + `/list-institution`
     this.URLGetVoucherList                     = baseURLBackendDashboard + `/voucherlist`
+    this.URLGetSKUList                     = baseURLBackendDashboard + `/earningRules/listsku`
     this.URLAddNewEarningRule                     = baseURLBackendDashboard + `/earningRules/createEarning`
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
@@ -708,6 +711,12 @@ export class ApiService {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     return this.httpClient.get<VoucherListRes>(this.URLGetVoucherList, httpOptions);
+  }
+
+  public APIGetSKUList(token : string): Observable<SKUListRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<SKUListRes>(this.URLGetSKUList, httpOptions);
   }
 
   public APINewEarningRule(req: EarningRuleReq, token: string): Observable<EarningRuleRes> {
