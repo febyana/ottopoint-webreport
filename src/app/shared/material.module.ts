@@ -28,6 +28,7 @@ import {
   MatMenuModule,
   MatCheckboxModule,
   MatRadioModule,
+  MatChipsModule,
 } from '@angular/material';
 
 
@@ -61,6 +62,7 @@ import {
     MatCheckboxModule,
     MatRadioModule,
     ScrollingModule,
+    MatChipsModule
     // MatFileUploadModule
   ],
   exports: [
@@ -89,6 +91,7 @@ import {
     MatCheckboxModule,
     MatRadioModule,
     ScrollingModule,
+    MatChipsModule
     // MatFileUploadModule
   ]
 })

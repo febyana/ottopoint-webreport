@@ -91,10 +91,25 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="full-width">
+                    <!-- <mat-form-field class="full-width">
                         <mat-label>Excluded SKUs </mat-label>
                         <input matInput formControlName="_gsr_excludedSku" #gsr_excludedsku>
-                    </mat-form-field>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="full-width">
+                        <mat-chip-list #ExcludedSKUslist aria-label="ExcludedSKUs selection">
+                          <mat-chip *ngFor="let excludedSKU of excludedSKUs" [selectable]="selectable"
+                                   [removable]="removable" (removed)="removeExSKU(excludedSKU)">
+                            {{excludedSKU}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input placeholder="Excluded SKUs" formControlName="_gsr_excludedSku"
+                                 [matChipInputFor]="ExcludedSKUslist"
+                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                 [matChipInputAddOnBlur]="addOnBlur"
+                                 (matChipInputTokenEnd)="addExSKU($event)">
+                        </mat-chip-list>
+                      </mat-form-field>
 
                     <mat-form-field class="full-width">
                         <mat-label>Min Order Value </mat-label>
@@ -105,13 +120,28 @@
 
                 <!-- start multiply-earning-points -->
                 <div class="multiply-earning-points" #multiplyearningpoints style="display: none;">
-                    <mat-form-field class="full-width">
+                    <!-- <mat-form-field class="full-width">
                         <mat-label>SKU </mat-label>
                         <input matInput formControlName="_mep_sku" #mep_sku>
                         <mat-error>
                             SKU is <strong>required</strong>
                         </mat-error>
-                    </mat-form-field>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="full-width">
+                        <mat-chip-list #skuIdList aria-label="skuId selection">
+                          <mat-chip *ngFor="let skuId of skuIds" [selectable]="selectable"
+                                   [removable]="removable" (removed)="removeSKU(skuId)">
+                            {{skuId}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input placeholder="SKU" formControlName="_mep_sku"
+                                 [matChipInputFor]="skuIdList"
+                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                 [matChipInputAddOnBlur]="addOnBlur"
+                                 (matChipInputTokenEnd)="addSKU($event)">
+                        </mat-chip-list>
+                      </mat-form-field>
 
                     <mat-form-field class="full-width">
                         <mat-label>Multiplier </mat-label>
