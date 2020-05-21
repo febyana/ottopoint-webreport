@@ -18,6 +18,7 @@ export interface LoginRes {
 export interface User {
     id: number;
     nama: string;
+    last_name: string;
     phone: string;
     email: string;
     cust_id: string;
@@ -332,14 +333,17 @@ export interface AddEligibleUserRes {
 
 // Register
 export interface RegisterUserReq {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     phone: string;
-    institution: string;
+    email: string;
+    gender: string;
+    birthdate: string;
+    issuer: string;
 }
 export interface RegisterUserRes {
-    data: string;
-    meta: MetaRes;
+    Meta: MetaRes;
+    Data: RegisterUserReq[];
 }
 
 // [get] http://localhost:4200/#/dashboard/analytics/transactions

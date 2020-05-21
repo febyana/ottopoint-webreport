@@ -52,12 +52,13 @@ export class UsersComponent {
     // 'id',
     'no',
     'nama',
+    'last_name',
     'phone',
     'email',
     'cust_id',
     'merchant_id',
     'status',
-    'action',
+    //'action',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
@@ -96,6 +97,7 @@ export class UsersComponent {
       this.displayedColumns = [
         // 'id',
         'nama',
+        'last_name',
         'phone',
         'cust_id',
         'email',
@@ -180,22 +182,24 @@ export class UsersComponent {
   // }
 
   // row is get from users.component.html
-  openFormRegisterUser(row: User) {
-    const arrNama = row.nama.split(' ', 4); // array of nama
+  openFormRegisterUser() {
+    //const arrNama = row.nama.split(' ', 4); // array of nama
 
     const dialogRef = this.dialog.open(DialogRegisterComponent, {
       width: '50%',
-      data: this.RegisterUserReq = {
-        firstName: arrNama[0],
-        lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
-        phone: row.phone,
-        institution: row.email.split('.', 1)[0],
-      },
+      // data: this.RegisterUserReq = {
+      //   firstName: arrNama[0],
+      //   lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
+      //   phone: row.phone,
+      //   institution: row.email.split('.', 1)[0],
     });
 
     dialogRef.afterClosed().subscribe(valid => {
       if (valid === true) {
         this.isLoadingResults = true;
+        this.paginator.pageIndex = 0;
+        this.sort.active = 'id';
+        this.sort.direction = 'desc';
         console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
@@ -257,7 +261,7 @@ export class UsersComponent {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Name', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
+      headers: ['No', 'Name', 'Lastname', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
     };
     const csvExporter = new ExportToCsv(options);
 
@@ -320,6 +324,7 @@ export class UsersComponent {
           const objData = {
             No: no++,
             Name: e.nama,
+            Lastname: e.last_name,
             Phone: e.phone,
             Email: e.email,
             Customer_ID: e.cust_id,
@@ -492,7 +497,10 @@ export class UsersComponent {
   styleUrls: ['./users.component.css']
 })
 export class DialogRegisterComponent implements OnInit {
+req: RegisterUserReq;
+
   dataForm: FormGroup;
+  router: any;
   get f() { return this.dataForm.controls; }
 
   isLoadingResults = false;
@@ -506,55 +514,67 @@ export class DialogRegisterComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
+   // @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
-    if (this.data.lastName === '') {
-      this.data.lastName = '-';
-    }
     this.dataForm = this.formBuilder.group({
-      firstName: [this.data.firstName, Validators.required],
-      lastName: [this.data.lastName, Validators.required],
-      phone: [this.data.phone, Validators.required],
-      institution: [this.data.institution, Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      phone: ['', [
+        Validators.pattern,
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(12)
+      ]],
+      email: ['', Validators.required],
+      gender: ['', Validators.required],
+      birthdate: ['', Validators.required],
+      issuer: [undefined, Validators.required],
     });
   }
 
-  no(): void {
+  cancel(): void {
     event.preventDefault();
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
-  yes() {
+  submit() {
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
     }
     this.isLoadingResults = true;
-    this.data = {
-      firstName: this.dataForm.value.firstName,
-      lastName: this.dataForm.value.lastName,
+    this.req = {
+      firstname: this.dataForm.value.firstname,
+      lastname: this.dataForm.value.lastname,
       phone: this.dataForm.value.phone,
-      institution: this.dataForm.value.institution
+      email: this.dataForm.value.email,
+      gender: this.dataForm.value.gender,
+      birthdate: this.dataForm.value.birthdate,
+      issuer: this.dataForm.value.issuer,
     };
-    console.log('query :\n', this.data);
+    //console.log('query :\n', this.data);
     this.apiService.APIRegisterUser(
-      this.data,
+      this.req,
       window.localStorage.getItem('token')
     ).subscribe((res: RegisterUserRes) => {
-      if (res.data !== null) {
+      if (res.Meta.code == 200) {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
         this.dialogRef.close(true);
         return;
+      } else {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
+        this.dialogRef.close(true);
       }
-      this.isLoadingResults = false;
-      this.dialogRef.close(false);
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-      return;
-    });
+    },(err : any) =>{
+      alert(err)
+    })
   }
 }
 
