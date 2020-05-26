@@ -215,13 +215,13 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
             Email :e.email,
             Partner : e.partner,
             ProductName : e.product_name,
-            Beginning : e.beginning,
-            RedeemPoint : e.redeem_point,
-            UsedVoucher : e.used_voucher,
-            UnusedVoucher : e.unused_voucher,
-            Reversal : e.reversal,
-            ExpiredVoucher : e.expired_voucher,
-            Ending : e.ending
+            Beginning : +e.beginning,
+            RedeemPoint : +e.redeem_point,
+            UsedVoucher : +e.used_voucher,
+            UnusedVoucher : +e.unused_voucher,
+            Reversal : +e.reversal,
+            ExpiredVoucher : +e.expired_voucher,
+            Ending : +e.ending
           };
           arrData.push(objData);
       });
