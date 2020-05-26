@@ -46,11 +46,7 @@ import { OutstandingPointComponent } from './contents/outstanding/outstanding_po
 import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
-import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
-import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
 import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
-// import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
-// import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
@@ -60,6 +56,10 @@ import { EarningRuleComponent } from './contents/campaign-management/earning-rul
 import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
 import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
 import { RewardCampaignsComponent } from './contents/campaign-management/reward-campaigns/reward-campaigns.component';
+import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
+import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
+// import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+import { UltravoucherComponent } from './contents/uv/ultravoucher.component';
 
 // import { DialogStatusUsersComponent } from './contents/users/dialog-status-users/dialog-status-users.component';
 
