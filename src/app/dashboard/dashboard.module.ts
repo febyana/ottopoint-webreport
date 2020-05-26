@@ -86,7 +86,7 @@ import { UltravoucherComponent } from './contents/uv/ultravoucher.component';
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
     // UserCustomerComponent,
-    // UltravoucherComponent,
+    UltravoucherComponent,
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,

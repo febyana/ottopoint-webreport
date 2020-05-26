@@ -93,10 +93,10 @@ export const routes: Routes = [
         path: 'transactions/vouchers/redeemopl',
         component: RedeemVoucherOplComponent,
       },
-      // {
-      //   path: 'ultravoucher/list',
-      //   component: UltravoucherComponent,
-      // },
+      {
+        path: 'ultravoucher/list',
+        component: UltravoucherComponent,
+      },
       {
         path: 'transactions/redeempointopl',
         component: RedeemPointOplComponent,

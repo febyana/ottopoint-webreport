@@ -187,6 +187,13 @@ export interface GetTransactionsEarningsOPLRes {
     message: string;
 }
 
+export interface GetListUltraVoucherRes {
+    data: ListUltraVoucher[];
+    total: number;
+    code: number;
+    message: string;
+}
+
 export interface ExportTransactionsEarningsPPOBToCSVReq {
     start_date: string;
     end_date: string;
