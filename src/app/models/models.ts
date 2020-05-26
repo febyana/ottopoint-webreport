@@ -18,6 +18,7 @@ export interface LoginRes {
 export interface User {
     id: number;
     nama: string;
+    last_name: string;
     phone: string;
     email: string;
     cust_id: string;
@@ -309,6 +310,12 @@ export interface GetDataPartnerRes {
     code: number;
     message: string;
 }
+export interface GetUsersEligibilityRes {
+    data: UsersEligibility[];
+    total: number;
+    code: number;
+    message: string;
+}
 
 export interface GetDataPartner {
     id: number;
@@ -327,32 +334,42 @@ export interface GetDataPartner {
     is_active: boolean;
 }
 
+export interface UsersEligibility {
+    phone: string;
+    user_type: string;
+    created_at: string;
+    created_by: string;
+    name: string;
+}
+
 export interface DeliveryStatus {
     status: string;
 }
 
 // Eligible
 export interface AddEligibleUserReq {
-    nama: string;
-    merchant_id: string;
     phone: string;
-    institution: string;
+    instutionId: string;
 }
 export interface AddEligibleUserRes {
-    data: string;
-    meta: MetaRes;
+    Meta: MetaRes;
+    Data: AddEligibleUserReq[];
+    
 }
 
 // Register
 export interface RegisterUserReq {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     phone: string;
-    institution: string;
+    email: string;
+    gender: string;
+    birthdate: string;
+    issuer: string;
 }
 export interface RegisterUserRes {
-    data: string;
-    meta: MetaRes;
+    Meta: MetaRes;
+    Data: RegisterUserReq[];
 }
 
 // [get] http://localhost:4200/#/dashboard/analytics/transactions

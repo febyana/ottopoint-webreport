@@ -12,7 +12,7 @@ import { SidebarComponent } from './menus/sidebar/sidebar.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   UsersComponent,
-  DialogAddEligibleComponent,
+  //DialogAddEligibleComponent,
   DialogRegisterComponent,
   DialogStatusUsersComponent,
 } from './contents/users/users.component';
@@ -20,6 +20,11 @@ import {
 // import {
 //   DialogStatusPartnerComponent,
 // } from './contents/program-management/data-partner/data-partner.component';
+
+
+import { 
+  DialogAddEligibleComponent,
+} from './contents/users-eligibility/users-eligibility.component'
 
 import {
   TransactionsEarningsPPOBComponent,
@@ -44,6 +49,7 @@ import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/b
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
 import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
+import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
 
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
@@ -99,6 +105,7 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     LevelsComponent,
     SegmentsComponent,
     RewardCampaignsComponent
+    UsersEligibilityComponent,
   ],
   entryComponents: [
     DialogAddEligibleComponent,

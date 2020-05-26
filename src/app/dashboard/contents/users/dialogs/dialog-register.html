@@ -1,13 +1,74 @@
 <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
 </div>
-    
-<h1 mat-dialog-title align="center">
-    Register this user "{{f.firstName.value}}<span *ngIf="f.lastName.value != '-'"> {{f.lastName.value}}</span>"?
-</h1>
-<form [formGroup]="dataForm" (ngSubmit) = "yes()">
-    <div mat-dialog-actions align="center">
-        <button mat-raised-button (click)="no()" color="warn">No</button>
-        <button mat-raised-button type="submit" color="primary">Yes</button>
+
+<h1 mat-dialog-title>Register</h1>
+<form [formGroup]="dataForm" (ngSubmit) = "submit()">
+    <div mat-dialog-content>
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput placeholder="FirstName" formControlName="firstname">
+            <!-- <mat-error *ngIf="f.firstname.errors">
+               FirstName is <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+        
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput placeholder="LastName" formControlName="lastname">
+            <!-- <mat-error *ngIf="f.last_name.errors">
+                Merchant ID is <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput placeholder="Email" formControlName="email">
+            <!-- <mat-error *ngIf="f.email.errors">
+                Email is <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput placeholder="Gender" formControlName="gender">
+            <!-- <mat-error *ngIf="f.gender.errors">
+                Gender <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput placeholder="birthdate" formControlName="birthdate">
+            <!-- <mat-error *ngIf="f.birthdate.errors">
+                Birthdate <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+
+
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput pattern="0[0-9]*" placeholder="Phone" formControlName="phone">
+            <mat-error *ngIf="f.phone.errors">
+                Phone number
+                <span *ngIf="f.phone.errors.required"> is <strong>required</strong></span>
+                <span *ngIf="f.phone.errors.pattern && f.phone.value[0] == 0"> can <strong>only contain numbers</strong></span>
+                <span *ngIf="f.phone.errors.pattern && f.phone.value[0] != 0"> <strong>must start with the number 0</strong></span>
+                <span *ngIf="f.phone.errors.minlength && !f.phone.errors.pattern"> <strong>must contain 12 digits</strong></span>
+                <span *ngIf="f.phone.errors.maxlength && !f.phone.errors.pattern"> <strong>must not exceed 12 digits</strong></span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Select Issuer</mat-label>
+            <mat-select formControlName="issuer">
+                <mat-option value="PSM0001">
+                    Ottopay
+                </mat-option>
+                <mat-option value="PSM0002">
+                    Pede
+                </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="f.institutionId.errors">
+                Institution is <strong>required</strong>
+            </mat-error> -->
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="cancel()" color="warn">Cancel</button>
+        <button mat-raised-button type="submit" color="primary">Submit</button>
     </div>
 </form>

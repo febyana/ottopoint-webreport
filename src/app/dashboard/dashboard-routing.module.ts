@@ -29,6 +29,7 @@ import { EarningRuleComponent } from './contents/campaign-management/earning-rul
 import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
 import { RewardCampaignsComponent } from './contents/campaign-management/reward-campaigns/reward-campaigns.component';
 import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
+import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
 
 export const routes: Routes = [
   {
@@ -122,6 +123,10 @@ export const routes: Routes = [
       {
         path: 'campaign-management/segments',
         component: SegmentsComponent,
+      },
+      {
+        path: 'users-eligibility',
+        component: UsersEligibilityComponent,
       },
     ]
   }

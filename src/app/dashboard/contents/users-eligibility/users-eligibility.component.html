@@ -3,34 +3,34 @@
         <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
     </div>
     <!-- judul -->
-    <h1>User</h1>
+    <h1>User Eligibility</h1>
     <div id="heightFilterAndActions">
         <!-- filters -->
         <br>
         <mat-form-field class="filter-field">
-            <input matInput placeholder="Nama" [(ngModel)]="fq.nama">
+            <input matInput placeholder="Nama" [(ngModel)]="fq.name">
         </mat-form-field>
         <mat-form-field class="filter-field">
             <input matInput placeholder="Phone" [(ngModel)]="fq.phone">
         </mat-form-field>
-        <mat-form-field class="filter-field">
+        <!-- <mat-form-field class="filter-field">
             <input matInput placeholder="Email" [(ngModel)]="fq.email">
         </mat-form-field>
         <mat-form-field class="filter-field">
             <input matInput placeholder="Merchant ID" [(ngModel)]="fq.merchant_id">
-        </mat-form-field>
+        </mat-form-field> -->
         <!-- actions -->
         <br>
         <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
         <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
-        <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
+        <!-- <button mat-raised-button color="primary" class="btn-export-to-csv" (click)="exportToCSV()">
             Export to CSV
         </button>
         <button mat-raised-button color="primary" (click)="exportToXLSX()">
             Export to XLSX
-        </button>
-        <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormRegisterUser()" *ngIf='isCanCreate'>
-            Register
+        </button> -->
+        <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormAddEligibleUser()" *ngIf='isCanCreate'>
+            Add Eligible
         </button>
     </div>
     
@@ -59,18 +59,11 @@
                     <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="nama">
+                <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Nama
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.nama}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="last_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Lastname
-                    </th>
-                    <td mat-cell *matCellDef="let row">{{row.last_name}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
                 </ng-container>
     
                 <ng-container matColumnDef="phone">
@@ -80,25 +73,25 @@
                     <td mat-cell *matCellDef="let row">{{row.phone}}</td>
                 </ng-container>
     
-                <ng-container matColumnDef="cust_id">
+                <ng-container matColumnDef="user_type">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Customer ID
+                        User Type
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.cust_id}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.user_type}}</td>
                 </ng-container>
     
-                <ng-container matColumnDef="email">
+                <ng-container matColumnDef="created_at">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Email
+                        Created At
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.email}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.created_at | date:'mediumDate'}}</td>
                 </ng-container>
     
-                <ng-container matColumnDef="merchant_id">
+                <ng-container matColumnDef="created_by">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                        Merchant ID
+                        Created By
                     </th>
-                    <td mat-cell *matCellDef="let row">{{row.merchant_id}}</td>
+                    <td mat-cell *matCellDef="let row">{{row.created_by}}</td>
                 </ng-container>
     
                 <!-- <ng-container matColumnDef="status">
@@ -108,7 +101,7 @@
                     <td mat-cell *matCellDef="let row">{{row.status}}</td>
                 </ng-container> -->
 
-                <ng-container matColumnDef="status">
+                <!-- <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef disableClear>
                         Status
                     </th>
@@ -117,7 +110,7 @@
                         <button *ngIf="row.status === true && row.action === Registered && row.cust_id" mat-stroked-button color="warn" (click)="openFormChangeStatus(row)" style="width: 100px;">Deactive</button>
                         <button *ngIf="row.action === Register && !row.cust_id" mat-stroked-button disabled style="width: 100px;"> - </button>
                     </td>
-                </ng-container>
+                </ng-container> -->
 
                 <!-- <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef disableClear>

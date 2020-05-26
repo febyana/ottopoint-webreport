@@ -59,6 +59,9 @@ import {
   VoucherListRes,
   EarningRuleRes,
   SKUListRes,
+  ChangePasswordRequest,
+  ChangePasswordResponse,
+  GetUsersEligibilityRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -81,6 +84,7 @@ export class ApiService {
   // baseURLBackendDashboard: string;
   URLGetToken: string;
   URLGetUsers: string;
+  URLGetUsersEligibility: string;
   URLGetTransactionsPaymentsQR: string;
   URLGetTransactionsEarningsPPOB: string;
   URLGetTransactionsEarningsOPL: string;
@@ -124,6 +128,11 @@ export class ApiService {
   URLGetVoucherList:string;
   URLAddNewEarningRule:string;
   URLGetSKUList:string;
+  // baseURLOttopay: string;
+  URLEligibleUser: string;
+  URLRegisterUser: string;
+  URLRegisterUserV2: string;
+  
 
   constructor(
     private httpClient: HttpClient,
@@ -141,6 +150,13 @@ export class ApiService {
     this.URLGetTransactionsEarningsOPL = baseURLBackendDashboard + `/transactions/earningopl?`;
     this.URLGetTransactionsVouchersRedeem = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLListUltraVoucher = baseURLBackendDashboard + `/transactions/ultravoucher?`;
+    this.URLGetToken                         = baseURLBackendDashboard + `/login`;
+    this.URLGetUsers                         = baseURLBackendDashboard + `/users/list?`;
+    this.URLGetUsersEligibility              = baseURLBackendDashboard + `/users/eligibility?`;
+    this.URLGetTransactionsPaymentsQR        = baseURLBackendDashboard + `/transactions/payments/qr?`; // hold
+    this.URLGetTransactionsEarningsPPOB      = baseURLBackendDashboard + `/transactions/earnings?`;
+    this.URLGetTransactionsEarningsOPL        = baseURLBackendDashboard + `/transactions/earningopl?`; 
+    this.URLGetTransactionsVouchersRedeem    = baseURLBackendDashboard + `/transactions/vouchers?`;
     this.URLGetTransactionsVouchersRedeemOpl = baseURLBackendDashboard + `/history/redeem?`;
     this.URLGetTransactionsRedeemPointOpl = baseURLBackendDashboard + `/history/redeempointopl?`;
     this.URLGetAnalyticsTransactions = baseURLBackendDashboard + `/analytics/transactions`;
@@ -184,6 +200,9 @@ export class ApiService {
     // ottopay
     this.URLEligibleUser = baseURLOttopay + `/add_eligible`;
     this.URLRegisterUser = baseURLOttopay + `/register_user`;
+    this.URLEligibleUser                     = baseURLBackendDashboard + `/users/add-eligible`;
+    this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
+    this.URLRegisterUserV2                   = baseURLBackendDashboard + `/users/register-user`;
   }
 
   whichEnvironment() {
@@ -245,6 +264,20 @@ export class ApiService {
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
+  }
+
+  public APIGetUsersEligibility(
+    token: string,
+    offset: number,
+    limit: number,
+    sortby: string,
+    order: string,
+    query: string
+  ): Observable<GetUsersEligibilityRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+    return this.httpClient.get<GetUsersEligibilityRes>(this.URLGetUsersEligibility + this.queryParams, httpOptions);
   }
 
   public APIGetTransactionsPaymentsQR(
@@ -439,6 +472,16 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<RegisterUserRes>(this.URLRegisterUser, req, httpOptions);
+  }
+
+  public APIRegisterUserV2(req: RegisterUserReq, token: string): Observable<RegisterUserRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<RegisterUserRes>(this.URLRegisterUserV2, req, httpOptions);
   }
 
   public APIGetSettingsVariablesTransactions(
