@@ -252,7 +252,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
             Phone : e.phone,
             Email : e.email,
             TransactionsType : e.transactions_type,
-            ValuePoint : e.value_point,
+            ValuePoint : +e.value_point,
             ProductCode : e.product_code,
             ProductName : e.product_name,
             ProductType : e.product_type,
