@@ -532,7 +532,7 @@ req: RegisterUserReq;
       ]],
       email: ['', Validators.required],
       gender: ['', Validators.required],
-      birthdate: ['', Validators.required],
+      birthdate: ['',],
       issuer: [undefined, Validators.required],
     });
   }

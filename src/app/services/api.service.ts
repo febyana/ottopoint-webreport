@@ -121,7 +121,7 @@ export class ApiService {
     this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
     // ottopay
     this.URLEligibleUser                     = baseURLBackendDashboard + `/users/add-eligible`;
-    this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
+    this.URLRegisterUser                     = baseURLBackendDashboard + `/users/register_user`;
   }
 
   whichEnvironment() {
