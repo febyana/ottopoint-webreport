@@ -1,6 +1,5 @@
 import { Time } from '@angular/common';
 import { StringifyOptions } from 'querystring';
-import { UltravoucherComponent } from '../dashboard/contents/ultravoucher/ultravoucher.component';
 
 export interface MetaRes {
     status: boolean;
@@ -174,18 +173,19 @@ export interface OutstandingVoucherRes {
     code: number;
     message: string;
 }
+export interface OutstandingVoucherRes {
+    data: OutstandingVoucher[];
+    total: number;
+    code: number;
+    message: string;
+}
 export interface GetTransactionsEarningsOPLRes {
     data: TransactionEarningOPL[];
     total: number;
     code: number;
     message: string;
 }
-export interface GetListUltraVoucherRes {
-    data: ListUltraVoucher[];
-    total: number;
-    code: number;
-    message: string;
-}
+
 export interface ExportTransactionsEarningsPPOBToCSVReq {
     start_date: string;
     end_date: string;

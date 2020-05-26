@@ -22,8 +22,6 @@ import {
   GetVouchersNameRes,
   GetPPOBProductTypesRes,
   GetTransactionsEarningsOPLRes,
-  ChangePasswordRequest,
-  ChangePasswordResponse,
   ChangeStatusRequest,
   ChangeStatusResponse,
   HistoryBulk,
@@ -35,7 +33,6 @@ import {
   GetTransactionsRedeemPointOplRes,
   GetSKURes,
   OutstandingPointRes,
-  OutstandingPoint,
   OutstandingVoucherRes,
   ReportUVResp,
   GetVoucherNameUV,
@@ -304,7 +301,6 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<OutstandingVoucherRes>(this.URLOutstandingVoucher + this.queryParams, httpOptions)
   }
-
   public APIGetTransactionsEarningOPL(
     token: string,
     offset: number,

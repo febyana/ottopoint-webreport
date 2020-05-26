@@ -5,8 +5,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MaterialModule } from '../shared/material.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { DashboardComponent, DialogChangePasswordComponent } from './dashboard.component';
+ 
+import { DashboardComponent } from './dashboard.component';
 import { SidebarComponent } from './menus/sidebar/sidebar.component';
 
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
@@ -41,8 +41,9 @@ import { OutstandingPointComponent } from './contents/outstanding/outstanding_po
 import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { TransactionsEarningsEarningoplComponent } from './contents/transactions/earnings/earningopl/transactions-earnings-earningopl.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
-import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
-import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
+import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
+import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
+import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 
 import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
 import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
@@ -75,7 +76,6 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     OutstandingPointComponent,
     OutstandingVoucherComponent,
     TransactionsEarningsEarningoplComponent,
-    DialogChangePasswordComponent,
     DialogStatusUsersComponent,
     DialogStatusPartnerComponent,
     BulkUploadAdjusmentComponent,
@@ -104,7 +104,6 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     DialogAddEligibleComponent,
     DialogRegisterComponent,
     DialogShowDataComponent,
-    DialogChangePasswordComponent,
     DialogStatusUsersComponent,
     DialogViewDataPatnerComponent,
     DialogEditDataPatnerComponent,
