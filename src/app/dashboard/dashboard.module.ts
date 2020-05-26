@@ -48,11 +48,9 @@ import { TransactionsEarningsEarningoplComponent } from './contents/transactions
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component'
 import { RedeemVoucherOplComponent } from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component'
-import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
-
-import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
-import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
+// import { UserCustomerComponent } from './contents/user-customer/user-customer.component';
+// import { UltravoucherComponent } from './contents/ultravoucher/ultravoucher.component';
 import { RedeemPointOplComponent } from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
@@ -87,8 +85,8 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
-    UserCustomerComponent,
-    UltravoucherComponent,
+    // UserCustomerComponent,
+    // UltravoucherComponent,
     BulkUploadAdjusmentComponent,
     BulkUploadAddcustomerComponent,
     RedeemVoucherOplComponent,
@@ -104,7 +102,7 @@ import { RewardCampaignsComponent } from './contents/campaign-management/reward-
     EarningRuleComponent,
     LevelsComponent,
     SegmentsComponent,
-    RewardCampaignsComponent
+    RewardCampaignsComponent,
     UsersEligibilityComponent,
   ],
   entryComponents: [

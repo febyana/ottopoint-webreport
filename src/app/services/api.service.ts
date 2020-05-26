@@ -29,7 +29,7 @@ import {
   BulkAdjustmentResponse,
   BulkAddCustomerRes,
   GetTransactionsVouchersRedeemOplRes,
-  GetListUltraVoucherRes,
+  // GetListUltraVoucherRes,
   GetTransactionsRedeemPointOplRes,
   GetSKURes,
   OutstandingPointRes,
@@ -129,8 +129,8 @@ export class ApiService {
   URLAddNewEarningRule:string;
   URLGetSKUList:string;
   // baseURLOttopay: string;
-  URLEligibleUser: string;
-  URLRegisterUser: string;
+  // URLEligibleUser: string;
+  // URLRegisterUser: string;
   URLRegisterUserV2: string;
   
 
@@ -347,19 +347,19 @@ export class ApiService {
     this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
     return this.httpClient.get<GetTransactionsEarningsOPLRes>(this.URLGetTransactionsEarningsOPL + this.queryParams, httpOptions)
   }
-  public APIGetListUltraVoucher(
-    token: string,
-    offset: number,
-    limit: number,
-    sortby: string,
-    order: string,
-    query: string
-  ): Observable<GetListUltraVoucherRes> {
-    this.whichEnvironment();
-    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
-    return this.httpClient.get<GetListUltraVoucherRes>(this.URLListUltraVoucher + this.queryParams, httpOptions)
-  }
+  // public APIGetListUltraVoucher(
+  //   token: string,
+  //   offset: number,
+  //   limit: number,
+  //   sortby: string,
+  //   order: string,
+  //   query: string
+  // ): Observable<GetListUltraVoucherRes> {
+  //   this.whichEnvironment();
+  //   httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+  //   this.queryParams = `offset=${String(offset)}&limit=${String(limit)}&sortby=${sortby}&order=${order}&query=${query}`;
+  //   return this.httpClient.get<GetListUltraVoucherRes>(this.URLListUltraVoucher + this.queryParams, httpOptions)
+  // }
 
   public APIGetTransactionsEarningsQR(
     token: string,
