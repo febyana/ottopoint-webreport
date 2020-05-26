@@ -558,7 +558,7 @@ req: RegisterUserReq;
       issuer: this.dataForm.value.issuer,
     };
     //console.log('query :\n', this.data);
-    this.apiService.APIRegisterUser(
+    this.apiService.APIRegisterUserV2(
       this.req,
       window.localStorage.getItem('token')
     ).subscribe((res: RegisterUserRes) => {

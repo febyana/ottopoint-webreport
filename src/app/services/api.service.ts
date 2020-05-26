@@ -84,6 +84,7 @@ export class ApiService {
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
+  URLRegisterUserV2: string;
   
 
 
@@ -121,7 +122,8 @@ export class ApiService {
     this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
     // ottopay
     this.URLEligibleUser                     = baseURLBackendDashboard + `/users/add-eligible`;
-    this.URLRegisterUser                     = baseURLBackendDashboard + `/users/register_user`;
+    this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
+    this.URLRegisterUserV2                   = baseURLBackendDashboard + `/users/register-user`;
   }
 
   whichEnvironment() {
@@ -362,6 +364,16 @@ export class ApiService {
       return;
     }
     return this.httpClient.post<RegisterUserRes>(this.URLRegisterUser, req, httpOptions);
+  }
+
+  public APIRegisterUserV2(req: RegisterUserReq, token: string): Observable<RegisterUserRes> {
+    this.whichEnvironment();
+    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    if (!JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create')) {
+      alert('you not have privilage to this action');
+      return;
+    }
+    return this.httpClient.post<RegisterUserRes>(this.URLRegisterUserV2, req, httpOptions);
   }
 
   public APIGetSettingsVariablesTransactions(
