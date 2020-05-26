@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { StringifyOptions } from 'querystring';
-import { UltravoucherComponent } from '../dashboard/contents/ultravoucher/ultravoucher.component';
+import { UltravoucherComponent } from '../dashboard/contents/uv/ultravoucher.component';
 
 export interface MetaRes {
     status: boolean;
