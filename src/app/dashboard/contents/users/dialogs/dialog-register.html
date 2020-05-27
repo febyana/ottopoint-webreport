@@ -81,7 +81,7 @@
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Issuer</mat-label>
-            <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
+            <mat-select matNativeControl required formControlName="issuer" name="partners" #_partner>
                 <mat-option value="" selected></mat-option>
                 <mat-option *ngFor="let partner of partners" [value]="partner.value">
                     {{partner.viewValue}}

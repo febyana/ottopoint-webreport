@@ -29,6 +29,11 @@ import {
 import { ExcelServicesService } from '../../../services/xlsx.service';
 // import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
 
+interface dataint{
+  value : number;
+  viewValue:string;
+}
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -49,6 +54,8 @@ export class UsersComponent {
     email: '',
     merchant_id: ''
   };
+
+  partners: dataint[] = [];
 
   displayedColumns: string[] = [
     // 'id',
@@ -79,7 +86,7 @@ export class UsersComponent {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  partners: any;
+  //partners: any;
 
   constructor(
     private apiService: ApiService,
