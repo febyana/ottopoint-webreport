@@ -591,3 +591,15 @@ export interface AddNewPartnerRes {
     data: string;
     meta: MetaRes;
 }
+
+export interface IssuerListRes{
+    response_code : string;
+    messages : string;
+    data : IssuerNameList[];
+}
+
+export interface IssuerNameList{
+    id :number;
+    institutionName :string;
+    partnerId : string
+}

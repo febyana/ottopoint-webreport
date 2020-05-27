@@ -19,7 +19,8 @@ import {
   RegisterUserRes,
   ChangeStatusRequest,
   ChangeStatusResponse,
-  ExportUsersToCSVReq
+  ExportUsersToCSVReq,
+  IssuerListRes
 } from '../../../models/models';
 import {
   MatSnackBar,
@@ -78,6 +79,7 @@ export class UsersComponent {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  partners: any;
 
   constructor(
     private apiService: ApiService,
@@ -106,6 +108,17 @@ export class UsersComponent {
         'status',
       ];
     }
+
+    this.apiService.APIGetIssuerList(
+      window.localStorage.getItem('token')
+    ).subscribe((res: IssuerListRes) => {
+      res.data.forEach(e => {
+        this.partners.push({
+           value: e.id, 
+           viewValue: e.partnerId + " - " +e.institutionName
+        });
+      });
+    });
   }
   // tslint:disable-next-line:use-lifecycle-interface
   ngAfterViewInit() {

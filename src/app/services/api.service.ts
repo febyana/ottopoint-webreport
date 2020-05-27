@@ -36,6 +36,7 @@ import {
   ChangePasswordRequest,
   ChangePasswordResponse,
   GetUsersEligibilityRes,
+  IssuerListRes,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -81,10 +82,12 @@ export class ApiService {
   URLBulkAddCustomer: string;
   URLOutstandingPoint: string;
   URLOutstandingVoucher: string;
+  URLGetIssuerList: string;
   // baseURLOttopay: string;
   URLEligibleUser: string;
   URLRegisterUser: string;
   URLRegisterUserV2: string;
+
   
 
 
@@ -120,6 +123,7 @@ export class ApiService {
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
     this.URLOutstandingPoint                 = baseURLBackendDashboard + `/outstanding/point?`;
     this.URLOutstandingVoucher               = baseURLBackendDashboard + `/outstanding/voucher?`;
+    this.URLGetIssuerList                    = baseURLBackendDashboard + `/list-institution`;
     // ottopay
     this.URLEligibleUser                     = baseURLBackendDashboard + `/users/add-eligible`;
     this.URLRegisterUser                     = baseURLOttopay + `/register_user`;
@@ -187,6 +191,12 @@ export class ApiService {
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
   }
 
+  public APIGetIssuerList(token : string): Observable<IssuerListRes> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<IssuerListRes>(this.URLGetIssuerList, httpOptions);
+  }
+  
   public APIGetUsersEligibility(
     token: string,
     offset: number,
