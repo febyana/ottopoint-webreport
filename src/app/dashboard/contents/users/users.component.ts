@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
+import { DatePipe } from '@angular/common';
 import {
   GetUsersRes,
   User,
@@ -501,7 +502,7 @@ req: RegisterUserReq;
 
   dataForm: FormGroup;
   router: any;
-  datePipe: any;
+  // datePipe: any;
   get f() { return this.dataForm.controls; }
 
   isLoadingResults = false;
@@ -518,7 +519,8 @@ req: RegisterUserReq;
    // @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public datePipe: DatePipe,
   ) {}
 
   ngOnInit() {
@@ -544,6 +546,7 @@ req: RegisterUserReq;
   }
 
   submit() {
+    console.log("masuk register")
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
