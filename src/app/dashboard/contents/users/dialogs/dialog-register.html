@@ -26,20 +26,33 @@
             </mat-error> -->
         </mat-form-field>
 
-        <mat-form-field style="margin-bottom: 2%;">
-            <input matInput placeholder="Gender" formControlName="gender">
-            <!-- <mat-error *ngIf="f.gender.errors">
-                Gender <strong>required</strong>
-            </mat-error> -->
+        <mat-form-field>
+            <mat-label>Select Gender</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option value="male">
+                    Male
+                </mat-option>
+                <mat-option value="female">
+                    Female
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
-        <mat-form-field style="margin-bottom: 2%;">
+        <!-- <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="birthdate" formControlName="birthdate">
-            <!-- <mat-error *ngIf="f.birthdate.errors">
+            <mat-error *ngIf="f.birthdate.errors">
                 Birthdate <strong>required</strong>
-            </mat-error> -->
-        </mat-form-field>
+            </mat-error>
+        </mat-form-field> -->
 
+        <mat-form-field class="example-full-width">
+            <mat-label>Birthdate</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthdate">
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
         <mat-form-field style="margin-bottom: 2%;">
             <input matInput pattern="0[0-9]*" placeholder="Phone" formControlName="phone">

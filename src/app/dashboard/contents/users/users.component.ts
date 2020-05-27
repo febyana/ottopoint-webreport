@@ -501,6 +501,7 @@ req: RegisterUserReq;
 
   dataForm: FormGroup;
   router: any;
+  datePipe: any;
   get f() { return this.dataForm.controls; }
 
   isLoadingResults = false;
@@ -530,7 +531,7 @@ req: RegisterUserReq;
         Validators.minLength(11),
         Validators.maxLength(12)
       ]],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
       gender: ['', Validators.required],
       birthdate: ['',],
       issuer: [undefined, Validators.required],
@@ -548,13 +549,21 @@ req: RegisterUserReq;
       return;
     }
     this.isLoadingResults = true;
+
+    var birthday 
+    if (this.dataForm.value.birthdate !== null) {
+      birthday = this.datePipe.transform(this.dataForm.value.birthdate, 'yyyy-MM-dd')
+    }
+
+
     this.req = {
       firstname: this.dataForm.value.firstname,
       lastname: this.dataForm.value.lastname,
       phone: this.dataForm.value.phone,
       email: this.dataForm.value.email,
       gender: this.dataForm.value.gender,
-      birthdate: this.dataForm.value.birthdate,
+      birthdate: birthday,
+      //birthdate: this.dataForm.value.birthdate,
       issuer: this.dataForm.value.issuer,
     };
     //console.log('query :\n', this.data);
