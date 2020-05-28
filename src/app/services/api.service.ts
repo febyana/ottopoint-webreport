@@ -126,7 +126,7 @@ export class ApiService {
   URLDownloadFile: string;
   URLUploadPartner: string;
   URLGenerateAPIKey : string;
-  URLGetIssuerList:string;
+  //URLGetIssuerList:string;
   URLGetVoucherList:string;
   URLAddNewEarningRule:string;
   URLGetSKUList:string;
