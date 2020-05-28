@@ -30,19 +30,17 @@
                 <span *ngIf="f.phone.errors.maxlength && !f.phone.errors.pattern"> <strong>must not exceed 12 digits</strong></span>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Select Institution</mat-label>
-            <mat-select formControlName="instutionId">
-                <mat-option value="PSM0001">
-                    Ottopay
-                </mat-option>
-                <mat-option value="PSM0002">
-                    Pede
+        <mat-form-field class="full-width">
+            <mat-label>Select Issuer</mat-label>
+            <mat-select required formControlName="instutionId">
+                <mat-option value="" selected></mat-option>
+                <mat-option *ngFor="let p of partners" [value]="p.value">
+                    {{p.viewValue}}
                 </mat-option>
             </mat-select>
-            <!-- <mat-error *ngIf="f.institutionId.errors">
-                Institution is <strong>required</strong>
-            </mat-error> -->
+            <mat-error>
+                Issuer is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
     </div>
     <div mat-dialog-actions align="end">

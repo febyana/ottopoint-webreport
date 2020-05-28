@@ -30,7 +30,7 @@ import { ExcelServicesService } from '../../../services/xlsx.service';
 // import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
 
 interface dataint{
-  value : number;
+  value : string;
   viewValue: string;
 }
 
@@ -55,7 +55,7 @@ export class UsersComponent {
     merchant_id: ''
   };
 
-  partners: dataint[] = [];
+ 
 
   displayedColumns: string[] = [
     // 'id',
@@ -115,18 +115,6 @@ export class UsersComponent {
         'status',
       ];
     }
-
-    this.apiService.APIGetIssuerList(
-      window.localStorage.getItem('token')
-    ).subscribe((res: IssuerListRes) => {
-      res.data.forEach(e => {
-        this.partners.push({
-           value: e.id, 
-           viewValue: e.partnerId + " - " +e.institutionName
-        });
-      });
-      console.log("VIEW VALUE LIST", this.partners)
-    });
   }
   // tslint:disable-next-line:use-lifecycle-interface
   ngAfterViewInit() {
@@ -535,6 +523,7 @@ req: RegisterUserReq;
     panelClass: ['snack-bar-ekstra-css']
   };
 
+  partners: dataint[] = [];
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
    // @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
@@ -545,6 +534,17 @@ req: RegisterUserReq;
   ) {}
 
   ngOnInit() {
+    this.apiService.APIGetIssuerList(
+      window.localStorage.getItem('token')
+    ).subscribe((res: IssuerListRes) => {
+      res.data.forEach(e => {
+        this.partners.push({
+           value: e.partnerId, 
+           viewValue: e.partnerId + " - " +e.institutionName
+        });
+      });
+      console.log("VIEW VALUE LIST", this.partners)
+    });
     this.dataForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
