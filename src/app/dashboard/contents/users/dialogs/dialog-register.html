@@ -65,7 +65,7 @@
                 <span *ngIf="f.phone.errors.maxlength && !f.phone.errors.pattern"> <strong>must not exceed 12 digits</strong></span>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <mat-label>Select Issuer</mat-label>
             <mat-select formControlName="issuer">
                 <mat-option value="PSM0001">
@@ -74,17 +74,30 @@
                 <mat-option value="PSM0002">
                     Pede
                 </mat-option>
-            </mat-select>
+            </mat-select> -->
             <!-- <mat-error *ngIf="f.institutionId.errors">
                 Institution is <strong>required</strong>
             </mat-error> -->
-        </mat-form-field>
+       <!-- </mat-form-field> -->
+       <!-- <mat-form-field class="full-width">
+        <mat-label>Issuer</mat-label>
+        <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let partner of partners" [value]="partner.value">
+                {{partner.viewValue}}
+            </mat-option>
+        </mat-select>
+        <mat-error>
+            Issuer is <strong>required</strong>
+        </mat-error>
+    </mat-form-field> -->
+
         <mat-form-field class="full-width">
-            <mat-label>Issuer</mat-label>
-            <mat-select matNativeControl required formControlName="issuer" name="partners" #_partner>
+            <mat-label>Select Issuer</mat-label>
+            <mat-select matNativeControl required formControlName="issuer" name="issuer">
                 <mat-option value="" selected></mat-option>
-                <mat-option *ngFor="let partner of partners" [value]="partner.value">
-                    {{partner.viewValue}}
+                <mat-option *ngFor="let p of partners" [value]="p.value">
+                    {{p.viewValue}}
                 </mat-option>
             </mat-select>
             <mat-error>

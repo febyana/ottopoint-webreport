@@ -31,7 +31,7 @@ import { ExcelServicesService } from '../../../services/xlsx.service';
 
 interface dataint{
   value : number;
-  viewValue:string;
+  viewValue: string;
 }
 
 @Component({
@@ -125,6 +125,7 @@ export class UsersComponent {
            viewValue: e.partnerId + " - " +e.institutionName
         });
       });
+      console.log("VIEW VALUE LIST", this.partners)
     });
   }
   // tslint:disable-next-line:use-lifecycle-interface
