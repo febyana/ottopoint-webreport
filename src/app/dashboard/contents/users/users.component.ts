@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
+import { DatePipe } from '@angular/common';
 import {
   GetUsersRes,
   User,
@@ -18,7 +19,8 @@ import {
   RegisterUserRes,
   ChangeStatusRequest,
   ChangeStatusResponse,
-  ExportUsersToCSVReq
+  ExportUsersToCSVReq,
+  IssuerListRes1,
 } from '../../../models/models';
 import {
   MatSnackBar,
@@ -26,6 +28,11 @@ import {
 } from '@angular/material/snack-bar';
 import { ExcelServicesService } from '../../../services/xlsx.service';
 // import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
+
+interface dataint{
+  value : string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-users',
@@ -47,6 +54,8 @@ export class UsersComponent {
     email: '',
     merchant_id: ''
   };
+
+ 
 
   displayedColumns: string[] = [
     // 'id',
@@ -77,6 +86,7 @@ export class UsersComponent {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  //partners: any;
 
   constructor(
     private apiService: ApiService,
@@ -501,6 +511,7 @@ req: RegisterUserReq;
 
   dataForm: FormGroup;
   router: any;
+  // datePipe: any;
   get f() { return this.dataForm.controls; }
 
   isLoadingResults = false;
@@ -512,15 +523,28 @@ req: RegisterUserReq;
     panelClass: ['snack-bar-ekstra-css']
   };
 
+  partners: dataint[] = [];
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
    // @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public datePipe: DatePipe,
   ) {}
 
   ngOnInit() {
+    this.apiService.APIGetIssuerList1(
+      window.localStorage.getItem('token')
+    ).subscribe((res: IssuerListRes1) => {
+      res.data.forEach(e => {
+        this.partners.push({
+           value: e.partnerId, 
+           viewValue: e.partnerId + " - " +e.institutionName
+        });
+      });
+      console.log("VIEW VALUE LIST", this.partners)
+    });
     this.dataForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -530,7 +554,7 @@ req: RegisterUserReq;
         Validators.minLength(11),
         Validators.maxLength(12)
       ]],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
       gender: ['', Validators.required],
       birthdate: ['',],
       issuer: [undefined, Validators.required],
@@ -543,18 +567,27 @@ req: RegisterUserReq;
   }
 
   submit() {
+    console.log("masuk register")
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
     }
     this.isLoadingResults = true;
+
+    var birthday 
+    if (this.dataForm.value.birthdate !== null) {
+      birthday = this.datePipe.transform(this.dataForm.value.birthdate, 'yyyy-MM-dd')
+    }
+
+
     this.req = {
       firstname: this.dataForm.value.firstname,
       lastname: this.dataForm.value.lastname,
       phone: this.dataForm.value.phone,
       email: this.dataForm.value.email,
       gender: this.dataForm.value.gender,
-      birthdate: this.dataForm.value.birthdate,
+      birthdate: birthday,
+      //birthdate: this.dataForm.value.birthdate,
       issuer: this.dataForm.value.issuer,
     };
     //console.log('query :\n', this.data);

@@ -63,6 +63,7 @@ import {
   ChangePasswordResponse,
   GetUsersEligibilityRes,
   GetListUltraVoucherRes,
+  IssuerListRes1,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -129,10 +130,12 @@ export class ApiService {
   URLGetVoucherList:string;
   URLAddNewEarningRule:string;
   URLGetSKUList:string;
+  URLGetIssuerList: string;
   // baseURLOttopay: string;
   // URLEligibleUser: string;
   // URLRegisterUser: string;
   URLRegisterUserV2: string;
+
   
 
   constructor(
@@ -267,6 +270,12 @@ export class ApiService {
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
   }
 
+  public APIGetIssuerList1(token : string): Observable<IssuerListRes1> {
+    this.whichEnvironment();
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    return this.httpClient.get<IssuerListRes1>(this.URLGetIssuerList, httpOptions);
+  }
+  
   public APIGetUsersEligibility(
     token: string,
     offset: number,

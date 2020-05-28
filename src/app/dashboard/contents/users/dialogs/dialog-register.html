@@ -26,20 +26,33 @@
             </mat-error> -->
         </mat-form-field>
 
-        <mat-form-field style="margin-bottom: 2%;">
-            <input matInput placeholder="Gender" formControlName="gender">
-            <!-- <mat-error *ngIf="f.gender.errors">
-                Gender <strong>required</strong>
-            </mat-error> -->
+        <mat-form-field>
+            <mat-label>Select Gender</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option value="male">
+                    Male
+                </mat-option>
+                <mat-option value="female">
+                    Female
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
-        <mat-form-field style="margin-bottom: 2%;">
+        <!-- <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="birthdate" formControlName="birthdate">
-            <!-- <mat-error *ngIf="f.birthdate.errors">
+            <mat-error *ngIf="f.birthdate.errors">
                 Birthdate <strong>required</strong>
-            </mat-error> -->
-        </mat-form-field>
+            </mat-error>
+        </mat-form-field> -->
 
+        <mat-form-field class="example-full-width">
+            <mat-label>Birthdate</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthdate">
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
         <mat-form-field style="margin-bottom: 2%;">
             <input matInput pattern="0[0-9]*" placeholder="Phone" formControlName="phone">
@@ -52,7 +65,7 @@
                 <span *ngIf="f.phone.errors.maxlength && !f.phone.errors.pattern"> <strong>must not exceed 12 digits</strong></span>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <mat-label>Select Issuer</mat-label>
             <mat-select formControlName="issuer">
                 <mat-option value="PSM0001">
@@ -61,11 +74,37 @@
                 <mat-option value="PSM0002">
                     Pede
                 </mat-option>
-            </mat-select>
+            </mat-select> -->
             <!-- <mat-error *ngIf="f.institutionId.errors">
                 Institution is <strong>required</strong>
             </mat-error> -->
+       <!-- </mat-form-field> -->
+       <!-- <mat-form-field class="full-width">
+        <mat-label>Issuer</mat-label>
+        <mat-select matNativeControl required formControlName="_partner" name="_partner" #_partner>
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let partner of partners" [value]="partner.value">
+                {{partner.viewValue}}
+            </mat-option>
+        </mat-select>
+        <mat-error>
+            Issuer is <strong>required</strong>
+        </mat-error>
+    </mat-form-field> -->
+
+        <mat-form-field class="full-width">
+            <mat-label>Select Issuer</mat-label>
+            <mat-select matNativeControl required formControlName="issuer" name="issuer">
+                <mat-option value="" selected></mat-option>
+                <mat-option *ngFor="let p of partners" [value]="p.value">
+                    {{p.viewValue}}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                Issuer is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
+
     </div>
     <div mat-dialog-actions align="end">
         <button mat-raised-button (click)="cancel()" color="warn">Cancel</button>

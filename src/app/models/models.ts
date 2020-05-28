@@ -842,3 +842,15 @@ export interface EarningRuleRes {
     messages: string;
     response_code:string;
 }
+
+export interface IssuerListRes1{
+    response_code : string;
+    messages : string;
+    data : IssuerNameList1[];
+}
+
+export interface IssuerNameList1{
+    id :number;
+    institutionName :string;
+    partnerId : string
+}
