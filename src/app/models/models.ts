@@ -592,13 +592,13 @@ export interface AddNewPartnerRes {
     meta: MetaRes;
 }
 
-export interface IssuerListRes{
+export interface IssuerListRes1{
     response_code : string;
     messages : string;
-    data : IssuerNameList[];
+    data : IssuerNameList1[];
 }
 
-export interface IssuerNameList{
+export interface IssuerNameList1{
     id :number;
     institutionName :string;
     partnerId : string

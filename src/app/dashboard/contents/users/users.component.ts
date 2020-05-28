@@ -20,7 +20,7 @@ import {
   ChangeStatusRequest,
   ChangeStatusResponse,
   ExportUsersToCSVReq,
-  IssuerListRes
+  IssuerListRes1,
 } from '../../../models/models';
 import {
   MatSnackBar,
@@ -534,9 +534,9 @@ req: RegisterUserReq;
   ) {}
 
   ngOnInit() {
-    this.apiService.APIGetIssuerList(
+    this.apiService.APIGetIssuerList1(
       window.localStorage.getItem('token')
-    ).subscribe((res: IssuerListRes) => {
+    ).subscribe((res: IssuerListRes1) => {
       res.data.forEach(e => {
         this.partners.push({
            value: e.partnerId, 

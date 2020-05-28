@@ -36,7 +36,7 @@ import {
   ChangePasswordRequest,
   ChangePasswordResponse,
   GetUsersEligibilityRes,
-  IssuerListRes,
+  IssuerListRes1,
 } from '../models/models';
 
 import { selected_environment, environments } from '../../configs/app.config.json';
@@ -191,10 +191,10 @@ export class ApiService {
     return this.httpClient.get<GetUsersRes>(this.URLGetUsers + this.queryParams, httpOptions);
   }
 
-  public APIGetIssuerList(token : string): Observable<IssuerListRes> {
+  public APIGetIssuerList1(token : string): Observable<IssuerListRes1> {
     this.whichEnvironment();
     httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    return this.httpClient.get<IssuerListRes>(this.URLGetIssuerList, httpOptions);
+    return this.httpClient.get<IssuerListRes1>(this.URLGetIssuerList, httpOptions);
   }
   
   public APIGetUsersEligibility(

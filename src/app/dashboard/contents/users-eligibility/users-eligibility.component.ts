@@ -13,7 +13,7 @@ import {
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import { GetUsersEligibilityRes, AddEligibleUserReq, AddEligibleUserRes, IssuerListRes } from 'src/app/models/models';
+import { GetUsersEligibilityRes, AddEligibleUserReq, AddEligibleUserRes, IssuerListRes1 } from 'src/app/models/models';
 //import { ExcelServicesService } from '../../../../services/xlsx.service';
 interface dataint{
   value : string;
@@ -264,9 +264,9 @@ export class DialogAddEligibleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.apiService.APIGetIssuerList(
+    this.apiService.APIGetIssuerList1(
       window.localStorage.getItem('token')
-    ).subscribe((res: IssuerListRes) => {
+    ).subscribe((res: IssuerListRes1) => {
       res.data.forEach(e => {
         this.partners.push({
            value: e.partnerId, 
