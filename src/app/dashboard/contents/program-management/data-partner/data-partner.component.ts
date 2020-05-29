@@ -677,12 +677,20 @@ export class DialogEditDataPatnerComponent implements OnInit {
     this.checkedWL = y;
   }
 
-  downloadFile(pth){
+  downloadFile(pth) {
     console.log(pth)
-    const url = 'http://127.0.0.1:8819/' + pth
-    console.log(url)
-    // window.open(url)
-    window.location.href = url;
+    this.apiService.APIDownloadFile(pth, window.localStorage.getItem('token')
+    ).subscribe((res: any) => {
+      if (res.Meta.code != 200) {
+        alert(res.Meta.message);
+      }
+      if (res.code == 203) {
+        alert("Invalid Token");
+      }
+    }, (err: any) => {
+      const url = this.apiService.URLDownloadFile + `filePath=` + pth
+      window.open(url)
+    });
   }
 
   close(){

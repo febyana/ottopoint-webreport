@@ -192,9 +192,14 @@
                 <mat-label>File name</mat-label>
                 <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
             </mat-form-field>
-            <a (click)="downloadFile(dtaFiles.Path)">
-                <mat-icon class="icon" aria-hidden="false">vertical_align_bottom</mat-icon>
-            </a>
+            <button mat-button #tooltip="matTooltip"
+            (click)="downloadFile(dtaFiles.Path)"
+            matTooltip="Download"
+            matTooltipPosition="right"
+            aria-label="Show/Hide tooltip on the button at the end of this section"
+            class="example-action-button">
+            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
+        </button>
         </div>
 
       </mat-expansion-panel>
