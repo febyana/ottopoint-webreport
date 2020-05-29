@@ -90,6 +90,13 @@
                     <td mat-cell *matCellDef="let row">{{row.name}}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="brand_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Brand Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.brand_name}}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="created_at">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Created At
@@ -224,6 +231,6 @@
         </div>
     </div>
     <!-- paginator -->
-    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[20, 50, 100]"></mat-paginator>
 </mat-card>
     

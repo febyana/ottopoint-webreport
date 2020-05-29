@@ -21,6 +21,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { ExcelServicesService } from '../../../../services/xlsx.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { number } from '@amcharts/amcharts4/core';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class DataPartnerComponent implements OnInit {
     'no',
     'partner_id',
     'name',
+    'brand_name',
     'created_at', 
     'address',
     'business_type',
@@ -59,7 +61,7 @@ export class DataPartnerComponent implements OnInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight = number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -87,6 +89,7 @@ export class DataPartnerComponent implements OnInit {
       'no',
       'partner_id',
       'name',
+      'brand_name',
       'created_at', 
       'address',
       'business_type',
@@ -217,6 +220,7 @@ export class DataPartnerComponent implements OnInit {
           No: no++,
           partner_id : e.partner_id,
           name : e.name,
+          brand_name : e.brand_name,
           created_at : e.created_at.substr(0,10),
           address :e.address,
           business_type : e.business_type,
@@ -262,6 +266,7 @@ export class DataPartnerComponent implements OnInit {
           No: no++,
           partner_id : e.partner_id,
           name : e.name,
+          brand_name : e.brand_name,
           created_at : e.created_at.substr(0,10),
           address :e.address,
           business_type : e.business_type,

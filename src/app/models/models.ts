@@ -311,6 +311,7 @@ export interface GetDataPartner {
     id: number;
     partner_id: string;
     name: string;
+    brand_name: string;
     created_at: string;
     address: string;
     business_type: string;
