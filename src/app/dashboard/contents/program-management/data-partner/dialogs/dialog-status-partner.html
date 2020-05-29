@@ -3,7 +3,8 @@
 </div>
     
 <h1 mat-dialog-title align="center">
-    Are You sure ?
+    <span *ngIf="data.is_active === true">Are you sure Deactive this User ?</span>
+    <span *ngIf="data.is_active === false"> Are you sure Active this User ?</span>
 </h1>
 <form [formGroup]="dataForm" (ngSubmit) = "yes()">
     <div mat-dialog-actions align="center">
