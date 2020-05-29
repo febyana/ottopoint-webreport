@@ -20,6 +20,7 @@ import { ExcelServicesService } from '../../../../services/xlsx.service';
 import { MatSelectionList, JAN } from '@angular/material';
 import { JSDocTagName } from '@angular/compiler/src/output/output_ast';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { number } from '@amcharts/amcharts4/core';
 
 
 @Component({
@@ -44,7 +45,8 @@ export class DataPartnerComponent implements OnInit {
     'no',
     'partner_id',
     'name',
-    'created_at',
+    'brand_name',
+    'created_at', 
     'address',
     'business_type',
     'tax_number',
@@ -58,7 +60,7 @@ export class DataPartnerComponent implements OnInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight = number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -81,29 +83,29 @@ export class DataPartnerComponent implements OnInit {
     private excelService: ExcelServicesService,
   ) { }
 
-  // tslint:disable-next-line:use-lifecycle-interface
-  ngOnInit() {
-    if (!this.isCanCreate) {
-      this.displayedColumns = [
-        // 'id',
-        'no',
-        'partner_id',
-        'name',
-        'created_at',
-        'address',
-        'business_type',
-        'tax_number',
-        'pic_name',
-        'pic_email',
-        'phone',
-        'user_type',
-        'status',
-        'approve_date',
-        'action',
-        'action1',
-        'is_active',
-      ];
-    }
+ // tslint:disable-next-line:use-lifecycle-interface
+ ngOnInit() {
+  if (!this.isCanCreate) {
+    this.displayedColumns = [
+      // 'id',
+      'no',
+      'partner_id',
+      'name',
+      'brand_name',
+      'created_at', 
+      'address',
+      'business_type',
+      'tax_number',
+      'pic_name',
+      'pic_email',
+      'phone',
+      'user_type',
+      'status',
+      'approve_date',
+      'action',
+      'action1',
+      'is_active',
+    ];
   }
 
   ngAfterViewInit() {
@@ -217,14 +219,15 @@ export class DataPartnerComponent implements OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          partner_id: e.partner_id,
-          name: e.name,
-          created_at: e.created_at.substr(0, 10),
-          address: e.address,
-          business_type: e.business_type,
-          tax_number: e.tax_number,
-          pic_name: e.pic_name,
-          pic_email: e.pic_email,
+          partner_id : e.partner_id,
+          name : e.name,
+          brand_name : e.brand_name,
+          created_at : e.created_at.substr(0,10),
+          address :e.address,
+          business_type : e.business_type,
+          tax_number : e.tax_number,
+          pic_name : e.pic_name,
+          pic_email : e.pic_email,
           phone: e.phone,
           user_type: e.user_type,
           status: e.status,
@@ -262,14 +265,15 @@ export class DataPartnerComponent implements OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          partner_id: e.partner_id,
-          name: e.name,
-          created_at: e.created_at.substr(0, 10),
-          address: e.address,
-          business_type: e.business_type,
-          tax_number: e.tax_number,
-          pic_name: e.pic_name,
-          pic_email: e.pic_email,
+          partner_id : e.partner_id,
+          name : e.name,
+          brand_name : e.brand_name,
+          created_at : e.created_at.substr(0,10),
+          address :e.address,
+          business_type : e.business_type,
+          tax_number : e.tax_number,
+          pic_name : e.pic_name,
+          pic_email : e.pic_email,
           phone: e.phone,
           user_type: e.user_type,
           status: e.status,
