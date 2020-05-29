@@ -129,6 +129,20 @@
                     <td mat-cell *matCellDef="let row">{{row.customer_id}}
                 </ng-container>
 
+                <ng-container matColumnDef="customerFirstName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        FirstName
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.customerFirstName}}
+                </ng-container>
+
+                <ng-container matColumnDef="customerLastName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Lastname
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.customerLastName}}
+                </ng-container>
+
                 <ng-container matColumnDef="customerPhone">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Phone Number

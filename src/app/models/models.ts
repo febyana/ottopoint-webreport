@@ -286,6 +286,8 @@ export interface TransactionRedeemPointOpl {
     customer_id: string;
     customerPhone: string;
     customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
     type_trx: string;
     value: number;
     product_code: string;

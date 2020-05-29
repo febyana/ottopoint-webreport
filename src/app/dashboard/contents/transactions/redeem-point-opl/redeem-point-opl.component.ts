@@ -43,6 +43,8 @@ export class RedeemPointOplComponent implements OnInit {
     // 'id',
     'no',
     'customer_id',
+    'customerFirstName',
+    'customerLastName',
     'customerPhone',
     'customerEmail', 
     'type_trx',
@@ -176,6 +178,8 @@ export class RedeemPointOplComponent implements OnInit {
         const objData = {
           No: no++,
           customer_id : e.customer_id,
+          customerFirstName : e.customerFirstName,
+          customerLastName : e.customerLastName,
           customerPhone : e.customerPhone,
           customerEmail : e.customerEmail,
           type_trx :e.type_trx,
@@ -225,6 +229,8 @@ export class RedeemPointOplComponent implements OnInit {
           const objData = {
           No: no++,
           customer_id : e.customer_id,
+          customerFirstName : e.customerFirstName,
+          customerLastName : e.customerLastName,
           customerPhone : e.customerPhone,
           customerEmail : e.customerEmail,
           type_trx :e.type_trx,
