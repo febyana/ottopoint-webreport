@@ -107,7 +107,7 @@ export class DataPartnerComponent implements OnInit {
       'is_active',
     ];
   }
-
+ }
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
