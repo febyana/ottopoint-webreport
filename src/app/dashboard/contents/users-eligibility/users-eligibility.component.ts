@@ -48,7 +48,7 @@ export class UsersEligibilityComponent implements OnInit {
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight = Number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -69,7 +69,7 @@ export class UsersEligibilityComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
+    //this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
     console.log(
       'screen height :\n', window.screen.height,
       '\nheightFilterAndActions :\n', document.getElementById('heightFilterAndActions').offsetHeight);
