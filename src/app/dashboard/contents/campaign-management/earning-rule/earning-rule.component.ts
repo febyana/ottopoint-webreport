@@ -273,8 +273,10 @@ export class EarningRuleComponent implements OnInit {
     } else {
       this.renderer.setStyle(this.rewardcampaign.nativeElement, 'display', 'none');
     }
-    if (value != "") {
-      this.renderer.setStyle(element, 'display', 'block');
+    if (element != undefined) {
+      if (value != "") {
+        this.renderer.setStyle(element, 'display', 'block');
+      }
     }
   }
 
@@ -290,13 +292,14 @@ export class EarningRuleComponent implements OnInit {
   clearForm(): void {
     this.EarningRuleForm.reset()
     this.hideType()
+    this.renderer.setStyle(this.dateata.nativeElement, 'display', 'block');
   }
 
   saveForm() {
     event.preventDefault();
     // if (this.dataForm.invalid) {
     //   return;
-    // }
+    // }    
     this.isLoadingResults = true;
     var ula = false
     var ata = false
