@@ -94,7 +94,7 @@
 
         <mat-form-field class="full-width">
             <mat-label>Select Issuer</mat-label>
-            <mat-select matNativeControl required formControlName="issuer" name="issuer">
+            <mat-select formControlName="issuer" name="issuer">
                 <mat-option value="" selected></mat-option>
                 <mat-option *ngFor="let p of partners" [value]="p.value">
                     {{p.viewValue}}
