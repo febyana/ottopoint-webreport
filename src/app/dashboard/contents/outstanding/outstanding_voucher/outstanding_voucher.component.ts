@@ -124,6 +124,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
 
   exportToCSV() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
 
     const options = {
       filename: 'outstanding_voucher' + Date().toLocaleString(),
@@ -184,6 +187,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
 
   exportToXLSX() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     console.log('query :\n', this.query);
     this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
