@@ -126,6 +126,9 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
 
   exportToCSV() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
 
     const options = {
       filename: 'outstanding_point' + Date().toLocaleString(),
@@ -189,6 +192,9 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
   exportToXLSX() {
     this.isWaitingDownload = true;
     console.log('query :\n', this.query);
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
