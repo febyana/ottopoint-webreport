@@ -17,6 +17,7 @@ button{
     position: relative;
     min-height: 200px;
     overflow: auto;
+    justify-content: center;
 }
 table {
     width: 100%;
@@ -61,3 +62,8 @@ mat-form-field{
 .mat-column-exp_date {
     border-right: none;
 }
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }
