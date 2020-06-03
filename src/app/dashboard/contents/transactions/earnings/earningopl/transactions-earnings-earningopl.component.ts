@@ -157,6 +157,9 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   }
 
   exportToCSV() {
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     this.isWaitingDownload = true;
 
     const options = {
@@ -223,6 +226,9 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
 
   exportToXLSX() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningOPL(
       window.localStorage.getItem('token'),
