@@ -358,8 +358,8 @@ export class EarningRuleComponent implements OnInit {
       limitLimit: Number(this.EarningRuleForm.value._cer_limit),
       pointValue : Number(this.EarningRuleForm.value._gsr_pointValue),
       minOrderValue : Number(this.EarningRuleForm.value._gsr_minOrderValue),
-      excludedSkuSkuIds : this.excludedSKUs.toString(),
-      skuIds : this.skuIds.toString()
+      excludedSkuSkuIds : this.excludedSKUs,
+      skuIds : this.skuIds,
     }
     
      this.apiService.APINewEarningRule(
