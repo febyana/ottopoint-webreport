@@ -828,8 +828,8 @@ export interface EarningRuleReq {
     limitPeriod: string;
     limitLimit: number;
     minOrderValue : number; 
-    excludedSkuSkuIds : string;
-    skuIds : string;
+    excludedSkuSkuIds : string[];
+    skuIds : string[];
     // multiplier : string; //
     // labelMultipliers : string; //
     // skuIds : string; //
