@@ -8,11 +8,11 @@
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="./users">Users</a>
         <mat-divider></mat-divider>
-        <a mat-list-item routerLink="./users-eligibility">Users Eligibility</a>
+        <!-- <a mat-list-item routerLink="./users-eligibility">Users Eligibility</a> -->
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="./upload-adjusment">Bulk Upload Adjusment</a>
         <mat-divider></mat-divider>
-        <a mat-list-item routerLink="./upload-addcustomer">Bulk Upload Customer</a>
+        <!-- <a mat-list-item routerLink="./upload-addcustomer">Bulk Upload Customer</a> -->
         <!-- <mat-divider></mat-divider>
         <a mat-list-item routerLink="./osp" >Outstanding Point</a>
         <mat-divider></mat-divider>
@@ -65,11 +65,15 @@
             <mat-accordion>
                 <a mat-list-item routerLink="./outstanding/point">Outstanding Point</a>
             </mat-accordion>
+            <mat-divider></mat-divider>
             <mat-accordion>
                 <a mat-list-item routerLink="./outstanding/voucher">Outstanding Voucher</a>
             </mat-accordion>
+            <mat-divider></mat-divider>
         </mat-nav-list>
     </mat-expansion-panel>
+
+    <mat-divider></mat-divider>
 
     <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
         <mat-expansion-panel-header>
@@ -80,15 +84,17 @@
             <mat-accordion>
                 <a mat-list-item routerLink="./program-management/add-partner">Add New Partner</a>
             </mat-accordion>
+            <mat-divider></mat-divider>
             <mat-accordion>
                 <a mat-list-item routerLink="./program-management/data-partner">Data Partner</a>
             </mat-accordion>
+            <mat-divider></mat-divider>
         </mat-nav-list>
     </mat-expansion-panel>
     
     <mat-divider></mat-divider>
 
-    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+    <!-- <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
         <mat-expansion-panel-header>
             Campaign Management
         </mat-expansion-panel-header>
@@ -107,7 +113,7 @@
                 <a mat-list-item routerLink="./campaign-management/reward-campaigns">Reward Campaign</a>
             </mat-accordion>
         </mat-nav-list>
-    </mat-expansion-panel>
+    </mat-expansion-panel> -->
 
     <mat-divider></mat-divider>
 
@@ -125,7 +131,7 @@
 
     <mat-divider></mat-divider>
 
-    <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
+    <!-- <mat-expansion-panel class="mat-elevation-z0" *ngIf="isAdmin">
         <mat-expansion-panel-header>
                 Ultra Voucher
         </mat-expansion-panel-header>
@@ -138,7 +144,8 @@
                 <mat-divider></mat-divider>
             </mat-accordion>
         </mat-nav-list>
-    </mat-expansion-panel>  
+    </mat-expansion-panel>  -->
+
     <mat-divider></mat-divider>
 
 <!-- <mat-nav-list>
