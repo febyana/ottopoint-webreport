@@ -62,3 +62,8 @@ mat-form-field{
 .mat-column-status {
     border-right: none;
 }
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }

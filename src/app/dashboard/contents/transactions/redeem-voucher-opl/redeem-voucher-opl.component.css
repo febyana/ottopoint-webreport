@@ -63,3 +63,8 @@ mat-form-field{
 .mat-column-exp_date {
     border-right: none;
 }
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }
