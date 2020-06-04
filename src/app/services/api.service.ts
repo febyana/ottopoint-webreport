@@ -126,7 +126,7 @@ export class ApiService {
     this.URLChangePassword                   = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus                     = baseURLBackendDashboard + '/users/status'; // on progress
     this.URLBulkAdjustment                   = baseURLBackendDashboard + '/bulk/adjustment';
-    this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/addcustomer';
+    this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/eligible-register';
     this.URLGetHistoryBulk                   = baseURLBackendDashboard + '/bulk/history';
     this.URLHistoyBulkDetail                 = baseURLBackendDashboard + '/bulk/detail?';
     this.URLOutstandingPoint                 = baseURLBackendDashboard + `/outstanding/point?`;
