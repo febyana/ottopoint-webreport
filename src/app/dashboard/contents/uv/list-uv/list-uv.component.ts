@@ -77,6 +77,7 @@ export class ListUvComponent implements OnInit {
   voucher_name = [];
   voucher_type = []; 
   categorys = []; 
+
   ngOnInit() {
     // VoucherName
     this.apiService.APIGetVoucherNameUV(
@@ -119,12 +120,14 @@ export class ListUvComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    merge(this.paginator.page)
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          //console.log('query :\n', this.query);
+          // console.log('perPage :\n',  this.paginator.pageSize);
           return this.apiService.APIReportVoucherUV(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,

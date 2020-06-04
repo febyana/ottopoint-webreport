@@ -520,9 +520,9 @@ export class ApiService {
 
   public APIReportVoucherUV(token: string, page, perpage, type, name, status: string): Observable<ReportUVResp> {
     this.whichEnvironment();
-    this.queryParams = `?page=${String(page)}&perPage=${String(perpage)}
-                        &voucherType=${String(type)}&voucherName=${String(name)}&status=${String(status)}`;
-    httpOptions.headers =  httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    this.queryParams = `?page=${String(page)}&perPage=${String(perpage)}&voucherType=${String(type)}&voucherName=${String(name)}&status=${String(status)}`;
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    // console.log('perPage :\n',  this.queryParams);
     return this.httpClient.get<ReportUVResp>(this.URLReportVoucherUV + this.queryParams, httpOptions);
   }
 
