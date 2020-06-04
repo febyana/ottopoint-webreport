@@ -142,7 +142,9 @@ export interface TransactionEarningOPL {
 export interface ListUltraVoucher {
     voucher_code : string;
     voucher_id : string;
-    sku :string;
+    voucher_name :string;
+    phone : string;
+    institution_id : string;
     expiry_date_uv : string;
     expiry_date_op : string;
     status : string;
