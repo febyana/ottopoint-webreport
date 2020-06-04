@@ -176,7 +176,6 @@ export class ApiService {
     this.URLChangePassword = baseURLBackendDashboard + '/change_password'; // belum
     this.URLChangeStatus = baseURLBackendDashboard + '/users/status'; // on progress
     this.URLBulkAdjustment = baseURLBackendDashboard + '/bulk/adjustment';
-    this.URLBulkAddCustomer = baseURLBackendDashboard + '/bulk/addcustomer';
     this.URLGetHistoryBulk = baseURLBackendDashboard + '/bulk/history';
     this.URLHistoyBulkDetail = baseURLBackendDashboard + '/bulk/detail?';
     this.URLOutstandingPoint = baseURLBackendDashboard + `/outstanding/point?`;
@@ -190,6 +189,7 @@ export class ApiService {
     this.URLGetDataPartner = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLUploadPartner = baseURLBackendDashboard + `/upload/multiple_file`
     this.URLChangeStatusPartner              = baseURLBackendDashboard + '/program-management/partnerstatus';
+    this.URLBulkAddCustomer                  = baseURLBackendDashboard + '/bulk/eligible-register';
     this.URLGetVoucherCategoryUV                 = baseURLBackendDashboard + `/ultra_voucher/category`
     this.URLGetDataPartner                   = baseURLBackendDashboard + `/program-management/partner?`;
     this.URLGetDataPartnerById               = baseURLBackendDashboard + `/program-management/view-partner?`
