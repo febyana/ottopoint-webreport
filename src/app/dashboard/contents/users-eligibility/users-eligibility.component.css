@@ -65,3 +65,7 @@ mat-form-field {
     border-right: none;
 }
 
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }
