@@ -66,7 +66,8 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit 
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  //tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -217,8 +218,8 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit 
             Product_Name: e.product_name,
             Product_Code: e.product_code,
             Product_Type: e.product_type,
-            Fee_Amount: e.fee_amount,
-            Point: e.point,
+            Fee_Amount: +e.fee_amount,
+            Point: +e.point,
             Type_Transaction: e.type_trans,
             Reff_Number: e.reff_number,
             Data: e.data,
@@ -277,8 +278,8 @@ export class TransactionsEarningsPPOBComponent implements AfterViewInit, OnInit 
             Product_Name: e.product_name,
             Product_Code: e.product_code,
             Product_Type: e.product_type,
-            Fee_Amount: e.fee_amount,
-            Point: e.point,
+            Fee_Amount: +e.fee_amount,
+            Point: +e.point,
             Type_Transaction: e.type_trans,
             Reff_Number: e.reff_number,
             Data: e.data,

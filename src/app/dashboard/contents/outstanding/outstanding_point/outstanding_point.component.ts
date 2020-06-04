@@ -54,7 +54,7 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight = window.screen.height * 1.13;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -126,6 +126,9 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
 
   exportToCSV() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
 
     const options = {
       filename: 'outstanding_point' + Date().toLocaleString(),
@@ -189,6 +192,9 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
   exportToXLSX() {
     this.isWaitingDownload = true;
     console.log('query :\n', this.query);
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     this.apiService.APIOutstandingPoint(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -218,16 +224,16 @@ export class OutstandingPointComponent implements AfterViewInit, OnInit {
             Phone : e.phone,
             Email :e.email,
             Partner : e.partner,
-            Beginning : e.beginning,
-            Adding : e.adding,
-            Bonus : e.bonus,
-            Spending : e.spending,
-            P2pAdd : e.p2p_add,
-            P2pSpend : e.p2p_spend,
-            AdjustmentAdd : e.adjustment_add,
-            Adjustmentspend : e.adjustment_spend,
-            ExpiredPoint : e.expired_point,
-            EndingPoint : e.ending_point,
+            Beginning : +e.beginning,
+            Adding : +e.adding,
+            Bonus : +e.bonus,
+            Spending : +e.spending,
+            P2pAdd : +e.p2p_add,
+            P2pSpend : +e.p2p_spend,
+            AdjustmentAdd : +e.adjustment_add,
+            Adjustmentspend : +e.adjustment_spend,
+            ExpiredPoint : +e.expired_point,
+            EndingPoint : +e.ending_point,
           };
           arrData.push(objData);
       });

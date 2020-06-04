@@ -29,13 +29,14 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     email: '',
     phone: '',
     partner: '',
+    product_name :'',
   };
   buffTotalData = 0;
   displayedColumns: string[] = [
     'no',
-    // 'date',
-    // 'time',
-    'customer_id',
+    'date',
+    'time',
+    // 'customer_id',
     'phone',
     'email',
     'partner',
@@ -44,13 +45,14 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     'redeem_point',
     'used_voucher',
     'unused_voucher',
+    'reversal',
     'expired_voucher',
-    // 'ending'
+    'ending'
   ];
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight = window.screen.height * 1.13;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -122,6 +124,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
 
   exportToCSV() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
 
     const options = {
       filename: 'outstanding_voucher' + Date().toLocaleString(),
@@ -160,21 +165,19 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
         const objData = {
           No: no++,
-          // Date : e.date,
-          // Time : e.time,
+          Date : e.date,
+          Time : e.time,
           Phone : e.phone,
-          Email : e.email,
+          Email :e.email,
           Partner : e.partner,
+          ProductName : e.product_name,
           Beginning : e.beginning,
-          // Adding : e.adding,
-          // Bonus : e.bonus,
-          // Spending : e.spending,
-          // P2pAdd : e.p2p_add,
-          // P2pSpend : e.p2p_spend,
-          // AdjustmentAdd : e.adjustment_add,
-          // Adjustmentspend : e.adjustment_spend,
-          // ExpiredVoucher : e.expired_point,
-          // EndingVoucher : e.ending_point,
+          RedeemPoint : e.redeem_point,
+          UsedVoucher : e.used_voucher,
+          UnusedVoucher : e.unused_voucher,
+          Reversal : e.reversal,
+          ExpiredVoucher : e.expired_voucher,
+          Ending : e.ending,
         };
         arrData.push(objData);
       });
@@ -184,6 +187,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
 
   exportToXLSX() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     console.log('query :\n', this.query);
     this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
@@ -209,21 +215,19 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
       res.data.forEach((e) => {
           const objData = {
             No: no++,
-            // Date : e.date,
-            // Time : e.time,
+            Date : e.date,
+            Time : e.time,
             Phone : e.phone,
             Email :e.email,
             Partner : e.partner,
-            Beginning : e.beginning,
-            // Adding : e.adding,
-            // Bonus : e.bonus,
-            // Spending : e.spending,
-            // P2pAdd : e.p2p_add,
-            // P2pSpend : e.p2p_spend,
-            // AdjustmentAdd : e.adjustment_add,
-            // Adjustmentspend : e.adjustment_spend,
-            // ExpiredVoucher : e.expired_point,
-            // EndingVoucher : e.ending_point,
+            ProductName : e.product_name,
+            Beginning : +e.beginning,
+            RedeemPoint : +e.redeem_point,
+            UsedVoucher : +e.used_voucher,
+            UnusedVoucher : +e.unused_voucher,
+            Reversal : +e.reversal,
+            ExpiredVoucher : +e.expired_voucher,
+            Ending : +e.ending
           };
           arrData.push(objData);
       });
@@ -252,6 +256,9 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     }
     if (this.fq.partner != '') {
       this.query = this.query + `a.partner.icontains:` + this.fq.partner + ',';
+    }
+    if (this.fq.product_name != '') {
+      this.query = this.query + `a.product_name.icontains:` + this.fq.product_name + ',';
     }
     this.query = this.query.replace(/.$/g,'');
     if(this.query !== ''){
@@ -288,6 +295,7 @@ export class OutstandingVoucherComponent implements AfterViewInit, OnInit {
     this.fq.phone = '';
     this.fq.email = '';
     this.fq.partner = '';
+    this.fq.product_name ='';
     this.apiService.APIOutstandingVoucher(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,

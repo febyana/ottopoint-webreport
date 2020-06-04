@@ -11,17 +11,26 @@ import { TransactionsEarningsQRComponent } from './contents/transactions/earning
 import { RedeemVoucherOplComponent} from './contents/transactions/redeem-voucher-opl/redeem-voucher-opl.component';
 import { RedeemPointOplComponent} from './contents/transactions/redeem-point-opl/redeem-point-opl.component';
 import { VouchersRedeemComponent } from './contents/transactions/vouchers-redeem/vouchers-redeem.component';
+import { ListUvComponent } from './contents/uv/list-uv/list-uv.component';
 import { PaymentsQRComponent } from './contents/transactions/payments-qr/payments-qr.component';
 import { AnalyticsComponent } from './contents/analytics/analytics.component';
 import {
   SettingsVariablesTransactionsComponent
 } from './contents/settings/variables/transactions/settings-variables-transactions.component';
 import { BulkUploadAdjusmentComponent } from './contents/bulk-upload-adjusment/bulk-upload-adjusment.component';
+import { UltravoucherComponent } from './contents/uv/ultravoucher.component';
 import { BulkUploadAddcustomerComponent } from './contents/bulk-upload-addcustomer/bulk-upload-addcustomer.component';
 import { path, Component } from '@amcharts/amcharts4/core';
 import { OutstandingVoucherComponent } from './contents/outstanding/outstanding_voucher/outstanding_voucher.component';
 import { OutstandingPointComponent } from './contents/outstanding/outstanding_point/outstanding_point.component';
-
+import { AddPartnerComponent } from './contents/program-management/add-partner/add-partner.component';
+import { AddNewStoreComponent } from './contents/program-management/add-new-store/add-new-store.component';
+import { DataPartnerComponent } from './contents/program-management/data-partner/data-partner.component';
+import { EarningRuleComponent } from './contents/campaign-management/earning-rule/earning-rule.component';
+import { LevelsComponent } from './contents/campaign-management/levels/levels.component';
+import { RewardCampaignsComponent } from './contents/campaign-management/reward-campaigns/reward-campaigns.component';
+import { SegmentsComponent } from './contents/campaign-management/segments/segments.component';
+import { UsersEligibilityComponent } from './contents/users-eligibility/users-eligibility.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +56,10 @@ export const routes: Routes = [
       {
         path: 'outstanding/voucher',
         component: OutstandingVoucherComponent,
+      },
+      {
+        path: 'program-management/add-partner',
+        component: AddPartnerComponent,
       },
       {
         path: 'transactions/earnings/earningopl',
@@ -81,8 +94,40 @@ export const routes: Routes = [
         component: RedeemVoucherOplComponent,
       },
       {
+        path: 'ultravoucher/list',
+        component: UltravoucherComponent,
+      },
+      {
         path: 'transactions/redeempointopl',
         component: RedeemPointOplComponent,
+      },
+      {
+        path: 'ultravoucher/stock',
+        component: ListUvComponent,
+      },
+      {
+        path: 'program-management/data-partner',
+        component: DataPartnerComponent,
+      },
+      {
+        path: 'campaign-management/earning-rule',
+        component: EarningRuleComponent,
+      },
+      {
+        path: 'campaign-management/levels',
+        component: LevelsComponent,
+      },
+      {
+        path: 'campaign-management/reward-campaigns',
+        component: RewardCampaignsComponent,
+      },
+      {
+        path: 'campaign-management/segments',
+        component: SegmentsComponent,
+      },
+      {
+        path: 'users-eligibility',
+        component: UsersEligibilityComponent,
       },
     ]
   }

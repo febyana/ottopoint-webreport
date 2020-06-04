@@ -198,7 +198,7 @@ export class BulkUploadAddcustomerComponent implements OnInit {
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Add New Customer',
+      title: 'Add Eligible / Register User',
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,

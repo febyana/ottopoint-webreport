@@ -44,6 +44,8 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   displayedColumns: string[] = [
   'no'
   , 'customer_id'
+  , 'first_name'
+  , 'last_name'
   , 'phone'
   , 'email'
   , 'transactions_type'
@@ -65,7 +67,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
 
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35
+  tableHeight = window.screen.height * 1.13
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -155,6 +157,9 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
   }
 
   exportToCSV() {
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     this.isWaitingDownload = true;
 
     const options = {
@@ -221,6 +226,9 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
 
   exportToXLSX() {
     this.isWaitingDownload = true;
+    if (this.paginator.pageSize  > 1000)  {
+      this.paginator.pageSize = 1000
+    }
     console.log('query :\n', this.query);
     this.apiService.APIGetTransactionsEarningOPL(
       window.localStorage.getItem('token'),
@@ -250,7 +258,7 @@ export class TransactionsEarningsEarningoplComponent implements AfterViewInit, O
             Phone : e.phone,
             Email : e.email,
             TransactionsType : e.transactions_type,
-            ValuePoint : e.value_point,
+            ValuePoint : +e.value_point,
             ProductCode : e.product_code,
             ProductName : e.product_name,
             ProductType : e.product_type,

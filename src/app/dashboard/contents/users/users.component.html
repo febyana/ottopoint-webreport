@@ -29,8 +29,8 @@
         <button mat-raised-button color="primary" (click)="exportToXLSX()">
             Export to XLSX
         </button>
-        <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormAddEligibleUser()" *ngIf='isCanCreate'>
-            Add Eligible
+        <button mat-raised-button color="warn" class="btn-eligible" (click)="openFormRegisterUser()" *ngIf='isCanCreate'>
+            Register
         </button>
     </div>
     
@@ -64,6 +64,13 @@
                         Nama
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.nama}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="last_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Lastname
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.last_name}}</td>
                 </ng-container>
     
                 <ng-container matColumnDef="phone">
@@ -102,7 +109,7 @@
                 </ng-container> -->
 
                 <ng-container matColumnDef="status">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Status
                     </th>
                     <td mat-cell *matCellDef="let row">
@@ -112,7 +119,7 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="action">
+                <!-- <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef disableClear>
                         Action
                     </th>
@@ -120,7 +127,7 @@
                         <button *ngIf="!row.cust_id" mat-stroked-button color="warn" (click)="openFormRegisterUser(row)" style="width: 100px;">Register</button>
                         <button *ngIf="row.cust_id" mat-stroked-button disabled style="width: 100px;">Registered</button>
                     </td>
-                </ng-container>
+                </ng-container> -->
     
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -128,5 +135,5 @@
         </div>
     </div>
     <!-- paginator -->
-    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 15, 20, 100]"></mat-paginator>
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[20, 50, 100]"></mat-paginator>
 </mat-card>

@@ -111,91 +111,91 @@
                 </ng-container>
 
                 <ng-container matColumnDef="phone">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Phone
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.phone}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Email
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.email}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="partner">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Partner
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.partner}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="beginning">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Beginning
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.beginning}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="adding">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Issued
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.adding}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="bonus">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Bonus
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.bonus}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="spending">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Spending Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.spending}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="p2p_add">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         P2P Adding
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.p2p_add}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="p2p_spend">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         P2P Spending
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.p2p_spend}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="adjustment_add">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Adjustment Adding Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.adjustment_add}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="adjustment_spend">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Adjustment Spending Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.adjustment_spend}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="expired_point">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Expired Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.expired_point}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="ending_point">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Ending Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.ending_point}}</td>
@@ -207,5 +207,5 @@
         </div>
     </div>
         <!-- paginator -->
-        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[10, 50, 100, 1000, 10000]"></mat-paginator>
+        <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[20, 50, 100, 1000, 10000]"></mat-paginator>
 </mat-card>

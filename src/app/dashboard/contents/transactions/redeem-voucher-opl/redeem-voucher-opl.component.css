@@ -1,4 +1,6 @@
-
+mat-card {
+    margin: 1%;
+}
 .filter-field {
     margin-right: 2%;
     width: 23%;
@@ -61,3 +63,8 @@ mat-form-field{
 .mat-column-exp_date {
     border-right: none;
 }
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }

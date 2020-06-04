@@ -1,0 +1,215 @@
+<h2 mat-dialog-title>Edit Patner</h2>
+
+<mat-dialog-content>
+  
+    <!-- <form [formGroup]="partnerForm" class="partner-form"> -->
+        <mat-form-field class="partner-full-width">
+          <mat-label>Nama Perusahaan</mat-label>
+          <input matInput type="text" [(ngModel)]="name" disabled="{{isDisabled}}">
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Perusahaan</mat-label>
+            <input matInput type="text" [(ngModel)]="address" disabled="{{isDisabled}}">
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Alamat Domisili</mat-label>
+            <input matInput type="text" [(ngModel)]="residenceAddress" disabled="{{isDisabled}}">
+        </mat-form-field>
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>No Telp</mat-label>
+            <input matInput type="number" [(ngModel)]="phone" disabled="{{isDisabled}}">
+        </mat-form-field>        
+
+        <mat-form-field class="partner-full-width">
+            <mat-label>Jenis Usaha</mat-label>
+            <input matInput type="text" [(ngModel)]="businessType" disabled="{{isDisabled}}">
+        </mat-form-field>                
+ 
+        <mat-form-field class="partner-full-width">
+            <mat-label>Tax Number</mat-label>
+            <input matInput type="text" [(ngModel)]="taxNumber" disabled="{{isDisabled}}">
+        </mat-form-field>          
+
+        <!-- <mat-form-field class="partner-full-width">
+        <mat-label>Type User</mat-label>
+        <input matInput type="number" [(ngModel)]="typeUser" disabled="{{isDisabled}}">
+        </mat-form-field> -->
+
+        <section class="partner-full-width" style="margin-top: 10px;">
+            <mat-label style="margin-right : 10px">User Type </mat-label>
+            <mat-radio-group aria-label="Select an option">
+                <mat-radio-button value="BlackList" [checked]="checkedBL" style="margin-right: 20px;">BlackList</mat-radio-button>
+                <mat-radio-button value="WhiteList" [checked]="checkedWL" style="margin-right: 20px;">WhiteList</mat-radio-button>
+            </mat-radio-group>
+          </section>
+
+        <br>
+        <!-- <mat-label>PIC</mat-label>
+        <br> -->
+       
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Name</mat-label>
+            <input matInput type="text" [(ngModel)]="picName" disabled="{{isDisabled}}">
+        </mat-form-field>       
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Phone</mat-label>
+            <input matInput type="text" [(ngModel)]="picPhone" disabled="{{isDisabled}}">
+        </mat-form-field>    
+        
+        <mat-form-field class="partner-30">
+            <mat-label>PIC Email</mat-label>
+            <input matInput type="text" [(ngModel)]="picEmail" disabled="{{isDisabled}}">
+        </mat-form-field> 
+
+
+<!-- store details -->
+<!-- <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Store
+              </mat-panel-title>
+              <div *ngIf="countStore != 0">
+                <mat-panel-description>
+                    {{countStore}} Store
+                </mat-panel-description>
+              </div>
+              <div *ngIf="countStore == 0">
+                <mat-panel-description>
+                    no data
+                </mat-panel-description>
+              </div>
+            </mat-expansion-panel-header>
+        
+            <mat-expansion-panel *ngFor="let stores of dataStore">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{stores.name}}</mat-panel-title>
+                  <mat-panel-description>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+            
+                <mat-form-field class="partner-edit">
+                    <mat-label>Store name</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.name disabled={{isDisabled}}>
+                </mat-form-field>
+                <mat-form-field class="partner-edit">
+                    <mat-label>Description</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.description disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Building name</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.buildingname disabled={{isDisabled}}>
+                </mat-form-field>
+    
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Unit name</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.unitname disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Street name</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.streetname disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>City</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.city disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.country disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Postal code</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.postalCode disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.latitude disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Longtitude</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.longtitude disabled={{isDisabled}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Created at</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.createdAt disabled={{textClock}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Created by</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.createdBy disabled={{textClock}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Updated at</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.updatedAt disabled={{textClock}}>
+                </mat-form-field>
+    
+                <mat-form-field class="partner-edit">
+                    <mat-label>Updated by</mat-label>
+                    <input matInput type="text" [(ngModel)]=stores.updatedBy disabled={{textClock}}>
+                </mat-form-field>
+            
+              </mat-expansion-panel>
+        
+          </mat-expansion-panel>
+    </mat-accordion> -->
+    <!-- store details -->
+        <br>
+        
+        
+<!-- file download -->
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>File Download</mat-panel-title>
+          <div *ngIf="countFile != 0">
+            <mat-panel-description>
+                {{countFile}} Files
+            </mat-panel-description>
+          </div>
+          <div *ngIf="countFile == 0">
+                <mat-panel-description>
+                    no data
+                </mat-panel-description>
+              </div>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let dtaFiles of dataFile">
+            <mat-form-field class="partner-edit2">
+                <mat-label>File name</mat-label>
+                <input matInput type="text" [(ngModel)]=dtaFiles.fileName disabled={{textClock}}>
+            </mat-form-field>
+            <button mat-button #tooltip="matTooltip"
+            (click)="downloadFile(dtaFiles.Path)"
+            matTooltip="Download"
+            matTooltipPosition="right"
+            aria-label="Show/Hide tooltip on the button at the end of this section"
+            class="example-action-button">
+            <mat-icon class="icon" aria-hidden="false" aria-label="Rohmet Ganteng">vertical_align_bottom</mat-icon>
+        </button>
+        </div>
+
+      </mat-expansion-panel>
+</mat-accordion>
+<br>
+<!-- file download -->
+        
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    <button class="mat-raised-button"(click)="close()">Cencel</button>
+</mat-dialog-actions>

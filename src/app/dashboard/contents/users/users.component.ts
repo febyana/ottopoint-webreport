@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
+import { DatePipe } from '@angular/common';
 import {
   GetUsersRes,
   User,
@@ -18,7 +19,8 @@ import {
   RegisterUserRes,
   ChangeStatusRequest,
   ChangeStatusResponse,
-  ExportUsersToCSVReq
+  ExportUsersToCSVReq,
+  IssuerListRes1,
 } from '../../../models/models';
 import {
   MatSnackBar,
@@ -26,6 +28,11 @@ import {
 } from '@angular/material/snack-bar';
 import { ExcelServicesService } from '../../../services/xlsx.service';
 // import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
+
+interface dataint{
+  value : string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-users',
@@ -48,20 +55,23 @@ export class UsersComponent {
     merchant_id: ''
   };
 
+ 
+
   displayedColumns: string[] = [
     // 'id',
     'no',
     'nama',
+    'last_name',
     'phone',
     'email',
     'cust_id',
     'merchant_id',
     'status',
-    'action',
+    //'action',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight: number;
+  tableHeight: Number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -76,6 +86,7 @@ export class UsersComponent {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  //partners: any;
 
   constructor(
     private apiService: ApiService,
@@ -87,7 +98,7 @@ export class UsersComponent {
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
-    this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
+    //this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
     console.log(
       'screen height :\n', window.screen.height,
       '\nheightFilterAndActions :\n', document.getElementById('heightFilterAndActions').offsetHeight);
@@ -96,6 +107,7 @@ export class UsersComponent {
       this.displayedColumns = [
         // 'id',
         'nama',
+        'last_name',
         'phone',
         'cust_id',
         'email',
@@ -151,51 +163,53 @@ export class UsersComponent {
       ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
-  openFormAddEligibleUser() {
-    const dialogRef = this.dialog.open(DialogAddEligibleComponent, {
+  // openFormAddEligibleUser() {
+  //   const dialogRef = this.dialog.open(DialogAddEligibleComponent, {
+  //     width: '50%',
+  //   });
+
+  //   // after closed dialog
+  //   dialogRef.afterClosed().subscribe(valid => {
+  //     if (valid === true) {
+  //       this.isLoadingResults = true;
+  //       this.paginator.pageIndex = 0;
+  //       this.sort.active = 'id';
+  //       this.sort.direction = 'desc';
+  //       console.log('query :\n', this.query);
+  //       this.apiService.APIGetUsers(
+  //         window.localStorage.getItem('token'),
+  //         this.paginator.pageIndex,
+  //         this.paginator.pageSize,
+  //         this.sort.active,
+  //         this.sort.direction,
+  //         this.query
+  //       ).subscribe((res: GetUsersRes) => {
+  //         this.dataTable.data = res.data;
+  //         this.isLoadingResults = false;
+  //       });
+  //     }
+  //   });
+  // }
+
+  // row is get from users.component.html
+  openFormRegisterUser() {
+    //const arrNama = row.nama.split(' ', 4); // array of nama
+
+    const dialogRef = this.dialog.open(DialogRegisterComponent, {
       width: '50%',
+      // data: this.RegisterUserReq = {
+      //   firstName: arrNama[0],
+      //   lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
+      //   phone: row.phone,
+      //   institution: row.email.split('.', 1)[0],
     });
 
-    // after closed dialog
     dialogRef.afterClosed().subscribe(valid => {
       if (valid === true) {
         this.isLoadingResults = true;
         this.paginator.pageIndex = 0;
         this.sort.active = 'id';
         this.sort.direction = 'desc';
-        console.log('query :\n', this.query);
-        this.apiService.APIGetUsers(
-          window.localStorage.getItem('token'),
-          this.paginator.pageIndex,
-          this.paginator.pageSize,
-          this.sort.active,
-          this.sort.direction,
-          this.query
-        ).subscribe((res: GetUsersRes) => {
-          this.dataTable.data = res.data;
-          this.isLoadingResults = false;
-        });
-      }
-    });
-  }
-
-  // row is get from users.component.html
-  openFormRegisterUser(row: User) {
-    const arrNama = row.nama.split(' ', 4); // array of nama
-
-    const dialogRef = this.dialog.open(DialogRegisterComponent, {
-      width: '50%',
-      data: this.RegisterUserReq = {
-        firstName: arrNama[0],
-        lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
-        phone: row.phone,
-        institution: row.email.split('.', 1)[0],
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(valid => {
-      if (valid === true) {
-        this.isLoadingResults = true;
         console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
@@ -257,7 +271,7 @@ export class UsersComponent {
       useTextFile: false,
       useBom: true,
       // useKeysAsHeaders: true,
-      headers: ['No', 'Name', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
+      headers: ['No', 'Name', 'Lastname', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
     };
     const csvExporter = new ExportToCsv(options);
 
@@ -320,6 +334,7 @@ export class UsersComponent {
           const objData = {
             No: no++,
             Name: e.nama,
+            Lastname: e.last_name,
             Phone: e.phone,
             Email: e.email,
             Customer_ID: e.cust_id,
@@ -414,77 +429,77 @@ export class UsersComponent {
   }
 }
 
-@Component({
-  selector: 'app-dialog-add-eligible',
-  templateUrl: './dialogs/dialog-add-eligible.html',
-  styleUrls: ['./users.component.css']
-})
-export class DialogAddEligibleComponent implements OnInit {
-  req: AddEligibleUserReq;
+// @Component({
+//   selector: 'app-dialog-add-eligible',
+//   templateUrl: './dialogs/dialog-add-eligible.html',
+//   styleUrls: ['./users.component.css']
+// })
+// export class DialogAddEligibleComponent implements OnInit {
+//   req: AddEligibleUserReq;
 
-  dataForm: FormGroup;
-  get f() { return this.dataForm.controls; }
+//   dataForm: FormGroup;
+//   get f() { return this.dataForm.controls; }
 
-  isLoadingResults = false;
+//   isLoadingResults = false;
 
-  matSnackBarConfig: MatSnackBarConfig = {
-    duration: 2000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: ['snack-bar-ekstra-css']
-  };
+//   matSnackBarConfig: MatSnackBarConfig = {
+//     duration: 2000,
+//     verticalPosition: 'top',
+//     horizontalPosition: 'center',
+//     panelClass: ['snack-bar-ekstra-css']
+//   };
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogAddEligibleComponent>,
-    private formBuilder: FormBuilder,
-    private apiService: ApiService,
-    private snackBar: MatSnackBar
-  ) {}
+//   constructor(
+//     public dialogRef: MatDialogRef<DialogAddEligibleComponent>,
+//     private formBuilder: FormBuilder,
+//     private apiService: ApiService,
+//     private snackBar: MatSnackBar
+//   ) {}
 
-  ngOnInit() {
-    this.dataForm = this.formBuilder.group({
-      nama: ['', Validators.required],
-      merchant_id: ['', Validators.required],
-      phone: ['', [
-        Validators.pattern,
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(12)
-      ]],
-      institution: [undefined, Validators.required],
-    });
-  }
+//   ngOnInit() {
+//     this.dataForm = this.formBuilder.group({
+//       nama: ['', Validators.required],
+//       merchant_id: ['', Validators.required],
+//       phone: ['', [
+//         Validators.pattern,
+//         Validators.required,
+//         Validators.minLength(11),
+//         Validators.maxLength(12)
+//       ]],
+//       institution: [undefined, Validators.required],
+//     });
+//   }
 
-  cancel(): void {
-    event.preventDefault(); // mencegah form untuk refresh page
-    this.dialogRef.close(false);
-  }
+//   cancel(): void {
+//     event.preventDefault(); // mencegah form untuk refresh page
+//     this.dialogRef.close(false);
+//   }
 
-  submit() {
-    event.preventDefault(); // mencegah form untuk refresh page
-    if (this.dataForm.invalid) {
-      return;
-    }
-    this.isLoadingResults = true;
-    this.req = {
-      nama: this.dataForm.value.nama,
-      merchant_id: this.dataForm.value.merchant_id,
-      phone: this.dataForm.value.phone,
-      institution: this.dataForm.value.institution
-    };
-    console.log('query :\n', this.req);
-    this.apiService.APIEligibleUser(
-      this.req,
-      window.localStorage.getItem('token')
-    ).subscribe((res: AddEligibleUserRes) => {
-      if (res.data !== null) {// #
-        this.dialogRef.close(true);
-      }
-      this.isLoadingResults = false;
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-    });
-  }
-}
+//   submit() {
+//     event.preventDefault(); // mencegah form untuk refresh page
+//     if (this.dataForm.invalid) {
+//       return;
+//     }
+//     this.isLoadingResults = true;
+//     this.req = {
+//       //nama: this.dataForm.value.nama,
+//       //merchant_id: this.dataForm.value.merchant_id,
+//       phone: this.dataForm.value.phone,
+//       institution: this.dataForm.value.institution
+//     };
+//     console.log('query :\n', this.req);
+//     this.apiService.APIEligibleUser(
+//       this.req,
+//       window.localStorage.getItem('token')
+//     ).subscribe((res: AddEligibleUserRes) => {
+//       if (res.data !== null) {// #
+//         this.dialogRef.close(true);
+//       }
+//       this.isLoadingResults = false;
+//       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+//     });
+//   }
+// }
 
 @Component({
   selector: 'app-dialog-register',
@@ -492,7 +507,11 @@ export class DialogAddEligibleComponent implements OnInit {
   styleUrls: ['./users.component.css']
 })
 export class DialogRegisterComponent implements OnInit {
+req: RegisterUserReq;
+
   dataForm: FormGroup;
+  router: any;
+  // datePipe: any;
   get f() { return this.dataForm.controls; }
 
   isLoadingResults = false;
@@ -504,57 +523,91 @@ export class DialogRegisterComponent implements OnInit {
     panelClass: ['snack-bar-ekstra-css']
   };
 
+  partners: dataint[] = [];
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
+   // @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public datePipe: DatePipe,
   ) {}
 
   ngOnInit() {
-    if (this.data.lastName === '') {
-      this.data.lastName = '-';
-    }
+    this.apiService.APIGetIssuerList1(
+      window.localStorage.getItem('token')
+    ).subscribe((res: IssuerListRes1) => {
+      res.data.forEach(e => {
+        this.partners.push({
+           value: e.partnerId, 
+           viewValue: e.partnerId + " - " +e.institutionName
+        });
+      });
+      console.log("VIEW VALUE LIST", this.partners)
+    });
     this.dataForm = this.formBuilder.group({
-      firstName: [this.data.firstName, Validators.required],
-      lastName: [this.data.lastName, Validators.required],
-      phone: [this.data.phone, Validators.required],
-      institution: [this.data.institution, Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      phone: ['', [
+        Validators.pattern,
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(12)
+      ]],
+      email: ['', [Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      gender: ['',],
+      birthdate: ['',],
+      issuer: [undefined, Validators.required],
     });
   }
 
-  no(): void {
+  cancel(): void {
     event.preventDefault();
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
-  yes() {
+  submit() {
+    console.log("masuk register")
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
     }
     this.isLoadingResults = true;
-    this.data = {
-      firstName: this.dataForm.value.firstName,
-      lastName: this.dataForm.value.lastName,
+
+    var birthday 
+    if (this.dataForm.value.birthdate !== null) {
+      birthday = this.datePipe.transform(this.dataForm.value.birthdate, 'yyyy-MM-dd')
+    }
+
+
+    this.req = {
+      firstname: this.dataForm.value.firstname,
+      lastname: this.dataForm.value.lastname,
       phone: this.dataForm.value.phone,
-      institution: this.dataForm.value.institution
+      email: this.dataForm.value.email,
+      gender: this.dataForm.value.gender,
+      birthdate: birthday,
+      //birthdate: this.dataForm.value.birthdate,
+      issuer: this.dataForm.value.issuer,
     };
-    console.log('query :\n', this.data);
-    this.apiService.APIRegisterUser(
-      this.data,
+    //console.log('query :\n', this.data);
+    this.apiService.APIRegisterUserV2(
+      this.req,
       window.localStorage.getItem('token')
     ).subscribe((res: RegisterUserRes) => {
-      if (res.data !== null) {
+      if (res.Meta.code == 200) {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
         this.dialogRef.close(true);
         return;
+      } else {
+        this.snackBar.open(res.Meta.message, 'close', this.matSnackBarConfig);
+        this.isLoadingResults = false;
+        this.dialogRef.close(true);
       }
-      this.isLoadingResults = false;
-      this.dialogRef.close(false);
-      this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
-      return;
-    });
+    },(err : any) =>{
+      alert(err)
+    })
   }
 }
 

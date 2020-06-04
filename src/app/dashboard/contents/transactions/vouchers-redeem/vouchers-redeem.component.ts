@@ -62,7 +62,8 @@ export class VouchersRedeemComponent implements AfterViewInit, OnInit {
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  //tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -197,7 +198,7 @@ export class VouchersRedeemComponent implements AfterViewInit, OnInit {
             Product_Code: e.product_code,
             Product_Type: e.product_type,
             Trasnsaction_Type: e.trans_type,
-            Account_Number: e.account_number,
+            Account_Number : e.account_number,
             Customer_ID: e.cust_id,
             Merchant_ID: e.merchant_id,
             Institution: e.institution,
@@ -247,7 +248,7 @@ export class VouchersRedeemComponent implements AfterViewInit, OnInit {
             Product_Code: e.product_code,
             Product_Type: e.product_type,
             Trasnsaction_Type: e.trans_type,
-            Account_Number: e.account_number,
+            Account_Number : e.account_number,
             Customer_ID: e.cust_id,
             Merchant_ID: e.merchant_id,
             Institution: e.institution,

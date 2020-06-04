@@ -1,0 +1,236 @@
+<mat-card>
+    <div class="loading-shade" *ngIf="isWaitingDownload">
+        <mat-spinner *ngIf="isWaitingDownload"></mat-spinner>
+    </div>
+    <!-- judul -->
+    <h1>Data Partner</h1>
+    <!-- filters -->
+    <br>
+    <mat-form-field class="filter-field">
+        <input matInput [matDatepicker]="dp" placeholder="From date : dd/MM/yyyy" [(ngModel)]="fq.from_date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput [matDatepicker]="dp2" placeholder="Through date : dd/MM/yyyy" [(ngModel)]="fq.through_date">
+        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+        <mat-datepicker #dp2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="filter-field">
+        <input matInput placeholder="Partner Name" [(ngModel)]="fq.name">
+    </mat-form-field>
+        <mat-form-field class="filter-field">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="fq.status">
+                <mat-option [value]="">
+                    None
+                </mat-option>
+                <mat-option value="Waiting for approval">
+                    Waiting For Approval
+                </mat-option>
+                <mat-option value="Approved">
+                    Approved
+                </mat-option>
+                <mat-option value="draft">
+                    Draft
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+   
+    <!-- <mat-form-field class="filter-field">
+        <input matInput placeholder="Status" [(ngModel)]="fq.status">
+    </mat-form-field> -->
+    <!-- actions -->
+    <br>
+    <button mat-raised-button color="primary" (click)="submitFilter()">Filter</button>
+    <button mat-stroked-button color="warn" (click)="clearFilter()">Clear Filter</button>
+    <button mat-raised-button color="primary" (click)="exportToCSV()">
+        Export to CSV
+    </button>
+    <button mat-raised-button color="primary" (click)="exportToXLSX()">
+        Export to XLSX
+    </button>
+    <!-- table -->
+    <div class="parent-table-container">
+        <div class="loading-shade" *ngIf="isLoadingResults || isNoData">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            <div class="no-data" *ngIf="isNoData">
+                No Data
+            </div>
+        </div>
+        <div class="table-container" [style.height.px]="tableHeight">
+            <table mat-table [dataSource]="dataTable"
+                matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+                
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        ID
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.id}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="no" sticky>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        No
+                    </th>
+                    <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="partner_id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Partner ID
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.partner_id}}
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="brand_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Brand Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.brand_name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="created_at">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Created At
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.created_at | date:'mediumDate' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Address
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.address}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="business_type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Jenis Usaha
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.business_type}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tax_number">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Tax Number
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.tax_number}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="pic_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        PIC Name
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.pic_name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="pic_email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        PIC Email
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.pic_email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Phone
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="product_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Product Name 
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.product_name}}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="user_type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Type User
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.user_type}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Status
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.status}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="approve_date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Approval Date
+                    </th>
+                    <!-- <td *ngIf="row.approve_date === 0001-01-01T00:00:00Z" mat-cell *matCellDef="let row">{{row.approve_date}}</td> -->
+                    <td mat-cell *matCellDef="let row">{{row.approve_date.substr(0,10)}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" mat-sort-header disableClear>
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let row" style="text-align: center;">
+                        <button  mat-button (click)="View(row)" class="style class">View</button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action1">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" mat-sort-header disableClear>
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let row" style="text-align: center;">
+                        <button  mat-button (click)="Edit(row)" class="style class">Edit</button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="is_active">
+                    <th mat-header-cell *matHeaderCellDef disableClear mat-sort-header disableClear>
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button *ngIf="row.is_active === false && row.id" mat-stroked-button color="primary" (click)="openFormChangeStatusPartner(row)" style="width: 100px;">Active</button>
+                        <button *ngIf="row.is_active === true && row.id" mat-stroked-button color="warn" (click)="openFormChangeStatusPartner(row)" style="width: 100px;">Deactive</button>
+                    </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="deliveryStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Delivery Status
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.deliveryStatus.status}}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="used">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Used
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.used}}</td>
+                </ng-container>
+                
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        Status
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.status}}</td>
+                </ng-container> -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <!-- paginator -->
+    <mat-paginator [length]="dataTableLength" [pageSizeOptions]="[20, 50, 100]"></mat-paginator>
+</mat-card>
+    

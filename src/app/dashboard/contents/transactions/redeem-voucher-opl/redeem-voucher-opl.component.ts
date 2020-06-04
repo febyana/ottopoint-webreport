@@ -62,12 +62,14 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
     'cust_active_point_am',
     'status',
     'dlv_stts',
+    'activeTo',
     'used',
     'rrn',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  //tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
   isWaitingDownload = false;
@@ -197,6 +199,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
           cust_active_point_am: e.cust_active_point_am,
           status: e.status,
           dlv_stts: e.dlv_stts,
+          activeTo: e.activeTo.substr(0,10),
           used: e.used,
           rrn: e.rrn,
         };
@@ -250,6 +253,7 @@ export class RedeemVoucherOplComponent implements AfterViewInit, OnInit {
             cust_active_point_am: e.cust_active_point_am,
             status: e.status,
             dlv_stts: e.dlv_stts,
+            activeTo: e.activeTo.substr(0,10),
             used: e.used,
             rrn: e.rrn,
           };
