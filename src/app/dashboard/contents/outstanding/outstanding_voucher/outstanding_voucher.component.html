@@ -86,7 +86,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="no" sticky>
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         No
                     </th>
                     <td mat-cell *matCellDef="let i = index">{{(paginator.pageSize * paginator.pageIndex) + (i+1)}}</td>
@@ -107,56 +107,56 @@
                 </ng-container>
 
                 <ng-container matColumnDef="customer_id">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Customer ID
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.customer_id}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="phone">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Phone
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.phone}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Email
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.email}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="partner">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Partner
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.partner}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="product_name">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Product Name
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.product_name}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="beginning">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Beginning
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.beginning}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="redeem_point">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Redeem Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.redeem_point}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="used_voucher">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Used Voucher
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.used_voucher}}</td>
@@ -164,7 +164,7 @@
 
 
                 <ng-container matColumnDef="unused_voucher">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Unused Voucher
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.unused_voucher}}</td>
@@ -172,21 +172,21 @@
 
 
                 <ng-container matColumnDef="reversal">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Redeem to Reversal Ke Point
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.reversal}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="expired_voucher">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Expired Voucher
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.expired_voucher}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="ending">
-                    <th mat-header-cell *matHeaderCellDef disableClear>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                         Ending
                     </th>
                     <td mat-cell *matCellDef="let row">{{row.ending}}</td>
