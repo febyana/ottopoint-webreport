@@ -10,6 +10,11 @@ button{
     margin-right: 1%;
 }
 
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }
+
 .parent-table-container {
     position: relative;
 }
