@@ -128,6 +128,20 @@
                     <td mat-cell *matCellDef="let row">{{row.voucher_name}}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="phone" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        Phone Number
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="institution_id" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef disableClear>
+                        Partner
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.institution_id}}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="expiry_date_uv" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef disableClear>
                         Expiry Date UV
