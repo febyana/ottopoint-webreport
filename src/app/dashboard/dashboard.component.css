@@ -19,7 +19,8 @@ mat-sidenav{
     position: fixed;
     z-index: 999;
 }
-.logout {
+.setting {
     position: fixed;
     right: 0;
+    margin-right: 5%;
 }

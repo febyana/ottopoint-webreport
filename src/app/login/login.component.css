@@ -18,7 +18,7 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 .header-image {
-  background-image: url('https://media.licdn.com/dms/image/C510BAQHXMg81WofipQ/company-logo_200_200/0?e=2159024400&v=beta&t=EMeAcv7iGX6eHcrYbEG9pZvuIXSoeJzjti2zUvSs-z4');
+  background-image: url('./../../assets/logo.jpeg');
   background-size: cover;
 }
 .container {

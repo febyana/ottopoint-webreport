@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangePasswordRequest, ChangePasswordResponse } from '../models/models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  MatSnackBar,
+  MatSnackBarConfig
+} from '@angular/material/snack-bar';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'] 
 })
 export class DashboardComponent implements OnInit {
   mode = 'side';
   constructor(
     private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -24,7 +33,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    window.localStorage.removeItem('token');
+    window.localStorage.clear();
     this.router.navigateByUrl('/login');
   }
 

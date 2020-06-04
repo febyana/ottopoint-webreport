@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../api/api.service';
+import { ApiService } from '../services/api.service';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { LoginResponse } from '../model/models';
 
 @Component({
   selector: 'app-login',
@@ -46,16 +45,16 @@ export class LoginComponent implements OnInit {
     this.isLoadingResults = true;
     this.apiService.APIGetToken(this.loginForm.value._username, this.loginForm.value._password)
     .pipe(
-      map(response => {
-        if (response.message !== undefined) {
+      map(res => {
+        if (res.message !== undefined) {
           this.isLoadingResults = false;
-          this.snackBar.open(response.message, 'close', this.matSnackBarConfig);
+          this.snackBar.open(res.message, 'close', this.matSnackBarConfig);
           return;
         }
-        window.localStorage.setItem('token', response.token);
+        window.localStorage.setItem('token', res.token);
         this.isLoadingResults = false;
         this.router.navigateByUrl('/dashboard');
-        return response;
+        return res;
       }),
       catchError((error: HttpErrorResponse) => {
         let errorMessage = 'Unknown error!';

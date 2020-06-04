@@ -1,36 +1,44 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ApiService } from '../../../api/api.service';
+import { ApiService } from '../../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv';
 import {
-  GetUsersResponse,
+  GetUsersRes,
   User,
-  AddEligibleUserRequest,
-  AddEligibleUserResponse,
-  RegisterUserRequest,
-  RegisterUserResponse,
-  ExportUsersToCSVRequest
-} from '../../../model/models';
+  AddEligibleUserReq,
+  AddEligibleUserRes,
+  RegisterUserReq,
+  RegisterUserRes,
+  ChangeStatusRequest,
+  ChangeStatusResponse,
+  ExportUsersToCSVReq
+} from '../../../models/models';
 import {
   MatSnackBar,
   MatSnackBarConfig
 } from '@angular/material/snack-bar';
+import { ExcelServicesService } from '../../../services/xlsx.service';
+// import { DialogStatusUsersComponent } from './dialog-status-users/dialog-status-users.component';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements AfterViewInit {
-  registerUserRequest: RegisterUserRequest;
-  exportUsersToCSVRequest: ExportUsersToCSVRequest;
+export class UsersComponent {
+  isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
+
+  RegisterUserReq: RegisterUserReq;
+  ChangeStatusRequest: ChangeStatusRequest;
+  exportUsersToCSVRequest: ExportUsersToCSVReq;
+  // DialogStatusUserComponent: DialogStatusUsersComponent;
 
   query = '';
   fq = { // filter Query
@@ -39,24 +47,24 @@ export class UsersComponent implements AfterViewInit {
     email: '',
     merchant_id: ''
   };
-  buffTotalData = 0;
-
-  isCanCreate = JSON.parse(window.localStorage.getItem('user_info')).privilages.includes('create');
 
   displayedColumns: string[] = [
+    // 'id',
+    'no',
     'nama',
     'phone',
-    'cust_id',
     'email',
+    'cust_id',
     'merchant_id',
     'status',
     'action',
   ];
   dataTable = new MatTableDataSource();
   dataTableLength = 0;
-  tableHeight = window.screen.height * 0.35;
+  tableHeight: number;
 
   isLoadingResults = true;
+  isWaitingDownload = false;
   isNoData = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -73,12 +81,20 @@ export class UsersComponent implements AfterViewInit {
     private apiService: ApiService,
     private router: Router,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private excelService: ExcelServicesService,
   ) {}
 
-  ngAfterViewInit() {
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngOnInit() {
+    this.tableHeight = (window.screen.height - document.getElementById('heightFilterAndActions').offsetHeight) * 0.57;
+    console.log(
+      'screen height :\n', window.screen.height,
+      '\nheightFilterAndActions :\n', document.getElementById('heightFilterAndActions').offsetHeight);
     // hide action column if not have privilage
     if (!this.isCanCreate) {
       this.displayedColumns = [
+        // 'id',
         'nama',
         'phone',
         'cust_id',
@@ -87,6 +103,9 @@ export class UsersComponent implements AfterViewInit {
         'status',
       ];
     }
+  }
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page)
@@ -94,6 +113,7 @@ export class UsersComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          console.log('query :\n', this.query);
           return this.apiService.APIGetUsers(
             window.localStorage.getItem('token'),
             this.paginator.pageIndex,
@@ -103,30 +123,32 @@ export class UsersComponent implements AfterViewInit {
             this.query
           );
         }),
-        map(dataResponse => {
-          this.dataTableLength = dataResponse.total;
-          if (this.buffTotalData === 0) {
-            this.buffTotalData = dataResponse.total;
-          }
+        map(res => {
+          console.log('response users : ', res);
+          this.dataTableLength = res.total;
           this.isLoadingResults = false;
-          if ( dataResponse.message === 'Invalid Token' ) {
+          if ( res.message === 'Invalid Token' ) {
             window.alert('Login Session Expired!\nPlease Relogin!');
             this.router.navigateByUrl('/login');
             return;
           }
-          if ( dataResponse.total === 0 ) {
+          if ( res.total === undefined) {
+            this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
+            return;
+          }
+          if ( res.total === 0 ) {
             this.isNoData = true;
-            return dataResponse.users;
+            return res.data;
           }
           this.isNoData = false;
-          return dataResponse.users;
+          return res.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isNoData = true;
           return observableOf([]);
         })
-      ).subscribe(dataResponse => this.dataTable = new MatTableDataSource(dataResponse));
+      ).subscribe(res => this.dataTable = new MatTableDataSource(res));
   }
 
   openFormAddEligibleUser() {
@@ -135,12 +157,13 @@ export class UsersComponent implements AfterViewInit {
     });
 
     // after closed dialog
-    dialogRef.afterClosed().subscribe(res => {
-      if (res === true) {
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
         this.isLoadingResults = true;
         this.paginator.pageIndex = 0;
         this.sort.active = 'id';
         this.sort.direction = 'desc';
+        console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
@@ -148,8 +171,8 @@ export class UsersComponent implements AfterViewInit {
           this.sort.active,
           this.sort.direction,
           this.query
-        ).subscribe((data: GetUsersResponse) => {
-          this.dataTable.data = data.users;
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
           this.isLoadingResults = false;
         });
       }
@@ -162,7 +185,7 @@ export class UsersComponent implements AfterViewInit {
 
     const dialogRef = this.dialog.open(DialogRegisterComponent, {
       width: '50%',
-      data: this.registerUserRequest = {
+      data: this.RegisterUserReq = {
         firstName: arrNama[0],
         lastName: (arrNama[1] + ' ' + arrNama[2] + ' ' + arrNama[3]).replace(/ undefined|undefined/gi, ''),
         phone: row.phone,
@@ -170,9 +193,10 @@ export class UsersComponent implements AfterViewInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
         this.isLoadingResults = true;
+        console.log('query :\n', this.query);
         this.apiService.APIGetUsers(
           window.localStorage.getItem('token'),
           this.paginator.pageIndex,
@@ -180,20 +204,131 @@ export class UsersComponent implements AfterViewInit {
           this.sort.active,
           this.sort.direction,
           this.query
-        ).subscribe((res: GetUsersResponse) => {
-          this.dataTable.data = res.users;
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
           this.isLoadingResults = false;
         });
       }
     });
   }
 
-  openFormExportToCSV() {
-    this.dialog.open(DialogExportUsersToCSVComponent, {
+  // row is get from users.component.html
+  openFormChangeStatus(row: User) {
+
+    const dialogRef = this.dialog.open(DialogStatusUsersComponent, {
       width: '50%',
-      data: this.exportUsersToCSVRequest = {
-        total: this.buffTotalData,
+      data: this.ChangeStatusRequest = {
+        phone: row.phone,
+        status: row.status,
       },
+
+    });
+
+    dialogRef.afterClosed().subscribe(valid => {
+      if (valid === true) {
+        this.isLoadingResults = true;
+        console.log('query :\n', this.query);
+        this.apiService.APIGetUsers(
+          window.localStorage.getItem('token'),
+          this.paginator.pageIndex,
+          this.paginator.pageSize,
+          this.sort.active,
+          this.sort.direction,
+          this.query
+        ).subscribe((res: GetUsersRes) => {
+          this.dataTable.data = res.data;
+          this.isLoadingResults = false;
+        });
+      }
+    });
+  }
+
+  exportToCSV() {
+    this.isWaitingDownload = true;
+    // https://www.npmjs.com/package/export-to-csv
+    const options = {
+      filename: 'user' + Date().toLocaleString(),
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Users',
+      useTextFile: false,
+      useBom: true,
+      // useKeysAsHeaders: true,
+      headers: ['No', 'Name', 'Phone', 'Customer ID', 'Email', 'Merchant ID', 'Status']
+    };
+    const csvExporter = new ExportToCsv(options);
+
+    console.log('query :\n', this.query);
+    this.apiService.APIGetUsers(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'id',
+      'asc',
+      this.query
+    ).subscribe((res: GetUsersRes) => {
+      this.isWaitingDownload = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined) {
+        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          e.id = no++;
+        }
+      });
+      csvExporter.generateCsv(res.data);
+    });
+  }
+
+  exportToXLSX() {
+    this.isWaitingDownload = true;
+    console.log('query :\n', this.query);
+    this.apiService.APIGetUsers(
+      window.localStorage.getItem('token'),
+      0,
+      null,
+      'id',
+      'asc',
+      this.query
+    ).subscribe((res: GetUsersRes) => {
+      this.isWaitingDownload = false;
+      if (res.message === 'Invalid Token') {
+        window.alert('Login Session Expired!\nPlease Relogin!');
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      if (res.data === undefined) {
+        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
+        return;
+      }
+      // this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
+      const arrData = [];
+      let no = 1;
+      res.data.forEach((e) => {
+        if (typeof e === 'object' ) {
+          const objData = {
+            No: no++,
+            Name: e.nama,
+            Phone: e.phone,
+            Email: e.email,
+            Customer_ID: e.cust_id,
+            Merchant_ID: e.merchant_id,
+          };
+          arrData.push(objData);
+        }
+      });
+      this.excelService.exportAsExcelFile(arrData, 'users_');
     });
   }
 
@@ -210,12 +345,14 @@ export class UsersComponent implements AfterViewInit {
       this.query = this.query + 'email.icontains:' + this.fq.email + ',';
     }
     if (this.fq.merchant_id !== '') {
-      this.query = this.query + 'merchant_id.icontains:' + this.fq.merchant_id + ',';
+      this.query = this.query + 'merchant_id:' + this.fq.merchant_id + ',';
     }
     this.query = this.query.replace(/.$/g, ''); // replace tanda "," terakhir
     if (this.query !== '') {
       this.paginator.pageIndex = 0;
     }
+
+    console.log('query :\n', this.query);
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -223,13 +360,17 @@ export class UsersComponent implements AfterViewInit {
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetUsersResponse) => {
+    ).subscribe((res: GetUsersRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.users;
+      if ( res.total === undefined) {
+        this.snackBar.open('Internal Server Error', 'close', this.matSnackBarConfig);
+        return;
+      }
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -246,6 +387,9 @@ export class UsersComponent implements AfterViewInit {
     this.fq.phone = '';
     this.fq.email = '';
     this.fq.merchant_id = '';
+    console.log('query :\n', this.query);
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.apiService.APIGetUsers(
       window.localStorage.getItem('token'),
       this.paginator.pageIndex,
@@ -253,13 +397,13 @@ export class UsersComponent implements AfterViewInit {
       this.sort.active,
       this.sort.direction,
       this.query
-    ).subscribe((res: GetUsersResponse) => {
+    ).subscribe((res: GetUsersRes) => {
       if ( res.message === 'Invalid Token' ) {
         window.alert('Login Session Expired!\nPlease Relogin!');
         this.router.navigateByUrl('/login');
         return;
       }
-      this.dataTable.data = res.users;
+      this.dataTable.data = res.data;
       this.dataTableLength = res.total;
       this.isNoData = false;
       if (res.total === 0) {
@@ -276,7 +420,7 @@ export class UsersComponent implements AfterViewInit {
   styleUrls: ['./users.component.css']
 })
 export class DialogAddEligibleComponent implements OnInit {
-  req: AddEligibleUserRequest;
+  req: AddEligibleUserReq;
 
   dataForm: FormGroup;
   get f() { return this.dataForm.controls; }
@@ -301,7 +445,12 @@ export class DialogAddEligibleComponent implements OnInit {
     this.dataForm = this.formBuilder.group({
       nama: ['', Validators.required],
       merchant_id: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [
+        Validators.pattern,
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(12)
+      ]],
       institution: [undefined, Validators.required],
     });
   }
@@ -323,10 +472,11 @@ export class DialogAddEligibleComponent implements OnInit {
       phone: this.dataForm.value.phone,
       institution: this.dataForm.value.institution
     };
+    console.log('query :\n', this.req);
     this.apiService.APIEligibleUser(
       this.req,
       window.localStorage.getItem('token')
-    ).subscribe((res: AddEligibleUserResponse) => {
+    ).subscribe((res: AddEligibleUserRes) => {
       if (res.data !== null) {// #
         this.dialogRef.close(true);
       }
@@ -356,13 +506,16 @@ export class DialogRegisterComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterUserRequest,
+    @Inject(MAT_DIALOG_DATA) public data: RegisterUserReq,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
+    if (this.data.lastName === '') {
+      this.data.lastName = '-';
+    }
     this.dataForm = this.formBuilder.group({
       firstName: [this.data.firstName, Validators.required],
       lastName: [this.data.lastName, Validators.required],
@@ -371,12 +524,12 @@ export class DialogRegisterComponent implements OnInit {
     });
   }
 
-  cancel(): void {
+  no(): void {
     event.preventDefault();
     this.dialogRef.close();
   }
 
-  submit() {
+  yes() {
     event.preventDefault();
     if (this.dataForm.invalid) {
       return;
@@ -388,27 +541,35 @@ export class DialogRegisterComponent implements OnInit {
       phone: this.dataForm.value.phone,
       institution: this.dataForm.value.institution
     };
-
+    console.log('query :\n', this.data);
     this.apiService.APIRegisterUser(
       this.data,
       window.localStorage.getItem('token')
-    ).subscribe((res: RegisterUserResponse) => {
+    ).subscribe((res: RegisterUserRes) => {
       if (res.data !== null) {
         this.dialogRef.close(true);
+        return;
       }
       this.isLoadingResults = false;
       this.dialogRef.close(false);
       this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
+      return;
     });
   }
 }
 
+//// ChngaeStatus
+
 @Component({
-  selector: 'app-dialog-export-users-to-csv',
-  templateUrl: './dialogs/dialog-export-users-to-csv.html',
+  selector: 'app-dialog-status-user',
+  templateUrl: './dialogs/dialog-status-user.html',
   styleUrls: ['./users.component.css']
 })
-export class DialogExportUsersToCSVComponent implements OnInit {
+
+export class DialogStatusUsersComponent implements OnInit {
+  dataForm: FormGroup;
+  get f() { return this.dataForm.controls; }
+
   isLoadingResults = false;
 
   matSnackBarConfig: MatSnackBarConfig = {
@@ -419,57 +580,58 @@ export class DialogExportUsersToCSVComponent implements OnInit {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<DialogExportUsersToCSVComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportUsersToCSVRequest,
+    public dialogRef: MatDialogRef<DialogStatusUsersComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ChangeStatusRequest,
+    private formBuilder: FormBuilder,
+    // private x: boolean,
     private apiService: ApiService,
-    private snackBar: MatSnackBar,
-    private router: Router
+    private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataForm = this.formBuilder.group({
+      phone: [this.data.phone, Validators.required],
+      // status: [this.data.status, Validators.required]
+  });
+  }
 
-  cancel(): void {
+  no(): void {
+    event.preventDefault();
     this.dialogRef.close();
   }
 
-  ok() {
+  yes() {
+    event.preventDefault();
     this.isLoadingResults = true;
-    // https://www.npmjs.com/package/export-to-csv
-    const options = {
-      filename: 'user_data_' + Date().toLocaleString(),
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Users Data',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    };
-    const csvExporter = new ExportToCsv(options);
-    this.apiService.APIGetUsers(
-      window.localStorage.getItem('token'),
-      0,
-      this.data.total,
-      'id',
-      'asc',
-      ''
-    ).subscribe((res: GetUsersResponse) => {
-      this.isLoadingResults = false;
-      if (res.message === 'Invalid Token') {
-        window.alert('Login Session Expired!\nPlease Relogin!');
-        this.router.navigateByUrl('/login');
+
+    if (this.data.status === true) {
+      this.data.status = false
+    } else {
+      this.data.status = true
+    }
+
+    this.data = {
+        phone : this.dataForm.value.phone,
+        status: this.data.status,
+    } 
+    console.log('query :\n', this.data);
+    this.apiService.APIChangeStatus(
+        window.localStorage.getItem('token'),
+        this.data,
+    ).subscribe((res: ChangeStatusResponse) => {
+        this.isLoadingResults = false;
+        if (res.data !== null) {
+            this.dialogRef.close(true);
+            return;
+        }
+        // this.dialogRef.close(false);
+        this.snackBar.open(res.meta.message, 'close', this.matSnackBarConfig);
         return;
-      }
-      if (res.users === undefined) {
-        this.snackBar.open('Failed export data', 'close', this.matSnackBarConfig);
-        return;
-      }
-      this.dialogRef.close();
-      this.snackBar.open(`Downloading ${res.total} row data`, 'close', this.matSnackBarConfig);
-      csvExporter.generateCsv(res.users);
     });
+
+
   }
+
+
+  
 }

@@ -5,22 +5,29 @@
 <h1 mat-dialog-title>Add New Eligible User</h1>
 <form [formGroup]="dataForm" (ngSubmit) = "submit()">
     <div mat-dialog-content>
-        <mat-form-field>
+        <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="Name" formControlName="nama">
             <mat-error *ngIf="f.nama.errors">
                 Name is <strong>required</strong>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
+        
+        <mat-form-field style="margin-bottom: 2%;">
             <input matInput placeholder="Merchant ID" formControlName="merchant_id">
             <mat-error *ngIf="f.merchant_id.errors">
                 Merchant ID is <strong>required</strong>
             </mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Phone" formControlName="phone">
+
+        <mat-form-field style="margin-bottom: 2%;">
+            <input matInput pattern="0[0-9]*" placeholder="Phone" formControlName="phone">
             <mat-error *ngIf="f.phone.errors">
-                Phone is <strong>required</strong>
+                Phone number
+                <span *ngIf="f.phone.errors.required"> is <strong>required</strong></span>
+                <span *ngIf="f.phone.errors.pattern && f.phone.value[0] == 0"> can <strong>only contain numbers</strong></span>
+                <span *ngIf="f.phone.errors.pattern && f.phone.value[0] != 0"> <strong>must start with the number 0</strong></span>
+                <span *ngIf="f.phone.errors.minlength && !f.phone.errors.pattern"> <strong>must contain 12 digits</strong></span>
+                <span *ngIf="f.phone.errors.maxlength && !f.phone.errors.pattern"> <strong>must not exceed 12 digits</strong></span>
             </mat-error>
         </mat-form-field>
         <mat-form-field>
@@ -29,8 +36,8 @@
                 <mat-option value="Ottopay">
                     Ottopay
                 </mat-option>
-                <mat-option value="PD">
-                    PD
+                <mat-option value="Pede">
+                    Pede
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="f.institution.errors">

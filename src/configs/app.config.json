@@ -1,0 +1,38 @@
+{
+    "selected_environment": "prod",
+    "environments": {
+        "prod": {
+            "backend_dashboard": {
+                "host": "https://storage.ottopay.id",
+                "base_url": "/api",
+                "version": "/v1.0"
+            },
+            "ottopay": {
+                "host": "https://storage.ottopay.id",
+                "base_url": "/api"
+            }
+        },
+        "dev": {
+            "backend_dashboard": {
+                "host": "http://13.228.25.85:8819",
+                "base_url": "/api",
+                "version": "/v1.0"
+            },
+            "ottopay": {
+                "host": "http://13.228.25.85:8009",
+                "base_url": "/api"
+            }
+        },
+        "local": {
+            "backend_dashboard": {
+                "host": "http://localhost:8819",
+                "base_url": "/api",
+                "version": "/v1.0"
+            },
+            "ottopay": {
+                "host": "http://13.228.25.85:8009",
+                "base_url": "/api"
+            }
+        }
+    }
+}
