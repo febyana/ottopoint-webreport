@@ -44,6 +44,8 @@ export class UltravoucherComponent implements AfterViewInit, OnInit {
     'voucher_code',
     'voucher_id',
     'voucher_name',
+    'phone',
+    'institution_id',
     'expiry_date_uv',
     'expiry_date_op',
     'status',
